@@ -37,11 +37,27 @@ class AuthController extends Controller
             ])->first();
 
             if (!$user) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+                $response = [
+                    'success' => false,
+                    'error' => [
+                        'mensaje' => 'Credenciales incorrectas.',
+                        'code' => 2000
+                    ]
+                ];
+                return response()->json($response, 401);
             }
 
             $token = auth()->login($user);
-            return $this->respondWithToken($token);
+            $response = [
+                'success' => true,
+                'data' => [
+                    'token' => $token,
+                    'nombre' => $user->nombre,
+                    'email' => $user->email,
+                    'code' => 2000
+                ]
+            ];
+            return response()->json($response);
         } catch (\Throwable $th) {
             dd($th);
         }
@@ -66,7 +82,12 @@ class AuthController extends Controller
     {
         auth()->logout();
 
-        return response()->json(['message' => 'Successfully logged out']);
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'mensaje' => 'Successfully logged out'
+            ]
+        ]);
     }
 
     /**
