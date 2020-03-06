@@ -53,7 +53,7 @@ class AuthController extends Controller
                 'data' => [
                     'token' => $token,
                     'nombre' => $user->nombre,
-                    'email' => $user->email,
+                    'email' => $user->correo,
                     'code' => 2000
                 ]
             ];
