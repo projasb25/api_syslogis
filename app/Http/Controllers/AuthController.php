@@ -26,14 +26,21 @@ class AuthController extends Controller
     public function login()
     {
         try {
-            $user = User::get();
-            dd($user);
-            $credentials = request(['email', 'password']);
+            $username = request()->get('email');
+            $password = request()->get('password');
+            $hashed_pass = hash('sha256', $password . env('TOKEN_SECRET'));
 
-            if (! $token = auth()->attempt($credentials)) {
+            # Validamos que usuario y contraseña sean correctas
+            $user = User::where([
+                ['correo', '=', $username],
+                ['contrasena', '=', $hashed_pass]
+            ])->first();
+
+            if ($user->count() == 0) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
+            $token = auth()->login($user);
             return $this->respondWithToken($token);
         } catch (\Throwable $th) {
             dd($th);
