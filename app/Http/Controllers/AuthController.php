@@ -36,7 +36,7 @@ class AuthController extends Controller
                 ['contrasena', '=', $hashed_pass]
             ])->first();
 
-            if ($user->count() == 0) {
+            if (!$user) {
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
