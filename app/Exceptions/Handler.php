@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
@@ -69,6 +70,20 @@ class Handler extends ExceptionHandler
                 ]
             ];
             return response()->json($response, 401);
+        }
+
+        if (
+            $exception instanceof Exception 
+        ) {
+
+            $response = [
+                'success' => false,
+                'error' => [
+                    'mensaje' => 'Ups! Something wrong.',
+                    'code' => 3000
+                ]
+            ];
+            return response()->json($response, 500);
         }
 
         return parent::render($request, $exception);
