@@ -20,4 +20,10 @@ class EnviosController extends Controller
         $res = $this->enviosServi->aceptar($request);
         return response()->json($res);
     }
+
+    public function listarRutas(Request $request)
+    {
+        $res = $this->enviosServi->listarRutas($request->idofertaenvio);
+        return response()->json($res);
+    }
 }

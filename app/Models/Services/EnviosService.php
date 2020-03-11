@@ -65,4 +65,13 @@ class EnviosService
         $dont = ['$', '#', '&', '"', '/', '(', ')'];
         return str_replace($dont, '', $adress);
     }
+
+    public function listarRutas($idofertaenvio)
+    {
+        $res['success'] = false;
+        $rutas = $this->pedidoDetalleRepo->getPedidos($idofertaenvio);
+        $res['data'] = $rutas;
+
+        return $res;
+    }
 }

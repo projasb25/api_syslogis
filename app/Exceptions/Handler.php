@@ -86,6 +86,7 @@ class Handler extends ExceptionHandler
             ];
             return response()->json($response, 500);
         }
+        Log::info('', $exception);
         return parent::render($request, $exception);
     }
 }
