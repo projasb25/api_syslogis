@@ -24,33 +24,32 @@ class EnviosService
         $res['success'] = false;
         $update = [];
         try {
-            // obtener los envios
+            # Obtener los envios pertenecientes a la oferta
             $detalle_envio = $this->pedidoDetalleRepo->getPedidos($request->get('idofertaenvio'));
-            // dd($detalle_envio);
+
             // validaciones;
 
             # Buscamos coordenadas
             foreach ($detalle_envio as $key => $value) {
+                # Limpiamos la direccion para que no haya problemas con la api de google
+                $direccion = $this->sanitizeAdress($value->direccion_descarga);
+
                 $client = new Client(['base_uri' => env('GOOGLEAPIS_GEOCODE_URL')]);
-                $req = $client->request('GET', "json?address=" . $value->direccion_descarga . ",PERU&key=" . env('GOOGLEAPIS_GEOCODE_KEY'));
+                $req = $client->request('GET', "json?address=Peru," . $direccion . "&key=" . env('GOOGLEAPIS_GEOCODE_KEY'));
                 $resp = json_decode($req->getBody()->getContents());
 
-                Log::info('respuesta correcta ', ['res' => $resp->results[0]->geometry]);
-                if (empty($resp->results)) {
-                    $lat = null;
-                    $lng = null;
-                } else {
-                    $lat = $resp->results[0]->geometry->location->lat;
-                    $lng = $resp->results[0]->geometry->location->lng;
-                }
+                $lat = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lat;
+                $lng = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lng;
+
                 array_push($update, [
                     'idpedido_detalle' => $value->idpedido_detalle,
                     'punto_latitud_descarga' => $lat,
                     'punto_longitud_descarga' => $lng
                 ]);
             }
-
             $this->pedidoDetalleRepo->actualizarCoordenadas($update);
+            $res['data'] = ['mensaje' => 'Oferta aceptada'];
+            $res['success'] = true;
         } catch (RequestException $e) {
             Log::info('Request api Google ', ['exception' => $e->getMessage()]);
             throw $e;
@@ -59,5 +58,11 @@ class EnviosService
             throw $e;
         }
         return $res;
+    }
+
+    public function sanitizeAdress($adress)
+    {
+        $dont = ['$', '#', '&', '"', '/', '(', ')'];
+        return str_replace($dont, '', $adress);
     }
 }

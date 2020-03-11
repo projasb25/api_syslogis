@@ -80,13 +80,12 @@ class Handler extends ExceptionHandler
             $response = [
                 'success' => false,
                 'error' => [
-                    'mensaje' => 'Ups! Something wrong.',
-                    'code' => 3000
+                    'mensaje' => $exception->getMessage(),
+                    'code' => 3000,
                 ]
             ];
             return response()->json($response, 500);
         }
-        Log::info('Exception ' . $exception->getMessage());
         return parent::render($request, $exception);
     }
 }

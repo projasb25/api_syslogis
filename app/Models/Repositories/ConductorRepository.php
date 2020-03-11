@@ -37,7 +37,7 @@ class ConductorRepository
     public function get_ofertas($id)
     {
         $query = DB::table('ofertaenvio_conductor as oc')
-            ->select('*', 'oc.estado as ofertaconductor_estado')
+            ->select('*', 'oc.estado as ofertaconductor_estado', DB::raw('(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'))
             ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
             ->where('oc.idconductor', $id)
             ->whereNotIn('oc.estado', ['ACEPTADO', 'RECHAZADO'])
