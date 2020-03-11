@@ -71,6 +71,7 @@ class EnviosService
         $res['success'] = false;
         $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
         $res['data'] = $rutas;
+        $res['success'] = true;
 
         return $res;
     }
