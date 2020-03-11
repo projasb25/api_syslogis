@@ -58,4 +58,19 @@ class PedidoDetalleRepository
         }
         DB::commit();
     }
+
+    public function getPedidosApp($id)
+    {
+        return PedidoDetalle::select(
+            'idpedido_detalle',
+            'direccion_descarga',
+            'referencia_descarga as descripcion',
+            'punto_latitud_descarga',
+            'punto_longitud_descarga',
+            'responsable_nombre_descarga as destinatario',
+            'estado'
+        )->where('idofertaenvio', $id)
+            ->whereIn('estado', ['PREASIGNADO', 'ESPERA'])
+            ->get();
+    }
 }

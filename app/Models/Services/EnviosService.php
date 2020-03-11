@@ -69,7 +69,7 @@ class EnviosService
     public function listarRutas($idofertaenvio)
     {
         $res['success'] = false;
-        $rutas = $this->pedidoDetalleRepo->getPedidos($idofertaenvio);
+        $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
         $res['data'] = $rutas;
 
         return $res;
