@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
@@ -73,7 +74,7 @@ class Handler extends ExceptionHandler
         }
 
         if (
-            $exception instanceof Exception 
+            $exception instanceof Exception
         ) {
 
             $response = [
@@ -85,7 +86,7 @@ class Handler extends ExceptionHandler
             ];
             return response()->json($response, 500);
         }
-
+        Log::info('Exception ' . $exception->getMessage());
         return parent::render($request, $exception);
     }
 }

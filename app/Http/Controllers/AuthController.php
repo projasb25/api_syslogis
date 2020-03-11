@@ -4,17 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Repositories\ConductorRepository;
 use App\User;
 
 class AuthController extends Controller
 {
-    /**
-     * Create a new AuthController instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    private $conductorRepo;
+
+    public function __construct(ConductorRepository $conductorRepository)
     {
+        $this->conductorRepo = $conductorRepository;
         $this->middleware('auth:api', ['except' => ['login']]);
     }
 
@@ -80,6 +79,9 @@ class AuthController extends Controller
      */
     public function logout()
     {
+        $conductor = auth()->user()->idconductor;
+        $this->conductorRepo->ActualizarEstado($conductor, 'NO DISPONIBLE');
+
         auth()->logout();
 
         return response()->json([

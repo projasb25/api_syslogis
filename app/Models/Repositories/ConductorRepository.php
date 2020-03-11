@@ -3,7 +3,9 @@
 namespace App\Models\Repositories;
 
 use App\Models\Entities\Conductor;
+use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ConductorRepository
 {
@@ -35,12 +37,28 @@ class ConductorRepository
     public function get_ofertas($id)
     {
         $query = DB::table('ofertaenvio_conductor as oc')
-            ->select('*')
+            ->select('*', 'oc.estado as ofertaconductor_estado')
             ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
             ->where('oc.idconductor', $id)
-            ->whereNotIn('oc.estado',['ACEPTADO','RECHAZADO'])
+            ->whereNotIn('oc.estado', ['ACEPTADO', 'RECHAZADO'])
             ->where('oe.estado', 'ACTIVO')
             ->get();
         return $query;
+    }
+
+    public function ActualizarEstado($idconductor, $estado)
+    {
+        DB::beginTransaction();
+        try {
+            # Actualizamos al conductor
+            Conductor::where('idconductor', $idconductor)->update(['estado' => $estado]);
+
+            # Actualizamos al vehiculo
+            DB::table('vehiculo as vh')->where('idconductor', $idconductor)->update(['estado' => $estado]);
+        } catch (Exception $e) {
+            Log::warning("Actualizar estado conductor " . $e->getMessage());
+            DB::rollback();
+        }
+        DB::commit();
     }
 }
