@@ -62,7 +62,7 @@ class EnviosService
 
     public function sanitizeAdress($adress)
     {
-        $dont = ['$', '#', '&', '"', '/', '(', ')'];
+        $dont = ['$', '#', '&', '"', '/', '(', ')', '-'];
         return str_replace($dont, '', $adress);
     }
 
