@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Repositories\PedidoDetalleRepository;
 use App\Models\Services\EnviosService;
 use Illuminate\Http\Request;
 
@@ -17,8 +16,7 @@ class EnviosController extends Controller
 
     public function aceptar(Request $request)
     {
-        $res = $this->enviosServi->aceptar($request);
-        return response()->json($res);
+        return $this->enviosServi->aceptar($request);
     }
 
     public function listarRutas(Request $request)

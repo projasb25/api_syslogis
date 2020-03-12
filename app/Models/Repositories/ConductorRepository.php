@@ -61,4 +61,9 @@ class ConductorRepository
         }
         DB::commit();
     }
+
+    public function getDatosVehiculo($idconductor)
+    {
+        return DB::table('vehiculo')->select('*')->where('idconductor', $idconductor)->first();
+    }
 }
