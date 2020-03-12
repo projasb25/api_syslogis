@@ -31,26 +31,6 @@ class EnviosService
 
     public function aceptar(Request $request)
     {
-
-        // {#308 ▼
-        //     +"idofertaenvio": 1
-        //     +"costo": 0.0
-        //     +"costo_moneda": "SOLES"
-        //     +"costo_simbolo_moneda": "S/."
-        //     +"descripcion": null
-        //     +"tipo_conductor": "CONDUCTOR_AFILIADO"
-        //     +"estado": "ESPERA"
-        //     +"fecha_creacion": "2020-03-11 12:44:39"
-        //     +"pago_gn7": 0.0
-        //     +"pago_gn7_moneda": "SOLES"
-        //     +"pago_gn7_simbolo_moneda": "S/."
-        //     +"tiempo_llegada_lugar_origen": null
-        //     +"idofertaenvio_conductor": 1
-        //     +"idconductor": 5
-        //     +"idvehiculo": 8
-        //     +"estado_ofertaenvio": "ACTIVO"
-        // }
-
         $res['success'] = false;
         try {
             # Obtenemos los datos de la ofertaenvio
@@ -67,17 +47,12 @@ class EnviosService
 
             $datosVehiculo = $this->conductorRepo->getDatosVehiculo(auth()->user()->idconductor);
             $this->ofertasEnvioRepo->acpetarOferta($request->idofertaenvio, $datosVehiculo, $detalle_envio);
-            dd($detalle_envio);
-
-            // dd($detalle_envio->count());
-
-            $res['data'] = ['mensaje' => 'Oferta aceptada'];
-            $res['success'] = true;
         } catch (Exception $e) {
             Log::warning('Aceptar envio ', ['exception' => $e->getMessage(), 'req' => $request->all()]);
             throw $e;
         }
-        return $res;
+
+        return Res::success('Oferta aceptada correctamente.');
     }
 
     public function sanitizeAdress($adress)

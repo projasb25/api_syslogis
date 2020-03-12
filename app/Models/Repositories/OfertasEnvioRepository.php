@@ -97,9 +97,20 @@ class OfertasEnvioRepository
                     'idofertaenvio' => $idofertaenvio, 'acuse_recibo' => 0
                 ]
             );
-            # Actualizamos Pedido a Asignado
 
-            # Actualizamos idenvio y estado Asignado los Pedidos detalle
+            foreach ($pedidos as $key => $value) {
+                # Actualizamos Pedido a Asignado
+                DB::table('pedido as p')->where('idpedido', $value->idpedido)->update(['estado' => 'ASIGNADO']);
+
+                # Actualizamos idenvio y estado Asignado los Pedidos detalle
+                DB::table('pedido_detalle as pd')->where('idpedido_detalle', $value->idpedido_detalle)
+                    ->update(
+                        [
+                            'estado' => 'ASIGNADO',
+                            'idenvio' => $idenvio
+                        ]
+                    );
+            }
         } catch (Exception $e) {
             DB::rollback();
             throw $e;

@@ -17,6 +17,11 @@ class ResponseHelper # implements ResponseInterface
 
     public static function success($data)
     {
-        return ['data' => $data, 'code' => 0];
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'mensaje' => $data
+            ]
+        ]);
     }
 }
