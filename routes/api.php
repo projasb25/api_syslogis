@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'conductor'], function () 
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
     Route::get('/aceptar/{idofertaenvio}', 'EnviosController@aceptar');
+    Route::get('/rechazar/{idofertaenvio}', 'EnviosController@rechazar');
     Route::get('/rutas/{idofertaenvio}', 'EnviosController@listarRutas');
 });
 

@@ -70,7 +70,7 @@ class PedidoDetalleRepository
             'responsable_nombre_descarga as destinatario',
             'estado'
         )->where('idofertaenvio', $id)
-            ->whereIn('estado', ['PREASIGNADO', 'ESPERA'])
+            ->whereIn('estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO'])
             ->get();
     }
 }

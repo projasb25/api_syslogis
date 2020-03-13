@@ -45,41 +45,6 @@ class OfertasEnvioRepository
 
     public function acpetarOferta($idofertaenvio, $datosVehiculo, $pedidos)
     {
-        //         {#373 ▼
-        //   +"idvehiculo": 8
-        //   +"estado": "DISPONIBLE"
-        //   +"tipo_vehiculo_asignacion": "VEHICULO_AFILIADO"
-        //   +"marca": "pruebasaki"
-        //   +"modelo": "prueba_model"
-        //   +"numero_placa": "prueba123"
-        //   +"color": "negro"
-        //   +"capacidad": 1.0
-        //   +"volumen": null
-        //   +"numero_serie_motor": "1234567890"
-        //   +"hp": "4"
-        //   +"ejes": 2
-        //   +"numero_neumaticos": 2
-        //   +"tipo_llantas": "radiales"
-        //   +"largo": null
-        //   +"ancho": null
-        //   +"alto": null
-        //   +"soat": "321312"
-        //   +"fecha_exp_soat": "2017-02-25 00:00:00"
-        //   +"numero_poliza": "3432423"
-        //   +"fecha_exp_poliza": "2017-02-25 00:00:00"
-        //   +"certificado_mtc": null
-        //   +"resolicion_matpel": null
-        //   +"numero_rev_tecnica_regular": "1323"
-        //   +"numero_rev_tecnica_matpel": null
-        //   +"descripcion": null
-        //   +"activo": 1
-        //   +"observaciones": null
-        //   +"eliminado": 0
-        //   +"idpartner": null
-        //   +"idtipo_vehiculo": 3
-        //   +"idconductor": 5
-        // }
-
         DB::beginTransaction();
         try {
             # Inactivamos la Oferta Envio
@@ -116,5 +81,10 @@ class OfertasEnvioRepository
             throw $e;
         }
         DB::commit();
+    }
+
+    public function rechazarOferta($idofertaenvio)
+    {
+        DB::table('ofertaenvio_conductor as oc')->where('idofertaenvio',$idofertaenvio)->update(['estado' => 'RECHAZADO']);
     }
 }

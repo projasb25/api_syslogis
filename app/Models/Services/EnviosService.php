@@ -115,4 +115,28 @@ class EnviosService
             Res::error(['No se pudo actualizar las coordenadas de los envios.', 2003], 500);
         }
     }
+
+    public function rechazar(Request $request)
+    {
+        $res['success'] = false;
+        try {
+            # Obtenemos los datos de la ofertaenvio
+            $oferta_envio = $this->ofertasEnvioRepo->getOferta($request->idofertaenvio);
+            if (!$oferta_envio) {
+                return Res::error(['Oferta no encontrada.', 2001], 404);
+            } elseif ($oferta_envio->estado !== 'ESPERA') {
+                return Res::error(['Lo sentimos, la oferta se cancelo u otro conductor ya la acepto', 2002], 400);
+            }
+
+            $this->ofertasEnvioRepo->rechazarOferta($request->idofertaenvio);
+            Log::info('Oferta Rechazada con exito', [
+                'idofertaenvio' => $request->idofertaenvio,
+            ]);
+        } catch (Exception $e) {
+            Log::warning('Aceptar envio ', ['exception' => $e->getMessage(), 'req' => $request->all()]);
+            throw $e;
+        }
+
+        return Res::success('Oferta rechazada correctamente.');
+    }
 }

@@ -19,6 +19,11 @@ class EnviosController extends Controller
         return $this->enviosServi->aceptar($request);
     }
 
+    public function rechazar(Request $request)
+    {
+        return $this->enviosServi->rechazar($request);
+    }
+
     public function listarRutas(Request $request)
     {
         $res = $this->enviosServi->listarRutas($request->idofertaenvio);
