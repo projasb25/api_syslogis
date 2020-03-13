@@ -4,6 +4,7 @@ namespace App\Models\Services;
 
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\ConductorRepository;
+use App\Models\Repositories\EnvioRepository;
 use App\Models\Repositories\OfertasEnvioRepository;
 use App\Models\Repositories\PedidoDetalleRepository;
 use Exception;
@@ -18,15 +19,18 @@ class EnviosService
     protected $pedidoDetalleRepo;
     protected $ofertasEnvioRepo;
     protected $conductorRepo;
+    protected $envioRepo;
 
     public function __construct(
         PedidoDetalleRepository $pedidoDetalleRepository,
         OfertasEnvioRepository $ofertasEnvioRepository,
-        ConductorRepository $conductorRepository
+        ConductorRepository $conductorRepository,
+        EnvioRepository $envioRepository
     ) {
         $this->pedidoDetalleRepo = $pedidoDetalleRepository;
         $this->ofertasEnvioRepo = $ofertasEnvioRepository;
         $this->conductorRepo = $conductorRepository;
+        $this->envioRepo = $envioRepository;
     }
 
     public function aceptar(Request $request)
@@ -75,33 +79,35 @@ class EnviosService
     {
         $coordenadas = [];
         foreach ($pedidos as $key => $value) {
-            # Limpiamos la direccion para que no haya problemas con la api de google
-            $direccion = $this->sanitizeAdress($value->direccion_descarga);
+            if (!$value->punto_latitud_descarga) {
+                # Limpiamos la direccion para que no haya problemas con la api de google
+                $direccion = $this->sanitizeAdress($value->direccion_descarga);
 
-            try {
-                $client = new Client(['base_uri' => env('GOOGLEAPIS_GEOCODE_URL')]);
-                $url = "json?address=Peru," . $direccion . "&key=" . env('GOOGLEAPIS_GEOCODE_KEY');
+                try {
+                    $client = new Client(['base_uri' => env('GOOGLEAPIS_GEOCODE_URL')]);
+                    $url = "json?address=Peru," . $direccion . "&key=" . env('GOOGLEAPIS_GEOCODE_KEY');
 
-                $req = $client->request('GET', $url);
-                $resp = json_decode($req->getBody()->getContents());
+                    $req = $client->request('GET', $url);
+                    $resp = json_decode($req->getBody()->getContents());
 
-                $lat = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lat;
-                $lng = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lng;
-            } catch (RequestException $e) {
-                Log::warning('Obtener coordenadas: hubo un problema con la api de google.', [
-                    'endpoint' => $url,
+                    $lat = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lat;
+                    $lng = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lng;
+                } catch (RequestException $e) {
+                    Log::warning('Obtener coordenadas: hubo un problema con la api de google.', [
+                        'endpoint' => $url,
+                        'idpedido_detalle' => $value->idpedido_detalle,
+                        'direccion' => $direccion
+                    ]);
+                    $lat = null;
+                    $lng = null;
+                }
+
+                array_push($coordenadas, [
                     'idpedido_detalle' => $value->idpedido_detalle,
-                    'direccion' => $direccion
+                    'punto_latitud_descarga' => $lat,
+                    'punto_longitud_descarga' => $lng
                 ]);
-                $lat = null;
-                $lng = null;
             }
-
-            array_push($coordenadas, [
-                'idpedido_detalle' => $value->idpedido_detalle,
-                'punto_latitud_descarga' => $lat,
-                'punto_longitud_descarga' => $lng
-            ]);
         }
 
         try {
@@ -138,5 +144,22 @@ class EnviosService
         }
 
         return Res::success('Oferta rechazada correctamente.');
+    }
+
+    public function iniciar(Request $request, $idenvio)
+    {
+        try {
+            $envio = $this->envioRepo->get($idenvio);
+            if (!$envio) {
+                return Res::error(['Envio no encontrado.', 2004], 404);
+            } elseif (!in_array($envio->estado, ['ACEPTADO', 'ASIGNADO'])) {
+                return Res::error(['Envio ya esta iniciado o fue cancelado.', 2005], 400);
+            }
+            $this->envioRepo->iniciar($idenvio);
+        } catch (Exception $e) {
+            Log::warning('Iniciar envio ', ['exception' => $e->getMessage(), 'idenvio' => $idenvio]);
+            throw $e;
+        }
+        return Res::success('Envio iniciado correctamente.');
     }
 }

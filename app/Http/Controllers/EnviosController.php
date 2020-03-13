@@ -29,4 +29,9 @@ class EnviosController extends Controller
         $res = $this->enviosServi->listarRutas($request->idofertaenvio);
         return response()->json($res);
     }
+
+    public function iniciar(Request $request, $idenvio)
+    {
+        return $this->enviosServi->iniciar($request, $idenvio);
+    }
 }

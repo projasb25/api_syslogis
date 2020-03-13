@@ -37,6 +37,12 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
     Route::get('/aceptar/{idofertaenvio}', 'EnviosController@aceptar');
     Route::get('/rechazar/{idofertaenvio}', 'EnviosController@rechazar');
     Route::get('/rutas/{idofertaenvio}', 'EnviosController@listarRutas');
+    Route::get('/iniciar/{idenvio}', 'EnviosController@iniciar');
+});
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
+    Route::get('/imagen', 'PedidoController@obtenerImagen');
+    Route::post('/imagen', 'PedidoController@grabarImagen');
 });
 
 // Route::get('/test', function () {

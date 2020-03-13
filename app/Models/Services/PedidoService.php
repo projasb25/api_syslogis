@@ -5,7 +5,7 @@ namespace App\Models\Services;
 use Illuminate\Http\Request;
 use Log;
 
-class TemplateService
+class PedidoService
 {
     /**
      * @var variable

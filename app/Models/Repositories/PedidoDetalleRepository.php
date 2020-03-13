@@ -68,7 +68,8 @@ class PedidoDetalleRepository
             'punto_latitud_descarga',
             'punto_longitud_descarga',
             'responsable_nombre_descarga as destinatario',
-            'estado'
+            'estado',
+            'idenvio'
         )->where('idofertaenvio', $id)
             ->whereIn('estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO'])
             ->get();
