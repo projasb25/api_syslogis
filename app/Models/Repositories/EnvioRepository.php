@@ -53,6 +53,12 @@ class EnvioRepository
             foreach ($pedido_detalles as $key => $value) {
                 DB::table('pedido_detalle')->where('idpedido_detalle', $value->idpedido_detalle)->update(['estado' => 'CURSO']);
                 DB::table('pedido')->where('idpedido', $value->idpedido)->update(['estado' => 'CURSO']);
+                DB::table('pedido_detalle_estado_pedido_detalle')->insert([
+                    [
+                        'fecha' => date("Y-m-d H:i:s"), 'observaciones' => 'Registro automático',
+                        'idpedido_detalle' => $value->idpedido_detalle, 'idestado_pedido_detalle' => 12
+                    ]
+                ]);
             }
         } catch (Exception $e) {
             DB::rollback();

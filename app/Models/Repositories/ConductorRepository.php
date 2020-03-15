@@ -45,6 +45,17 @@ class ConductorRepository
         return $query;
     }
 
+    public function getOfertasActivas($idconductor)
+    {
+        $query = DB::table('ofertaenvio_conductor as oc')
+            ->select('*', 'oc.estado as ofertaconductor_estado')
+            ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
+            ->where('oc.idconductor', $idconductor)
+            ->where('oc.estado', 'ACEPTADOx')
+            ->first();
+        return $query;
+    }
+
     public function ActualizarEstado($idconductor, $estado)
     {
         DB::beginTransaction();

@@ -19,9 +19,7 @@ class ResponseHelper # implements ResponseInterface
     {
         return response()->json([
             'success' => true,
-            'data' => [
-                'mensaje' => $data
-            ]
+            'data' => $data
         ]);
     }
 }

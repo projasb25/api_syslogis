@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Conductor\actualizarEstado;
 use App\Models\Repositories\ConductorRepository;
 use App\Models\Services\OfertasService;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class ConductorController extends Controller
         return response()->json($res);
     }
 
-    public function actualizarEstado(Request $request)
+    public function actualizarEstado(actualizarEstado $request)
     {
         $conductor = auth()->user()->idconductor;
         if ($request->get('estado')) {

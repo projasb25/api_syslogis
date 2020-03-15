@@ -71,7 +71,7 @@ class PedidoDetalleRepository
             'estado',
             'idenvio'
         )->where('idofertaenvio', $id)
-            ->whereIn('estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO'])
+            ->whereIn('estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO'])
             ->get();
     }
 }

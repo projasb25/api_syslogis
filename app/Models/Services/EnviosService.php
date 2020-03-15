@@ -2,6 +2,7 @@
 
 namespace App\Models\Services;
 
+use App\Exceptions\CustomException;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\ConductorRepository;
 use App\Models\Repositories\EnvioRepository;
@@ -56,7 +57,7 @@ class EnviosService
             throw $e;
         }
 
-        return Res::success('Oferta aceptada correctamente.');
+        return Res::success(['mensaje' => 'Oferta aceptada correctamente.']);
     }
 
     public function sanitizeAdress($adress)
@@ -67,12 +68,19 @@ class EnviosService
 
     public function listarRutas($idofertaenvio)
     {
-        $res['success'] = false;
-        $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
-        $res['data'] = $rutas;
-        $res['success'] = true;
-
-        return $res;
+        try {
+            $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
+            if (!$rutas->count()) {
+                throw new CustomException(['No existen rutas ascociadas a este id.', 2007], 404);
+            }
+        } catch (CustomException $e) {
+            Log::warning('Listar rutas error', ['exception' => $e->message(), 'idofertaenvio' => $idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (Exception $e) {
+            Log::warning('Listar rutas error', ['exception' => $e->getMessage(), 'idofertaenvio' => $idofertaenvio]);
+            return Res::error($e->getMessage(), $e->getCode());
+        }
+        return Res::success($rutas);
     }
 
     public function obtenerCoordenadas($idofertaenvio, $pedidos)
@@ -143,7 +151,7 @@ class EnviosService
             throw $e;
         }
 
-        return Res::success('Oferta rechazada correctamente.');
+        return Res::success(['mensaje' => 'Oferta rechazada correctamente.']);
     }
 
     public function iniciar(Request $request, $idenvio)
@@ -160,6 +168,6 @@ class EnviosService
             Log::warning('Iniciar envio ', ['exception' => $e->getMessage(), 'idenvio' => $idenvio]);
             throw $e;
         }
-        return Res::success('Envio iniciado correctamente.');
+        return Res::success(['mensaje' => 'Envio iniciado correctamente.']);
     }
 }
