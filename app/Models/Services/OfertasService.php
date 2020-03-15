@@ -42,46 +42,6 @@ class OfertasService
                 }
                 $oferta->disabled = $disabled;
             }
-            dd($ofertas);
-
-
-
-
-
-
-
-
-
-
-            // $fec = Carbon::parse($aceptadas->fecha_creacion);
-            if ($aceptadas) {
-                foreach ($ofertas as $key => $value) {
-                    echo Carbon::parse($value->fecha_creacion)->diffInDays($aceptadas->fecha_creacion) . '<br>';
-
-                    // if (Carbon::parse($value->fecha_creacion)->gt($aceptadas->fecha_creacion)) {
-                    //     // edited at is newer than created at
-                    //     echo $value->fecha_creacion . '<br>';
-                    //     echo $aceptadas->fecha_creacion . '<br>';
-                    //     die();
-                    //     dd('test');
-                    // }
-                }
-            }
-
-            die();
-            dd($fecha_creacion);
-            $searchedValue = 'ACEPTADO';
-            $aceptadas = array_filter(
-                $ofertas->toArray(),
-                function ($e) use (&$searchedValue) {
-                    return $e->ofertaconductor_estado == $searchedValue;
-                }
-            );
-
-            if (empty($aceptadas)) {
-                // $fecha = $aceptadas[0]->fecha_creacion
-            }
-
 
             $res['data'] = $ofertas;
             $res['success'] = true;
