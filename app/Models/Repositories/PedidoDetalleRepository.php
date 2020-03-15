@@ -69,8 +69,11 @@ class PedidoDetalleRepository
             'punto_longitud_descarga',
             'responsable_nombre_descarga as destinatario',
             'estado',
-            'idenvio'
-        )->where('idofertaenvio', $id)
+            'idenvio',
+            DB::raw('(select count(*) from imagenes_pedidodetalle ip where ip.idpedido_detalle = pd.idpedido_detalle) as nroImagenes')
+        )
+            ->from('pedido_detalle as pd')
+            ->where('idofertaenvio', $id)
             ->whereIn('estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO'])
             ->get();
     }
