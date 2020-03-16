@@ -31,7 +31,7 @@ class PedidoService
             }
 
             $imagen = $request->file('imagen');
-            $nombre_imagen = $pedido->idpedido_detalle . '_' . time() . '.' . $imagen->getClientOriginalExtension();
+            $nombre_imagen = $pedido->idpedido_detalle . '_' . time() . '.jpg';
             $destination_path = env('RUTA_IMAGEN');
             $thumbnail = Image::make($imagen->getRealPath());
             # Guardamos el thumnail primero
