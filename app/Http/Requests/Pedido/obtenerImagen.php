@@ -13,7 +13,7 @@ class obtenerImagen extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,15 @@ class obtenerImagen extends FormRequest
     public function rules()
     {
         return [
-            //
+            'idpedido_detalle' => 'required|numeric',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'idpedido_detalle.required' => 'Falta idpedido_detalle',
+            'idpedido_detalle.numeric' => 'pedido invalido',
         ];
     }
 }

@@ -57,8 +57,22 @@ class PedidoService
             return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
             Log::warning('Grabar imagen', ['exception' => $e->getMessage(), 'res' => $request->except('imagen')]);
-            return Res::error($e->getMessage(), $e->getCode());
+            throw $e;
         }
         return Res::success(['mensaje' => 'Imagen guardada con exito']);
+    }
+
+    public function getImagen($idpedido_detalle)
+    {
+        try {
+            $imagenes = $this->pedidoDetalleRepo->getImagen($idpedido_detalle);
+            $data = [];
+            foreach ($imagenes as $img) {
+                array_push($data, url('/thumbnail/' . $img->url));
+            }
+        } catch (Exception $e) {
+            Log::warning('Obtener imagen', ['exception' => $e->getMessage(), 'idpedido_detalle' => $idpedido_detalle]);
+        }
+        return Res::success($data);
     }
 }

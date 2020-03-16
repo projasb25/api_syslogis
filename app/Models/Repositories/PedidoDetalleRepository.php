@@ -89,4 +89,12 @@ class PedidoDetalleRepository
             'eliminado' => 0, 'fecha' => date("Y-m-d H:i:s")
         ]);
     }
+
+    public function getImagen($idpedido_detalle)
+    {
+        return DB::table('imagenes_pedidodetalle')
+            ->select('*')
+            ->where('idpedido_detalle', $idpedido_detalle)
+            ->get();
+    }
 }
