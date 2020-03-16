@@ -85,6 +85,6 @@ class OfertasEnvioRepository
 
     public function rechazarOferta($idofertaenvio)
     {
-        DB::table('ofertaenvio_conductor as oc')->where('idofertaenvio',$idofertaenvio)->update(['estado' => 'RECHAZADO']);
+        DB::table('ofertaenvio_conductor as oc')->where('idofertaenvio', $idofertaenvio)->update(['estado' => 'RECHAZADO']);
     }
 }

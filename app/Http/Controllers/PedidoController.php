@@ -18,6 +18,5 @@ class PedidoController extends Controller
     public function grabarImagen(grabarImagen $request)
     {
         return $this->pedidoServi->grabarImagen($request);
-        return response()->json(['url' => $photourl]);
     }
 }

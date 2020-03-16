@@ -77,4 +77,13 @@ class PedidoDetalleRepository
             ->whereIn('estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO'])
             ->get();
     }
+
+    public function insertarImagen($id, $nombre_imagen, $descripcion, $tipo)
+    {
+        DB::table('imagenes_pedidodetalle')->insert([
+            'url' => $nombre_imagen, 'descripcion' => $descripcion,
+            'idpedido_detalle' => $id, 'tipo_imagen' => $tipo,
+            'eliminado' => 0, 'fecha' => date("Y-m-d H:i:s")
+        ]);
+    }
 }
