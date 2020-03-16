@@ -78,7 +78,7 @@ class EnviosService
             return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
             Log::warning('Listar rutas error', ['exception' => $e->getMessage(), 'idofertaenvio' => $idofertaenvio]);
-            return Res::error($e->getMessage(), $e->getCode());
+            throw $e;
         }
         return Res::success($rutas);
     }

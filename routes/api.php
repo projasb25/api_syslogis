@@ -41,7 +41,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
-    Route::get('/imagen', 'PedidoController@obtenerImagen');
+    Route::get('/imagen/{idpedido_detalle}', 'PedidoController@obtenerImagen');
     Route::post('/imagen', 'PedidoController@grabarImagen');
 });
 

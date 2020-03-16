@@ -68,13 +68,16 @@ class PedidoDetalleRepository
             'punto_latitud_descarga',
             'punto_longitud_descarga',
             'responsable_nombre_descarga as destinatario',
-            'estado',
+            'pd.estado',
             'idenvio',
-            DB::raw('(select count(*) from imagenes_pedidodetalle ip where ip.idpedido_detalle = pd.idpedido_detalle) as nroImagenes')
+            DB::raw('(select count(*) from imagenes_pedidodetalle ip where ip.idpedido_detalle = pd.idpedido_detalle) as nroImagenes'),
+            'contacto_telefono_descarga',
+            'pe.nro_guia_sistema'
         )
             ->from('pedido_detalle as pd')
+            ->join('pedido as pe', 'pe.idpedido', '=', 'pd.idpedido')
             ->where('idofertaenvio', $id)
-            ->whereIn('estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO'])
+            ->whereIn('pd.estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO'])
             ->get();
     }
 
