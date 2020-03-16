@@ -68,7 +68,7 @@ class PedidoService
             $imagenes = $this->pedidoDetalleRepo->getImagen($idpedido_detalle);
             $data = [];
             foreach ($imagenes as $img) {
-                array_push($data, url('/thumbnail/' . $img->url));
+                array_push($data, url('/imagenes/thumbnail/' . $img->url));
             }
         } catch (Exception $e) {
             Log::warning('Obtener imagen', ['exception' => $e->getMessage(), 'idpedido_detalle' => $idpedido_detalle]);
