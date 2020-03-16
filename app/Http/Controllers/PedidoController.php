@@ -17,9 +17,7 @@ class PedidoController extends Controller
 
     public function grabarImagen(grabarImagen $request)
     {
-        $filename = "test.jpg";
-        $path = $request->file('imagen')->move(public_path("/"), $filename);
-        $photourl = url('/' . $filename);
+        return $this->pedidoServi->grabarImagen($request);
         return response()->json(['url' => $photourl]);
     }
 }

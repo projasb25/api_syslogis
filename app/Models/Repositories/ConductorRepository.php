@@ -51,7 +51,7 @@ class ConductorRepository
             ->select('*', 'oc.estado as ofertaconductor_estado')
             ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
             ->where('oc.idconductor', $idconductor)
-            ->where('oc.estado', 'ACEPTADOx')
+            ->where('oc.estado', 'ACEPTADO')
             ->first();
         return $query;
     }
