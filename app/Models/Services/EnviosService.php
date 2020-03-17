@@ -170,4 +170,25 @@ class EnviosService
         }
         return Res::success(['mensaje' => 'Envio iniciado correctamente.']);
     }
+
+    public function finalizar($idenvio)
+    {
+        try {
+            $envio = $this->envioRepo->get($idenvio);
+            if (!$envio) {
+                throw new CustomException(['Envio no encontrado', 2020], 400);
+            } elseif ($envio->estado !== 'CURSO') {
+                throw new CustomException(['El envio tiene que haber sido aceptado e iniciado para poder finalizar', 2021], 400);
+            }
+
+            $this->envioRepo->finalizar($idenvio);
+        } catch (CustomException $e) {
+            Log::warning('Finalizar Envio error', ['exception' => $e->getData()[0], 'idenvio' => $idenvio]);
+            Res::error([$e->getData()[0], $e->getData()[1]], $e->getCode());
+        } catch (Exception $e) {
+            Log::warning('Finalizar Envio error', ['exception' => $e->getMessage(), 'idenvio' => $idenvio]);
+            Res::error([$e->getMessage(), $e->getCode()], 500);
+        }
+        return Res::success(['mensaje' => 'Envio finalizado correctamente.']);
+    }
 }

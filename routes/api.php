@@ -43,6 +43,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
 Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
     Route::get('/imagen/{idpedido_detalle}', 'PedidoController@getImagen')->where('idpedido_detalle', '[0-9]+');
     Route::post('/imagen', 'PedidoController@grabarImagen');
+    Route::post('/actualizar', 'PedidoController@actualizar');
+    Route::get('/motivos/{idcliente}', 'PedidoController@getMotivos')->where('idcliente', '[0-9]+');
 });
 
 // Route::get('/test', function () {

@@ -7,17 +7,18 @@ use App\Http\Requests\Pedido\grabarImagen;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\PedidoDetalleRepository;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 
 class PedidoService
 {
     protected $pedidoDetalleRepo;
+    protected $envioServi;
 
-    public function __construct(PedidoDetalleRepository $pedidoDetalleRepo)
+    public function __construct(PedidoDetalleRepository $pedidoDetalleRepo, EnviosService $enviosService)
     {
         $this->pedidoDetalleRepo = $pedidoDetalleRepo;
+        $this->envioServi = $enviosService;
     }
 
     public function grabarImagen(grabarImagen $request)
@@ -72,6 +73,63 @@ class PedidoService
             }
         } catch (Exception $e) {
             Log::warning('Obtener imagen', ['exception' => $e->getMessage(), 'idpedido_detalle' => $idpedido_detalle]);
+        }
+        return Res::success($data);
+    }
+
+    public function actualizarPedido($request)
+    {
+        $finalizado = true;
+        try {
+            $data = $request->all();
+            $pedido_detalle = $this->pedidoDetalleRepo->get($data['idpedido_detalle']);
+            if (!$pedido_detalle) {
+                throw new CustomException(['Pedido no encontrado.', 2012], 400);
+            } elseif ($pedido_detalle->estado !== 'CURSO') {
+                throw new CustomException(['El pedido no se encuentra en Curso.', 2013], 400);
+            } elseif (!in_array($data['estado'], ['ENTREGADO', 'NO ENTREGADO'])) {
+                throw new CustomException(['Estado inválido', 2014], 400);
+            }
+
+            $this->pedidoDetalleRepo->actualizarPedido($data);
+
+            $pedidos_finalizados = $this->pedidoDetalleRepo->getPedidosxEnvio($pedido_detalle->idenvio);
+            foreach ($pedidos_finalizados as $pedido) {
+                if ($pedido->estado !== 'FINALIZADO') {
+                    $finalizado = false;
+                    break;
+                }
+            }
+            if ($finalizado) {
+                $res = $this->envioServi->finalizar($pedido_detalle->idenvio);
+            }
+
+            Log::info('Actualización con exito', ['res' => $data]);
+        } catch (CustomException $e) {
+            Log::warning('Actualizar Pedido', ['exception' => $e->getData()[0], 'res' => $data]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (Exception $e) {
+            Log::warning('Actualizar Pedido', ['exception' => $e->getMessage(), 'res' => $data]);
+            return Res::error([$e->getMessage(), $e->getCode()], 500);
+        }
+        return Res::success([
+            'mensaje' => 'Pedido actualizado con éxito',
+            'finalizado' => $finalizado
+        ]);
+    }
+
+    public function getMotivos($idcliente)
+    {
+        try {
+            $motivos = $this->pedidoDetalleRepo->getMotivos($idcliente);
+            $data = [];
+
+            foreach ($motivos as $motivos) {
+                array_push($data, $motivos->motivo);
+            }
+        } catch (Exception $e) {
+            Log::warning('Get Motivos error', ['exception' => $e->getMessage(), 'idcliente' => $idcliente]);
+            return Res::error([$e->getMessage(), $e->getCode()], 500);
         }
         return Res::success($data);
     }

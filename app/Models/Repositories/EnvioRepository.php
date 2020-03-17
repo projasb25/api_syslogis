@@ -5,6 +5,7 @@ namespace App\Models\Repositories;
 use App\Models\Entities\Envio;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class EnvioRepository
 {
@@ -59,6 +60,28 @@ class EnvioRepository
                         'idpedido_detalle' => $value->idpedido_detalle, 'idestado_pedido_detalle' => 12
                     ]
                 ]);
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
+    }
+
+    public function finalizar($idenvio)
+    {
+        DB::beginTransaction();
+        try {
+            # Finalizamos envio
+            Envio::where('idenvio', $idenvio)->update(['estado' => 'FINALIZADO']);
+
+            # Finalizamos los pedidos_detalle asociados al idenvio
+            DB::table('pedido_detalle')->where('idenvio', $idenvio)->update(['estado' => 'FINALIZADO']);
+
+            # Finalizamos los pedidos asociados a los pedidos detalle
+            $pedidos_detalle = DB::table('pedido_detalle')->where('idenvio', $idenvio)->get();
+            foreach ($pedidos_detalle as $pedido_detalle) {
+                DB::table('pedido')->where('idpedido', $pedido_detalle->idpedido)->update(['estado' => 'FINALIZADO']);
             }
         } catch (Exception $e) {
             DB::rollback();

@@ -72,12 +72,13 @@ class PedidoDetalleRepository
             'idenvio',
             DB::raw('(select count(*) from imagenes_pedidodetalle ip where ip.idpedido_detalle = pd.idpedido_detalle) as nroImagenes'),
             'contacto_telefono_descarga',
-            'pe.nro_guia_sistema'
+            'pe.nro_guia_sistema',
+            'pe.idcliente'
         )
             ->from('pedido_detalle as pd')
             ->join('pedido as pe', 'pe.idpedido', '=', 'pd.idpedido')
             ->where('idofertaenvio', $id)
-            ->whereIn('pd.estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO'])
+            ->whereIn('pd.estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO', 'FINALIZADO'])
             ->get();
     }
 
@@ -96,5 +97,36 @@ class PedidoDetalleRepository
             ->select('*')
             ->where('idpedido_detalle', $idpedido_detalle)
             ->get();
+    }
+
+    public function actualizarPedido($data)
+    {
+        DB::beginTransaction();
+        try {
+            $estado = ($data['estado'] === 'ENTREGADO') ? 16 : 17;
+            $obsertvaciones = ($estado === 16) ? 'Registro automático' : $data['observacion'];
+            # pedido_detalle a finalizado
+            PedidoDetalle::where('idpedido_detalle', $data['idpedido_detalle'])->update(['estado' => 'FINALIZADO']);
+
+            # insertar en pedido_detalle_estado_pedido_detalle 16 Registro automático
+            DB::table('pedido_detalle_estado_pedido_detalle')->insert([
+                'fecha' => date("Y-m-d H:i:s"), 'observaciones' => $obsertvaciones,
+                'idpedido_detalle' => $data['idpedido_detalle'], 'idestado_pedido_detalle' => $estado
+            ]);
+        } catch (Exception $e) {
+            Log::warning("Actualizar estado pedido " . $e->getMessage());
+            DB::rollback();
+        }
+        DB::commit();
+    }
+
+    public function getPedidosxEnvio($idenvio)
+    {
+        return PedidoDetalle::where('idenvio', $idenvio)->get();
+    }
+
+    public function getMotivos($idcliente)
+    {
+        return DB::table('tipologia_envio')->where('idcliente', $idcliente)->get();
     }
 }

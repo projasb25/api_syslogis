@@ -28,19 +28,20 @@ class OfertasService
         try {
             $user = auth()->user();
             $ofertas = $this->conductorRepo->get_ofertas($user->idconductor);
-            $aceptadas = $this->conductorRepo->getOfertasActivas($user->idconductor);
-
-            foreach ($ofertas as $key => $oferta) {
-                if (!$aceptadas) {
-                    $disabled = false;
-                } else {
-                    if (Carbon::parse($oferta->fecha_creacion)->diffInDays($aceptadas->fecha_creacion) <> 0) {
-                        $disabled = true;
-                    } else {
+            if ($ofertas->count()) {
+                $aceptadas = $this->conductorRepo->getOfertasActivas($user->idconductor);
+                foreach ($ofertas as $oferta) {
+                    if (!$aceptadas) {
                         $disabled = false;
+                    } else {
+                        if (Carbon::parse($oferta->fecha_creacion)->diffInDays($aceptadas->fecha_creacion) <> 0) {
+                            $disabled = true;
+                        } else {
+                            $disabled = false;
+                        }
                     }
+                    $oferta->disabled = $disabled;
                 }
-                $oferta->disabled = $disabled;
             }
 
             $res['data'] = $ofertas;

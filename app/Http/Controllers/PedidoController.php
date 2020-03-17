@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Pedido\actualizarPedido;
 use App\Http\Requests\Pedido\grabarImagen;
 use App\Http\Requests\Pedido\obtenerImagen;
 use App\Models\Services\PedidoService;
@@ -24,5 +25,15 @@ class PedidoController extends Controller
     public function getImagen(Request $request, $idpedido_detalle)
     {
         return $this->pedidoServi->getImagen($idpedido_detalle);
+    }
+
+    public function actualizar(actualizarPedido $request)
+    {
+        return $this->pedidoServi->actualizarPedido($request);
+    }
+
+    public function getMotivos(Request $request, $idcliente)
+    {
+        return $this->pedidoServi->getMotivos($idcliente);
     }
 }

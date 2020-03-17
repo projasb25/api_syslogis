@@ -37,10 +37,18 @@ class ConductorRepository
     public function get_ofertas($id)
     {
         $query = DB::table('ofertaenvio_conductor as oc')
-            ->select('*', 'oc.estado as ofertaconductor_estado', DB::raw('(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'))
+            ->select(DB::raw(
+                'oc.idofertaenvio_conductor, oc.idconductor,' .
+                    'oc.estado as ofertaconductor_estado,' .
+                    'oe.idofertaenvio , oe.fecha_creacion,' .
+                    '(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'
+            ))
             ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
+            ->join('pedido_detalle as pd', 'pd.idofertaenvio', '=', 'oe.idofertaenvio')
             ->where('oc.idconductor', $id)
-            ->whereNotIn('oc.estado', ['RECHAZADO'])
+            ->whereIn('oc.estado', ['ESPERA', 'ACEPTADO'])
+            ->whereNotIn('pd.estado', ['FINALIZADO', 'CANCELADO'])
+            ->groupBy('oc.idofertaenvio_conductor')
             ->get();
         return $query;
     }
@@ -48,10 +56,18 @@ class ConductorRepository
     public function getOfertasActivas($idconductor)
     {
         $query = DB::table('ofertaenvio_conductor as oc')
-            ->select('*', 'oc.estado as ofertaconductor_estado')
+            ->select(DB::raw(
+                'oc.idofertaenvio_conductor, oc.idconductor,' .
+                    'oc.estado as ofertaconductor_estado,' .
+                    'oe.idofertaenvio, oe.estado , oe.fecha_creacion,' .
+                    '(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'
+            ))
             ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
+            ->join('pedido_detalle as pd', 'pd.idofertaenvio', '=', 'oe.idofertaenvio')
             ->where('oc.idconductor', $idconductor)
-            ->where('oc.estado', 'ACEPTADO')
+            ->whereIn('oc.estado', ['ACEPTADO'])
+            ->whereNotIn('pd.estado', ['FINALIZADO', 'CANCELADO'])
+            ->groupBy('oc.idofertaenvio_conductor')
             ->first();
         return $query;
     }
