@@ -59,7 +59,8 @@ class Handler extends ExceptionHandler
     {
         if (
             $exception instanceof TokenExpiredException ||
-            $exception instanceof JWTException
+            $exception instanceof JWTException ||
+            $exception instanceof AuthenticationException
         ) {
             return response()->json([
                 'success' => false,
