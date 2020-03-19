@@ -73,7 +73,8 @@ class PedidoDetalleRepository
             DB::raw('(select count(*) from imagenes_pedidodetalle ip where ip.idpedido_detalle = pd.idpedido_detalle) as nroImagenes'),
             'contacto_telefono_descarga',
             'pe.nro_guia_sistema',
-            'pe.idcliente'
+            'pe.idcliente',
+            DB::raw('(select nombre from estado_pedido_detalle epd where idestado_pedido_detalle = (select idestado_pedido_detalle from pedido_detalle_estado_pedido_detalle pdepd where idpedido_detalle = pd.idpedido_detalle order by idpedido_detalle_estado_pedido_detalle desc limit 1)) as estadoProducto')
         )
             ->from('pedido_detalle as pd')
             ->join('pedido as pe', 'pe.idpedido', '=', 'pd.idpedido')

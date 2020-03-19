@@ -1,6 +1,6 @@
 @token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xNjQuNjguMTE5LjY3OjgwMDBcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1ODQ2MzQ5NjcsImV4cCI6MTU4NDg1MDk2NywibmJmIjoxNTg0NjM0OTY3LCJqdGkiOiJLOVB6YWE3UWl6eFV0V2MwIiwic3ViIjozMCwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.pvwnbOpXh5suvSh9AvldqQXlulc1-5kjjhJImXavJZk
 ###
-POST http://164.68.119.67:8000/api/auth/login
+POST http://localhost:8000/api/auth/login
 Accept: application/json
 Content-Type: application/json
 
@@ -9,56 +9,56 @@ Content-Type: application/json
     "password":"test"
 }
 ###
-POST http://164.68.119.67:8000/api/conductor/actualizarEstado
+POST http://localhost:8000/api/conductor/actualizarEstado
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
-
+1
 {
     "estado":true
 }
 ###
-GET http://164.68.119.67:8000/api/conductor/ofertas
+GET http://localhost:8000/api/conductor/ofertas
 Authorization: {{token}}
 
 ###
-GET http://164.68.119.67:8000/api/envio/rutas/17763
+GET http://localhost:8000/api/envio/rutas/17763
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://164.68.119.67:8000/api/envio/iniciar/17428
+GET http://localhost:8000/api/envio/iniciar/17429
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://164.68.119.67:8000/api/envio/aceptar/17762
+GET http://localhost:8000/api/envio/aceptar/17763
 Accept: application/json
 Authorization: {{token}}
 
 ###
-POST http://164.68.119.67:8000/api/pedido/actualizar
+POST http://localhost:8000/api/pedido/actualizar
 Accept: application/json
 Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "idpedido_detalle": 332257,
-    "estado": "ENTREGADO",
+    "idpedido_detalle": 332254,
+    "estado": "ENTREGA EN AGENCIA",
     "observacion": "Direccion incompleta"
 }
 
 ###
-GET http://164.68.119.67:8000/api/pedido/motivos/5
+GET http://localhost:8000/api/pedido/motivos/5
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://164.68.119.67:8000/api/pedido/imagen/332260
+GET http://localhost:8000/api/pedido/imagen/332260
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://164.68.119.67:8000/api/pedido/agencias/31
+GET http://localhost:8000/api/pedido/agencias/31
 Accept: application/json
 Authorization: {{token}}
