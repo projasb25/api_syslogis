@@ -22,7 +22,7 @@ GET http://localhost:8000/api/conductor/ofertas
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/envio/rutas/17763
+GET http://localhost:8000/api/envio/rutas/17764
 Accept: application/json
 Authorization: {{token}}
 
@@ -33,6 +33,11 @@ Authorization: {{token}}
 
 ###
 GET http://localhost:8000/api/envio/aceptar/17763
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/envio/finalizar/17429
 Accept: application/json
 Authorization: {{token}}
 
