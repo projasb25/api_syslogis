@@ -86,7 +86,7 @@ class PedidoService
                 throw new CustomException(['Pedido no encontrado.', 2012], 400);
             } elseif ($pedido_detalle->estado !== 'CURSO') {
                 throw new CustomException(['El pedido no se encuentra en Curso.', 2013], 400);
-            } elseif (!in_array($data['estado'], ['ENTREGADO', 'NO ENTREGADO'])) {
+            } elseif (!in_array($data['estado'], ['ENTREGADO', 'NO ENTREGADO', 'ENTREGA EN AGENCIA'])) {
                 throw new CustomException(['Estado inválido', 2014], 400);
             }
 

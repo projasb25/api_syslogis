@@ -103,14 +103,30 @@ class PedidoDetalleRepository
     {
         DB::beginTransaction();
         try {
-            $estado = ($data['estado'] === 'ENTREGADO') ? 16 : 17;
-            $obsertvaciones = ($estado === 16) ? 'Registro automático' : $data['observacion'];
+
+            switch ($data['estado']) {
+                case 'ENTREGADO':
+                    $estado = 16;
+                    $observaciones = 'Registro automático';
+                    break;
+                case 'NO ENTREGADO':
+                    $estado = 17;
+                    $observaciones = $data['observacion'];
+                    break;
+                case 'ENTREGA EN AGENCIA':
+                    $estado = 20;
+                    $observaciones = $data['observacion'];
+                    break;
+                default:
+                    break;
+            }
+
             # pedido_detalle a finalizado
             PedidoDetalle::where('idpedido_detalle', $data['idpedido_detalle'])->update(['estado' => 'FINALIZADO']);
 
             # insertar en pedido_detalle_estado_pedido_detalle 16 Registro automático
             DB::table('pedido_detalle_estado_pedido_detalle')->insert([
-                'fecha' => date("Y-m-d H:i:s"), 'observaciones' => $obsertvaciones,
+                'fecha' => date("Y-m-d H:i:s"), 'observaciones' => $observaciones,
                 'idpedido_detalle' => $data['idpedido_detalle'], 'idestado_pedido_detalle' => $estado
             ]);
         } catch (Exception $e) {

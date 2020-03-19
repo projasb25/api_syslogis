@@ -1,6 +1,6 @@
-@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU4NDYzNDY1NiwiZXhwIjoxNTg0ODUwNjU2LCJuYmYiOjE1ODQ2MzQ2NTYsImp0aSI6IlRFQVB0MGdhRzRVMUJMcXoiLCJzdWIiOjMwLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.VH26fFpKdnOaI5jTbzoSkHKyFJ2f5p8E59v6wK9LSrA
+@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xNjQuNjguMTE5LjY3OjgwMDBcL2FwaVwvYXV0aFwvbG9naW4iLCJpYXQiOjE1ODQ2MzQ5NjcsImV4cCI6MTU4NDg1MDk2NywibmJmIjoxNTg0NjM0OTY3LCJqdGkiOiJLOVB6YWE3UWl6eFV0V2MwIiwic3ViIjozMCwicHJ2IjoiODdlMGFmMWVmOWZkMTU4MTJmZGVjOTcxNTNhMTRlMGIwNDc1NDZhYSJ9.pvwnbOpXh5suvSh9AvldqQXlulc1-5kjjhJImXavJZk
 ###
-POST http://localhost:8000/api/auth/login
+POST http://164.68.119.67:8000/api/auth/login
 Accept: application/json
 Content-Type: application/json
 
@@ -9,7 +9,7 @@ Content-Type: application/json
     "password":"test"
 }
 ###
-POST http://localhost:8000/api/conductor/actualizarEstado
+POST http://164.68.119.67:8000/api/conductor/actualizarEstado
 Accept: application/json
 Content-Type: application/json
 Authorization: {{token}}
@@ -18,26 +18,26 @@ Authorization: {{token}}
     "estado":true
 }
 ###
-GET http://localhost:8000/api/conductor/ofertas
+GET http://164.68.119.67:8000/api/conductor/ofertas
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/envio/rutas/17761
+GET http://164.68.119.67:8000/api/envio/rutas/17763
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/envio/iniciar/17428
+GET http://164.68.119.67:8000/api/envio/iniciar/17428
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/envio/aceptar/17762
+GET http://164.68.119.67:8000/api/envio/aceptar/17762
 Accept: application/json
 Authorization: {{token}}
 
 ###
-POST http://localhost:8000/api/pedido/actualizar
+POST http://164.68.119.67:8000/api/pedido/actualizar
 Accept: application/json
 Authorization: {{token}}
 Content-Type: application/json
@@ -49,16 +49,16 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8000/api/pedido/motivos/5
+GET http://164.68.119.67:8000/api/pedido/motivos/5
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/pedido/imagen/332260
+GET http://164.68.119.67:8000/api/pedido/imagen/332260
 Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/pedido/agencias/31
+GET http://164.68.119.67:8000/api/pedido/agencias/31
 Accept: application/json
 Authorization: {{token}}
