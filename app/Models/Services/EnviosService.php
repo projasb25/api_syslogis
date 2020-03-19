@@ -182,11 +182,12 @@ class EnviosService
             }
 
             $this->envioRepo->finalizar($idenvio);
+            Log::info('Envio finalizado con exito', ['idenvio' => $idenvio, 'idconductor' => auth()->user()->idconductor]);
         } catch (CustomException $e) {
-            Log::warning('Finalizar Envio error', ['exception' => $e->getData()[0], 'idenvio' => $idenvio]);
+            Log::warning('Finalizar Envio error', ['exception' => $e->getData()[0], 'idenvio' => $idenvio, 'idconductor' => auth()->user()->idconductor]);
             Res::error([$e->getData()[0], $e->getData()[1]], $e->getCode());
         } catch (Exception $e) {
-            Log::warning('Finalizar Envio error', ['exception' => $e->getMessage(), 'idenvio' => $idenvio]);
+            Log::warning('Finalizar Envio error', ['exception' => $e->getMessage(), 'idenvio' => $idenvio, 'idconductor' => auth()->user()->idconductor]);
             Res::error([$e->getMessage(), $e->getCode()], 500);
         }
         return Res::success(['mensaje' => 'Envio finalizado correctamente.']);

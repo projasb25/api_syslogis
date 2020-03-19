@@ -79,7 +79,6 @@ class PedidoService
 
     public function actualizarPedido($request)
     {
-        $finalizado = true;
         try {
             $data = $request->all();
             $pedido_detalle = $this->pedidoDetalleRepo->get($data['idpedido_detalle']);
@@ -92,18 +91,6 @@ class PedidoService
             }
 
             $this->pedidoDetalleRepo->actualizarPedido($data);
-
-            $pedidos_finalizados = $this->pedidoDetalleRepo->getPedidosxEnvio($pedido_detalle->idenvio);
-            foreach ($pedidos_finalizados as $pedido) {
-                if ($pedido->estado !== 'FINALIZADO') {
-                    $finalizado = false;
-                    break;
-                }
-            }
-            if ($finalizado) {
-                $res = $this->envioServi->finalizar($pedido_detalle->idenvio);
-            }
-
             Log::info('Actualización con exito', ['res' => $data]);
         } catch (CustomException $e) {
             Log::warning('Actualizar Pedido', ['exception' => $e->getData()[0], 'res' => $data]);
@@ -113,8 +100,7 @@ class PedidoService
             return Res::error([$e->getMessage(), $e->getCode()], 500);
         }
         return Res::success([
-            'mensaje' => 'Pedido actualizado con éxito',
-            'finalizado' => $finalizado
+            'mensaje' => 'Pedido actualizado con éxito'
         ]);
     }
 
@@ -124,11 +110,27 @@ class PedidoService
             $motivos = $this->pedidoDetalleRepo->getMotivos($idcliente);
             $data = [];
 
-            foreach ($motivos as $motivos) {
-                array_push($data, $motivos->motivo);
+            foreach ($motivos as $motivo) {
+                array_push($data, $motivo->motivo);
             }
         } catch (Exception $e) {
             Log::warning('Get Motivos error', ['exception' => $e->getMessage(), 'idcliente' => $idcliente]);
+            return Res::error([$e->getMessage(), $e->getCode()], 500);
+        }
+        return Res::success($data);
+    }
+
+    public function getAgencias($idcliente)
+    {
+        try {
+            $agencias = $this->pedidoDetalleRepo->getAgencias($idcliente);
+            $data = [];
+
+            foreach ($agencias as $agencia) {
+                array_push($data, $agencia->age_nombre);
+            }
+        } catch (Exception $e) {
+            Log::warning('Get Agencias error', ['exception' => $e->getMessage(), 'idcliente' => $idcliente]);
             return Res::error([$e->getMessage(), $e->getCode()], 500);
         }
         return Res::success($data);

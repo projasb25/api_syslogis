@@ -129,4 +129,9 @@ class PedidoDetalleRepository
     {
         return DB::table('tipologia_envio')->where('idcliente', $idcliente)->get();
     }
+
+    public function getAgencias($idcliente)
+    {
+        return DB::table('agencias_cliente')->where('idcliente', $idcliente)->get();
+    }
 }

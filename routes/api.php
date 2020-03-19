@@ -37,7 +37,8 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
     Route::get('/aceptar/{idofertaenvio}', 'EnviosController@aceptar');
     Route::get('/rechazar/{idofertaenvio}', 'EnviosController@rechazar');
     Route::get('/rutas/{idofertaenvio}', 'EnviosController@listarRutas');
-    Route::get('/iniciar/{idenvio}', 'EnviosController@iniciar');
+    Route::get('/iniciar/{idenvio}', 'EnviosController@iniciar')->where('idenvio', '[0-9]+');
+    Route::get('/finalizar/{idenvio}', 'EnviosController@iniciar')->where('idenvio', '[0-9]+');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
@@ -45,6 +46,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
     Route::post('/imagen', 'PedidoController@grabarImagen');
     Route::post('/actualizar', 'PedidoController@actualizar');
     Route::get('/motivos/{idcliente}', 'PedidoController@getMotivos')->where('idcliente', '[0-9]+');
+    Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
 });
 
 // Route::get('/test', function () {

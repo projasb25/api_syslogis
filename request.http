@@ -1,4 +1,4 @@
-@token = Bearer eyJ0eXAiiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU4NDUwMjUwNSwiZXhwIjoxNTg0NzE4NTA1LCJuYmYiOjE1ODQ1MDI1MDUsImp0aSI6Inp3QjhqeDNUbElsMllVMk8iLCJzdWIiOjMwLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.lydKMLgLj7QIeIDuGNbOhcDyKJaIcd7BTVxGkM4FP1E
+@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU4NDYzNDY1NiwiZXhwIjoxNTg0ODUwNjU2LCJuYmYiOjE1ODQ2MzQ2NTYsImp0aSI6IlRFQVB0MGdhRzRVMUJMcXoiLCJzdWIiOjMwLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.VH26fFpKdnOaI5jTbzoSkHKyFJ2f5p8E59v6wK9LSrA
 ###
 POST http://localhost:8000/api/auth/login
 Accept: application/json
@@ -22,7 +22,7 @@ GET http://localhost:8000/api/conductor/ofertas
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/envio/rutas/17742
+GET http://localhost:8000/api/envio/rutas/17761
 Accept: application/json
 Authorization: {{token}}
 
@@ -50,5 +50,15 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8000/api/pedido/motivos/5
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/pedido/imagen/332260
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/pedido/agencias/31
 Accept: application/json
 Authorization: {{token}}

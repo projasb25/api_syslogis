@@ -36,4 +36,9 @@ class PedidoController extends Controller
     {
         return $this->pedidoServi->getMotivos($idcliente);
     }
+
+    public function getAgencias(Request $request, $idcliente)
+    {
+        return $this->pedidoServi->getAgencias($idcliente);
+    }
 }

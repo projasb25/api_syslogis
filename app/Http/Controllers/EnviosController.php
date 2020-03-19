@@ -33,4 +33,9 @@ class EnviosController extends Controller
     {
         return $this->enviosServi->iniciar($request, $idenvio);
     }
+
+    public function finalizar(Request $request, $idenvio)
+    {
+        return $this->enviosServi->finalizar($idenvio);
+    }
 }
