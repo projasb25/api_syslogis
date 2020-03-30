@@ -64,7 +64,7 @@ class PedidoDetalleRepository
         return PedidoDetalle::select(
             'idpedido_detalle',
             'direccion_descarga',
-            'referencia_descarga as descripcion',
+            'cli.nombres as descripcion',
             'punto_latitud_descarga',
             'punto_longitud_descarga',
             'responsable_nombre_descarga as destinatario',
@@ -78,6 +78,7 @@ class PedidoDetalleRepository
         )
             ->from('pedido_detalle as pd')
             ->join('pedido as pe', 'pe.idpedido', '=', 'pd.idpedido')
+            ->join('cliente as cli','cli.idcliente','=','pe.idcliente')
             ->where('idofertaenvio', $id)
             ->whereIn('pd.estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO', 'FINALIZADO'])
             ->get();
