@@ -1,0 +1,69 @@
+@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU4NTYxMDc4NiwiZXhwIjoxNTg1ODI2Nzg2LCJuYmYiOjE1ODU2MTA3ODYsImp0aSI6IlRMQ2NObEVUcWZpMUVKR3giLCJzdWIiOjMwLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.rsFIK2WJlbdTEO--3meRHebFxmVRgtX1w6ZNjd8rCBI
+###V4nH4GTfKLhBwrNx
+POST http://localhost:8000/api/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email":"prueba@gn7app.com",
+    "password":"test"
+}
+###
+POST http://localhost:8000/api/conductor/actualizarEstado
+Accept: application/json
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+    "estado":true
+}
+###
+GET http://localhost:8000/api/conductor/ofertas
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/envio/rutas/17742
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/envio/iniciar/17429
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/envio/aceptar/17763
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/envio/finalizar/17429
+Accept: application/json
+Authorization: {{token}}
+
+###
+POST http://localhost:8000/api/pedido/actualizar
+Accept: application/json
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+    "idpedido_detalle": 332254,
+    "estado": "ENTREGA EN AGENCIA",
+    "observacion": "Direccion incompleta"
+}
+
+###
+GET http://localhost:8000/api/pedido/motivos/5
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/pedido/imagen/332260
+Accept: application/json
+Authorization: {{token}}
+
+###
+GET http://localhost:8000/api/pedido/agencias/31
+Accept: application/json
+Authorization: {{token}}

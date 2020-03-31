@@ -2,8 +2,15 @@
 
 namespace App\Exceptions;
 
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 use Throwable;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +57,46 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if (
+            $exception instanceof TokenExpiredException ||
+            $exception instanceof JWTException ||
+            $exception instanceof AuthenticationException
+        ) {
+            return response()->json([
+                'success' => false,
+                'error' => [
+                    'mensaje' => 'Invalid token.',
+                    'code' => 3013
+                ]
+            ], 401);
+        }
+
+        // if (
+        //     $exception instanceof Exception
+        // ) {
+
+        //     $response = [
+        //         'success' => false,
+        //         'error' => [
+        //             'mensaje' => $exception->getMessage(),
+        //             'code' => 3000,
+        //         ]
+        //     ];
+        //     return response()->json($response, 500);
+        // }
+
         return parent::render($request, $exception);
+    }
+
+    protected function invalidJson($request, ValidationException $exception)
+    {
+        $errors = $exception->errors();
+        $first_error = array_key_first($errors);
+        return response()->json([
+            'success' => false,
+            'error' => [
+                'message' => $errors[$first_error][0],
+            ]
+        ], $exception->status);
     }
 }
