@@ -21,7 +21,9 @@ class actualizarPedido extends FormRequest
         return [
             'idpedido_detalle' => 'required|numeric',
             'estado' => 'required|string',
-            'observacion' => 'string|nullable'
+            'observacion' => 'string|nullable',
+            'latitud' => 'required|string|numeric',
+            'longitud' => 'required|string|numeric'
         ];
     }
 
@@ -31,7 +33,11 @@ class actualizarPedido extends FormRequest
             'idpedido_detalle.required' => 'Falta idpedido_detalle',
             'idpedido_detalle.numeric' => 'pedido invalido',
             'estado.*' => 'estado inválido.',
-            'observacion.*' => 'Obseracion inválida.'
+            'observacion.*' => 'Obseracion inválida.',
+            'latitud.required' => 'Falta latitud',
+            'latitud.*' => 'Latitud Inválida',
+            'longitud.required' => 'Falta longitud',
+            'longitud.*' => 'Longitud Inválida.'
         ];
     }
 }
