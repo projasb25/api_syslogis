@@ -1,4 +1,4 @@
-@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU4NTYxMDc4NiwiZXhwIjoxNTg1ODI2Nzg2LCJuYmYiOjE1ODU2MTA3ODYsImp0aSI6IlRMQ2NObEVUcWZpMUVKR3giLCJzdWIiOjMwLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.rsFIK2WJlbdTEO--3meRHebFxmVRgtX1w6ZNjd8rCBI
+@token = Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU4NzM5NDM4NCwiZXhwIjoxNTg3NjEwMzg0LCJuYmYiOjE1ODczOTQzODQsImp0aSI6InhZUUE2NlRDTEkwT0ZYcmIiLCJzdWIiOjMwLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIn0.SfO93Fr8E_IqE13lZ_5I62B3UxFyQMZdFLlqLSQWFFY
 ###V4nH4GTfKLhBwrNx
 POST http://localhost:8000/api/auth/login
 Accept: application/json
@@ -27,7 +27,7 @@ Accept: application/json
 Authorization: {{token}}
 
 ###
-GET http://localhost:8000/api/envio/iniciar/17429
+GET http://localhost:8000/api/envio/iniciar/17408
 Accept: application/json
 Authorization: {{token}}
 
@@ -48,9 +48,11 @@ Authorization: {{token}}
 Content-Type: application/json
 
 {
-    "idpedido_detalle": 332254,
+    "idpedido_detalle": 326661,
     "estado": "ENTREGA EN AGENCIA",
-    "observacion": "Direccion incompleta"
+    "observacion": "Direccion incompleta",
+    "latitud": "-13.179256",
+    "longitud": "-77.9949845"
 }
 
 ###
