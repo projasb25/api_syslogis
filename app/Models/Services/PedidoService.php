@@ -63,7 +63,7 @@ class PedidoService
                 $request->get('tipo_imagen')
             );
 
-            Log::info("Grabar imagen exitoso", ['request' => $request->all(), 'nombre_imagen' => $img_url]);
+            Log::info("Grabar imagen exitoso", ['request' => $request->except('imagen'), 'nombre_imagen' => $img_url]);
         } catch (CustomException $e) {
             Log::warning('Grabar imagen', ['exception' => $e->getData()[0], 'res' => $request->except('imagen')]);
             return Res::error($e->getData(), $e->getCode());
