@@ -7,6 +7,7 @@ use App\Http\Requests\Pedido\grabarImagen;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\PedidoDetalleRepository;
 use Exception;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
 
@@ -31,25 +32,33 @@ class PedidoService
                 throw new CustomException(['El pedido no se encuentra en Curso.', 2011], 400);
             }
 
+            $destination_path = env('RUTA_IMAGEN') . '/' . $request->get('idpedido_detalle');
+            
+            # CHeck if folder exists before create one
+            if (!file_exists($destination_path)) {
+                File::makeDirectory($destination_path, $mode = 0777, true, true);
+                File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
+            }
+            
             $imagen = $request->file('imagen');
             $nombre_imagen = $pedido->idpedido_detalle . '_' . time() . '.jpg';
-            $destination_path = env('RUTA_IMAGEN');
             $thumbnail = Image::make($imagen->getRealPath());
             # Guardamos el thumnail primero
             $thumbnail->resize(250, 250, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destination_path . '/thumbnail/' . $nombre_imagen);
-
+            
             # Redimesionamos la imagen a 720x720
             $resize = Image::make($imagen->getRealPath());
             $resize->resize(720, 720, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destination_path . '/' . $nombre_imagen);
 
+            $img_url = url('imagenes/' . $request->get('idpedido_detalle') . '/' . $nombre_imagen);
             # Guardamos los datos en la BD
             $this->pedidoDetalleRepo->insertarImagen(
                 $pedido->idpedido_detalle,
-                $nombre_imagen,
+                $img_url,
                 $request->get('descripcion'),
                 $request->get('tipo_imagen')
             );
@@ -69,7 +78,8 @@ class PedidoService
             $imagenes = $this->pedidoDetalleRepo->getImagen($idpedido_detalle);
             $data = [];
             foreach ($imagenes as $img) {
-                array_push($data, url('/imagenes/thumbnail/' . $img->url));
+                $segmentos = explode('/',$img->url);
+                array_push($data, url('/imagenes/' . $idpedido_detalle . '/thumbnail/' . end($segmentos)));
             }
         } catch (Exception $e) {
             Log::warning('Obtener imagen', ['exception' => $e->getMessage(), 'idpedido_detalle' => $idpedido_detalle]);
