@@ -109,7 +109,7 @@ class PedidoDetalleRepository
             switch ($data['estado']) {
                 case 'ENTREGADO':
                     $estado = 16;
-                    $observaciones = 'Registro automático';
+                    $observaciones = '';
                     break;
                 case 'NO ENTREGADO':
                     $estado = 17;
@@ -126,7 +126,7 @@ class PedidoDetalleRepository
             # pedido_detalle a finalizado
             PedidoDetalle::where('idpedido_detalle', $data['idpedido_detalle'])->update(
                 [
-                    'estado' => 'FINALIZADO',
+                    // 'estado' => 'FINALIZADO',
                     'punto_latitud_descarga' => $data['latitud'],
                     'punto_longitud_descarga' => $data['longitud']
                 ]
