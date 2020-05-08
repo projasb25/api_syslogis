@@ -124,13 +124,15 @@ class PedidoDetalleRepository
             }
 
             # pedido_detalle a finalizado
-            PedidoDetalle::where('idpedido_detalle', $data['idpedido_detalle'])->update(
-                [
-                    // 'estado' => 'FINALIZADO',
-                    'punto_latitud_descarga' => $data['latitud'],
-                    'punto_longitud_descarga' => $data['longitud']
-                ]
-            );
+            if ($data['latitud'] !== '0' && $data['longitud'] !== '0') {
+                PedidoDetalle::where('idpedido_detalle', $data['idpedido_detalle'])->update(
+                    [
+                        // 'estado' => 'FINALIZADO',
+                        'punto_latitud_descarga' => $data['latitud'],
+                        'punto_longitud_descarga' => $data['longitud']
+                    ]
+                );
+            }
 
             # insertar en pedido_detalle_estado_pedido_detalle 16 Registro automático
             DB::table('pedido_detalle_estado_pedido_detalle')->insert([

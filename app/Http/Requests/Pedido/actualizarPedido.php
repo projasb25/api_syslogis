@@ -22,8 +22,8 @@ class actualizarPedido extends FormRequest
             'idpedido_detalle' => 'required|numeric',
             'estado' => 'required|string',
             'observacion' => 'string|nullable',
-            'latitud' => 'required|string|numeric',
-            'longitud' => 'required|string|numeric'
+            'latitud' => 'string|numeric',
+            'longitud' => 'string|numeric'
         ];
     }
 
@@ -34,9 +34,7 @@ class actualizarPedido extends FormRequest
             'idpedido_detalle.numeric' => 'pedido invalido',
             'estado.*' => 'estado inválido.',
             'observacion.*' => 'Obseracion inválida.',
-            'latitud.required' => 'Falta latitud',
             'latitud.*' => 'Latitud Inválida',
-            'longitud.required' => 'Falta longitud',
             'longitud.*' => 'Longitud Inválida.'
         ];
     }
