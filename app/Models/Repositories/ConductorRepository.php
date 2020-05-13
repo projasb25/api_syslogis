@@ -44,10 +44,10 @@ class ConductorRepository
                 '(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'
             ))
             ->join('ofertaenvio as oe', function($join)
-                {
-                    $join->on('oe.idofertaenvio', '=', 'oc.idofertaenvio');
-                    $join->whereNotIn('oc.estado', ['CANCELADO','FINALIZADO']);
-                })
+            {
+                $join->on('oe.idofertaenvio', '=', 'oc.idofertaenvio');
+                $join->whereNotIn('oc.estado', ['CANCELADO','FINALIZADO']);
+            })
             ->join('pedido_detalle as pd', function($join)
             {
                 $join->on('pd.idofertaenvio','=','oe.idofertaenvio');
@@ -56,7 +56,7 @@ class ConductorRepository
             ->where('oc.idconductor', $id)
             ->whereIn('oc.estado',['ESPERA','ACEPTADO'])
             ->groupBy('oc.idofertaenvio_conductor')
-            ->toSql();
+            ->get();
         return $query;
     }
 
