@@ -82,7 +82,7 @@ class ConductorRepository
             ->where('oc.idconductor', $idconductor)
             ->where('oc.estado', '=', 'ACEPTADO')
             ->groupBy('oc.idofertaenvio_conductor')
-            ->get();
+            ->first();
         return $query;
 
         // $query = DB::table('ofertaenvio_conductor as oc')
