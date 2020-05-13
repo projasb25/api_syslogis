@@ -28,7 +28,6 @@ class OfertasService
         try {
             $user = auth()->user();
             $ofertas = $this->conductorRepo->get_ofertas($user->idconductor);
-            dd($ofertas);
             if ($ofertas->count()) {
                 $aceptadas = $this->conductorRepo->getOfertasActivas($user->idconductor);
                 foreach ($ofertas as $oferta) {
