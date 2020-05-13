@@ -39,39 +39,24 @@ class ConductorRepository
         $query = DB::table('ofertaenvio_conductor as oc')
             ->select(DB::raw(
                 'oc.idofertaenvio_conductor, oc.idconductor,' .
-                    'oc.estado as ofertaconductor_estado,' .
-                    'oe.idofertaenvio , oe.fecha_creacion,' .
-                    '(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'
+                'oc.estado as ofertaconductor_estado,' .
+                'oe.idofertaenvio , oe.fecha_creacion,' .
+                '(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'
             ))
-            ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
-            ->leftJoin('envio as ev', 'ev.idofertaenvio', '=', 'oe.idofertaenvio')
-            ->where('oc.idconductor', $id)
-            ->where(function ($query) {
-                $query->where(function ($query) {
-                    $query->where('oc.estado', '=', 'ESPERA')
-                        ->where('oe.estado', '=', 'ACTIVO');
+            ->join('ofertaenvio as oe', function($join)
+                {
+                    $join->on('oe.idofertaenvio', '=', 'oc.idofertaenvio');
+                    $join->whereNotIn('oc.estado', ['CANCELADO','FINALIZADO']);
                 })
-                    ->orWhere(function ($query) {
-                        $query->where('oc.estado', '=', 'ACEPTADO')
-                            ->whereIn('ev.estado', ['ASIGNADO', 'CURSO']);
-                    });
+            ->join('pedido_detalle as pd', function($join)
+            {
+                $join->on('pd.idofertaenvio','=','oe.idofertaenvio');
+                $join->whereNotIn('pd.estado', ['CANCELADO','FINALIZADO']);
             })
-            ->get();
-
-        // $query = DB::table('ofertaenvio_conductor as oc')
-        //     ->select(DB::raw(
-        //         'oc.idofertaenvio_conductor, oc.idconductor,' .
-        //             'oc.estado as ofertaconductor_estado,' .
-        //             'oe.idofertaenvio , oe.fecha_creacion,' .
-        //             '(select count(*) from pedido_detalle pd where pd.idofertaenvio = oe.idofertaenvio) as paradas'
-        //     ))
-        //     ->join('ofertaenvio as oe', 'oe.idofertaenvio', '=', 'oc.idofertaenvio')
-        //     ->join('pedido_detalle as pd', 'pd.idofertaenvio', '=', 'oe.idofertaenvio')
-        //     ->where('oc.idconductor', $id)
-        //     ->whereIn('oc.estado', ['ESPERA', 'ACEPTADO'])
-        //     ->whereNotIn('pd.estado', ['FINALIZADO', 'CANCELADO'])
-        //     ->groupBy('oc.idofertaenvio_conductor')
-        //     ->get();
+            ->where('oc.idconductor', $id)
+            ->whereIn('oc.estado',['ESPERA','ACEPTADO'])
+            ->groupBy('oc.idofertaenvio_conductor')
+            ->toSql();
         return $query;
     }
 
