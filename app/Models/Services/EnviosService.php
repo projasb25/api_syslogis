@@ -41,22 +41,33 @@ class EnviosService
             # Obtenemos los datos de la ofertaenvio
             $oferta_envio = $this->ofertasEnvioRepo->getOferta($request->idofertaenvio);
             if (!$oferta_envio) {
-                return Res::error(['Oferta no encontrada.', 2001], 404);
+                throw new CustomException(['Oferta no encontrada.', 2001], 404);
             } elseif ($oferta_envio->estado_ofertaenvio !== 'ACTIVO') {
-                return Res::error(['Lo sentimos, la oferta se cancelo u otro conductor ya la acepto', 2002], 400);
+                throw new CustomException(['La oferta se cancelo u otro conductor ya la acepto', 2002], 400);
             }
 
             # Obtener los envios pertenecientes a la oferta para actualizar las coordenadas
             $detalle_envio = $this->pedidoDetalleRepo->getPedidos($request->idofertaenvio);
-            $this->obtenerCoordenadas($request->idofertaenvio, $detalle_envio);
+            $coordenadas = $this->obtenerCoordenadas($request->idofertaenvio, $detalle_envio);
+            
+            if (!$coordenadas['success']) {
+                throw new CustomException([$coordenadas['mensaje'], 2001], 404);
+            }
 
             $datosVehiculo = $this->conductorRepo->getDatosVehiculo(auth()->user()->idconductor);
             $this->ofertasEnvioRepo->acpetarOferta($request->idofertaenvio, $datosVehiculo, $detalle_envio);
-        } catch (Exception $e) {
-            Log::warning('Aceptar envio ', ['exception' => $e->getMessage(), 'req' => $request->all()]);
-            throw $e;
-        }
 
+            Log::info('Oferta Aceptada con exito', [
+                'idofertaenvio' => $request->idofertaenvio,
+                'nro_paradas' => $detalle_envio->count()
+            ]);
+        } catch (CustomException $e) {
+            Log::warning('Aceptar oferta Error', ['exception' => $e->message(), 'idofertaenvio' => $request->idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (Exception $e) {
+            Log::warning('Aceptar oferta Error', ['exception' => $e->getMessage(), 'req' => $request->all()]);
+            return Res::error(['Error al Aceptar la oferta', 2004], 400);
+        }
         return Res::success(['mensaje' => 'Oferta aceptada correctamente.']);
     }
 
@@ -78,14 +89,16 @@ class EnviosService
             return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
             Log::warning('Listar rutas error', ['exception' => $e->getMessage(), 'idofertaenvio' => $idofertaenvio]);
-            throw $e;
+            return Res::error(['Error al Listar las rutas', 2004], 400);
         }
         return Res::success($rutas);
     }
 
     public function obtenerCoordenadas($idofertaenvio, $pedidos)
     {
+        $res['success'] = false;
         $coordenadas = [];
+
         foreach ($pedidos as $key => $value) {
             if (!$value->punto_latitud_descarga) {
                 # Limpiamos la direccion para que no haya problemas con la api de google
@@ -120,14 +133,18 @@ class EnviosService
 
         try {
             $this->pedidoDetalleRepo->actualizarCoordenadas($coordenadas);
+
+            $res['success'] = true;
             Log::info('Coordenadas actualizadas con exito', [
                 'idofertaenvio' => $idofertaenvio,
                 'nro_registros_actualizados' => $pedidos->count()
             ]);
         } catch (Exception $e) {
-            Log::warning('Obtener coordenadas ', ['exception' => $e->getMessage()]);
-            Res::error(['No se pudo actualizar las coordenadas de los envios.', 2003], 500);
+            Log::warning('Obtener coordenadas error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
         }
+
+        return $res;
     }
 
     public function rechazar(Request $request)
@@ -137,20 +154,22 @@ class EnviosService
             # Obtenemos los datos de la ofertaenvio
             $oferta_envio = $this->ofertasEnvioRepo->getOferta($request->idofertaenvio);
             if (!$oferta_envio) {
-                return Res::error(['Oferta no encontrada.', 2001], 404);
+                throw new CustomException(['Oferta no encontrada.', 2001], 404);
             } elseif ($oferta_envio->estado !== 'ESPERA') {
-                return Res::error(['Lo sentimos, la oferta se cancelo u otro conductor ya la acepto', 2002], 400);
+                throw new CustomException(['La oferta se cancelo u otro conductor ya la acepto', 2002], 400);
             }
 
             $this->ofertasEnvioRepo->rechazarOferta($request->idofertaenvio);
             Log::info('Oferta Rechazada con exito', [
                 'idofertaenvio' => $request->idofertaenvio,
             ]);
+        } catch (CustomException $e) {
+            Log::warning('Rechazar oferta Error', ['exception' => $e->message(), 'idofertaenvio' => $request->idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
-            Log::warning('Aceptar envio ', ['exception' => $e->getMessage(), 'req' => $request->all()]);
-            throw $e;
+            Log::warning('Rechazar oferta Error', ['exception' => $e->getMessage(), 'idofertaenvio' => $request->idofertaenvio]);
+            return Res::error(['Error al rechazar la oferta', 2004], 400);
         }
-
         return Res::success(['mensaje' => 'Oferta rechazada correctamente.']);
     }
 
@@ -159,14 +178,19 @@ class EnviosService
         try {
             $envio = $this->envioRepo->get($idenvio);
             if (!$envio) {
-                return Res::error(['Envio no encontrado.', 2004], 404);
+                throw new CustomException(['Envio no encontrado.', 2004], 404);
             } elseif (!in_array($envio->estado, ['ACEPTADO', 'ASIGNADO'])) {
-                return Res::error(['Envio ya esta iniciado o fue cancelado.', 2005], 400);
+                throw new CustomException(['Envio ya esta iniciado o fue cancelado.', 2005], 400);
             }
             $this->envioRepo->iniciar($idenvio);
+
+            Log::info('Envio iniciado con exito', ['idenvio' => $idenvio, 'idconductor' => auth()->user()->idconductor]);
+        } catch (CustomException $e) {
+            Log::warning('Iniciar oferta Error', ['exception' => $e->message(), 'idenvio' => $idenvio]);
+            return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
-            Log::warning('Iniciar envio ', ['exception' => $e->getMessage(), 'idenvio' => $idenvio]);
-            throw $e;
+            Log::warning('Iniciar oferta Error ', ['exception' => $e->getMessage(), 'idenvio' => $idenvio]);
+            return Res::error(['Error al Inicar la oferta', 2004], 400);
         }
         return Res::success(['mensaje' => 'Envio iniciado correctamente.']);
     }
@@ -185,10 +209,10 @@ class EnviosService
             Log::info('Envio finalizado con exito', ['idenvio' => $idenvio, 'idconductor' => auth()->user()->idconductor]);
         } catch (CustomException $e) {
             Log::warning('Finalizar Envio error', ['exception' => $e->getData()[0], 'idenvio' => $idenvio, 'idconductor' => auth()->user()->idconductor]);
-            Res::error([$e->getData()[0], $e->getData()[1]], $e->getCode());
+            return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
             Log::warning('Finalizar Envio error', ['exception' => $e->getMessage(), 'idenvio' => $idenvio, 'idconductor' => auth()->user()->idconductor]);
-            Res::error([$e->getMessage(), $e->getCode()], 500);
+            return Res::error(['Error al finalizar el envio', 2004], 400);
         }
         return Res::success(['mensaje' => 'Envio finalizado correctamente.']);
     }

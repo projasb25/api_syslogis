@@ -37,7 +37,6 @@ class PedidoDetalleRepository
     public function getPedidos($id)
     {
         return PedidoDetalle::where('idofertaenvio', $id)
-            ->whereIn('estado', ['PREASIGNADO', 'ESPERA'])
             ->get();
     }
 
@@ -53,8 +52,8 @@ class PedidoDetalleRepository
                     ]);
             }
         } catch (Exception $e) {
-            Log::warning("Actualizar coordenadas " . $e->getMessage());
             DB::rollback();
+            throw $e;
         }
         DB::commit();
     }
@@ -140,8 +139,8 @@ class PedidoDetalleRepository
                 'idpedido_detalle' => $data['idpedido_detalle'], 'idestado_pedido_detalle' => $estado
             ]);
         } catch (Exception $e) {
-            Log::warning("Actualizar estado pedido " . $e->getMessage());
             DB::rollback();
+            throw $e;
         }
         DB::commit();
     }
