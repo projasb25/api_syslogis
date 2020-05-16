@@ -22,7 +22,7 @@ class PedidoService
         $this->envioServi = $enviosService;
     }
 
-    public function grabarImagen(grabarImagen $request)
+    public function grabarImagen($request)
     {
         try {
             $pedido = $this->pedidoDetalleRepo->get($request->get('idpedido_detalle'));
