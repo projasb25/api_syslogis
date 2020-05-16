@@ -22,7 +22,7 @@ class PedidoService
         $this->envioServi = $enviosService;
     }
 
-    public function grabarImagen(grabarImagen $request)
+    public function grabarImagen($request)
     {
         try {
             $pedido = $this->pedidoDetalleRepo->get($request->get('idpedido_detalle'));
@@ -65,11 +65,11 @@ class PedidoService
 
             Log::info("Grabar imagen exitoso", ['request' => $request->except('imagen'), 'nombre_imagen' => $img_url]);
         } catch (CustomException $e) {
-            Log::warning('Grabar imagen', ['exception' => $e->getData()[0], 'res' => $request->except('imagen')]);
+            Log::warning('Grabar imagen error', ['exception' => $e->getData()[0], 'res' => $request->except('imagen')]);
             return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
-            Log::warning('Grabar imagen', ['exception' => $e->getMessage(), 'res' => $request->except('imagen')]);
-            throw $e;
+            Log::warning('Grabar imagen error', ['exception' => $e->getMessage(), 'res' => $request->except('imagen')]);
+            return Res::error(['Error al Grabar imagen', 2004], 400);
         }
         return Res::success(['mensaje' => 'Imagen guardada con exito']);
     }
@@ -83,8 +83,10 @@ class PedidoService
                 $segmentos = explode('/',$img->url);
                 array_push($data, url('/imagenes/' . $idpedido_detalle . '/thumbnail/' . end($segmentos)));
             }
+            Log::info("Obtener imagen exitoso", ['idpedido_detalle' => $idpedido_detalle, 'nro_imagenes' => $imagenes->count()]);
         } catch (Exception $e) {
             Log::warning('Obtener imagen', ['exception' => $e->getMessage(), 'idpedido_detalle' => $idpedido_detalle]);
+            return Res::error(['Error al Obtener la imagen', 2004], 400);
         }
         return Res::success($data);
     }
@@ -114,11 +116,11 @@ class PedidoService
             }
             Log::info('Actualización con exito', ['res' => $data]);
         } catch (CustomException $e) {
-            Log::warning('Actualizar Pedido', ['exception' => $e->getData()[0], 'res' => $data]);
+            Log::warning('Actualizar Pedido error', ['exception' => $e->getData()[0], 'res' => $data]);
             return Res::error($e->getData(), $e->getCode());
         } catch (Exception $e) {
-            Log::warning('Actualizar Pedido', ['exception' => $e->getMessage(), 'res' => $data]);
-            return Res::error([$e->getMessage(), $e->getCode()], 500);
+            Log::warning('Actualizar Pedido error', ['exception' => $e->getMessage(), 'res' => $data]);
+            return Res::error(['Error al Actualizar el pedido', 3301], 400);
         }
         return Res::success([
             'mensaje' => 'Pedido actualizado con éxito',

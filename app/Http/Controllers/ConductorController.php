@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Conductor\actualizarEstado;
 use App\Models\Repositories\ConductorRepository;
 use App\Models\Services\OfertasService;
 use Illuminate\Http\Request;
+use Validator;
 
 class ConductorController extends Controller
 {
@@ -24,8 +24,29 @@ class ConductorController extends Controller
         return response()->json($res);
     }
 
-    public function actualizarEstado(actualizarEstado $request)
+    public function actualizarEstado(Request $request)
     {
+        $rules = [
+            'estado' => 'required|boolean',
+        ];
+
+        $messages = [
+            'estado.required' => 'Estado requerido.',
+            'estado.boolean'  => 'Estado inválida.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            $errors = $validator->getMessageBag()->messages();
+            return response()->json([
+                'success' => false,
+                'error' => [
+                    'message' => $errors[array_key_first($errors)][0],
+                ]
+            ], 400);
+        }
+        
         $conductor = auth()->user()->idconductor;
         if ($request->get('estado')) {
             $estado = 'DISPONIBLE';
