@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
     Route::get('/rutas/{idofertaenvio}', 'EnviosController@listarRutas');
     Route::get('/iniciar/{idenvio}', 'EnviosController@iniciar')->where('idenvio', '[0-9]+');
     Route::get('/finalizar/{idenvio}', 'EnviosController@finalizar')->where('idenvio', '[0-9]+');
+    Route::get('/coordenadas/{idofertaenvio}', 'EnviosController@coordenadas')->where('idofertaenvio', '[0-9]+');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {

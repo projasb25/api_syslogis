@@ -40,6 +40,12 @@ class PedidoDetalleRepository
             ->get();
     }
 
+    public function getPedidosActivos($id)
+    {
+        return PedidoDetalle::where('idofertaenvio', $id)->whereNotIn('estado',['FINALIZADO', 'CANCELADO'])
+            ->get();
+    }
+
     public function actualizarCoordenadas($data)
     {
         DB::beginTransaction();

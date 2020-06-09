@@ -38,4 +38,9 @@ class EnviosController extends Controller
     {
         return $this->enviosServi->finalizar($idenvio);
     }
+
+    public function coordenadas(Request $request, $idofertaenvio)
+    {
+        return $this->enviosServi->coordenadas($idofertaenvio);
+    }
 }
