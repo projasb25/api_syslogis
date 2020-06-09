@@ -111,8 +111,14 @@ class EnviosService
                     $req = $client->request('GET', $url);
                     $resp = json_decode($req->getBody()->getContents());
 
-                    $lat = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lat;
-                    $lng = (empty($resp->results)) ? null : $resp->results[0]->geometry->location->lng;
+                    if (empty($resp->results)) {
+                        Log::warning('Obtener coordenadas nula de google.', ['direccion' => $direccion , 'response' => array($resp), 'url' => $url]);
+                        $lat = null;
+                        $lng = null;
+                    } else {
+                        $lat = $resp->results[0]->geometry->location->lat;
+                        $lng = $resp->results[0]->geometry->location->lng;
+                    }
                 } catch (RequestException $e) {
                     Log::warning('Obtener coordenadas: hubo un problema con la api de google.', [
                         'endpoint' => $url,
@@ -135,9 +141,9 @@ class EnviosService
             $this->pedidoDetalleRepo->actualizarCoordenadas($coordenadas);
 
             $res['success'] = true;
-            Log::info('Coordenadas actualizadas con exito', [
+            Log::info('Obtener coordenadas con exito', [
                 'idofertaenvio' => $idofertaenvio,
-                'nro_registros_actualizados' => $pedidos->count()
+                'nro_registros_actualizados' => count($coordenadas)
             ]);
         } catch (Exception $e) {
             Log::warning('Obtener coordenadas error', ['exception' => $e->getMessage()]);
@@ -215,5 +221,39 @@ class EnviosService
             return Res::error(['Error al finalizar el envio', 2004], 400);
         }
         return Res::success(['mensaje' => 'Envio finalizado correctamente.']);
+    }
+
+    public function coordenadas($idofertaenvio)
+    {
+        $res['success'] = false;
+        try {
+            # Obtenemos los datos de la ofertaenvio
+            $oferta_envio = $this->ofertasEnvioRepo->getOferta($idofertaenvio);
+            if (!$oferta_envio) {
+                throw new CustomException(['Oferta no encontrada.', 2001], 404);
+            }
+
+            # Obtener los envios pertenecientes a la oferta para actualizar las coordenadas
+            $detalle_envio = $this->pedidoDetalleRepo->getPedidosActivos($idofertaenvio);
+            if (!$detalle_envio->count()) {
+                throw new CustomException(['La Oferta fue cancelada o finalizada.', 2008], 400);
+            }
+            
+            $coordenadas = $this->obtenerCoordenadas($idofertaenvio, $detalle_envio);
+            if (!$coordenadas['success']) {
+                throw new CustomException([$coordenadas['mensaje'], 2001], 404);
+            }
+
+            Log::info('Coordenadas Actualizadas con exito', [
+                'idofertaenvio' => $idofertaenvio
+            ]);
+        } catch (CustomException $e) {
+            Log::warning('Actualizar Coordenadas error', ['exception' => $e->message(), 'idofertaenvio' => $idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (Exception $e) {
+            Log::warning('Actualizar Coordenadas error', ['exception' => $e->getMessage(), 'idofertaenvio' => $idofertaenvio]);
+            return Res::error(['Error al actualizar las coordenadas', 2004], 400);
+        }
+        return Res::success(['mensaje' => 'Coordenadas actualizadas correctamente.']);
     }
 }
