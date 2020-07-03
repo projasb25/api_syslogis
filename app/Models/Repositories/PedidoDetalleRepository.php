@@ -166,32 +166,6 @@ class PedidoDetalleRepository
         return DB::table('agencias_cliente')->where('idcliente', $idcliente)->get();
     }
 
-
-    public function getPedidosApp2($id)
-    {
-        return PedidoDetalle::select(
-            'idpedido_detalle',
-            'direccion_descarga',
-            'cli.nombres as descripcion',
-            'punto_latitud_descarga',
-            'punto_longitud_descarga',
-            'responsable_nombre_descarga as destinatario',
-            'pd.estado',
-            'idenvio',
-            DB::raw('(select count(*) from imagenes_pedidodetalle ip where ip.idpedido_detalle = pd.idpedido_detalle) as nroImagenes'),
-            'contacto_telefono_descarga',
-            'pe.nro_guia_sistema',
-            'pe.idcliente',
-            DB::raw('null estadoProducto')
-        )
-            ->from('pedido_detalle as pd')
-            ->join('pedido as pe', 'pe.idpedido', '=', 'pd.idpedido')
-            ->join('cliente as cli','cli.idcliente','=','pe.idcliente')
-            ->where('idofertaenvio', $id)
-            ->whereIn('pd.estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO', 'FINALIZADO'])
-            ->get();
-    }
-
     public function sp_listar_pedidos($id)
     {
         return DB::select("CALL sp_list_pedidos_oferta(?)",[$id]);

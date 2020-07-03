@@ -80,12 +80,6 @@ class EnviosService
     public function listarRutas($idofertaenvio)
     {
         try {
-            // if ($idofertaenvio === '24049') {
-            //     $rutas = $this->pedidoDetalleRepo->getPedidosApp2($idofertaenvio);
-            // } else {
-            //     $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
-            // }
-            
             $rutas = $this->pedidoDetalleRepo->sp_listar_pedidos($idofertaenvio);
 
             if (!count($rutas)) {
