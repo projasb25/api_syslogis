@@ -165,4 +165,9 @@ class PedidoDetalleRepository
     {
         return DB::table('agencias_cliente')->where('idcliente', $idcliente)->get();
     }
+
+    public function sp_listar_pedidos($id)
+    {
+        return DB::select("CALL sp_list_pedidos_oferta(?)",[$id]);
+    }
 }

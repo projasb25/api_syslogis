@@ -80,8 +80,9 @@ class EnviosService
     public function listarRutas($idofertaenvio)
     {
         try {
-            $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
-            if (!$rutas->count()) {
+            $rutas = $this->pedidoDetalleRepo->sp_listar_pedidos($idofertaenvio);
+
+            if (!count($rutas)) {
                 throw new CustomException(['No existen rutas ascociadas a este id.', 2007], 404);
             }
         } catch (CustomException $e) {
