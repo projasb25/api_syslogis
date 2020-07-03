@@ -191,4 +191,9 @@ class PedidoDetalleRepository
             ->whereIn('pd.estado', ['PREASIGNADO', 'ESPERA', 'ASIGNADO', 'CURSO', 'FINALIZADO'])
             ->get();
     }
+
+    public function sp_listar_pedidos($id)
+    {
+        return DB::select("CALL sp_list_pedidos_oferta(?)",[$id]);
+    }
 }
