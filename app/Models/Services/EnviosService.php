@@ -80,7 +80,12 @@ class EnviosService
     public function listarRutas($idofertaenvio)
     {
         try {
-            $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
+            if ($idofertaenvio === '24049') {
+                $rutas = $this->pedidoDetalleRepo->getPedidosApp2($idofertaenvio);
+            } else {
+                $rutas = $this->pedidoDetalleRepo->getPedidosApp($idofertaenvio);
+            }
+            
             if (!$rutas->count()) {
                 throw new CustomException(['No existen rutas ascociadas a este id.', 2007], 404);
             }
