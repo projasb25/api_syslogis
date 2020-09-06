@@ -60,5 +60,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     Route::post('refresh', 'AuthController@refresh');
     Route::get('validateToken', 'AuthController@me');
 
-    Route::post('main', 'MainController@index');
+    Route::group(['middleware' => 'auth:api', 'prefix' => 'main'], function() {
+        Route::post('', 'MainController@index');
+    });
 });
