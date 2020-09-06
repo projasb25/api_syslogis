@@ -45,8 +45,6 @@ class MainService
                     }
                 }
                 if (!count($bindings) || (count($bindings) < count($params))) {
-                    var_dump(count($bindings));
-                    var_dump(count($params));
                     throw new CustomException(['parametros incorrectos.', 2100], 400);
                 }
             }
