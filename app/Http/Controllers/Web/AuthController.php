@@ -45,6 +45,8 @@ class AuthController extends Controller
             $token = auth()->login($user);
 
             return Res::success([
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
                 'token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
