@@ -50,11 +50,15 @@ Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
     Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
 });
 
-// Route::get('/test', function () {
-//     $coordinate1 = new Coordinate(32.9697, -96.80322); // Mauna Kea Summit
-//     $coordinate2 = new Coordinate(29.46786, -98.53506); // Haleakala Summit
-//     $calculator = new Vincenty();
-//     #32.9697, -96.80322 -- 29.46786, -98.53506
-//     #8.2414957921875
-//     echo $calculator->getDistance($coordinate1, $coordinate2); // returns 128130.850 (meters; ≈128 kilometers)
-// });
+/**
+ *  || RUTAS PARA LA WEB ||
+ */
+
+Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], function ($router) {
+    Route::post('login', 'AuthController@login');
+    Route::get('logout', 'AuthController@logout');
+    Route::post('refresh', 'AuthController@refresh');
+    Route::post('me', 'AuthController@me');
+
+    Route::post('main', 'MainController@index');
+});

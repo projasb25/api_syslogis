@@ -15,14 +15,14 @@ class User extends Authenticatable implements JWTSubject
     *
     * @var string
     */
-    protected $table = 'usuario';
+    protected $table = 'user';
     
     /**
     * The primary key associated with the table.
     *
     * @var string
     */
-    protected $primaryKey = 'idusuario';
+    protected $primaryKey = 'id_user';
     
     /**
     * Indicates if the IDs are auto-incrementing.

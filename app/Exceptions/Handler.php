@@ -71,6 +71,16 @@ class Handler extends ExceptionHandler
             ], 401);
         }
 
+        if ($exception instanceof ValidationException) {
+            $errors = $exception->errors();
+            $first_error = array_key_first($errors);
+            return response()->json([
+                'success' => false,
+                'error' => [
+                    'message' => $errors[$first_error][0],
+                ]
+            ], 400);
+        }
         // if (
         //     $exception instanceof Exception
         // ) {
@@ -90,6 +100,7 @@ class Handler extends ExceptionHandler
 
     protected function invalidJson($request, ValidationException $exception)
     {
+        dd('aca');
         $errors = $exception->errors();
         $first_error = array_key_first($errors);
         return response()->json([
