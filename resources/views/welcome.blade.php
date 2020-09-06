@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="m-b-md">
-                    <h2>SISTEMA DE LOGISTICA API V1.0</h2>
+                    <h2>SISTEMA DE LOGISTICA API V2.0</h2>
                     <h5>Todos los derechos reservados 2020</h5>
                 </div>
                 <!--
