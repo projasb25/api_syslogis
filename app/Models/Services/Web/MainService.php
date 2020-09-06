@@ -28,7 +28,7 @@ class MainService
         try {
             $user = auth()->user();
             $req = $request->all();
-            $req['data'] = array_merge($req['data'],$user->makeHidden('status')->toArray());
+            $req['data'] = array_merge($req['data'], $user->makeHidden('status')->toArray());
             $fun = $this->functions->getFunctions();
             if (!array_key_exists($req['method'], $fun)) {
                 throw new CustomException(['metodo no existe.', 2100], 400);
@@ -40,7 +40,7 @@ class MainService
 
             if (count($params)) {
                 foreach ($params as $key => $value) {
-                    if (isset($req['data'][$value])) {
+                    if (array_key_exists($value, $req['data'])) {
                         $bindings[$value] = $req['data'][$value];
                     }
                 }
@@ -53,7 +53,7 @@ class MainService
             Log::warning('Main Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            if ((int) $e->getCode() >= 60000 ) {
+            if ((int) $e->getCode() >= 60000) {
                 Log::warning('Main Service Query error', ['expcetion' => $e->errorInfo[2], 'request' => $req]);
                 return Res::error([$e->errorInfo[2], 3000], 400);
             }
