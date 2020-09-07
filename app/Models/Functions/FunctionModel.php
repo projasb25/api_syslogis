@@ -21,7 +21,7 @@ class FunctionModel
             "params" => ['id_load_template', 'name', 'description', 'organization', 'json_detail','status', 'username']
         ],
         "SP_SEL_MASSIVE_LOADS" => [
-            "query" => 'SELECT * FROM massive_load;',
+            "query" => 'SELECT * FROM massive_load order by date_created desc;',
             "params" => []
         ],
     ];
