@@ -20,6 +20,10 @@ class FunctionModel
             "query" => "CALL SP_INS_TEMPLATE(:id_load_template, :name,:description,:organization,:json_detail,:username, :status)",
             "params" => ['id_load_template', 'name', 'description', 'organization', 'json_detail','status', 'username']
         ],
+        "SP_SEL_MASSIVE_LOADS" => [
+            "query" => 'SELECT * FROM massive_load;',
+            "params" => []
+        ],
     ];
 
     public function getFunctions()
