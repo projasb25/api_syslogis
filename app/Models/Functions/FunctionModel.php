@@ -24,6 +24,10 @@ class FunctionModel
             "query" => 'SELECT * FROM massive_load order by date_created desc;',
             "params" => []
         ],
+        "SP_SEL_LOADS_DETAILS" => [
+            "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
+            "params" => ['id_massive_load']
+        ],
     ];
 
     public function getFunctions()
