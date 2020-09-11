@@ -28,7 +28,14 @@ class FunctionModel
             "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
             "params" => ['id_massive_load']
         ],
-
+        "SP_SEL_CORPORATIONS" => [
+            "query" => 'SELECT * FROM corporation c WHERE status = "ACTIVO";',
+            "params" => []
+        ],
+        "SP_SEL_ORGANIZATIONS" => [
+            "query" => 'SELECT * FROM organization where status = "ACTIVO" and id_corporation = :id_corporation;',
+            "params" => ['id_corporation']
+        ],
         /**
          * Funciones para Transaccions
          **/
