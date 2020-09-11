@@ -21,4 +21,9 @@ class MainController extends Controller
     {
         return $this->mainService->index($request);
     }
+
+    public function simpleTransaction(Request $request)
+    {
+        return $this->mainService->simpleTransaction($request);
+    }
 }

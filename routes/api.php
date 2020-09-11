@@ -62,6 +62,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 
     Route::group(['middleware' => 'auth:api', 'prefix' => 'main'], function() {
         Route::post('', 'MainController@index');
+        Route::post('/simpleTransaction', 'MainController@simpleTransaction');
     });
 
     Route::group(['middleware' => 'auth:api', 'prefix' => 'massive_load'], function() {

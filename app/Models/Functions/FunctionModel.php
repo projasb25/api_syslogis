@@ -28,6 +28,15 @@ class FunctionModel
             "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
             "params" => ['id_massive_load']
         ],
+
+        /**
+         * Funciones para Transaccions
+         **/
+        "SP_INS_CORPORATION" => [
+            'query' => 'CALL SP_INS_CORPORATION(:header, :details, :username)',
+            'headers_params' => ['id_corporation', 'name', 'description', 'status'],
+            'details_params' => ['id_organization', 'name', 'description', 'ruc', 'address', 'status', 'typeservices']
+        ]
     ];
 
     public function getFunctions()
