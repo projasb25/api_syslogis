@@ -27,6 +27,8 @@ class MassiveLoadService
             $data['count'] = count($req['data']);
             $data['username'] = $user->username;
             $data['data'] = $req['data'];
+            $data['id_corporation'] = $req['id_corporation'];
+            $data['id_organization'] = $req['id_organization'];
 
             $id = $this->repo->insertMassiveLoad($data);
             

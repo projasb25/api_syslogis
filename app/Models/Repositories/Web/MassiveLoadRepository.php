@@ -14,7 +14,9 @@ class MassiveLoadRepository
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => $data['count'],
                 'status' => 'PENDIENTE',
-                'created_by' => $data['username']
+                'created_by' => $data['username'],
+                'id_corporation' => $data['id_corporation'],
+                'id_organization' => $data['id_organization']
                 ]);
                 
             foreach ($data['data'] as $key => &$value) {
