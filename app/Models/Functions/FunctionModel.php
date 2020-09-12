@@ -13,7 +13,7 @@ class FunctionModel
             "params" => ['username']
         ],
         "SP_SEL_TEMPLATE" => [
-            "query" => 'SELECT * FROM load_template WHERE status = "ACTIVO" AND id_corporation = :id_corporation AND id_organization = :id_organization;',
+            "query" => 'CALL SP_SEL_TEMPLATE(:id_corporation, :id_organization)',
             "params" => ['id_corporation', 'id_organization']
         ],
         "SP_INS_TEMPLATE" => [
