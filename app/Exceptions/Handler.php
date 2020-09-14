@@ -7,6 +7,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
@@ -81,19 +82,16 @@ class Handler extends ExceptionHandler
                 ]
             ], 400);
         }
-        // if (
-        //     $exception instanceof Exception
-        // ) {
 
-        //     $response = [
-        //         'success' => false,
-        //         'error' => [
-        //             'mensaje' => $exception->getMessage(),
-        //             'code' => 3000,
-        //         ]
-        //     ];
-        //     return response()->json($response, 500);
-        // }
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json([
+                'success' => false,
+                'error' => [
+                    'mensaje' => 'Resource not found.',
+                    'code' => 3000
+                ]
+            ], 404);
+        }
 
         return parent::render($request, $exception);
     }
