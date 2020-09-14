@@ -153,6 +153,18 @@ class MassiveLoadRepository
                         'status' => ($value->status === 'PROCESADO') ? 'DESPACHO ACEPTADO' : 'SIN FISICO',
                         'created_by' => $data['username']
                     ]);
+
+                    if ($value->status === 'PROCESADO') {
+                        DB::table('guide_tracking')->insert([
+                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.'],
+                            ['id_guide' => $id_guide, 'status' => 'DESPACHADO', 'motive' => 'Registro Automático.'],
+                            ['id_guide' => $id_guide, 'status' => 'DESPACHO ACEPTADO', 'motive' => 'Registro Automático.'],
+                        ]);
+                    } else {
+                        DB::table('guide_tracking')->insert([
+                            ['id_guide' => $id_guide, 'status' => 'SIN FISICO', 'motive' => 'Registro Automático.'],
+                        ]);
+                    }
                 }
 
                 /* Insertar en sku_producto */
