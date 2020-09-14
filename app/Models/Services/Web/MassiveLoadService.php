@@ -10,7 +10,9 @@ use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Web\MassiveLoadRepository;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 
 class MassiveLoadService
 {
@@ -69,7 +71,8 @@ class MassiveLoadService
             $data['id_corporation'] = $load->id_corporation;
             $data['id_organization'] = $load->id_organization;
 
-            $this->repo->process($data);
+            $adresses = $this->repo->process($data);
+            $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
             
         } catch (CustomException $e) {
             Log::warning('Massive Load Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
@@ -82,5 +85,70 @@ class MassiveLoadService
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success('Exito');
+    }
+
+    public function obtenerCoordenadas($direcciones, $id_massive_load)
+    {
+        $res['success'] = false;
+        $coordenadas = [];
+
+        foreach ($direcciones as $key => $value) {
+            if (!$value->latitude) {
+                # Limpiamos la direccion para que no haya problemas con la api de google
+                $direccion = $this->sanitizeAdress($value->address);
+
+                try {
+                    $client = new Client(['base_uri' => env('GOOGLEAPIS_GEOCODE_URL')]);
+                    $url = "json?address=" . $direccion . "&components=country:PE&key=" . env('GOOGLEAPIS_GEOCODE_KEY');
+
+                    $req = $client->request('GET', $url);
+                    $resp = json_decode($req->getBody()->getContents());
+
+                    if (empty($resp->results)) {
+                        Log::warning('Obtener coordenadas nula de google.', ['direccion' => $direccion , 'response' => array($resp), 'url' => $url]);
+                        $lat = null;
+                        $lng = null;
+                    } else {
+                        $lat = $resp->results[0]->geometry->location->lat;
+                        $lng = $resp->results[0]->geometry->location->lng;
+                    }
+                } catch (RequestException $e) {
+                    Log::warning('Obtener coordenadas: hubo un problema con la api de google.', [
+                        'endpoint' => $url,
+                        'id_address' => $value->id_address,
+                        'direccion' => $direccion
+                    ]);
+                    $lat = null;
+                    $lng = null;
+                }
+
+                array_push($coordenadas, [
+                    'id_address' => $value->id_address,
+                    'latitude' => $lat,
+                    'longitude' => $lng
+                ]);
+            }
+        }
+
+        try {
+            $this->repo->actualizarCoordenadas($coordenadas);
+
+            $res['success'] = true;
+            Log::info('Obtener coordenadas con exito', [
+                'id_massive_load' => $id_massive_load,
+                'nro_registros_actualizados' => count($coordenadas)
+            ]);
+        } catch (Exception $e) {
+            Log::warning('Obtener coordenadas error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
+        }
+
+        return $res;
+    }
+
+    public function sanitizeAdress($adress)
+    {
+        $dont = ['$', '#', '&', '"', '/', '(', ')', '-'];
+        return str_replace($dont, '', $adress);
     }
 }

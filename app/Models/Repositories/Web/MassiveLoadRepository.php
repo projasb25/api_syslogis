@@ -171,10 +171,35 @@ class MassiveLoadRepository
                 $prev_val = $current_val;
             }
 
+            $address = DB::table('guide AS gd')
+                    ->select('gd.id_address','add.address', 'add.latitude', 'add.longitude')
+                    ->distinct()
+                    ->join('address AS add','add.id_address','=','gd.id_address')
+                    ->where('gd.id_massive_load', 3)
+                    ->get();
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
+        return $address;
+    }
+
+    public function actualizarCoordenadas($data)
+    {
+        DB::beginTransaction();
+        try {
+            foreach ($data as $key => $value) {
+                DB::table('address')->where('id_address', $value['id_address'])
+                    ->update([
+                        'latitude' => $value['latitude'],
+                        'longitude' => $value['longitude']
+                    ]);
+            }
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 }
