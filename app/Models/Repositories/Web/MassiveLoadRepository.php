@@ -175,7 +175,7 @@ class MassiveLoadRepository
                     ->select('gd.id_address','add.address', 'add.latitude', 'add.longitude')
                     ->distinct()
                     ->join('address AS add','add.id_address','=','gd.id_address')
-                    ->where('gd.id_massive_load', 3)
+                    ->where('gd.id_massive_load', $data['id_massive_load'])
                     ->get();
             DB::commit();
         } catch (\Exception $e) {
