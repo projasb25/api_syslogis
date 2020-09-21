@@ -36,6 +36,10 @@ class FunctionModel
             "query" => 'SELECT * FROM organization where status = "ACTIVO" and id_corporation = :id_corporation;',
             "params" => ['id_corporation']
         ],
+        "SP_SEL_GUIDES" => [
+            "query" => 'CALL SP_SEL_GUIDES(:username)',
+            "params" => ['username']
+        ],
         /**
          * Funciones para Transaccions
          **/
