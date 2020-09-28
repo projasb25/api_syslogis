@@ -4,6 +4,7 @@ namespace App\Models\Repositories\Web;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MainRepository
 {
@@ -12,6 +13,7 @@ class MainRepository
         try {
             return DB::select($sp_name,$data_bidnings);
         } catch (QueryException $th) {
+            Log::info('entras aca?');
             throw $th;
         }
     }
