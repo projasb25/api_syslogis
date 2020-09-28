@@ -48,6 +48,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_VEHICLES(:status)',
             "params" => ['status']
         ],
+        "SP_SEL_DOMAIN" => [
+            "query" => 'CALL SP_SEL_DOMAIN(:domain_name)',
+            "params" => ['domain_name']
+        ],
         /**
          * Funciones para Transaccions
          **/
