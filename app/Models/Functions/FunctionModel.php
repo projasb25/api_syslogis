@@ -40,6 +40,14 @@ class FunctionModel
             "query" => 'CALL SP_SEL_GUIDES(:username)',
             "params" => ['username']
         ],
+        "SP_SEL_DRIVERS" => [
+            "query" => 'CALL SP_SEL_DRIVERS(:status)',
+            "params" => ['status']
+        ],
+        "SP_SEL_VEHICLES" => [
+            "query" => 'CALL SP_SEL_VEHICLES(:status)',
+            "params" => ['status']
+        ],
         /**
          * Funciones para Transaccions
          **/
@@ -47,6 +55,11 @@ class FunctionModel
             'query' => 'CALL SP_INS_CORPORATION(:header, :details, :username)',
             'headers_params' => ['id_corporation', 'name', 'description', 'status'],
             'details_params' => ['id_organization', 'name', 'description', 'ruc', 'address', 'status', 'typeservices']
+        ],
+        "SP_INS_VEHICLE_DRIVER" => [
+            'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
+            'headers_params' => ["id_driver","first_name","last_name","doc_number","email","phone","status"],
+            'details_params' => ["id_vehicle","vehicle_type","brand","model","plate_number","soat","status"]
         ]
     ];
 
