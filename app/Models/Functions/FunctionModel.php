@@ -60,6 +60,11 @@ class FunctionModel
             'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
             'headers_params' => ["id_driver","first_name","last_name","doc_number","email","phone","status"],
             'details_params' => ["id_vehicle","vehicle_type","brand","model","plate_number","soat","status"]
+        ],
+        "SP_INS_DOMAIN" => [
+            'query' => 'CALL SP_INS_DOMAIN(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => ["id_domain","domain_name","domain_value","domain_description","status"]
         ]
     ];
 
