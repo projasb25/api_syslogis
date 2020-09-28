@@ -111,7 +111,7 @@ class MainService
             $data['username'] = $user->username;
 
             $data = $this->repository->execute_store($query, $data);
-            Log::info('todo bien'.$data);
+            Log::info('todo bien',$data);
         } catch (CustomException $e) {
             Log::warning('Main Service Transaction error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
