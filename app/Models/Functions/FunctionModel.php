@@ -52,6 +52,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_DOMAIN(:domain_name)',
             "params" => ['domain_name']
         ],
+        "SP_VEHICLE_DRIVER" => [
+            "query" => 'CALL SP_VEHICLE_DRIVER()',
+            "params" => []
+        ],
         /**
          * Funciones para Transaccions
          **/
