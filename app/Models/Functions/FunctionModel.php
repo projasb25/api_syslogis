@@ -13,8 +13,8 @@ class FunctionModel
             "params" => ['username']
         ],
         "SP_SEL_TEMPLATE" => [
-            "query" => 'CALL SP_SEL_TEMPLATE(:id_corporation, :id_organization)',
-            "params" => ['id_corporation', 'id_organization']
+            "query" => 'CALL SP_SEL_TEMPLATE(:id_corporation, :id_organization, :status)',
+            "params" => ['id_corporation', 'id_organization', 'status']
         ],
         "SP_INS_TEMPLATE" => [
             "query" => "CALL SP_INS_TEMPLATE(:id_load_template, :name,:description,:json_detail,:username, :status, :id_corporation, :id_organization)",
@@ -33,8 +33,8 @@ class FunctionModel
             "params" => []
         ],
         "SP_SEL_ORGANIZATIONS" => [
-            "query" => 'SELECT * FROM organization where status = "ACTIVO" and id_corporation = :id_corporation;',
-            "params" => ['id_corporation']
+            "query" => 'CALL SP_SEL_ORGANIZATIONS(:id_corporation, :status)',
+            "params" => ['id_corporation', 'status']
         ],
         "SP_SEL_GUIDES" => [
             "query" => 'CALL SP_SEL_GUIDES(:username)',
