@@ -72,7 +72,7 @@ class FunctionModel
         "SP_INS_DOMAIN" => [
             'query' => 'CALL SP_INS_DOMAIN(:header, :details, :username)',
             'headers_params' => [],
-            'details_params' => ["id_domain","domain_name","domain_value","domain_description","status"]
+            'details_params' => []
         ]
     ];
 
