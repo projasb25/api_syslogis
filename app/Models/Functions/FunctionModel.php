@@ -49,7 +49,7 @@ class FunctionModel
             "params" => ['status']
         ],
         "SP_SEL_DOMAIN" => [
-            "query" => 'CALL SP_SEL_DOMAIN(:domain_name)',
+            "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
             "params" => ['domain_name', 'status']
         ],
         "SP_VEHICLE_DRIVER" => [
