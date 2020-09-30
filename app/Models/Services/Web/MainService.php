@@ -28,7 +28,7 @@ class MainService
         try {
             $user = auth()->user();
             $req = $request->all();
-            $req['data'] = array_merge($req['data'], $user->makeHidden('status','id_corporation')->toArray());
+            $req['data'] = array_merge($req['data'], $user->makeHidden('status','id_corporation','id_organization')->toArray());
             $fun = $this->functions->getFunctions();
             if (!array_key_exists($req['method'], $fun)) {
                 throw new CustomException(['metodo no existe.', 2100], 400);
