@@ -89,6 +89,8 @@ class MassiveLoadRepository
     public function process($data)
     {
         $prev_val = '';
+        $total_weight = 0;
+        $total_pieces = 0;
         DB::beginTransaction();
         try {
             /* ACTUALIZAR MASIVE_LOAD */
@@ -125,11 +127,16 @@ class MassiveLoadRepository
             foreach ($detalles as $value) {
                 $current_val = join(',',[$value->seg_code, $value->alt_code1, $value->alt_code2, $value->client_barcode]);
                 if ($current_val !== $prev_val) {
+                    if (isset($id_guide)) {
+                        DB::table('guide')->where('id_guide', $id_guide)->update(['total_weight' => $total_weight, 'total_pieces' => $total_pieces]);
+                        $total_weight = 0;
+                        $total_pieces = 0;
+                    }
                     /* Validar si existe la dirección registrada, si es asi, utlizar el mismo id */
                     $check_add = DB::table('address')->whereRaw('LOWER(`address`) = ? ',[trim(strtolower($value->client_address))])->first();
                     if (!$check_add) {
                         $address_id = DB::table('address')->insertGetId([
-                            'id_ubigeo' => 1,
+                            'id_ubigeo' => $value->ubigeo,
                             'address' => $value->client_address,
                             'address_refernce' => $value->client_address_reference,
                             'latitude' => $value->coord_latitude,
@@ -193,6 +200,9 @@ class MassiveLoadRepository
                     'status' => $value->status,
                     'created_by' => $data['username']
                 ]);
+
+                $total_weight =+ $value->sku_weight;
+                $total_pieces =+ $value->sku_pieces;
                 $prev_val = $current_val;
             }
 
