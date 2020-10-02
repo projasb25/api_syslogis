@@ -2,6 +2,8 @@
 
 namespace App\Models\Repositories\Web;
 
+use App\Exceptions\CustomException;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -24,6 +26,16 @@ class MassiveLoadRepository
             ]);
 
             foreach ($data['data'] as $key => &$value) {
+
+                $check_ubigeo = DB::table('ubigeo')
+                    ->whereRaw('LOWER(department) = ? ', [trim(strtolower($value['department']))])
+                    ->whereRaw('LOWER(province) = ? ', [trim(strtolower($value['province']))])
+                    ->whereRaw('LOWER(district) = ? ', [trim(strtolower($value['district']))])
+                    ->first();
+                if (!$check_ubigeo) {
+                    throw new CustomException(['Error datos ubigeo erroneos.', 2121], 400);
+                }
+                
                 if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
                     $value['client_barcode'] = Str::random(40);
                 }
