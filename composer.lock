@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0847e56c9b7042c7f0d2de2aa0e3507d",
+    "content-hash": "72bebd26d137e6110001aa6a58aaeff5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -753,6 +753,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -799,6 +800,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
@@ -1374,6 +1376,42 @@
                 "psr-3"
             ],
             "time": "2019-12-20T14:22:59+00:00"
+        },
+        {
+            "name": "mumpo/fpdf-barcode",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:xroot/fpdf-barcode.git",
+                "reference": "master"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mumpo/fpdf-barcode/zipball/master",
+                "reference": "master",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mumpo\\FpdfBarcode": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Mumpo",
+                    "email": "sergiferriz@gmail.com"
+                }
+            ],
+            "description": "Fpdf allows to generate PDF files with Barcodes",
+            "time": "2016-09-12T14:38:10+00:00"
         },
         {
             "name": "namshi/jose",
@@ -5018,6 +5056,7 @@
             "keywords": [
                 "tokenizer"
             ],
+            "abandoned": true,
             "time": "2019-09-17T06:23:10+00:00"
         },
         {

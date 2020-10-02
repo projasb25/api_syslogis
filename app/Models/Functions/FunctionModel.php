@@ -56,6 +56,10 @@ class FunctionModel
             "query" => 'CALL SP_VEHICLE_DRIVER()',
             "params" => []
         ],
+        "SP_CREATE_SHIPPING_ORDER" => [
+            "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :guide_ids, :username)',
+            "params" => ['id_vehicle', 'guide_ids', 'username']
+        ],
         /**
          * Funciones para Transaccions
          **/

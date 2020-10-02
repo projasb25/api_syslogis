@@ -69,4 +69,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('', 'MassiveLoadController@index');
         Route::post('process', 'MassiveLoadController@process');
     });
+
+    Route::group(['middleware' => 'auth:api', 'prefix' => 'shipping'], function() {
+        Route::post('', 'ShippingController@index');
+        // Route::post('process', 'ShippingController@process');
+    });
 });
