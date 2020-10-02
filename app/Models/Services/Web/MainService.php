@@ -123,7 +123,7 @@ class MainService
         } catch (QueryException $e) {
             if ((int) $e->getCode() >= 60000) {
                 Log::warning('Main Service Transaction Query error', ['expcetion' => $e->errorInfo[2], 'request' => $req]);
-                return Res::error([$e->errorInfo[2], 3000], 400);
+                return Res::error([$e->errorInfo[2], (int) $e->getCode()], 400);
             }
             Log::warning('Main Service Transaction error', ['expcetion' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected DB error', 3000], 400);
