@@ -36,9 +36,9 @@ class MassiveLoadRepository
                     throw new CustomException(['Error datos ubigeo erroneos.', 2121], 400);
                 }
                 
-                if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
-                    $value['client_barcode'] = Str::random(40);
-                }
+                // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
+                //     $value['client_barcode'] = Str::random(40);
+                // }
                 if (!array_key_exists('sku_description', $value) || !isset($value['sku_description'])) {
                     $value['sku_description'] = Str::random(40);
                 }
@@ -60,7 +60,7 @@ class MassiveLoadRepository
                     'client_phone3' => $value['client_phone3'] ?? null,
                     'client_email' => $value['client_email'] ?? null,
                     'client_address' => $value['client_address'] ?? null,
-                    'client_address_reference' => $value['client_address_ref,erence'] ?? null,
+                    'client_address_reference' => $value['client_address_reference'] ?? null,
                     'coord_latitude' => $value['coord_latitude'] ?? null,
                     'coord_longitude' => $value['coord_longitude'] ?? null,
                     'ubigeo' => $check_ubigeo->ubigeo,
