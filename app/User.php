@@ -5,6 +5,7 @@ namespace App;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -63,5 +64,14 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function getIdentifierData()
+    {
+        $payload = JWTAuth::parseToken()->getPayload();
+        return [
+            'username' => $this->username,
+            'current_org' => $payload->get('current_org'),
+        ];
     }
 }

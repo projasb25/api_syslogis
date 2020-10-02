@@ -37,8 +37,8 @@ class FunctionModel
             "params" => ['id_corporation', 'status']
         ],
         "SP_SEL_GUIDES" => [
-            "query" => 'CALL SP_SEL_GUIDES(:username)',
-            "params" => ['username']
+            "query" => 'CALL SP_SEL_GUIDES(:username, :current_org)',
+            "params" => ['username', 'current_org']
         ],
         "SP_SEL_DRIVERS" => [
             "query" => 'CALL SP_SEL_DRIVERS(:status)',

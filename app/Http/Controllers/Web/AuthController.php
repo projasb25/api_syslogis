@@ -12,6 +12,8 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class AuthController extends Controller
 {
@@ -42,7 +44,10 @@ class AuthController extends Controller
 
             $user = User::where('id_user', $query[0]->id_user)->first();
 
-            $token = auth()->login($user);
+            $token = auth()->claims(
+                    ['current_org' => $query[0]->current_org]
+                )->login($user);
+            // $token = auth()->login($user);
 
             return Res::success([
                 'first_name' => $user->first_name,
