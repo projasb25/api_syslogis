@@ -10,6 +10,7 @@ use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class MainService
@@ -83,6 +84,11 @@ class MainService
             $detailsParams = $fun[$req['method']]['details_params'];
             $bindings = [];
 
+            // Si existe password se hashea
+            if (array_key_exists('password', $header['data'])) {
+                $header['data']['password'] = Hash::make($header['data']['password']);
+            }
+
             foreach ($headerParams as $key => $param) {
                 if (array_key_exists($param, $header['data'])) {
                     $bindings[$param] = $header['data'][$param];
@@ -106,7 +112,7 @@ class MainService
                 $bindings = [];
             }
 
-            $data['header'] = json_encode($req['header']['data']);
+            $data['header'] = json_encode($header['data']);
             $data['details'] = json_encode($req['details']['data']);
             $data['username'] = $user->username;
 
