@@ -157,9 +157,9 @@ Route::get('pdf', function () {
     $pdf->SetXY($lmargin + 10, $y);
     $pdf->MultiCell(35, 5 * $rows, '20209000000614666', 1, 'L');
     $pdf->SetXY($lmargin + 45, $y);
-    $pdf->MultiCell(28, ( $distrito_row > $direccion_row ) ? 5 : 5 * $rows, $distrito. ' ' .$rows, 1, 'L');
+    $pdf->MultiCell(28, ($distrito_row > $direccion_row) ? 5 : 5 * $rows, $distrito . ' ' . $rows, 1, 'L');
     $pdf->SetXY($lmargin + 73, $y);
-    $pdf->MultiCell(125, ( $direccion_row > $distrito_row ) ? 5 : 5 * $rows , utf8_decode($direccion), 1, 'L');
+    $pdf->MultiCell(125, ($direccion_row > $distrito_row) ? 5 : 5 * $rows, utf8_decode($direccion), 1, 'L');
     $y = $pdf->GetY();
 
     // end foreach
@@ -187,11 +187,91 @@ Route::get('pdf', function () {
     $pdf->MultiCell(78, 40, '', 1, 'L');
     $y = $pdf->GetY();
 
-    $pdf->Text(22, $y-10, '____________________________________________________________');
-    $pdf->Text(55, $y-5, 'FIRMA');
+    $pdf->Text(22, $y - 10, '____________________________________________________________');
+    $pdf->Text(55, $y - 5, 'FIRMA');
 
-    $pdf->Text(153, $y-5, 'HUELLA DACTILAR');
-    
+    $pdf->Text(153, $y - 5, 'HUELLA DACTILAR');
+
+    $pdf->Output();
+    exit;
+});
+
+class pdftest extends FpdfBarcode
+{
+
+    function TextWithDirection($x, $y, $txt, $direction = 'R')
+    {
+        if ($direction == 'R')
+            $s = sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET', 1, 0, 0, 1, $x * $this->k, ($this->h - $y) * $this->k, $this->_escape($txt));
+        elseif ($direction == 'L')
+            $s = sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET', -1, 0, 0, -1, $x * $this->k, ($this->h - $y) * $this->k, $this->_escape($txt));
+        elseif ($direction == 'U')
+            $s = sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET', 0, 1, -1, 0, $x * $this->k, ($this->h - $y) * $this->k, $this->_escape($txt));
+        elseif ($direction == 'D')
+            $s = sprintf('BT %.2F %.2F %.2F %.2F %.2F %.2F Tm (%s) Tj ET', 0, -1, 1, 0, $x * $this->k, ($this->h - $y) * $this->k, $this->_escape($txt));
+        else
+            $s = sprintf('BT %.2F %.2F Td (%s) Tj ET', $x * $this->k, ($this->h - $y) * $this->k, $this->_escape($txt));
+        if ($this->ColorFlag)
+            $s = 'q ' . $this->TextColor . ' ' . $s . ' Q';
+        $this->_out($s);
+    }
+}
+
+Route::get('pdf2', function () {
+    $pdf = new pdftest();
+    $cellMargin = 2 * 1.000125;
+    $lmargin = 5;
+    $rmargin = 5;
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
+    $pdf->SetMargins($lmargin, $rmargin);
+    $pdf->Ln(0);
+    $pdf->SetFont('Times', '', 8);
+    $y = $pdf->GetY();
+    // var_dump($pdf->_getpagesize('a4')); (210.00155555556) - (297.00008333333) 
+
+    // 297 - 10 (margin xy) 
+    // 280 / 3 = 93
+    // 90
+
+
+    $box_x = 5;
+    $box_y = 5;
+    for ($i = 0; $i < 5; $i++) {
+        if ($i  % 2 == 0 && $i != 0) {
+            $pdf->AddPage();
+            $box_y = 5;
+        }
+        // cuadro principal
+        $pdf->Rect($box_x, $box_y, 190, 90);
+
+        // // cuadro 1.1
+        //     //header
+        //     $pdf->Rect($box_x + 1, $box_y + 1, 6, 40);
+        //     $pdf->SetFont('Times', 'B', 8);
+        //     $pdf->TextWithDirection($box_x + 5, $box_y + 24, 'REMITENTE', 'U');
+
+        //     // body
+        //     $pdf->Rect($box_x + 7, $box_y + 1, 80, 40);
+
+        // // cuadro 2.1
+        // $pdf->Rect($box_x + 1, ($box_y + 55 + 2), 6, 13);
+        // $pdf->SetFont('Times', 'B', 8);
+        // // $pdf->MultiCell(100,5,'asdfasdf',1,'J');
+        // $pdf->TextWithDirection($box_x + 5, $box_y + 68, 'DATOS', 'U');
+
+        // // cuadro 3.1
+        // $pdf->Rect($box_x + 1, ($box_y + 70 + 2) , 6, 47);
+        // $pdf->SetFont('Times', 'B', 8);
+        // $pdf->TextWithDirection($box_x + 5, $box_y + 110, 'DATOS DE ENTREGA', 'U');
+
+        $box_y = 90 + $box_y + 2;
+    }
+
+
+
+    // $pdf->Cell(10, 10, 'REMITENTE', 0, 1);
+    // $pdf->Rect(20, 20, 150, 50);
     $pdf->Output();
     exit;
 });

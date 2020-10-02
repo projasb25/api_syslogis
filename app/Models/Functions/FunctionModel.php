@@ -60,6 +60,10 @@ class FunctionModel
             "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :guide_ids, :username)',
             "params" => ['id_vehicle', 'guide_ids', 'username']
         ],
+        "SP_SEL_SHIPPING_ORDERS" => [
+            "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status)',
+            "params" => ['status']
+        ],
         /**
          * Funciones para Transaccions
          **/
