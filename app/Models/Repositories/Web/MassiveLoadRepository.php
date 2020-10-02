@@ -63,6 +63,7 @@ class MassiveLoadRepository
                     'client_address_reference' => $value['client_address_ref,erence'] ?? null,
                     'coord_latitude' => $value['coord_latitude'] ?? null,
                     'coord_longitude' => $value['coord_longitude'] ?? null,
+                    'ubigeo' => $check_ubigeo->ubigeo,
                     'department' => $value['department'] ?? null,
                     'district' => $value['district'] ?? null,
                     'province' => $value['province'] ?? null,
