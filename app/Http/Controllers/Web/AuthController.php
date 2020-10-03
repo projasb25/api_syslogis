@@ -109,6 +109,8 @@ class AuthController extends Controller
     {
         try {
             $user = auth()->user();
+
+            auth()->logout();
             $validate = DB::select("CALL SP_VALIDATE_ORGUSER(?,?,?)", [$user->id_user, $request->get('id_corporation'), $request->get('id_organization')]);
             if (!$validate) {
                 throw new CustomException(['Usuario no tiene permisos.', 2000], 401);
