@@ -110,8 +110,16 @@ class AuthController extends Controller
         try {
             $user = auth()->user();
 
+            $req = $request->all();
+            if (!isset($req['id_corporation'])) {
+                $sesion_data = $user->getIdentifierData();
+                $id_coporation = $sesion_data['current_corp'];
+            } else {
+                $id_coporation = $req['id_corporation'];
+            }
+
             auth()->logout();
-            $validate = DB::select("CALL SP_VALIDATE_ORGUSER(?,?,?)", [$user->id_user, $request->get('id_corporation'), $request->get('id_organization')]);
+            $validate = DB::select("CALL SP_VALIDATE_ORGUSER(?,?,?)", [$user->id_user, $id_coporation, $request->get('id_organization')]);
             if (!$validate) {
                 throw new CustomException(['Usuario no tiene permisos.', 2000], 401);
             }
