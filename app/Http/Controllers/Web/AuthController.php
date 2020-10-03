@@ -49,7 +49,7 @@ class AuthController extends Controller
                 $organizaciones = DB::select('CALL SP_SEL_ORGANIZATIONS(?,?)', [null, $query[0]->current_corp]);
             } else {
                 $organizaciones = DB::select('CALL SP_SEL_ORGUSER(?,?)', [null, $user->id_user]);
-                $corporaciones = null;
+                $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, $query[0]->current_corp]);
             }
 
             $token = auth()->claims(
