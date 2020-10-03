@@ -64,6 +64,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status)',
             "params" => ['status']
         ],
+        "SP_SEL_USER" => [
+            "query" => 'CALL SP_SEL_USER(:id_corporation, :status)',
+            "params" => ['id_corporation', 'status']
+        ],
         /**
          * Funciones para Transaccions
          **/
