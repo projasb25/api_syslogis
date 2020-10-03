@@ -65,8 +65,8 @@ class FunctionModel
             "params" => ['current_corp', 'status']
         ],
         "SP_SEL_CORPORATIONS" => [
-            "query" => 'CALL SP_SEL_CORPORATIONS(:status, :username)',
-            "params" => ['status', 'username']
+            "query" => 'CALL SP_SEL_CORPORATIONS(:status, :current_corp)',
+            "params" => ['status', 'current_corp']
         ],
         "SP_SEL_ORGUSER" => [
             "query" => 'CALL SP_SEL_ORGUSER(:status, :id_user)',

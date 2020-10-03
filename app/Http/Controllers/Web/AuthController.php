@@ -45,7 +45,7 @@ class AuthController extends Controller
             $user = User::where('id_user', $query[0]->id_user)->first();
 
             if ($user->id_user === 1) {
-                $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, $user->username]);
+                $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, $query[0]->current_corp]);
                 $organizaciones = DB::select('CALL SP_SEL_ORGANIZATIONS(?,?)', [null, $query[0]->current_corp]);
             } else {
                 $organizaciones = DB::select('CALL SP_SEL_ORGUSER(?,?)', [null, $user->id_user]);
