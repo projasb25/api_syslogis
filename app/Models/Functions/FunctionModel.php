@@ -13,60 +13,56 @@ class FunctionModel
             "params" => ['username']
         ],
         "SP_SEL_TEMPLATE" => [
-            "query" => 'CALL SP_SEL_TEMPLATE(:id_corporation, :id_organization, :status)',
-            "params" => ['id_corporation', 'id_organization', 'status']
+            "query" => 'CALL SP_SEL_TEMPLATE(:current_corp, :current_org, :status)',
+            "params" => ['current_corp', 'current_org', 'status']
         ],
         "SP_INS_TEMPLATE" => [
-            "query" => "CALL SP_INS_TEMPLATE(:id_load_template, :name,:description,:json_detail,:username, :status, :id_corporation, :id_organization)",
-            "params" => ['id_load_template', 'name', 'description', 'json_detail','status', 'username', 'id_corporation', 'id_organization']
+            "query" => "CALL SP_INS_TEMPLATE(:id_load_template, :name,:description,:json_detail,:username, :status, :current_corp, :current_org)",
+            "params" => ['id_load_template', 'name', 'description', 'json_detail','status', 'username', 'current_corp', 'current_org']
         ],
         "SP_SEL_MASSIVE_LOADS" => [
-            "query" => 'SELECT * FROM massive_load order by date_created desc;',
-            "params" => []
+            "query" => 'SP_SEL_MASSIVE_LOADS(:current_corp, :current_org)',
+            "params" => ['current_corp', 'current_org']
         ],
         "SP_SEL_LOADS_DETAILS" => [
             "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
             "params" => ['id_massive_load']
-        ],
-        "SP_SEL_CORPORATIONS" => [
-            "query" => 'SELECT * FROM corporation c WHERE status = "ACTIVO";',
-            "params" => []
         ],
         "SP_SEL_ORGANIZATIONS" => [
             "query" => 'CALL SP_SEL_ORGANIZATIONS(:status, :username)',
             "params" => ['status', 'username']
         ],
         "SP_SEL_GUIDES" => [
-            "query" => 'CALL SP_SEL_GUIDES(:username, :current_org)',
-            "params" => ['username', 'current_org']
+            "query" => 'CALL SP_SEL_GUIDES(:current_corp, :current_org)',
+            "params" => ['current_corp', 'current_org']
         ],
         "SP_SEL_DRIVERS" => [
-            "query" => 'CALL SP_SEL_DRIVERS(:status, :username, :current_org)',
-            "params" => ['status', 'username', 'current_org']
+            "query" => 'CALL SP_SEL_DRIVERS(:status, :current_corp, :current_org)',
+            "params" => ['status', 'current_corp', 'current_org']
         ],
         "SP_SEL_VEHICLES" => [
-            "query" => 'CALL SP_SEL_VEHICLES(:status)',
-            "params" => ['status']
+            "query" => 'CALL SP_SEL_VEHICLES(:status, :current_corp, :current_org)',
+            "params" => ['status', 'current_corp', 'current_org']
         ],
         "SP_SEL_DOMAIN" => [
             "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
             "params" => ['domain_name', 'status']
         ],
         "SP_VEHICLE_DRIVER" => [
-            "query" => 'CALL SP_VEHICLE_DRIVER()',
-            "params" => []
+            "query" => 'CALL SP_VEHICLE_DRIVER(:current_corp, :current_org)',
+            "params" => ['current_corp', 'current_org']
         ],
         "SP_CREATE_SHIPPING_ORDER" => [
-            "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :guide_ids, :username)',
-            "params" => ['id_vehicle', 'guide_ids', 'username']
+            "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :guide_ids, :username, :current_corp, :current_org)',
+            "params" => ['id_vehicle', 'guide_ids', 'username', 'current_corp', 'current_org']
         ],
         "SP_SEL_SHIPPING_ORDERS" => [
-            "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status)',
-            "params" => ['status']
+            "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :current_corp, :current_org)',
+            "params" => ['status', 'current_corp', 'current_org']
         ],
         "SP_SEL_USER" => [
-            "query" => 'CALL SP_SEL_USER(:id_corporation, :status)',
-            "params" => ['id_corporation', 'status']
+            "query" => 'CALL SP_SEL_USER(:current_corp, :status)',
+            "params" => ['current_corp', 'status']
         ],
         "SP_SEL_CORPORATIONS" => [
             "query" => 'CALL SP_SEL_CORPORATIONS(:status, :username)',
