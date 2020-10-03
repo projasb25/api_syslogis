@@ -120,7 +120,6 @@ class MainService
             $data['details'] = json_encode($req['details']['data']);
             $data['username'] = json_encode($user->getIdentifierData());
 
-            dd($data);
             $data = $this->repository->execute_store($query, $data);
         } catch (CustomException $e) {
             Log::warning('Main Service Transaction error', ['expcetion' => $e->getData()[0], 'request' => $req, 'missing_params' => $missing_param]);
