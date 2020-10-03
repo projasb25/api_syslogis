@@ -75,6 +75,7 @@ class MainService
             $header = $req['header'];
             $details = $req['details'];
             $fun = $this->functions->getFunctions();
+            $missing_param = [];
             if (!array_key_exists($req['method'], $fun)) {
                 throw new CustomException(['metodo no existe.', 2100], 400);
             }
@@ -92,22 +93,25 @@ class MainService
             foreach ($headerParams as $key => $param) {
                 if (array_key_exists($param, $header['data'])) {
                     $bindings[$param] = $header['data'][$param];
+                } else {
+                    array_push($missing_param, $param);
                 }
             }
             if (count($bindings) < count($headerParams)) {
                 throw new CustomException(['parametros incorrectos.', 2100], 400);
             }
             $bindings = [];
-
             foreach ($details['data'] as $key => $detail) {
                 foreach ($detailsParams as $key => $param) {
                     if (array_key_exists($param, $detail)) {
                         $bindings[$param] = $detail[$param];
+                    } else {
+                        array_push($missing_param, $param);
                     }
                 }
 
                 if (count($bindings) < count($detailsParams)) {
-                    throw new CustomException(['parametros incorrectos.', 2100], 400);
+                    throw new CustomException(['parametros incorrectos', 2100], 400);
                 }
                 $bindings = [];
             }
@@ -116,9 +120,10 @@ class MainService
             $data['details'] = json_encode($req['details']['data']);
             $data['username'] = json_encode($user->getIdentifierData());
 
+            dd($data);
             $data = $this->repository->execute_store($query, $data);
         } catch (CustomException $e) {
-            Log::warning('Main Service Transaction error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            Log::warning('Main Service Transaction error', ['expcetion' => $e->getData()[0], 'request' => $req, 'missing_params' => $missing_param]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
             if ((int) $e->getCode() >= 60000) {
