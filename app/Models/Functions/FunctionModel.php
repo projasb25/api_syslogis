@@ -21,7 +21,7 @@ class FunctionModel
             "params" => ['id_load_template', 'name', 'description', 'json_detail','status', 'username', 'current_corp', 'current_org']
         ],
         "SP_SEL_MASSIVE_LOADS" => [
-            "query" => 'SP_SEL_MASSIVE_LOADS(:current_corp, :current_org)',
+            "query" => 'CALL SP_SEL_MASSIVE_LOADS(:current_corp, :current_org)',
             "params" => ['current_corp', 'current_org']
         ],
         "SP_SEL_LOADS_DETAILS" => [
