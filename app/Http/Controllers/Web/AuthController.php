@@ -6,6 +6,7 @@ use App\Exceptions\CustomException;
 use App\Helpers\ResponseHelper as Res;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\ChangeRequest;
 use App\Models\Repositories\ConductorRepository;
 use App\User;
 use Exception;
@@ -102,5 +103,33 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    public function change(ChangeRequest $request)
+    {
+        try {
+            $user = auth()->user();
+            $validate = DB::select("CALL SP_VALIDATE_ORGUSER(?,?,?)", [$user->id_user, $request->get('id_corporation'), $request->get('id_organization')]);
+            if (!$validate) {
+                throw new CustomException(['Usuario no tiene permisos.', 2000], 401);
+            }
+
+            $token = auth()->claims(
+                ['current_org' => $request->get('id_organization'), 'current_corp' => $request->get('id_corporation')]
+            )->login($user);
+            // $token = auth()->login($user);
+
+            return Res::success([
+                'token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]);
+        } catch (CustomException $e) {
+            Log::warning('Change entity error', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (Exception $e) {
+            Log::warning('Change entity error', ['exception' => $e->getMessage(), 'request' => request()->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
     }
 }
