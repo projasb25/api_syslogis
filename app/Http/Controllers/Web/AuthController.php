@@ -45,8 +45,7 @@ class AuthController extends Controller
             $user = User::where('id_user', $query[0]->id_user)->first();
 
             $token = auth()->claims(
-                    ['current_org' => $query[0]->current_org],
-                    ['current_corp' => $query[0]->current_corp]
+                    ['current_org' => $query[0]->current_org, 'current_corp' => $query[0]->current_corp]
                 )->login($user);
             // $token = auth()->login($user);
 
