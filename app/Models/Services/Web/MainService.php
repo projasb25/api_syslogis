@@ -85,7 +85,7 @@ class MainService
             $bindings = [];
 
             // Si existe password se hashea
-            if (array_key_exists('password', $header['data'])) {
+            if (array_key_exists('password', $header['data']) && !empty($header['data']['password'])) {
                 $header['data']['password'] = Hash::make($header['data']['password']);
             }
 
