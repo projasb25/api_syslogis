@@ -42,8 +42,15 @@ class AuthController extends Controller
             if (!Hash::check($data['password'], $query[0]->password)) {
                 throw new CustomException(['Credenciales incorrectas.', 2001], 401);
             }
-
             $user = User::where('id_user', $query[0]->id_user)->first();
+
+            if ($user->id_user === 1) {
+                $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, $user->username]);
+                $organizaciones = DB::select('CALL SP_SEL_ORGANIZATIONS(?,?)', [null, $query[0]->current_corp]);
+            } else {
+                $organizaciones = DB::select('CALL SP_SEL_ORGUSER(?,?)', [null, $user->id_user]);
+                $coporaciones = null;
+            }
 
             $token = auth()->claims(
                     ['current_org' => $query[0]->current_org, 'current_corp' => $query[0]->current_corp]
@@ -54,6 +61,8 @@ class AuthController extends Controller
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'token' => $token,
+                'organizaciones' => $organizaciones,
+                'corporaciones' => $corporaciones,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
