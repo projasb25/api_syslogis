@@ -72,6 +72,7 @@ class User extends Authenticatable implements JWTSubject
         return [
             'username' => $this->username,
             'current_org' => $payload->get('current_org'),
+            'current_corp' => $payload->get('current_corp')
         ];
     }
 }
