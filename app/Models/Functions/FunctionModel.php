@@ -72,6 +72,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ORGUSER(:status, :id_user)',
             "params" => ['status', 'id_user']
         ],
+        "SP_SEL_ROLE" => [
+            "query" => 'CALL SP_SEL_ROLE(:status)',
+            "params" => ['status']
+        ],
         /**
          * Funciones para Transaccions
          **/
