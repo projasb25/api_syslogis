@@ -14,7 +14,7 @@ class MassiveLoadProcessRequest extends FormRequest
     public function rules()
     {
         return [
-            'data' => 'required',
+            'data' => 'present',
             'id_massive_load' => 'required|numeric',
         ];
     }
