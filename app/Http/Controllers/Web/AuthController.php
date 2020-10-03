@@ -61,8 +61,8 @@ class AuthController extends Controller
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'token' => $token,
-                'organizaciones' => $organizaciones,
-                'corporaciones' => $corporaciones,
+                'organizations' => $organizaciones,
+                'corporations' => $corporaciones,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
