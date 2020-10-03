@@ -136,7 +136,7 @@ class MassiveLoadRepository
                     $check_add = DB::table('address')->whereRaw('LOWER(`address`) = ? ',[trim(strtolower($value->client_address))])->first();
                     if (!$check_add) {
                         $address_id = DB::table('address')->insertGetId([
-                            'id_ubigeo' => $value->ubigeo,
+                            'ubigeo' => $value->ubigeo,
                             'address' => $value->client_address,
                             'address_refernce' => $value->client_address_reference,
                             'latitude' => $value->coord_latitude,
