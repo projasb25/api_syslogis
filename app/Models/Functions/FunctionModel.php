@@ -41,8 +41,8 @@ class FunctionModel
             "params" => ['username', 'current_org']
         ],
         "SP_SEL_DRIVERS" => [
-            "query" => 'CALL SP_SEL_DRIVERS(:status)',
-            "params" => ['status']
+            "query" => 'CALL SP_SEL_DRIVERS(:status, :username, :current_org)',
+            "params" => ['status', 'username', 'current_org']
         ],
         "SP_SEL_VEHICLES" => [
             "query" => 'CALL SP_SEL_VEHICLES(:status)',
