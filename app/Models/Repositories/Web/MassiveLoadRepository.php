@@ -3,6 +3,7 @@
 namespace App\Models\Repositories\Web;
 
 use App\Exceptions\CustomException;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -186,6 +187,9 @@ class MassiveLoadRepository
                         ]);
                     }
                 }
+
+                $client_barcode = Carbon::now()->format('Ymd') . str_pad($value->sol_id, 5, "0", STR_PAD_LEFT);
+                DB::table('guide')->where('id_guide', $id_guide)->update(['client_barcode' => $client_barcode]);
 
                 /* Insertar en sku_producto */
                 DB::table('sku_product')->insert([
