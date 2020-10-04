@@ -206,6 +206,8 @@ class MassiveLoadRepository
                 $prev_val = $current_val;
             }
 
+            DB::table('guide')->where('id_guide', $id_guide)->update(['total_weight' => $total_weight, 'total_pieces' => $total_pieces]);
+
             $address = DB::table('guide AS gd')
                     ->select('gd.id_address','add.address', 'add.latitude', 'add.longitude')
                     ->distinct()
