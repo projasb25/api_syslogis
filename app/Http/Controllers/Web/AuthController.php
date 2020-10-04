@@ -134,7 +134,7 @@ class AuthController extends Controller
             }
 
             $token = auth()->claims(
-                ['current_org' => $request->get('id_organization'), 'current_corp' => $request->get('id_corporation')]
+                ['current_org' => $request->get('id_organization'), 'current_corp' => $id_coporation]
             )->login($user);
             // $token = auth()->login($user);
 
