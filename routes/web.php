@@ -226,7 +226,7 @@ Route::get('pdf2', function () {
     $pdf->AddPage();
     $pdf->SetMargins($lmargin, $rmargin);
     $pdf->Ln(0);
-    $pdf->SetFont('Times', '', 8);
+    $pdf->SetFont('Times', '', 7);
     $y = $pdf->GetY();
     // var_dump($pdf->_getpagesize('a4')); (210.00155555556) - (297.00008333333) 
 
@@ -238,18 +238,18 @@ Route::get('pdf2', function () {
     $box_x = 5;
     $box_y = 5;
     for ($i = 0; $i < 5; $i++) {
-        if ($i  % 2 == 0 && $i != 0) {
+        if ($i  % 3 == 0 && $i != 0) {
             $pdf->AddPage();
             $box_y = 5;
         }
         // cuadro principal
         $pdf->Rect($box_x, $box_y, 190, 90);
 
-        // // cuadro 1.1
-        //     //header
-        //     $pdf->Rect($box_x + 1, $box_y + 1, 6, 40);
-        //     $pdf->SetFont('Times', 'B', 8);
-        //     $pdf->TextWithDirection($box_x + 5, $box_y + 24, 'REMITENTE', 'U');
+        // cuadro 1.1
+            //header
+            $pdf->Rect($box_x + 1, $box_y + 1, 6, 30);
+            $pdf->SetFont('Times', 'B', 7);
+            $pdf->TextWithDirection($box_x + 5, $box_y + 24, 'REMITENTE', 'U');
 
         //     // body
         //     $pdf->Rect($box_x + 7, $box_y + 1, 80, 40);

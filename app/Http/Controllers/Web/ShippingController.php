@@ -19,4 +19,9 @@ class ShippingController extends Controller
     {
         return $this->shippingServi->index($request);
     }
+
+    public function print_hoja_ruta(Request $request)
+    {
+        return $this->shippingServi->print_hoja_ruta($request);
+    }
 }

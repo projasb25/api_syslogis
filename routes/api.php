@@ -72,7 +72,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     });
 
     Route::group(['middleware' => 'auth:api', 'prefix' => 'shipping'], function() {
-        Route::post('', 'ShippingController@index');
+        Route::post('print/hoja_ruta', 'ShippingController@print_hoja_ruta');
         // Route::post('process', 'ShippingController@process');
     });
 });
