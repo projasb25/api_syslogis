@@ -3,6 +3,7 @@
 namespace App\Models\Repositories\Web;
 
 use App\Exceptions\CustomException;
+use App\Models\Entities\Guide;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -40,8 +41,8 @@ class MassiveLoadRepository
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
                 //     $value['client_barcode'] = Str::random(40);
                 // }
-                if (!array_key_exists('sku_description', $value) || !isset($value['sku_description'])) {
-                    $value['sku_description'] = Str::random(40);
+                if (!array_key_exists('sku_code', $value) || !isset($value['sku_code'])) {
+                    $value['sku_code'] = Str::random(10);
                 }
                 $value['id_massive_load'] = $id;
                 $value['status'] = 'PENDIENTE';
@@ -242,5 +243,23 @@ class MassiveLoadRepository
             throw $e;
         }
         DB::commit();
+    }
+
+    public function get_datos_ruta_cargo($id)
+    {
+        $data = Guide::where('id_massive_load', 1)->get();
+        return $data;
+    }
+
+    public function get_doc_ruta_cargo($id)
+    {
+        return DB::table('massive_load')->where('id_massive_load', $id)->get();
+    }
+
+    public function actualizar_doc_ruta($id, $filename)
+    {
+        DB::table('massive_load')->where('id_massive_load', $id)->update([
+            'ruta_doc_cargo' => $filename
+        ]);
     }
 }

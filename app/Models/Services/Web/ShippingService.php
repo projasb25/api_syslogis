@@ -37,7 +37,6 @@ class ShippingService
         $ruta = $disk->getDriver()->getAdapter()->getPathPrefix();
 
         if(!$hoja_ruta->hoja_ruta_doc){
-            $pdf = new FpdfBarcode();
             $data_shipping = $this->repo->get_imprimir_hoja_ruta($data['id_shipping_order']);
             $res = $this->crear_hoja_ruta($data_shipping);
             $this->repo->actualizar_hoja_ruta($res['file_name'], $data['id_shipping_order']);
