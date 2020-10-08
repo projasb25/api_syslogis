@@ -29,8 +29,8 @@ class FunctionModel
             "params" => ['id_massive_load']
         ],
         "SP_SEL_ORGANIZATIONS" => [
-            "query" => 'CALL SP_SEL_ORGANIZATIONS(:status, :current_corp)',
-            "params" => ['status', 'current_corp']
+            "query" => 'CALL SP_SEL_ORGANIZATIONS(:status, :id_corporation)',
+            "params" => ['status', 'id_corporation']
         ],
         "SP_SEL_GUIDES" => [
             "query" => 'CALL SP_SEL_GUIDES(:current_corp, :current_org)',
