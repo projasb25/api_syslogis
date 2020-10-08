@@ -17,8 +17,8 @@ class FunctionModel
             "params" => ['current_corp', 'current_org', 'status']
         ],
         "SP_INS_TEMPLATE" => [
-            "query" => "CALL SP_INS_TEMPLATE(:id_load_template, :name,:description,:json_detail,:username, :status, :current_corp, :current_org)",
-            "params" => ['id_load_template', 'name', 'description', 'json_detail','status', 'username', 'current_corp', 'current_org']
+            "query" => "CALL SP_INS_TEMPLATE(:id_load_template, :name,:description,:json_detail,:username, :status, :id_corporation, :id_organization)",
+            "params" => ['id_load_template', 'name', 'description', 'json_detail','status', 'username', 'id_corporation', 'id_organization']
         ],
         "SP_SEL_MASSIVE_LOADS" => [
             "query" => 'CALL SP_SEL_MASSIVE_LOADS(:current_corp, :current_org)',
