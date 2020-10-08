@@ -82,7 +82,7 @@ class FunctionModel
         "SP_INS_CORPORATION" => [
             'query' => 'CALL SP_INS_CORPORATION(:header, :details, :username)',
             'headers_params' => ['id_corporation', 'name', 'description', 'status'],
-            'details_params' => ['id_organization', 'name', 'description', 'ruc', 'address', 'status', 'typeservices']
+            'details_params' => ['id_organization', 'name', 'description', 'ruc', 'address', 'status', 'type']
         ],
         "SP_INS_VEHICLE_DRIVER" => [
             'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
