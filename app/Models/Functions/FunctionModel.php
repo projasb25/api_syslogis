@@ -57,8 +57,8 @@ class FunctionModel
             "params" => ['id_vehicle', 'guide_ids', 'username']
         ],
         "SP_SEL_SHIPPING_ORDERS" => [
-            "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :current_corp, :current_org)',
-            "params" => ['status', 'current_corp', 'current_org']
+            "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :username)',
+            "params" => ['status', 'username']
         ],
         "SP_SEL_USER" => [
             "query" => 'CALL SP_SEL_USER(:status)',
