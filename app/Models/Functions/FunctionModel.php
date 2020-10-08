@@ -41,16 +41,16 @@ class FunctionModel
             "params" => ['status', 'current_corp', 'current_org']
         ],
         "SP_SEL_VEHICLES" => [
-            "query" => 'CALL SP_SEL_VEHICLES(:status, :current_corp, :current_org)',
-            "params" => ['status', 'current_corp', 'current_org']
+            "query" => 'CALL SP_SEL_VEHICLES(:status)',
+            "params" => ['status']
         ],
         "SP_SEL_DOMAIN" => [
             "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
             "params" => ['domain_name', 'status']
         ],
         "SP_VEHICLE_DRIVER" => [
-            "query" => 'CALL SP_VEHICLE_DRIVER(:current_corp, :current_org)',
-            "params" => ['current_corp', 'current_org']
+            "query" => 'CALL SP_VEHICLE_DRIVER()',
+            "params" => []
         ],
         "SP_CREATE_SHIPPING_ORDER" => [
             "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :guide_ids, :username, :current_corp, :current_org)',
