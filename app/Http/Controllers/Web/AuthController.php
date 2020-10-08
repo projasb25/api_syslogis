@@ -44,27 +44,23 @@ class AuthController extends Controller
             }
             $user = User::where('id_user', $query[0]->id_user)->first();
 
-            if ($user->id_user === 1) {
-                $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, null]);
-                $organizaciones = DB::select('CALL SP_SEL_ORGANIZATIONS(?,?)', [null, $query[0]->current_corp]);
-            } else {
-                $organizaciones = DB::select('CALL SP_SEL_ORGUSER(?,?)', [null, $user->id_user]);
-                $corporaciones = null;
-            }
+            // if ($user->id_user === 1) {
+            //     $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, null]);
+            //     $organizaciones = DB::select('CALL SP_SEL_ORGANIZATIONS(?,?)', [null, $query[0]->current_corp]);
+            // } else {
+            //     $organizaciones = DB::select('CALL SP_SEL_ORGUSER(?,?)', [null, $user->id_user]);
+            //     $corporaciones = null;
+            // }
 
-            $token = auth()->claims(
-                    ['current_org' => $query[0]->current_org, 'current_corp' => $query[0]->current_corp]
-                )->login($user);
-            // $token = auth()->login($user);
+            // $token = auth()->claims(
+            //         ['current_org' => $query[0]->current_org, 'current_corp' => $query[0]->current_corp]
+            //     )->login($user);
+            $token = auth()->login($user);
 
             return Res::success([
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
-                'id_corporation' => $query[0]->id_corporation,
-                'corp_name' => $query[0]->corp_name,
                 'token' => $token,
-                'organizations' => $organizaciones,
-                'corporations' => $corporaciones,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
