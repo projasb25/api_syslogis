@@ -96,8 +96,9 @@ class FunctionModel
         ],
         "SP_INS_USER" => [
             'query' => 'CALL SP_INS_USER(:header, :details, :username)',
-            'headers_params' => ["id_user","username","first_name","last_name","doc_type","doc_number","user_email","password","status"],
-            'details_params' => ["id_orguser","id_organization","id_role","bydefault","status"]
+            'headers_params' => ["id_user","username","first_name","last_name","doc_type","doc_number","user_email","password","status", "type"],
+            'details_params' => []
+            // "id_orguser", "id_corporation", "id_organization","id_role","bydefault","status"
         ]
     ];
 
