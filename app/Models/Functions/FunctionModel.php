@@ -84,6 +84,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_PROVIDERS(:status)',
             "params" => ['status']
         ],
+        "SP_INS_PROVIDER" => [
+            "query" => 'CALL SP_INS_PROVIDER(:id_provider,:name,:ruc,:description,:address,:status,:username)',
+            "params" => ['id_provider','name','ruc','description','address','status','username']
+        ],
         
         /**
          * Funciones para Transaccions
