@@ -76,6 +76,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ROLE(:status)',
             "params" => ['status']
         ],
+        "SP_UPDATE_ADDRESS" => [
+            "query" => 'CALL SP_UPDATE_ADDRESS(:id_guide, :latitude, :longitude)',
+            "params" => ['id_guide', 'latitude', 'longitude']
+        ],
         /**
          * Funciones para Transaccions
          **/
