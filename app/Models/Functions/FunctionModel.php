@@ -80,6 +80,11 @@ class FunctionModel
             "query" => 'CALL SP_UPDATE_ADDRESS(:id_guide, :latitude, :longitude)',
             "params" => ['id_guide', 'latitude', 'longitude']
         ],
+        "SP_SEL_PROVIDERS" => [
+            "query" => 'CALL SP_SEL_PROVIDERS(:status)',
+            "params" => ['status']
+        ],
+        
         /**
          * Funciones para Transaccions
          **/
@@ -91,7 +96,7 @@ class FunctionModel
         "SP_INS_VEHICLE_DRIVER" => [
             'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
             'headers_params' => ["id_driver","first_name","last_name","doc_number","email","phone","status"],
-            'details_params' => ["id_vehicle","vehicle_type","brand","model","plate_number","soat","status"]
+            'details_params' => ["id_vehicle", "id_provider", "vehicle_type","brand","model","plate_number","soat","status"]
         ],
         "SP_INS_DOMAIN" => [
             'query' => 'CALL SP_INS_DOMAIN(:header, :details, :username)',
