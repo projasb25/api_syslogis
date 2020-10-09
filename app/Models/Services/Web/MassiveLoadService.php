@@ -159,7 +159,7 @@ class MassiveLoadService
         $massive_load = $this->repo->get($request->get('id_massive_load'));
 
         $disk = Storage::disk('public');
-        $ruta = $disk->getDriver()->getAdapter()->getPathPrefix();
+        $ruta = url('storage/');
 
         if (!$massive_load->ruta_doc_cargo) {
             $data = $this->repo->get_datos_ruta_cargo($massive_load->id_massive_load);
@@ -168,7 +168,7 @@ class MassiveLoadService
             $massive_load->ruta_doc_cargo = $doc['file_name'];
         }
 
-        return Res::success(['hoja_ruta' => $ruta . $massive_load->ruta_doc_cargo ]);
+        return Res::success(['hoja_ruta' => $ruta .'/'. $massive_load->ruta_doc_cargo]);
     }
 
     public function generate_doc_ruta($data)
@@ -207,9 +207,9 @@ class MassiveLoadService
                     $pdf->Rect($box_x + 7, $box_y + 1, 90, 28);
                     $pdf->SetFont('Times', '', 6);
                     $pdf->SetXY($box_x+8, $box_y + 1);
-                    $pdf->MultiCell(89,4,'NOMBRE: $adfajlsdfjlkasjdf',0,'J');
+                    $pdf->MultiCell(89,4,'NOMBRE: '. $guide->organization->name,0,'J');
                     $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'CIUDAD: $asdfasdfasdfasdfasdfasdfasdfasd',0,'J');
+                    $pdf->MultiCell(89,4,'CIUDAD: LIMA',0,'J');
                     $pdf->SetX($box_x+8);
                     $pdf->MultiCell(89,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+8);
@@ -217,7 +217,7 @@ class MassiveLoadService
                     $pdf->SetX($box_x+8);
                     $pdf->MultiCell(89,4,'COD.ALTERNO: '. $guide->alt_code1,0,'J');
                     $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'DIRECCION: Direccion?',0,'L');
+                    $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->organization->address,0,'L');
 
                 // codigo de barra
                     $pdf->code128($box_x + 20, ($box_y + 28 + 2), $guide->client_barcode , 50, 9, false);

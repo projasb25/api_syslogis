@@ -21,4 +21,9 @@ class Guide extends Model
     {
         return $this->hasOne('App\Models\Entities\Address', 'id_address', 'id_address');
     }
+
+    public function organization()
+    {
+        return $this->hasOne('App\Models\Entities\Organization', 'id_organization', 'id_organization');
+    }
 }
