@@ -34,7 +34,7 @@ class ShippingService
 
         $hoja_ruta = $this->repo->get_hoja_ruta($data['id_shipping_order']);
         $disk = Storage::disk('hoja_ruta');
-        $ruta = url('storage/');
+        $ruta = url('storage/hoja_ruta/');
 
         if(!$hoja_ruta->hoja_ruta_doc){
             $data_shipping = $this->repo->get_imprimir_hoja_ruta($data['id_shipping_order']);
