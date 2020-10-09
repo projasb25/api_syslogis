@@ -55,9 +55,16 @@ return [
             'visibility' => 'public',
         ],
 
+        'cargo' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/cargo'),
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
         'hoja_ruta' => [
             'driver' => 'local',
-            'root' => storage_path('hoja_ruta'),
+            'root' => storage_path('app/public/hoja_ruta'),
         ],
 
         's3' => [

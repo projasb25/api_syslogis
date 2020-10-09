@@ -158,7 +158,7 @@ class MassiveLoadService
     {
         $massive_load = $this->repo->get($request->get('id_massive_load'));
 
-        $disk = Storage::disk('public');
+        $disk = Storage::disk('cargo');
         $ruta = url('storage/');
 
         if (!$massive_load->ruta_doc_cargo) {
@@ -346,7 +346,7 @@ class MassiveLoadService
                 $box_y = 92 + $box_y + 2;
             }
 
-            $disk = Storage::disk('public');
+            $disk = Storage::disk('cargo');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
             $save = $disk->put($fileName, $pdf->Output('S', '', true));
             if (!$save) {

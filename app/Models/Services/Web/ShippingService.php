@@ -33,7 +33,8 @@ class ShippingService
         $data = $request->all();
 
         $hoja_ruta = $this->repo->get_hoja_ruta($data['id_shipping_order']);
-        $disk = Storage::disk('public');
+        $disk = Storage::disk('hoja_ruta');
+        $ruta = url('storage/');
         $ruta = $disk->getDriver()->getAdapter()->getPathPrefix();
 
         if(!$hoja_ruta->hoja_ruta_doc){
@@ -46,15 +47,8 @@ class ShippingService
         {
             $hoja_ruta_doc = $hoja_ruta->hoja_ruta_doc;
         }
-        return Res::success(['hoja_ruta' => $ruta . $hoja_ruta_doc]);
-        
-        
-        $disk = Storage::disk('public');
-        $ruta = $disk->getDriver()->getAdapter()->getPathPrefix();
-        return Res::success(['hoja_ruta' => $ruta.$hoja_ruta->hoja_ruta_doc]);
-        
-        return $res;
 
+        return Res::success(['hoja_ruta' => $ruta .'/'. $hoja_ruta_doc]);
     }
 
     public function crear_hoja_ruta($data)
@@ -231,7 +225,7 @@ class ShippingService
     
             $pdf->Text(153, $y - 5, 'HUELLA DACTILAR');
 
-            $disk = Storage::disk('public');
+            $disk = Storage::disk('hoja_ruta');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
             $save = $disk->put($fileName, $pdf->Output('S', '', true));
             if (!$save) {
