@@ -159,7 +159,7 @@ class MassiveLoadService
         $massive_load = $this->repo->get($request->get('id_massive_load'));
 
         $disk = Storage::disk('cargo');
-        $ruta = url('storage/');
+        $ruta = url('storage/cargo/');
 
         if (!$massive_load->ruta_doc_cargo) {
             $data = $this->repo->get_datos_ruta_cargo($massive_load->id_massive_load);
