@@ -35,20 +35,15 @@ class ShippingService
         $hoja_ruta = $this->repo->get_hoja_ruta($data['id_shipping_order']);
         $disk = Storage::disk('hoja_ruta');
         $ruta = url('storage/');
-        $ruta = $disk->getDriver()->getAdapter()->getPathPrefix();
 
         if(!$hoja_ruta->hoja_ruta_doc){
             $data_shipping = $this->repo->get_imprimir_hoja_ruta($data['id_shipping_order']);
             $res = $this->crear_hoja_ruta($data_shipping);
             $this->repo->actualizar_hoja_ruta($res['file_name'], $data['id_shipping_order']);
-
-            $hoja_ruta_doc = $res['file_name'];
-        } else 
-        {
-            $hoja_ruta_doc = $hoja_ruta->hoja_ruta_doc;
+            $hoja_ruta->hoja_ruta_doc = $res['file_name'];
         }
 
-        return Res::success(['hoja_ruta' => $ruta .'/'. $hoja_ruta_doc]);
+        return Res::success(['hoja_ruta' => $ruta .'/'. $hoja_ruta->hoja_ruta_doc]);
     }
 
     public function crear_hoja_ruta($data)
