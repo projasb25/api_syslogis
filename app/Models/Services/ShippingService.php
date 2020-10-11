@@ -266,5 +266,7 @@ class ShippingService
             Log::warning('finalizar Ruta', ['exception' => $e->getMessage(), 'id_shipping_order' => $request->id_shipping_order]);
             return Res::error(['Unxpected error', 3000], 400);
         }
+
+        return Res::success(['mensaje' => 'Envio finalizado correctamente.']);
     }
 }
