@@ -13,8 +13,6 @@ class DriverController extends Controller
         $this->service = $driverService;
     }
 
-
-
     public function listarOfertas(Request $request)
     {
         return $this->service->listarOfertas($request);
