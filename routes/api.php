@@ -48,11 +48,11 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
 });
 
 Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'pedido'], function () {
-//     Route::get('/imagen/{idpedido_detalle}', 'PedidoController@getImagen')->where('idpedido_detalle', '[0-9]+');
-//     Route::post('/imagen', 'PedidoController@grabarImagen');
-//     Route::post('/actualizar', 'PedidoController@actualizar');
-//     Route::get('/motivos/{idcliente}', 'PedidoController@getMotivos')->where('idcliente', '[0-9]+');
-//     Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
+    Route::get('/motivos', 'PedidoController@getMotivos');
+    //     Route::get('/imagen/{idpedido_detalle}', 'PedidoController@getImagen')->where('idpedido_detalle', '[0-9]+');
+    //     Route::post('/imagen', 'PedidoController@grabarImagen');
+    //     Route::post('/actualizar', 'PedidoController@actualizar');
+    //     Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
 });
 
 /**
