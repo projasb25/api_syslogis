@@ -36,4 +36,9 @@ class ShippingController extends Controller
     {
         return $this->service->motivos();
     }
+
+    public function grabarImagen(Request $request)
+    {
+        return $this->service->grabarImagen($request);
+    }
 }

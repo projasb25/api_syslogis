@@ -40,6 +40,16 @@ class ShippingRepository
         return DB::table('motive')->where('status', 'ACTIVO')->get();
     }
 
+    public function getShippingOrderDetail($id)
+    {
+        return DB::table('shipping_order_detail')->where('id_shipping_order_detail', $id)->first();
+    }
+
+    public function insertarImagen($id, $url, $desc, $type)
+    {
+        DB::table('guide_images')->insert(['id_guide' => $id, 'url' => $url, 'description' => $desc, 'type' => $type]);
+    }
+
     public function rechazarEnvio($id)
     {
         DB::beginTransaction();

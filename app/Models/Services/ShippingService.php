@@ -7,7 +7,10 @@ use App\Models\Repositories\Web\ShippingRepository;
 use Exception;
 use Illuminate\Database\QueryException;
 use App\Helpers\ResponseHelper as Res;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ShippingService
 {
@@ -124,7 +127,7 @@ class ShippingService
             foreach ($motivos as $key => $motivo) {
                 array_push($data, $motivo->name);
             }
-            Log::info('Listar Motivos exitoso');
+            Log::info('Listar Motivos exitoso', ['motivos'=>$data]);
         } catch (CustomException $e) {
             Log::warning('Listar Motivos', ['expcetion' => $e->getData()[0]]);
             return Res::error($e->getData(), $e->getCode());
@@ -136,5 +139,54 @@ class ShippingService
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success($data);
+    }
+    
+    public function grabarImagen($request)
+    {
+        try {
+            $guide = $this->repository->getShippingOrderDetail($request->get('id_shipping_order_detail'));
+            if (!$guide) {
+                throw new CustomException(['Detalle no encontrado.', 2010], 400);
+            } elseif ($guide->status !== 'CURSO') {
+                throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
+            }
+            
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $request->get('id_shipping_order_detail');
+            # CHeck if folder exists before create one
+            if (!file_exists($destination_path)) {
+                File::makeDirectory($destination_path, $mode = 0777, true, true);
+                File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
+            }
+
+            $imagen = $request->file('imagen');
+            $nombre_imagen = $guide->id_guide . '_' . time() . '.jpg';
+            $thumbnail = Image::make($imagen->getRealPath());
+            
+            # Guardamos el thumnail primero
+            $thumbnail->resize(250, 250, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination_path . '/thumbnail/' . $nombre_imagen);
+            
+            # Redimesionamos la imagen a 720x720
+            $resize = Image::make($imagen->getRealPath());
+            $resize->resize(720, 720, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination_path . '/' . $nombre_imagen);
+
+            $ruta = url('storage/imagenes/' . $request->get('id_shipping_order_detail'). '/' . $nombre_imagen);
+            $this->repository->insertarImagen($guide->id_guide, $ruta,$request->get('descripcion'),$request->get('tipo_imagen'));
+
+            Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
+        } catch (CustomException $e) {
+            Log::warning('Grabar imagen', ['expcetion' => $e->getData()[0], 'request' => $request->except('imagen')]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Grabar imagen', ['expcetion' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Grabar imagen', ['exception' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['mensaje' => 'Imagen guardada con exito']);
     }
 }
