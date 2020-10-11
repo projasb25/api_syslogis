@@ -33,6 +33,7 @@ class ShippingRepository
             $guias = DB::table('shipping_order_detail')->select('id_guide')->where('id_shipping_order',$id)->get();
             foreach ($guias as $key => $guia) {
                 DB::table('guide')->where('id_guide', $guia->id_guide)->update(['status' => 'PENDIENTE']);
+                DB::table('guide_tracking')->insert(['id_guide' => $guia->id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.']);
             }
         } catch (Exception $e) {
             DB::rollback();
