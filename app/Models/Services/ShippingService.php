@@ -39,6 +39,6 @@ class ShippingService
             return Res::error(['Unxpected error', 3000], 400);
         }
 
-        return Res::success('Estado actualizado');
+        return Res::success(['mensaje' => 'Estado actualizado']);
     }
 }
