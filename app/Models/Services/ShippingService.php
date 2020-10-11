@@ -225,7 +225,7 @@ class ShippingService
                 throw new CustomException(['El pedido no se encuentra en Curso.', 2013], 400);
             }
 
-            $this->repository->actualizarPedido($this->pedidoDetalleRepo->actualizarPedido($data));
+            $this->repository->actualizarPedido($data);
 
             Log::info('Actualización pedido exitoso', ['request' => $data]);
         } catch (CustomException $e) {
