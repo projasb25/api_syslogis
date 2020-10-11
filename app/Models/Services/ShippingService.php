@@ -66,4 +66,26 @@ class ShippingService
 
         return Res::success(['mensaje' => 'Estado actualizado']);
     }
+
+    public function listarRutas($request)
+    {
+        try {
+            $rutas = $this->repository->listarRutas($request->idofertaenvio);
+            if (!count($rutas)) {
+                throw new CustomException(['No existen rutas ascociadas a este id.', 2007], 404);
+            }
+            Log::info('Listar Rutas', ['id_shipping_order' => $request->idofertaenvio, 'nro_registros' => count($rutas)]);
+        } catch (CustomException $e) {
+            Log::warning('Rechazar oferta', ['expcetion' => $e->getData()[0], 'id_shipping_order' => $request->idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Rechazar oferta', ['expcetion' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Rechazar oferta', ['exception' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+
+        return Res::success($rutas);
+    }
 }

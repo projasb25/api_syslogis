@@ -21,4 +21,9 @@ class ShippingController extends Controller
     {
         return $this->service->rechazarOferta($request);
     }
+
+    public function listarRutas(Request $request)
+    {
+        return $this->service->listarRutas($request);
+    }
 }

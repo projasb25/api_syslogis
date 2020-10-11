@@ -25,6 +25,11 @@ class ShippingRepository
         DB::table('shipping_order')->where('id_shipping_order',$id)->update(['status' => 'ACEPTADO']);
     }
 
+    public function listarRutas($id)
+    {
+        return DB::select("CALL SP_SEL_DETALLE_ENVIO(?)",[$id]);
+    }
+
     public function rechazarEnvio($id)
     {
         DB::beginTransaction();
@@ -40,8 +45,6 @@ class ShippingRepository
             throw $e;
         }
         DB::commit();
-
-        
     }
     
     public function get_imprimir_hoja_ruta($shipping_order)
