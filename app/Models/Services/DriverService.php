@@ -32,7 +32,7 @@ class DriverService
     
                 /* Si no hay ofertas aceptadas, disabled = false */
                 $aceptadas = $ordenes->filter(function ($item) {
-                    return $item->status === 'ACEPTADA';
+                    return $item->status === 'ACEPTADO';
                 })->values();
 
                 foreach ($ordenes as $key => $orden) {
