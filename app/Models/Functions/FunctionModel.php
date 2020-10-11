@@ -54,7 +54,7 @@ class FunctionModel
         ],
         "SP_CREATE_SHIPPING_ORDER" => [
             "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :id_driver, :guide_ids, :username)',
-            "params" => ['id_vehicle', ,'id_driver', 'guide_ids', 'username']
+            "params" => ['id_vehicle', 'id_driver', 'guide_ids', 'username']
         ],
         "SP_SEL_SHIPPING_ORDERS" => [
             "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :username)',

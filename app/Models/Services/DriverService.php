@@ -7,6 +7,7 @@ use App\Http\Requests\Pedido\grabarImagen;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\DriverRepository;
 use App\Models\Repositories\PedidoDetalleRepository;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -28,14 +29,40 @@ class DriverService
             $driver = auth()->user();
             $ordenes = $this->repository->getShippingOrders($driver->id_driver);
             if ($ordenes->count()) {
+    
+                /* Si no hay ofertas aceptadas, disabled = false */
                 $aceptadas = $ordenes->filter(function ($item) {
                     return $item->status === 'ACEPTADA';
                 })->values();
-                // foreach ($ordenes as $key => $orden) {
-                //     # code...
-                // }
+
+                
+                $fecha_aceptada = Carbon::createFromTimeString($aceptadas[0]->date_created)->format('Y-m-d');
+                $fecha_orden = Carbon::createFromTimeString($ordenes[1]->date_created)->format('Y-m-d');
+
+                foreach ($ordenes as $key => $orden) {
+                    if (!count($aceptadas)) {
+                        $disabled = false;
+                    } else {
+                        $fecha_aceptada = Carbon::createFromTimeString($aceptadas[0]->date_created)->format('Y-m-d');
+                        $fecha_orden = Carbon::createFromTimeString($orden->date_created)->format('Y-m-d');
+
+                        $disabled = (Carbon::parse($fecha_aceptada)->diffInDays($fecha_orden) !== 0);
+
+                        // if (Carbon::parse($orden->date_created)->diffInDays($aceptadas[0]->date_created) <> 0) {
+                        //     $disabled = true;
+                        // } else {
+                        //     $disabled = false;
+                        // }
+                    }
+                    $orden->disabled = $disabled;
+                }
+                
+                
+                
+                
+
             }
-            dd($aceptadas);
+            dd($ordenes);
 
             $data = $ordenes;
             Log::info('Listar Ofertas', ['id_driver' => $driver->id_dirver, 'ordenes' => (array) $ordenes]);
