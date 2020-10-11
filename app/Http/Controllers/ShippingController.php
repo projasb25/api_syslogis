@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Pedido\actualizarPedido;
 use App\Http\Requests\Pedido\grabarImagen;
 use App\Models\Services\ShippingService;
 use Illuminate\Http\Request;
@@ -46,5 +47,10 @@ class ShippingController extends Controller
     public function getImagen(Request $request)
     {
         return $this->service->getImagen($request);
+    }
+
+    public function actualizar(actualizarPedido $request)
+    {
+        return $this->service->actualizarPedido($request);
     }
 }

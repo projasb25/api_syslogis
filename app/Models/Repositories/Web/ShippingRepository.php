@@ -50,6 +50,12 @@ class ShippingRepository
         DB::table('guide_images')->insert(['id_guide' => $id, 'url' => $url, 'description' => $desc, 'type' => $type]);
     }
 
+    public function actualizarPedido($data)
+    {
+        return DB::select("CALL SP_ACTUALIZAR_PEDIDO(?)",[json_encode($data)]);
+    }
+    
+
     public function obtenerImagenes($id)
     {
         return DB::table('shipping_order_detail as sod')

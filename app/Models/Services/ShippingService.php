@@ -202,15 +202,45 @@ class ShippingService
             }
             Log::info("Obtener imagen exitoso", ['id_shipping_order_detail' => $request->id_shipping_order_detail, 'nro_imagenes' => $imagenes->count()]);
         } catch (CustomException $e) {
-            Log::warning('Obtener Imagen', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request->idofertaenvio]);
+            Log::warning('Obtener Imagen', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request->id_shipping_order_detail]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Obtener Imagen', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            Log::warning('Obtener Imagen', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request->id_shipping_order_detail]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Obtener Imagen', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            Log::warning('Obtener Imagen', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request->id_shipping_order_detail]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success($data);
+    }
+
+    public function actualizarPedido($request)
+    {
+        try {
+            $data = $request->all();
+            $pedido = $this->repository->getShippingOrderDetail($request['id_shipping_order_detail']);
+            if (!$pedido) {
+                throw new CustomException(['Pedido no encontrado.', 2012], 400);
+            } elseif ($pedido->status !== 'CURSO') {
+                throw new CustomException(['El pedido no se encuentra en Curso.', 2013], 400);
+            }
+
+            $this->repository->actualizarPedido($this->pedidoDetalleRepo->actualizarPedido($data));
+
+            Log::info('Actualización pedido exitoso', ['request' => $data]);
+        } catch (CustomException $e) {
+            Log::warning('Actualizar pedido', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request->idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Actualizar pedido', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Actualizar pedido', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success([
+            'mensaje' => 'Pedido actualizado con éxito',
+            'finalizado' => false
+        ]);
     }
 }

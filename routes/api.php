@@ -51,7 +51,7 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
     Route::get('/motivos', 'ShippingController@getMotivos');
     Route::post('/imagen', 'ShippingController@grabarImagen');
     Route::get('/imagen/{id_shipping_order_detail}', 'ShippingController@getImagen')->where('id_shipping_order_detail', '[0-9]+');
-    //     Route::post('/actualizar', 'PedidoController@actualizar');
+    Route::post('/actualizar', 'ShippingController@actualizar');
     //     Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
 });
 
