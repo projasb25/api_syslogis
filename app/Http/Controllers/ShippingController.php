@@ -32,7 +32,7 @@ class ShippingController extends Controller
         return $this->service->iniciarRuta($request);
     }
 
-    public function motivos(Request $request)
+    public function getMotivos(Request $request)
     {
         return $this->service->motivos();
     }
