@@ -115,7 +115,7 @@ class ShippingService
         return Res::success(['mensaje' => 'Envio iniciado correctamente.']);
     }
 
-    public function motivos($request)
+    public function motivos()
     {
         try {
             $motivos = $this->repository->getMotivos();

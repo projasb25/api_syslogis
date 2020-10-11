@@ -34,6 +34,6 @@ class ShippingController extends Controller
 
     public function motivos(Request $request)
     {
-        return $this->service->motivos($request);
+        return $this->service->motivos();
     }
 }
