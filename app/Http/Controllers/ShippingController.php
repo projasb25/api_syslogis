@@ -42,4 +42,9 @@ class ShippingController extends Controller
     {
         return $this->service->grabarImagen($request);
     }
+
+    public function getImagen(Request $request)
+    {
+        return $this->service->getImagen($request);
+    }
 }

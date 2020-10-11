@@ -50,6 +50,15 @@ class ShippingRepository
         DB::table('guide_images')->insert(['id_guide' => $id, 'url' => $url, 'description' => $desc, 'type' => $type]);
     }
 
+    public function obtenerImagenes($id)
+    {
+        return DB::table('shipping_order_detail as sod')
+            ->select('*')
+            ->join('guide_images as gi','gi.id_guide','=','sod.id_guide')
+            ->where('id_shipping_order_detail', $id)
+            ->get();
+    }
+
     public function rechazarEnvio($id)
     {
         DB::beginTransaction();

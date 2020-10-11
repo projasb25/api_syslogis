@@ -189,4 +189,28 @@ class ShippingService
         }
         return Res::success(['mensaje' => 'Imagen guardada con exito']);
     }
+
+    public function getImagen($request)
+    {
+        try {
+            $imagenes = $this->repository->obtenerImagenes($request->id_shipping_order_detail);
+            $data = [];
+
+            foreach ($imagenes as $key => $img) {
+                $segmentos = explode('/',$img->url);
+                array_push($data, url('/imagenes/' . $request->idofertaenvio . '/thumbnail/' . end($segmentos)));
+            }
+            Log::info("Obtener imagen exitoso", ['idpedido_detalle' => $idpedido_detalle, 'nro_imagenes' => $imagenes->count()]);
+        } catch (CustomException $e) {
+            Log::warning('Obtener Imagen', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request->idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Obtener Imagen', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Obtener Imagen', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success($data);
+    }
 }
