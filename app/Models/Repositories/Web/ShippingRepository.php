@@ -24,6 +24,24 @@ class ShippingRepository
     {
         DB::table('shipping_order')->where('id_shipping_order',$id)->update(['status' => 'ACEPTADO']);
     }
+
+    public function rechazarEnvio($id)
+    {
+        DB::beginTransaction();
+        try {
+            DB::table('shipping_order')->where('id_shipping_order',$id)->update(['status' => 'RECHAZADO']);
+            $guias = DB::table('shipping_order_detail')->select('id_guide')->where('id_shipping_order',$id)->get();
+            foreach ($guias as $key => $guia) {
+                DB::table('guide')->where('id_guide', $guia->id_guide)->update(['status' => 'PENDIENTE']);
+            }
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
+
+        
+    }
     
     public function get_imprimir_hoja_ruta($shipping_order)
     {
