@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Pedido\grabarImagen;
 use App\Models\Services\ShippingService;
 use Illuminate\Http\Request;
 
@@ -37,7 +38,7 @@ class ShippingController extends Controller
         return $this->service->motivos();
     }
 
-    public function grabarImagen(Request $request)
+    public function grabarImagen(grabarImagen $request)
     {
         return $this->service->grabarImagen($request);
     }
