@@ -16,4 +16,17 @@ class DriverRepository
             ->whereNotIn('status', ['FINALIZADO', 'RECHAZADO', 'ELIMINADO'])
             ->get();
     }
+
+    public function actualizarEstado($estado, $id)
+    {
+        DB::beginTransaction();
+        try {
+            DB::table('driver')->where('id_driver', $id)->update(['status' => $estado]);
+            DB::table('vehicle')->where('id_driver', $id)->update(['status' => $estado]);
+        } catch (Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
+    }
 }

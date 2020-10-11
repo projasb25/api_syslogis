@@ -53,10 +53,6 @@ class DriverService
             Log::warning('Listar Ofertas', ['expcetion' => $e->getData()[0]]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            if ((int) $e->getCode() >= 60000) {
-                Log::warning('Main Service Query error', ['expcetion' => $e->errorInfo[2]]);
-                return Res::error([$e->errorInfo[2], 3000], 400);
-            }
             Log::warning('Listar Ofertas', ['expcetion' => $e->getMessage()]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
@@ -64,5 +60,27 @@ class DriverService
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success($ordenes);
+    }
+
+    public function actualizarEstado($request)
+    {
+        try {
+            $driver = auth()->user();
+            $estado = ($request->get('estado')) ? 'ACTIVO' : 'DESCONECTADO';
+            $this->repository->actualizarEstado($estado, $driver->id_driver);
+            
+            Log::info('Actualizar estado', ['id_driver' => $driver->id_driver, 'estado' => $estado]);
+        } catch (CustomException $e) {
+            Log::warning('Actualizar Estado', ['expcetion' => $e->getData()[0]]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Actualizar Estado', ['expcetion' => $e->getMessage()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Actualizar Estado', ['exception' => $e->getMessage()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+
+        return Res::success('Estado actualizado');
     }
 }
