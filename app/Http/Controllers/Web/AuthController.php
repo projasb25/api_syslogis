@@ -10,6 +10,7 @@ use App\Http\Requests\Web\ChangeRequest;
 use App\Models\Repositories\ConductorRepository;
 use App\User;
 use Exception;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -33,6 +34,8 @@ class AuthController extends Controller
     public function login()
     {
         try {
+            Config::set('auth.providers.users.model', \App\User::class);
+
             $data = request()->get('data');
             $query = DB::select("CALL SP_AUTHENTICATE(?)", [$data['usr']]);
 

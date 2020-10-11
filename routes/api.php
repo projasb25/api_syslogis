@@ -28,9 +28,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('me', 'AuthController@me');
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'conductor'], function () {
-    Route::get('/ofertas', 'ConductorController@listarOfertas');
-    Route::post('/actualizarEstado', 'ConductorController@actualizarEstado');
+// Route::group(['middleware' => 'auth:api', 'prefix' => 'conductor'], function () {
+//     Route::get('/ofertas', 'ConductorController@listarOfertas');
+//     Route::post('/actualizarEstado', 'ConductorController@actualizarEstado');
+// });
+
+Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'conductor'], function () {
+    Route::get('/ofertas', 'DriverController@listarOfertas');
+    // Route::post('/actualizarEstado', 'DriverController@actualizarEstado');
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
@@ -61,18 +66,18 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     Route::get('validateToken', 'AuthController@me');
     Route::post('change', 'AuthController@change');
 
-    Route::group(['middleware' => 'auth:api', 'prefix' => 'main'], function() {
+    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'main'], function() {
         Route::post('', 'MainController@index');
         Route::post('/simpleTransaction', 'MainController@simpleTransaction');
     });
 
-    Route::group(['middleware' => 'auth:api', 'prefix' => 'massive_load'], function() {
+    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'massive_load'], function() {
         Route::post('', 'MassiveLoadController@index');
         Route::post('process', 'MassiveLoadController@process');
         Route::post('print/cargo', 'MassiveLoadController@print_cargo');
     });
 
-    Route::group(['middleware' => 'auth:api', 'prefix' => 'shipping'], function() {
+    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'shipping'], function() {
         Route::post('print/hoja_ruta', 'ShippingController@print_hoja_ruta');
         // Route::post('process', 'ShippingController@process');
     });

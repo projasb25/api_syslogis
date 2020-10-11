@@ -46,6 +46,15 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'drivers' => [
+            'driver' => 'jwt',
+            'provider' => 'drivers',
+        ],
+        'users' => [
+            'driver' => 'jwt',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -70,6 +79,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+        'drivers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Entities\Driver::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

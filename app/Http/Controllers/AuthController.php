@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Models\Entities\Driver;
 use App\Models\Repositories\ConductorRepository;
 use App\User;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
+use App\Helpers\ResponseHelper as Res;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -27,38 +34,36 @@ class AuthController extends Controller
         try {
             $username = request()->get('email');
             $password = request()->get('password');
-            $hashed_pass = hash('sha256', $password . env('TOKEN_SECRET'));
 
-            # Validamos que usuario y contraseña sean correctas
-            $user = User::where([
-                ['correo', '=', $username],
-                ['contrasena', '=', $hashed_pass]
-            ])->first();
+            Config::set('auth.providers.users.model', \App\Models\Entities\Driver::class);
 
-            if (!$user) {
-                $response = [
-                    'success' => false,
-                    'error' => [
-                        'mensaje' => 'Credenciales incorrectas.',
-                        'code' => 2000
-                    ]
-                ];
-                return response()->json($response, 401);
+            $driver = Driver::where('email', $username)->first();
+
+            if (!$driver) {
+                throw new CustomException(['Usuario no existe.', 2000], 401);
             }
+            if (!Hash::check($password, $driver->password)) {
+                throw new CustomException(['Credenciales incorrectas.', 2001], 401);
+            }
+            
+            $token = auth()->login($driver);
 
-            $token = auth()->login($user);
-            $response = [
-                'success' => true,
-                'data' => [
-                    'token' => $token,
-                    'nombre' => $user->nombre,
-                    'email' => $user->correo,
-                    'code' => 2000
-                ]
-            ];
+            return Res::success([
+                'first_name' => $driver->first_name,
+                'last_name' => $driver->last_name,
+                'email' => $driver->email,
+                'token' => $token,
+                'token_type' => 'bearer',
+                'expires_in' => auth()->factory()->getTTL() * 60
+            ]);
+
             return response()->json($response);
-        } catch (\Throwable $th) {
-            dd($th);
+        } catch (CustomException $e) {
+            Log::warning('Iniciar Session error', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (Exception $e) {
+            Log::warning('Iniciar Session error', ['exception' => $e->getMessage(), 'request' => request()->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
         }
     }
 

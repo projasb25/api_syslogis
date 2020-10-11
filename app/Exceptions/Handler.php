@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Throwable;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Exceptions\TokenBlacklistedException;
@@ -61,7 +62,8 @@ class Handler extends ExceptionHandler
         if (
             $exception instanceof TokenExpiredException ||
             $exception instanceof JWTException ||
-            $exception instanceof AuthenticationException
+            $exception instanceof AuthenticationException ||
+            $exception instanceof UnauthorizedHttpException
         ) {
             return response()->json([
                 'success' => false,
@@ -98,7 +100,6 @@ class Handler extends ExceptionHandler
 
     protected function invalidJson($request, ValidationException $exception)
     {
-        dd('aca');
         $errors = $exception->errors();
         $first_error = array_key_first($errors);
         return response()->json([
