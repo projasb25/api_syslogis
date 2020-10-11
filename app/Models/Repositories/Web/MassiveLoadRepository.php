@@ -172,7 +172,7 @@ class MassiveLoadRepository
                         'client_phone2' => $value->client_phone2,
                         'client_phone3' => $value->client_phone3,
                         'client_email' => $value->client_email,
-                        'status' => ($value->status === 'PROCESADO') ? 'DESPACHO ACEPTADO' : 'SIN FISICO',
+                        'status' => ($value->status === 'PROCESADO') ? 'PENDIENTE' : 'SIN FISICO',
                         'created_by' => $data['username']
                     ]);
 
@@ -181,6 +181,7 @@ class MassiveLoadRepository
                             ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.'],
                             ['id_guide' => $id_guide, 'status' => 'DESPACHADO', 'motive' => 'Registro Automático.'],
                             ['id_guide' => $id_guide, 'status' => 'DESPACHO ACEPTADO', 'motive' => 'Registro Automático.'],
+                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.'],
                         ]);
                     } else {
                         DB::table('guide_tracking')->insert([
