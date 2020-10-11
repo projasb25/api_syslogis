@@ -85,7 +85,7 @@ class FunctionModel
             "params" => ['status']
         ],
         "SP_INS_PROVIDER" => [
-            "query" => 'CALL SP_INS_PROVIDER(:id_provider,:name,:ruc,responsible_name,responsible_phone,:responsible_email,:description,:address,:status,:username)',
+            "query" => 'CALL SP_INS_PROVIDER(:id_provider,:name,:ruc,:responsible_name,:responsible_phone,:responsible_email,:description,:address,:status,:username)',
             "params" => ['id_provider','name','ruc','responsible_name','responsible_phone','responsible_email','description','address','status','username']
         ],
         
