@@ -16,4 +16,9 @@ class ShippingController extends Controller
     {
         return $this->service->aceptarOferta($request);
     }
+
+    public function rechazar(Request $request)
+    {
+        return $this->service->rechazarOferta($request);
+    }
 }
