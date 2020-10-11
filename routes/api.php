@@ -39,21 +39,21 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
 });
 
 Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
-    Route::get('/aceptar/{idofertaenvio}', 'EnviosController@aceptar');
-    Route::get('/rechazar/{idofertaenvio}', 'EnviosController@rechazar');
-    Route::get('/rutas/{idofertaenvio}', 'EnviosController@listarRutas');
-    Route::get('/iniciar/{idenvio}', 'EnviosController@iniciar')->where('idenvio', '[0-9]+');
-    Route::get('/finalizar/{idenvio}', 'EnviosController@finalizar')->where('idenvio', '[0-9]+');
-    Route::get('/coordenadas/{idofertaenvio}', 'EnviosController@coordenadas')->where('idofertaenvio', '[0-9]+');
+    Route::get('/aceptar/{idofertaenvio}', 'ShippingController@aceptar');
+    // Route::get('/rechazar/{idofertaenvio}', 'EnviosController@rechazar');
+    // Route::get('/rutas/{idofertaenvio}', 'EnviosController@listarRutas');
+    // Route::get('/iniciar/{idenvio}', 'EnviosController@iniciar')->where('idenvio', '[0-9]+');
+    // Route::get('/finalizar/{idenvio}', 'EnviosController@finalizar')->where('idenvio', '[0-9]+');
+    // Route::get('/coordenadas/{idofertaenvio}', 'EnviosController@coordenadas')->where('idofertaenvio', '[0-9]+');
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
-    Route::get('/imagen/{idpedido_detalle}', 'PedidoController@getImagen')->where('idpedido_detalle', '[0-9]+');
-    Route::post('/imagen', 'PedidoController@grabarImagen');
-    Route::post('/actualizar', 'PedidoController@actualizar');
-    Route::get('/motivos/{idcliente}', 'PedidoController@getMotivos')->where('idcliente', '[0-9]+');
-    Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
-});
+// Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
+//     Route::get('/imagen/{idpedido_detalle}', 'PedidoController@getImagen')->where('idpedido_detalle', '[0-9]+');
+//     Route::post('/imagen', 'PedidoController@grabarImagen');
+//     Route::post('/actualizar', 'PedidoController@actualizar');
+//     Route::get('/motivos/{idcliente}', 'PedidoController@getMotivos')->where('idcliente', '[0-9]+');
+//     Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
+// });
 
 /**
  *  || RUTAS PARA LA WEB ||

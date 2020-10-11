@@ -10,9 +10,19 @@ use Illuminate\Support\Str;
 
 class ShippingRepository
 {
+    public function getShippingOrder($id)
+    {
+        return DB::table('shipping_order')->where('id_shipping_order',$id)->first();
+    }
+
     public function get_hoja_ruta($id)
     {
         return DB::table('shipping_order')->where('id_shipping_order', $id)->first();
+    }
+
+    public function aceptarEnvio($id)
+    {
+        DB::table('shipping_order')->where('id_shipping_order',$id)->update(['status' => 'ACEPTADA']);
     }
     
     public function get_imprimir_hoja_ruta($shipping_order)
