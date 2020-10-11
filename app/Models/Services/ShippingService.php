@@ -229,18 +229,42 @@ class ShippingService
 
             Log::info('Actualización pedido exitoso', ['request' => $data]);
         } catch (CustomException $e) {
-            Log::warning('Actualizar pedido', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request->idofertaenvio]);
+            Log::warning('Actualizar pedido', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request['id_shipping_order_detail']]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Actualizar pedido', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            Log::warning('Actualizar pedido', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request['id_shipping_order_detail']]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Actualizar pedido', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request->idofertaenvio]);
+            Log::warning('Actualizar pedido', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request['id_shipping_order_detail']]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success([
             'mensaje' => 'Pedido actualizado con éxito',
             'finalizado' => false
         ]);
+    }
+
+    public function finalizarRuta($request)
+    {
+        try {
+            $orden = $this->repository->getShippingOrder($request->id_shipping_order);
+            if (!$orden) {
+                throw new CustomException(['Envio no encontrado.', 2001], 404);
+            } elseif ($orden->status !== 'CURSO') {
+                throw new CustomException(['Envio ya esta finalizado o fue cancelado.', 2002], 400);
+            }
+
+            $this->repository->finalizarRuta($request->id_shipping_order);
+            Log::info('Finalizar ruta exitoso', ['id_shipping_order' => $request->id_shipping_order]);
+        } catch (CustomException $e) {
+            Log::warning('finalizar Ruta', ['expcetion' => $e->getData()[0], 'id_shipping_order' => $request->id_shipping_order]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('finalizar Ruta', ['expcetion' => $e->getMessage(), 'id_shipping_order' => $request->id_shipping_order]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('finalizar Ruta', ['exception' => $e->getMessage(), 'id_shipping_order' => $request->id_shipping_order]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
     }
 }

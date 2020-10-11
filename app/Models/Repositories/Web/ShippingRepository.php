@@ -54,7 +54,11 @@ class ShippingRepository
     {
         return DB::select("CALL SP_ACTUALIZAR_PEDIDO(?)",[json_encode($data)]);
     }
-    
+
+    public function finalizarRuta($id)
+    {
+        return DB::select("CALL SP_FINALIZAR_RUTA(?)",[$id]);
+    }
 
     public function obtenerImagenes($id)
     {

@@ -43,7 +43,7 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
     Route::get('/rechazar/{idofertaenvio}', 'ShippingController@rechazar');
     Route::get('/rutas/{idofertaenvio}', 'ShippingController@listarRutas');
     Route::get('/iniciar/{idofertaenvio}', 'ShippingController@iniciar')->where('idofertaenvio', '[0-9]+');
-    // Route::get('/finalizar/{idenvio}', 'EnviosController@finalizar')->where('idenvio', '[0-9]+');
+    Route::get('/finalizar/{id_shipping_order}', 'ShippingController@finalizar')->where('id_shipping_order', '[0-9]+');
     // Route::get('/coordenadas/{idofertaenvio}', 'EnviosController@coordenadas')->where('idofertaenvio', '[0-9]+');
 });
 

@@ -53,4 +53,9 @@ class ShippingController extends Controller
     {
         return $this->service->actualizarPedido($request);
     }
+
+    public function finalizar(Request $request)
+    {
+        return $this->service->finalizar($request);
+    }
 }
