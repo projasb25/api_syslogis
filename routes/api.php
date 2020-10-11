@@ -38,7 +38,7 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
     Route::post('/actualizarEstado', 'DriverController@actualizarEstado');
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'envio'], function () {
+Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'envio'], function () {
     Route::get('/aceptar/{idofertaenvio}', 'ShippingController@aceptar');
     // Route::get('/rechazar/{idofertaenvio}', 'EnviosController@rechazar');
     // Route::get('/rutas/{idofertaenvio}', 'EnviosController@listarRutas');
