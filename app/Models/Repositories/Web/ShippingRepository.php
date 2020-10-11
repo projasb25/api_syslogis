@@ -30,6 +30,11 @@ class ShippingRepository
         return DB::select("CALL SP_SEL_DETALLE_ENVIO(?)",[$id]);
     }
 
+    public function iniciarRuta($id)
+    {
+        return DB::select("CALL SP_INICIAR_RUTA(?)",[$id]);
+    }
+
     public function rechazarEnvio($id)
     {
         DB::beginTransaction();

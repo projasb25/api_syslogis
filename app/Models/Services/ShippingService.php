@@ -13,7 +13,8 @@ class ShippingService
 {
     protected $repository;
 
-    public function __construct(ShippingRepository $shippingRepository) {
+    public function __construct(ShippingRepository $shippingRepository)
+    {
         $this->repository = $shippingRepository;
     }
 
@@ -76,16 +77,42 @@ class ShippingService
             }
             Log::info('Listar Rutas', ['id_shipping_order' => $request->idofertaenvio, 'nro_registros' => count($rutas)]);
         } catch (CustomException $e) {
-            Log::warning('Rechazar oferta', ['expcetion' => $e->getData()[0], 'id_shipping_order' => $request->idofertaenvio]);
+            Log::warning('Listar Rutas', ['expcetion' => $e->getData()[0], 'id_shipping_order' => $request->idofertaenvio]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Rechazar oferta', ['expcetion' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
+            Log::warning('Listar Rutas', ['expcetion' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Rechazar oferta', ['exception' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
+            Log::warning('Listar Rutas', ['exception' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
             return Res::error(['Unxpected error', 3000], 400);
         }
 
         return Res::success($rutas);
+    }
+
+    public function iniciarRuta($request)
+    {
+        try {
+            $orden = $this->repository->getShippingOrder($request->idofertaenvio);
+            if (!$orden) {
+                throw new CustomException(['Envio no encontrado.', 2001], 404);
+            } elseif ($orden->status !== 'ACEPTADO') {
+                throw new CustomException(['Envio ya esta iniciado o fue cancelado.', 2002], 400);
+            }
+
+            $this->repository->iniciarRuta($request->idofertaenvio);
+            Log::info('Iniciar Ruta', ['id_shipping_order' => $request->idofertaenvio]);
+        } catch (CustomException $e) {
+            Log::warning('Iniciar Ruta', ['expcetion' => $e->getData()[0], 'id_shipping_order' => $request->idofertaenvio]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Iniciar Ruta', ['expcetion' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Iniciar Ruta', ['exception' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+
+        return Res::success(['mensaje' => 'Envio iniciado correctamente.']);
     }
 }

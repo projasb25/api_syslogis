@@ -26,4 +26,9 @@ class ShippingController extends Controller
     {
         return $this->service->listarRutas($request);
     }
+
+    public function iniciar(Request $request)
+    {
+        return $this->service->iniciarRuta($request);
+    }
 }
