@@ -173,7 +173,7 @@ class ShippingService
                 $constraint->aspectRatio();
             })->save($destination_path . '/' . $nombre_imagen);
 
-            $ruta = url('storage/imagenes/' . $request->get('id_shipping_order_detail'). '/' . $nombre_imagen);
+            $ruta = url('storage/imagenes/' . $guide->id_guide. '/' . $nombre_imagen);
             $this->repository->insertarImagen($guide->id_guide, $ruta,$request->get('descripcion'),$request->get('tipo_imagen'));
 
             Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
