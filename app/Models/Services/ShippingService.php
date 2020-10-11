@@ -198,7 +198,7 @@ class ShippingService
 
             foreach ($imagenes as $key => $img) {
                 $segmentos = explode('/',$img->url);
-                array_push($data, url('/imagenes/' . $img->id_guide . '/thumbnail/' . end($segmentos)));
+                array_push($data, url('storage/imagenes/' . $img->id_guide . '/thumbnail/' . end($segmentos)));
             }
             Log::info("Obtener imagen exitoso", ['idpedido_detalle' => $request->id_shipping_order_detail, 'nro_imagenes' => $imagenes->count()]);
         } catch (CustomException $e) {
