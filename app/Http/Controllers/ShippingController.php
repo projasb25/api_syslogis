@@ -31,4 +31,9 @@ class ShippingController extends Controller
     {
         return $this->service->iniciarRuta($request);
     }
+
+    public function motivos(Request $request)
+    {
+        return $this->service->motivos($request);
+    }
 }

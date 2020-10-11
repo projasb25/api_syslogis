@@ -47,13 +47,13 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
     // Route::get('/coordenadas/{idofertaenvio}', 'EnviosController@coordenadas')->where('idofertaenvio', '[0-9]+');
 });
 
-// Route::group(['middleware' => 'auth:api', 'prefix' => 'pedido'], function () {
+Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'pedido'], function () {
 //     Route::get('/imagen/{idpedido_detalle}', 'PedidoController@getImagen')->where('idpedido_detalle', '[0-9]+');
 //     Route::post('/imagen', 'PedidoController@grabarImagen');
 //     Route::post('/actualizar', 'PedidoController@actualizar');
 //     Route::get('/motivos/{idcliente}', 'PedidoController@getMotivos')->where('idcliente', '[0-9]+');
 //     Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
-// });
+});
 
 /**
  *  || RUTAS PARA LA WEB ||

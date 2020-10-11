@@ -112,7 +112,29 @@ class ShippingService
             Log::warning('Iniciar Ruta', ['exception' => $e->getMessage(), 'id_shipping_order' => $request->idofertaenvio]);
             return Res::error(['Unxpected error', 3000], 400);
         }
-
         return Res::success(['mensaje' => 'Envio iniciado correctamente.']);
+    }
+
+    public function motivos($request)
+    {
+        try {
+            $motivos = $this->repository->getMotivos();
+            $data = [];
+
+            foreach ($motivos as $key => $motivo) {
+                array_push($data, $motivo->name);
+            }
+            Log::info('Listar Motivos exitoso');
+        } catch (CustomException $e) {
+            Log::warning('Listar Motivos', ['expcetion' => $e->getData()[0]]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Listar Motivos', ['expcetion' => $e->getMessage()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Listar Motivos', ['exception' => $e->getMessage()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success($data);
     }
 }

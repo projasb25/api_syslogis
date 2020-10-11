@@ -35,6 +35,11 @@ class ShippingRepository
         return DB::select("CALL SP_INICIAR_RUTA(?)",[$id]);
     }
 
+    public function getMotivos()
+    {
+        return DB::table('motive')->where('status', 'ACTIVO')->get();
+    }
+
     public function rechazarEnvio($id)
     {
         DB::beginTransaction();
