@@ -151,7 +151,7 @@ class ShippingService
                 throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
             }
             
-            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $request->get('id_shipping_order_detail');
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide->id_guide;
             # CHeck if folder exists before create one
             if (!file_exists($destination_path)) {
                 File::makeDirectory($destination_path, $mode = 0777, true, true);
