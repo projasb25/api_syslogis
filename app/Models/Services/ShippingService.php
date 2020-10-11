@@ -200,7 +200,7 @@ class ShippingService
                 $segmentos = explode('/',$img->url);
                 array_push($data, url('storage/imagenes/' . $img->id_guide . '/thumbnail/' . end($segmentos)));
             }
-            Log::info("Obtener imagen exitoso", ['idpedido_detalle' => $request->id_shipping_order_detail, 'nro_imagenes' => $imagenes->count()]);
+            Log::info("Obtener imagen exitoso", ['id_shipping_order_detail' => $request->id_shipping_order_detail, 'nro_imagenes' => $imagenes->count()]);
         } catch (CustomException $e) {
             Log::warning('Obtener Imagen', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request->idofertaenvio]);
             return Res::error($e->getData(), $e->getCode());
