@@ -61,7 +61,7 @@ class ShippingService
             $y = $pdf->GetY();
             $pdf->MultiCell(13, 5, 'Empresa: ', 0, 'L');
             $pdf->SetXY($lmargin + 13, $y);
-            $pdf->MultiCell(64, 5, '$variable empresa', 0, 'L');
+            $pdf->MultiCell(64, 5, utf8_decode($data[0]->provider_name), 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
             $pdf->MultiCell(27, 5, 'Fecha de Asignacion:', 0, 'L');
             $pdf->SetXY($lmargin + 104, $y);

@@ -121,7 +121,6 @@ class FunctionModel
             'query' => 'CALL SP_UPDATE_SHIPPING_ORDER(:header, :details, :username)',
             'headers_params' => [],
             'details_params' => ["id_shipping_order", "id_shipping_order_detail", "id_guide", "operation"]
-            // "id_orguser", "id_corporation", "id_organization","id_role","bydefault","status"
         ]
     ];
 
