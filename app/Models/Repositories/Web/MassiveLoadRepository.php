@@ -41,9 +41,9 @@ class MassiveLoadRepository
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
                 //     $value['client_barcode'] = Str::random(40);
                 // }
-                if (!array_key_exists('sku_code', $value) || !isset($value['sku_code'])) {
-                    $value['sku_code'] = Str::random(10);
-                }
+                // if (!array_key_exists('sku_code', $value) || !isset($value['sku_code'])) {
+                //     $value['sku_code'] = Str::random(10);
+                // }
                 $value['id_massive_load'] = $id;
                 $value['status'] = 'PENDIENTE';
                 $value['created_by'] = $data['username'];
@@ -194,7 +194,7 @@ class MassiveLoadRepository
                 DB::table('guide')->where('id_guide', $id_guide)->update(['client_barcode' => $client_barcode]);
 
                 /* Insertar en sku_producto */
-                DB::table('sku_product')->insert([
+                $id_sku = DB::table('sku_product')->insert([
                     'id_guide' => $id_guide,
                     'sku_code' => $value->sku_code,
                     'sku_description' => $value->sku_description,
@@ -206,6 +206,11 @@ class MassiveLoadRepository
                     'status' => $value->status,
                     'created_by' => $data['username']
                 ]);
+
+                if (!$value->sku_code) {
+                    $sku_code =  'SKU' . str_pad($id_sku, 7, "0", STR_PAD_LEFT);
+                    DB::table('sku_product')->where('id_sku_product', $id_sku)->update(['sku_code' => $sku_code]);
+                }
 
                 $total_weight =+ $value->sku_weight;
                 $total_pieces =+ $value->sku_pieces;

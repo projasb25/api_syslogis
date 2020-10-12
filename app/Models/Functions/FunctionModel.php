@@ -99,7 +99,7 @@ class FunctionModel
         ],
         "SP_INS_VEHICLE_DRIVER" => [
             'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
-            'headers_params' => ["id_driver","first_name","last_name","doc_number","email","phone","status","password"],
+            'headers_params' => ["id_driver","first_name","last_name","doc_number", "doc_type","email","phone","status","password"],
             'details_params' => ["id_vehicle", "id_provider", "vehicle_type","brand","model","plate_number","soat","status"]
         ],
         "SP_INS_DOMAIN" => [
