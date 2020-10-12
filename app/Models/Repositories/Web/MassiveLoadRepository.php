@@ -207,7 +207,7 @@ class MassiveLoadRepository
                     'created_by' => $data['username']
                 ]);
 
-                if (!$value->sku_code) {
+                if (is_null($value->sku_code)) {
                     $sku_code =  'SKU' . str_pad($id_sku, 7, "0", STR_PAD_LEFT);
                     DB::table('sku_product')->where('id_sku_product', $id_sku)->update(['sku_code' => $sku_code]);
                 }
