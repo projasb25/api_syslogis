@@ -194,7 +194,7 @@ class MassiveLoadRepository
                 DB::table('guide')->where('id_guide', $id_guide)->update(['client_barcode' => $client_barcode]);
 
                 /* Insertar en sku_producto */
-                $id_sku = DB::table('sku_product')->insert([
+                $id_sku = DB::table('sku_product')->insertGetId([
                     'id_guide' => $id_guide,
                     'sku_code' => $value->sku_code,
                     'sku_description' => $value->sku_description,
@@ -205,9 +205,9 @@ class MassiveLoadRepository
                     'box_code' => $value->box_code,
                     'status' => $value->status,
                     'created_by' => $data['username']
-                ]);
-
-                if ($value->sku_code === NULL || !isset($value->sku_code)) {
+                    ]);
+                    
+                if (is_null($value->sku_code)) {
                     $v_sku_code =  'SKU' . str_pad($id_sku, 7, "0", STR_PAD_LEFT);
                     DB::table('sku_product')->where('id_sku_product', $id_sku)->update(['sku_code' => $v_sku_code]);
                 }
