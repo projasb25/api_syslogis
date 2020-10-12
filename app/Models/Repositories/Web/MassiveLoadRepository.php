@@ -253,7 +253,7 @@ class MassiveLoadRepository
 
     public function get_datos_ruta_cargo($id)
     {
-        $data = Guide::where('id_massive_load', 1)->get();
+        $data = Guide::where('id_massive_load', $id)->get();
         return $data;
     }
 
