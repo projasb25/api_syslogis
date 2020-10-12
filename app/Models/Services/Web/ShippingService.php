@@ -103,7 +103,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 102, $y);
             $pdf->MultiCell(30, 5, '__________________', 0, 'L');
             $y = $pdf->GetY();
-            $pdf->code128(150, 13, $data[0]->id_shipping_order, 50, 20, false);
+            $pdf->code128(150, 13, str_pad($data[0]->id_shipping_order, 7, "0", STR_PAD_LEFT) , 50, 20, false);
             $pdf->Ln(2);
     
             $pdf->SetDrawColor(150, 153, 141);
