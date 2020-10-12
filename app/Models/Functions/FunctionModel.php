@@ -92,6 +92,14 @@ class FunctionModel
             "query" => 'CALL SP_SEL_SHIPPING_DETAIL(:id_shipping_order)',
             "params" => ['id_shipping_order']
         ],
+        "SP_SEL_IMG_GUIDES" => [
+            "query" => 'CALL SP_SEL_IMG_GUIDES(:id_guide)',
+            "params" => ['id_guide']
+        ],
+        "SP_SEL_GUIDE_TRACKING" => [
+            "query" => 'CALL SP_SEL_GUIDE_TRACKING(:id_guide)',
+            "params" => ['id_guide']
+        ],
 
         /**
          * Funciones para Transaccions
