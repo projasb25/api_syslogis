@@ -169,6 +169,7 @@ class ShippingService
             $pdf->MultiCell(125, 6, utf8_decode('Direccion de Entrega'), 1, 'L');
             $y = $pdf->GetY();
     
+            $pdf->SetFont('Times', '', 7);
     
             
             foreach ($data as $key => $value) {
@@ -181,16 +182,17 @@ class ShippingService
                 $rows = max($distrito_row, $direccion_row);
         
                 $pdf->SetDrawColor(69, 69, 69);
-                $pdf->MultiCell(10, 5 * $rows, '1', 1, 'C');
+                $pdf->MultiCell(10, 3 * $rows, '1', 1, 'C');
                 $pdf->SetXY($lmargin + 10, $y);
-                $pdf->MultiCell(35, 5 * $rows, $value->client_barcode, 1, 'L');
+                $pdf->MultiCell(35, 3 * $rows, $value->client_barcode, 1, 'L');
                 $pdf->SetXY($lmargin + 45, $y);
-                $pdf->MultiCell(28, ($distrito_row > $direccion_row) ? 5 : 5 * $rows, $distrito . ' ' . $rows, 1, 'L');
+                $pdf->MultiCell(28, ($distrito_row > $direccion_row) ? 3 : 3 * $rows, $distrito . ' ' . $rows, 1, 'L');
                 $pdf->SetXY($lmargin + 73, $y);
-                $pdf->MultiCell(125, ($direccion_row > $distrito_row) ? 5 : 5 * $rows, utf8_decode($direccion), 1, 'L');
+                $pdf->MultiCell(125, ($direccion_row > $distrito_row) ? 3 : 3 * $rows, utf8_decode($direccion), 1, 'L');
                 $y = $pdf->GetY();
             }
 
+            $pdf->SetFont('Times', '', 8);
             $pdf->SetDrawColor(150, 153, 141);
             $pdf->Line(10, $y + 2, 195, $y + 2);
             $pdf->Ln(4);
