@@ -88,6 +88,10 @@ class FunctionModel
             "query" => 'CALL SP_INS_PROVIDER(:id_provider,:name,:ruc,:responsible_name,:responsible_phone,:responsible_email,:description,:address,:status,:username)',
             "params" => ['id_provider','name','ruc','responsible_name','responsible_phone','responsible_email','description','address','status','username']
         ],
+        "SP_SEL_SHIPPING_DETAIL" => [
+            "query" => 'CALL SP_SEL_SHIPPING_DETAIL(:id_shipping_order)',
+            "params" => ['id_shipping_order']
+        ],
         
         /**
          * Funciones para Transaccions
