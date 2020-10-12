@@ -92,7 +92,7 @@ class FunctionModel
             "query" => 'CALL SP_SEL_SHIPPING_DETAIL(:id_shipping_order)',
             "params" => ['id_shipping_order']
         ],
-        
+
         /**
          * Funciones para Transaccions
          **/
@@ -115,6 +115,12 @@ class FunctionModel
             'query' => 'CALL SP_INS_USER(:header, :details, :username)',
             'headers_params' => ["id_user","username","first_name","last_name","doc_type","doc_number","user_email","password","status", "type"],
             'details_params' => []
+            // "id_orguser", "id_corporation", "id_organization","id_role","bydefault","status"
+        ],
+        "SP_UPDATE_SHIPPING_ORDER" => [
+            'query' => 'CALL SP_UPDATE_SHIPPING_ORDER(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => ["id_shipping_order", "id_shipping_order_detail", "id_guide", "operation"]
             // "id_orguser", "id_corporation", "id_organization","id_role","bydefault","status"
         ]
     ];
