@@ -45,9 +45,9 @@ class ShippingRepository
         return DB::table('shipping_order_detail')->where('id_shipping_order_detail', $id)->first();
     }
 
-    public function insertarImagen($id, $url, $desc, $type)
+    public function insertarImagen($id, $id_shipping, $url, $desc, $type)
     {
-        DB::table('guide_images')->insert(['id_guide' => $id, 'url' => $url, 'description' => $desc, 'type' => $type]);
+        DB::table('guide_images')->insert(['id_guide' => $id, 'id_shipping_order' => $id_shipping ,'url' => $url, 'description' => $desc, 'type' => $type]);
     }
 
     public function actualizarPedido($data)
@@ -60,13 +60,9 @@ class ShippingRepository
         return DB::select("CALL SP_FINALIZAR_RUTA(?)",[$id]);
     }
 
-    public function obtenerImagenes($id)
+    public function obtenerImagenes($id_guide, $id_shipping_order)
     {
-        return DB::table('shipping_order_detail as sod')
-            ->select('*')
-            ->join('guide_images as gi','gi.id_guide','=','sod.id_guide')
-            ->where('id_shipping_order_detail', $id)
-            ->get();
+        return DB::table('guide_images')->where('id_guide', $id_guide)->where('id_shipping_order', $id_shipping_order)->get();
     }
 
     public function rechazarEnvio($id)

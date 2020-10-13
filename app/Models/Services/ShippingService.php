@@ -174,7 +174,7 @@ class ShippingService
             })->save($destination_path . '/' . $nombre_imagen);
 
             $ruta = url('storage/imagenes/' . $guide->id_guide. '/' . $nombre_imagen);
-            $this->repository->insertarImagen($guide->id_guide, $ruta,$request->get('descripcion'),$request->get('tipo_imagen'));
+            $this->repository->insertarImagen($guide->id_guide, $guide->id_shipping_order,$ruta,$request->get('descripcion'),$request->get('tipo_imagen'));
 
             Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
         } catch (CustomException $e) {
@@ -193,6 +193,11 @@ class ShippingService
     public function getImagen($request)
     {
         try {
+            $guide = $this->repository->getShippingOrderDetail($request->id_shipping_order_detail);
+            if (!$guide) {
+                throw new CustomException(['Detalle no encontrado.', 2010], 400);
+            }
+
             $imagenes = $this->repository->obtenerImagenes($request->id_shipping_order_detail);
             $data = [];
 
