@@ -104,7 +104,10 @@ class FunctionModel
             "query" => 'CALL SP_GUIDE_BY_BARCODE(:client_barcode)',
             "params" => ['client_barcode']
         ],
-
+        "SP_GUIDE_INFO_TRACKING" => [
+            "query" => 'CALL SP_GUIDE_INFO_TRACKING(:id_guide)',
+            "params" => ['id_guide']
+        ],
         /**
          * Funciones para Transaccions
          **/
