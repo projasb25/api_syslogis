@@ -104,8 +104,8 @@ class FunctionModel
             "query" => 'CALL SP_SEL_GUIDE_BY_BARCODE(:client_barcode)',
             "params" => ['client_barcode']
         ],
-        "SP_GUIDE_INFO_TRACKING" => [
-            "query" => 'CALL SP_GUIDE_INFO_TRACKING(:id_guide)',
+        "SP_SEL_GUIDE_INFO" => [
+            "query" => 'CALL SP_SEL_GUIDE_INFO(:id_guide)',
             "params" => ['id_guide']
         ],
         /**
