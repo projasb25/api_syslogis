@@ -70,10 +70,20 @@ class ShippingRepository
         DB::beginTransaction();
         try {
             DB::table('shipping_order')->where('id_shipping_order',$id)->update(['status' => 'RECHAZADO']);
+
             $guias = DB::table('shipping_order_detail')->select('id_guide')->where('id_shipping_order',$id)->get();
             foreach ($guias as $key => $guia) {
-                DB::table('guide')->where('id_guide', $guia->id_guide)->update(['status' => 'PENDIENTE']);
-                DB::table('guide_tracking')->insert(['id_guide' => $guia->id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.']);
+                $guide = DB::table('guide')->where('id_guide', $guia->id_guide)->first();
+
+                $last_tracking = DB::table('guide_tracking')->where('id_guide', $guia->id_guide)->orderBy('id_guide_tracking', 'desc')->first();
+                DB::table('guide_tracking')->where('id_guide_tracking', $last_tracking->id_guide_tracking)->update(['attempt' => -1]);
+                DB::table('guide_tracking')->insert(['id_guide' => $guia->id_guide, 'status' => 'ANULADO', 'motive' => 'Guia rechazada por conductor', 'attempt' => -1]);
+
+                $last_status = DB::table('guide_tracking')->where('id_guide', $guia->id_guide)->where('attempt', '>=', 0)->orderBy('id_guide_tracking', 'desc')->first();
+                DB::table('guide')->where('id_guide', $guia->id_guide)->update(['status' => $last_status->status, 'attempt' => ($guide->attempt - 1)]);
+
+                // DB::table('guide')->where('id_guide', $guia->id_guide)->update(['status' => 'PENDIENTE']);
+                // DB::table('guide_tracking')->insert(['id_guide' => $guia->id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.']);
             }
         } catch (Exception $e) {
             DB::rollback();
