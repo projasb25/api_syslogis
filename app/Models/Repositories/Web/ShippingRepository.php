@@ -37,7 +37,7 @@ class ShippingRepository
 
     public function getMotivos()
     {
-        return DB::table('motive')->where('status', 'ACTIVO')->get();
+        return DB::table('motive')->where('status', 'ACTIVO')->where('estado', 'No entregado')->get();
     }
 
     public function getShippingOrderDetail($id)
