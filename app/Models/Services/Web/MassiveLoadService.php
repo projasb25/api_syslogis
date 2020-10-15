@@ -163,7 +163,8 @@ class MassiveLoadService
 
         if (!$massive_load->ruta_doc_cargo) {
             $data = $this->repo->get_datos_ruta_cargo($massive_load->id_massive_load);
-            $doc = $this->generate_doc_ruta($data);
+            $motivos = $this->repo->get_motivos();
+            $doc = $this->generate_doc_ruta($data, $motivos);
             $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
             $massive_load->ruta_doc_cargo = $doc['file_name'];
         }
@@ -171,7 +172,7 @@ class MassiveLoadService
         return Res::success(['hoja_ruta' => $ruta .'/'. $massive_load->ruta_doc_cargo]);
     }
 
-    public function generate_doc_ruta($data)
+    public function generate_doc_ruta($data, $motivos)
     {
         try {
             $pdf = new CustomPDF();
@@ -333,10 +334,10 @@ class MassiveLoadService
                     $pdf->Cell(52,12,'',1,1,'C');
 
                     $pdf->SetXY($box_x + 144 + 7, $box_y + 63);
-                    for ($zi=0; $zi < 6; $zi++) { 
+                    foreach ($motivos as $key => $motivo) {
                         $pdf->Cell(4,4,'',1,0,'L');
                         $pdf->Cell(4,4,'',1,0,'L');
-                        $pdf->Cell(30,4,'TEST',1,1,'L');
+                        $pdf->Cell(30,4,$motivo->name,1,1,'L');
                         $pdf->SetX($box_x + 144 + 7);
                     }
                     $pdf->Cell(4,4,'',1,0,'L');

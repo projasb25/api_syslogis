@@ -51,6 +51,7 @@ class MassiveLoadRepository
                 DB::table('massive_load_details')->insert([
                     'id_massive_load' => $value['id_massive_load'] ?? null,
                     'seg_code' => $value['seg_code'] ?? null,
+                    'guide_number' => $value['guide_number'] ?? null,
                     'alt_code1' => $value['alt_code1'] ?? null,
                     'alt_code2' => $value['alt_code2'] ?? null,
                     'client_date' => $value['client_date'] ?? null,
@@ -256,6 +257,12 @@ class MassiveLoadRepository
         $data = Guide::where('id_massive_load', $id)->get();
         return $data;
     }
+
+    public function get_motivos()
+    {
+        return DB::table('motive')->where('estado','No Entregado')->where('starred', 1)->get();
+    }
+
 
     public function get_doc_ruta_cargo($id)
     {
