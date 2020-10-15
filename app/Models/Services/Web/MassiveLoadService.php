@@ -337,7 +337,7 @@ class MassiveLoadService
                     foreach ($motivos as $key => $motivo) {
                         $pdf->Cell(4,4,'',1,0,'L');
                         $pdf->Cell(4,4,'',1,0,'L');
-                        $pdf->Cell(30,4,$motivo->name,1,1,'L');
+                        $pdf->Cell(30,4,utf8_decode($motivo->name),1,1,'L');
                         $pdf->SetX($box_x + 144 + 7);
                     }
                     $pdf->Cell(4,4,'',1,0,'L');
