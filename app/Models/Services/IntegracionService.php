@@ -45,7 +45,7 @@ class IntegracionService
                     "NombreReceptor" => $guide->NombreReceptor,
                     "IDReceptor" => $guide->IDReceptor,
                     "TrackNumber" => $guide->TrackNumber,
-                    "URL" => 'URL'
+                    "URL" => 'http://144.217.253.15:3000/guidestatus/'.$guide->id_guide
                 ];
 
                 // $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
