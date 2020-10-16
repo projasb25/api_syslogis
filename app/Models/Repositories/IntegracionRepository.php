@@ -22,7 +22,7 @@ class IntegracionRepository
             left join vehicle as vh on vh.id_vehicle = so.id_vehicle
             WHERE gd.id_organization IN (1,2,3) and gd.reportado_integracion = 0
             and gd.status IN ('CURSO', 'ENTREGADO', 'NO ENTREGADO')
-            and gd.id_guide in (104,121,138,93,94,97,99,110,111,114,116,127,128,131,133,144,145,148,150,92)"
+            and gd.id_guide in (460,459,458,457,456,455,454,453,452,451,450,449,448,447,445,444,443)"
         );
         // and gd.id_guide in (104,121,138,93,94,97,99,110,111,114,116,127,128,131,133,144,145,148,150,92)
     }
