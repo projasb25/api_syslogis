@@ -48,26 +48,24 @@ class IntegracionService
                     "URL" => 'http://144.217.253.15:3000/guidestatus/'.$guide->id_guide
                 ];
 
-                // $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
+                $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
                 
-                // try {
-                //     $req = $cliente->request('POST', 'sendStateCourierOnline', [
-                //         "headers" => [
-                //             'x-api-key' => 'Me0qO1pYhg9VKMcfnWyVp1pMtyez8aNp2ZHg7EOi',
-                //         ],
-                //         "json" => $req_body
-                //     ]);
-                // } catch (\GuzzleHttp\Exception\RequestException $e) {
-                //     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
-                //     Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
-                //     $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'ERROR', $req_body, $response);
-                //     continue;
-                // }
+                try {
+                    $req = $cliente->request('POST', 'sendStateCourierOnline', [
+                        "headers" => [
+                            'x-api-key' => '2ECPcJU2hs6PAEsvj9K8BapnSt3bPNkg9GQlNAoU',
+                        ],
+                        "json" => $req_body
+                    ]);
+                } catch (\GuzzleHttp\Exception\RequestException $e) {
+                    $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+                    Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
+                    $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'ERROR', $req_body, $response);
+                    continue;
+                }
 
-
-                print_r($req_body);
-
-
+                $response = json_decode($req->getBody()->getContents());
+                $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, $response);
             }
             
             $res['success'] = true;
