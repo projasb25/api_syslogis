@@ -108,6 +108,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_GUIDE_INFO(:id_guide)',
             "params" => ['id_guide']
         ],
+        "SP_SEL_GUIDE_STATUS" => [
+            "query" => 'CALL SP_SEL_GUIDE_STATUS(:id_guide)',
+            "params" => ['id_guide']
+        ],
         /**
          * Funciones para Transaccions
          **/
