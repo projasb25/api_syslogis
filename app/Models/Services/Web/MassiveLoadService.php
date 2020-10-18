@@ -373,7 +373,7 @@ class MassiveLoadService
                 $data = $this->repo->get_datos_ruta_cargo($massive_load->id_massive_load);
                 $doc = $this->generate_doc_marathon($data);
                 $this->repo->actualizar_doc_marathon($massive_load->id_massive_load, $doc['file_name']);
-                $massive_load->ruta_doc_cargo = $doc['file_name'];
+                $massive_load->ruta_marathon = $doc['file_name'];
             }
 
             Log::info('Obtener documento Marathon exitoso', ['id_massive_load' => $massive_load->id_massive_load]);
@@ -387,7 +387,7 @@ class MassiveLoadService
             Log::warning('Obtener documento Marathon', ['exception' => $e->getMessage(), 'id_massive_load' => $massive_load->id_massive_load]);
             return Res::error(['Unxpected error', 3000], 400);
         }
-        return Res::success(['hoja_ruta' => $ruta .'/'. $massive_load->ruta_doc_cargo]);
+        return Res::success(['hoja_ruta' => $ruta .'/'. $massive_load->ruta_marathon]);
     }
 
     public function generate_doc_marathon($data)
@@ -437,7 +437,7 @@ class MassiveLoadService
                     $pdf->Cell(65,5,$guide->client_barcode,0,1,'C');
                     $pdf->SetX($box_x);
                     $pdf->SetFont('Times', '', 6);
-                    $pdf->MultiCell(65,3,utf8_decode(strtolower($guide->address->address)),0,'C');
+                    $pdf->MultiCell(65,3,utf8_decode($guide->address->address),0,'C');
                     $pdf->Ln(2);
 
                 $box_x = 65 + $box_x + 2;
