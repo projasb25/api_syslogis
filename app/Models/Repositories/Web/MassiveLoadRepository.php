@@ -278,4 +278,11 @@ class MassiveLoadRepository
             'ruta_doc_cargo' => $filename
         ]);
     }
+
+    public function actualizar_doc_marathon($id, $filename)
+    {
+        DB::table('massive_load')->where('id_massive_load', $id)->update([
+            'ruta_marathon' => $filename
+        ]);
+    }
 }

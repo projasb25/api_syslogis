@@ -359,6 +359,101 @@ class MassiveLoadService
             $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
         }
         return $res;
+    }
 
+    public function print_marathon($request)
+    {
+        try {
+            $massive_load = $this->repo->get($request->get('id_massive_load'));
+
+            $disk = Storage::disk('marathon');
+            $ruta = url('storage/marathon/');
+
+            if (!$massive_load->ruta_marathon) {
+                $data = $this->repo->get_datos_ruta_cargo($massive_load->id_massive_load);
+                $doc = $this->generate_doc_marathon($data);
+                $this->repo->actualizar_doc_marathon($massive_load->id_massive_load, $doc['file_name']);
+                $massive_load->ruta_doc_cargo = $doc['file_name'];
+            }
+
+            Log::info('Obtener documento Marathon exitoso', ['id_massive_load' => $massive_load->id_massive_load]);
+        } catch (CustomException $e) {
+            Log::warning('Obtener documento Marathon', ['expcetion' => $e->getData()[0], 'id_massive_load' => $massive_load->id_massive_load]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Obtener documento Marathon', ['expcetion' => $e->getMessage(), 'id_massive_load' => $massive_load->id_massive_load]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Obtener documento Marathon', ['exception' => $e->getMessage(), 'id_massive_load' => $massive_load->id_massive_load]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['hoja_ruta' => $ruta .'/'. $massive_load->ruta_doc_cargo]);
+    }
+
+    public function generate_doc_marathon($data)
+    {
+        try {
+            $pdf = new CustomPDF();
+            $cellMargin = 2 * 1.000125;
+            $lmargin = 5;
+            $rmargin = 5;
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->SetMargins($lmargin, $rmargin);
+            $pdf->Ln(0);
+            $pdf->SetFont('Times', '', 6);
+            $y = $pdf->GetY();
+            $pdf->SetAutoPageBreak(false);
+
+            $box_x = 5;
+            $box_y = 5;
+            $fila = 1;
+
+            foreach ($data as $i => $guide) {
+                if ($i  % 3 == 0 && $i !== 0) {
+                    $fila+=1;
+                    $box_y = 27 + $box_y + 1;
+                    $box_x = 5;
+                    if ($fila % 11 === 0) {
+                        $pdf->AddPage();
+                        $box_y = 5;
+                        $box_x = 5;
+                    }
+                }
+                // cuadro principal
+                $pdf->Rect($box_x, $box_y, 65, 27);
+                // codigo de barra
+                    $pdf->code128($box_x + 8, ($box_y + 6 + 2), $guide->client_barcode, 50, 6, false);
+                    $pdf->SetY($box_y);
+                    $pdf->SetX($box_x);
+                    $pdf->Cell(32,4,'MARATHON - '. ($i+1) ,0,0,'L');
+                    $pdf->Cell(33,4,'TELF: '. $guide->client_phone1,0,1,'R');
+                    $pdf->SetX($box_x);
+                    $pdf->Cell(65,4, $guide->client_name,0,1,'L');
+                    $pdf->SetX($box_x);
+                    $pdf->Cell(65,6,'',0,1,'L');
+                    $pdf->SetX($box_x);
+                    $pdf->SetFont('Times', '', 8);
+                    $pdf->Cell(65,5,$guide->client_barcode,0,1,'C');
+                    $pdf->SetX($box_x);
+                    $pdf->SetFont('Times', '', 6);
+                    $pdf->MultiCell(65,3,utf8_decode(strtolower($guide->address->address)),0,'C');
+                    $pdf->Ln(2);
+
+                $box_x = 65 + $box_x + 2;
+            }
+
+            $disk = Storage::disk('marathon');
+            $fileName = date('YmdHis') . '_cc_' . $guide->client_barcode . '_' . rand(1, 100) . '.pdf';
+            $save = $disk->put($fileName, $pdf->Output('S', '', true));
+            if (!$save) {
+                throw new Exception('No se pudo grabar la hoja marathon');
+            }
+            $res['file_name'] = $fileName;
+        } catch (Exception $e) {
+            Log::warning('Generar Documento Marathon', ['exception' => $e->getMessage()]);
+            throw $e;
+        }
+        return $res;
     }
 }

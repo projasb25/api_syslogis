@@ -62,6 +62,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'marathon' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/marathon'),
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
         'hoja_ruta' => [
             'driver' => 'local',
             'root' => storage_path('app/public/hoja_ruta'),

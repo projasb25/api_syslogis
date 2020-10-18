@@ -408,3 +408,56 @@ Route::get('pdf2', function () {
     $pdf->Output();
     exit;
 });
+
+Route::get('pdf3', function () {
+    $pdf = new pdftest();
+    $cellMargin = 2 * 1.000125;
+    $lmargin = 5;
+    $rmargin = 5;
+    $pdf->AliasNbPages();
+    $pdf->AddPage();
+    $pdf->SetMargins($lmargin, $rmargin);
+    $pdf->Ln(0);
+    $pdf->SetFont('Times', '', 6);
+    $y = $pdf->GetY();
+    $pdf->SetAutoPageBreak(false);
+
+    $box_x = 5;
+    $box_y = 5;
+    $fila = 1;
+    for ($i = 0; $i < 90; $i++) {
+        if ($i  % 3 == 0 && $i !== 0) {
+            $fila+=1;
+            $box_y = 27 + $box_y + 1;
+            $box_x = 5;
+            if ($fila % 11 === 0) {
+                $pdf->AddPage();
+                $box_y = 5;
+                $box_x = 5;
+            }
+        }
+        // cuadro principal
+        $pdf->Rect($box_x, $box_y, 65, 27);
+        // codigo de barra
+            $pdf->code128($box_x + 8, ($box_y + 6 + 2), '201324092503', 50, 6, false);
+            $pdf->SetY($box_y);
+            $pdf->SetX($box_x);
+            $pdf->Cell(32,4,'MARATHON - '. ($i+1) ,0,0,'L');
+            $pdf->Cell(33,4,'TELF: 980291115',0,1,'R');
+            $pdf->SetX($box_x);
+            $pdf->Cell(65,4,'DEL CASTILLO ROCHABRUNT MAURICIO',0,1,'L');
+            $pdf->SetX($box_x);
+            $pdf->Cell(65,6,'',0,1,'L');
+            $pdf->SetX($box_x);
+            $pdf->SetFont('Times', '', 8);
+            $pdf->Cell(65,5,'20132409',0,1,'C');
+            $pdf->SetX($box_x);
+            $pdf->SetFont('Times', '', 6);
+            $pdf->MultiCell(65,3,utf8_decode(strtolower('Avenida Santa Maria - Urbanizacion Industrial')),0,'C');
+            $pdf->Ln(2);
+
+        $box_x = 65 + $box_x + 2;
+    }
+    $pdf->Output();
+    exit;
+});

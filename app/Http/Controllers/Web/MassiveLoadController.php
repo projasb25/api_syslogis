@@ -31,4 +31,9 @@ class MassiveLoadController extends Controller
     {
         return $this->mainService->print_cargo($request);
     }
+
+    public function print_marathon(Request $request)
+    {
+        return $this->mainService->print_marathon($request);
+    }
 }
