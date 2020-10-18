@@ -65,6 +65,7 @@ class AuthController extends Controller
                 'last_name' => $user->last_name,
                 'type' => $user->type,
                 'token' => $token,
+                'rol_name' => $query[0]->role_name,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
