@@ -173,6 +173,10 @@ class ShippingService
     
             
             foreach ($data as $key => $value) {
+                if ($key % 46 === 0) {
+                    $pdf->AddPage();
+                    $y = $pdf->GetY();
+                }
                 $direccion = $value->address;
                 $distrito = $value->district;
                 $width_dir = $pdf->GetStringWidth($direccion);
