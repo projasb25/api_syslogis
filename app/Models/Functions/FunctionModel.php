@@ -112,6 +112,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_GUIDE_STATUS(:id_guide)',
             "params" => ['id_guide']
         ],
+        "SP_DASHBOARD_CLIENTE" => [
+            "query" => 'CALL SP_DASHBOARD_CLIENTE(:desde, :hasta, :id_corporation, :id_organization)',
+            "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
+        ],
         /**
          * Funciones para Transaccions
          **/

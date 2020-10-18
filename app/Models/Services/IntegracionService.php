@@ -66,9 +66,11 @@ class IntegracionService
 
                 $response = json_decode($req->getBody()->getContents());
                 $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, $response);
+                $this->repository->updateReportado($guide->id_guide);
             }
             
             $res['success'] = true;
+            Log::info('Proceso de integracion con ripley exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
             dd($e);
             Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage()]);
