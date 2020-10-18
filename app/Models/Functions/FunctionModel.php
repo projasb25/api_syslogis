@@ -120,6 +120,10 @@ class FunctionModel
             "query" => 'CALL SP_DASHBOARD_PROVEEDOR(:desde, :hasta, :id_provider)',
             "params" => ['desde', 'hasta', 'id_provider']
         ],
+        "SP_DASHBOARD_EFECTIVIDAD_HORAS" => [
+            "query" => 'CALL SP_DASHBOARD_EFECTIVIDAD_HORAS(:desde, :hasta, :id_corporation, :id_organization)',
+            "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
+        ],
         /**
          * Funciones para Transaccions
          **/
