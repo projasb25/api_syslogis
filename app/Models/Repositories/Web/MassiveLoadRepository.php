@@ -161,6 +161,7 @@ class MassiveLoadRepository
                         'id_corporation' => $data['id_corporation'],
                         'id_organization' => $data['id_organization'],
                         'id_massive_load' => $data['id_massive_load'],
+                        'guide_number' => $value->guide_number,
                         'id_address' => $address_id,
                         'seg_code' => $value->seg_code,
                         'alt_code1' => $value->alt_code1,
