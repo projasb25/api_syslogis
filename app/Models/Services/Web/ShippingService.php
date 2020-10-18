@@ -173,7 +173,7 @@ class ShippingService
     
             
             foreach ($data as $key => $value) {
-                if ($key % 46 === 0) {
+                if ($key % 46 === 0 && $key!== 0) {
                     $pdf->AddPage();
                     $y = $pdf->GetY();
                 }
