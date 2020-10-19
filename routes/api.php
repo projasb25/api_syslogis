@@ -71,6 +71,8 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     Route::get('validateToken', 'AuthController@me');
     Route::post('change', 'AuthController@change');
 
+    Route::get('guide/status/{id_guide}', 'PublicoController@guide_status');
+
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'main'], function() {
         Route::post('', 'MainController@index');
         Route::post('/simpleTransaction', 'MainController@simpleTransaction');
