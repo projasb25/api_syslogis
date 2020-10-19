@@ -101,4 +101,48 @@ class ReporteService
         }
         return Res::success(['reporte' => $ruta .'/'. $fileName]);
     }
+
+    public function reporte_control_sku($request)
+    {
+        try {
+
+            $ruta = url('storage/reportes/');
+            $data = $request->all();
+            $data_reporte = $this->repository->sp_reporte_torre_control($data['desde'], $data['hasta']);
+
+            $fileName = date('YmdHis') . '_reporte_control_sku_' . rand(1, 100) . '.csv';
+            $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
+
+            fputcsv($handle, [
+                'CLIENTE', 'BARRA', 'CUD', 'NUMERO GUIA', 'CODIGO SKU', 'SKU DESCRIPCION', 'FECHA PEDIDO', 'FECHA ENVIO',
+                'NOMBRE CONDUCTOR', 'TIPO VEHICULO', 'PLACA', 'PROVEEODR', 'ESTADO ENVIO', 'DESTINATARIO', 'TELEFONO 1', 'TELEFONO 2',
+                'DIRECCION', 'DEPARTAMENTO', 'DISTRITO', 'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ULT ESTADO',
+                'OBSERVACIONES', 'VISITA 1', 'RESULTADO 1', 'VISITA 2', 'RESULTADO 2', 'VISITA 3', 'RESULTADO 3',
+                'CANT VISITAS', 'NRO IMAGENES'
+            ]);
+
+            foreach($data_reporte as $row) {
+                fputcsv($handle, [
+                    $row->org_name, $row->client_barcode, $row->seg_code, $row->guide_number, $row->sku_code, $row->sku_description, $row->fecha_guia, $row->fecha_envio, $row->driver_name,
+                    $row->vehicle_type, $row->plate_number, $row->provider, $row->estado_envio, $row->client_name, $row->client_phone1, $row->client_phone2, $row->address, $row->department,
+                    $row->district, $row->province, $row->zone_type, $row->fecha_asignado, $row->ultfecha_estado, $row->ult_estado, $row->motive, $row->fecha_visita1, $row->visita1_status,
+                    $row->fecha_visita2, $row->visita2_status, $row->fecha_visita3, $row->visita3_status, $row->cantidad_visitas, $row->nro_imagenes
+                ]);
+            }
+
+            fclose($handle);
+
+            Log::info('Generar reporte control sku', ['request' => $request->all()]);
+        } catch (CustomException $e) {
+            Log::warning('Generar reporte control sku', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Generar reporte control sku', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Generar reporte control sku', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['reporte' => $ruta .'/'. $fileName]);
+    }
 }
