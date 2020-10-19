@@ -18,4 +18,9 @@ class ReporteController extends Controller
     {
         return $this->service->reporte_control($request);
     }
+
+    public function reporte_torre_control(Request $request)
+    {
+        return $this->service->reporte_torre_control($request);
+    }
 }

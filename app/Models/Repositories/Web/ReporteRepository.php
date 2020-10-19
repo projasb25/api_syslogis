@@ -9,5 +9,10 @@ class ReporteRepository
     public function sp_reporte_control($desde, $hasta)
     {
         return DB::select("CALL SP_REPORTE_CONTROL(?,?)",[$desde, $hasta]);
-    }    
+    }
+
+    public function sp_reporte_torre_control($desde, $hasta)
+    {
+        return DB::select("CALL SP_REPORTE_TORRE_CONTROL(?,?)",[$desde, $hasta]);
+    }   
 }

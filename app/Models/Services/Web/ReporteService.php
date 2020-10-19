@@ -61,4 +61,44 @@ class ReporteService
         }
         return Res::success(['reporte' => $ruta .'/'. $fileName]);
     }
+
+    public function reporte_torre_control($request)
+    {
+        try {
+
+            $ruta = url('storage/reportes/');
+            $data = $request->all();
+            $data_reporte = $this->repository->sp_reporte_torre_control($data['desde'], $data['hasta']);
+
+            $fileName = date('YmdHis') . '_reporte_torre_control_' . rand(1, 100) . '.csv';
+            $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
+
+            fputcsv($handle, [
+                'CLIENTE', 'BARRA', 'CUD', 'NRO GUIA', 'FECHA PEDIDO',
+                'ULT ESTADO', 'FECHA ASIGNADO', 'ESTADO ENVIO', 'ESTADO PEDIDO', 'OBSERVACIONES'
+            ]);
+
+            foreach($data_reporte as $row) {
+                fputcsv($handle, [
+                    $row->org_name, $row->client_barcode, $row->seg_code, $row->guide_number, $row->fecha_guia, $row->ult_estado,
+                    $row->fecha_asignado, $row->envio_estado, $row->detalle_estado, $row->observaciones
+                ]);
+            }
+
+            fclose($handle);
+
+
+            Log::info('Generar reporte torre control', ['request' => $request->all()]);
+        } catch (CustomException $e) {
+            Log::warning('Generar reporte torre control', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Generar reporte torre control', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Generar reporte torre control', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['reporte' => $ruta .'/'. $fileName]);
+    }
 }
