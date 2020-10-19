@@ -108,7 +108,7 @@ class ReporteService
 
             $ruta = url('storage/reportes/');
             $data = $request->all();
-            $data_reporte = $this->repository->sp_reporte_torre_control($data['desde'], $data['hasta']);
+            $data_reporte = $this->repository->sp_reporte_control_sku($data['desde'], $data['hasta']);
 
             $fileName = date('YmdHis') . '_reporte_control_sku_' . rand(1, 100) . '.csv';
             $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
