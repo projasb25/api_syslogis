@@ -91,5 +91,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'reportes'], function() {
         Route::post('control', 'ReporteController@reporte_control');
         Route::post('torre_control', 'ReporteController@reporte_torre_control');
+        Route::post('control_sku', 'ReporteController@reporte_control_sku');
     });
 });
