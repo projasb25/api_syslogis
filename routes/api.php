@@ -87,4 +87,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('print/hoja_ruta', 'ShippingController@print_hoja_ruta');
         // Route::post('process', 'ShippingController@process');
     });
+
+    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'reportes'], function() {
+        Route::post('control', 'ReporteController@reporte_control');
+        // Route::post('process', 'ShippingController@process');
+    });
 });
