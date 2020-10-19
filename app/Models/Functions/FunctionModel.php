@@ -124,6 +124,19 @@ class FunctionModel
             "query" => 'CALL SP_DASHBOARD_EFECTIVIDAD_HORAS(:desde, :hasta, :id_corporation, :id_organization)',
             "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
         ],
+        "SP_REPORTE_CONTROL" => [
+            "query" => 'CALL SP_REPORTE_CONTROL(:desde, :hasta)',
+            "params" => ['desde', 'hasta']
+        ],
+        "SP_REPORTE_TORRE_CONTROL" => [
+            "query" => 'CALL SP_REPORTE_TORRE_CONTROL(:desde, :hasta)',
+            "params" => ['desde', 'hasta']
+        ],
+        "SP_REPORTE_CONTROL_SKU" => [
+            "query" => 'CALL SP_REPORTE_CONTROL_SKU(:desde, :hasta)',
+            "params" => ['desde', 'hasta']
+        ],
+        
         /**
          * Funciones para Transaccions
          **/
