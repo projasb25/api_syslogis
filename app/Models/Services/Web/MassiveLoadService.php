@@ -426,7 +426,7 @@ class MassiveLoadService
                     $pdf->code128($box_x + 8, ($box_y + 6 + 2), $guide->client_barcode, 50, 6, false);
                     $pdf->SetY($box_y);
                     $pdf->SetX($box_x);
-                    $pdf->Cell(32,4,'MARATHON - '. ($i+1) ,0,0,'L');
+                    $pdf->Cell(32,4, $guide->organization->name . ' - ' . ($i+1) ,0,0,'L');
                     $pdf->Cell(33,4,'TELF: '. $guide->client_phone1,0,1,'R');
                     $pdf->SetX($box_x);
                     $pdf->Cell(65,4, $guide->client_name,0,1,'L');
