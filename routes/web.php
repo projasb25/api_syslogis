@@ -168,29 +168,29 @@ Route::get('pdf', function () {
     $pdf->Ln(4);
     $y = $pdf->GetY();
 
-    $pdf->SetDrawColor(69, 69, 69);
-    $pdf->MultiCell(198, 6, utf8_decode('Transportista:'), 1, 'L');
-    $y = $pdf->GetY();
-    $pdf->MultiCell(198, 6, utf8_decode('Nombres y Apellidos:'), 1, 'L');
-    $y = $pdf->GetY();
-    $pdf->MultiCell(198, 6, utf8_decode('DNI:'), 1, 'L');
-    $y = $pdf->GetY();
+    // $pdf->SetDrawColor(69, 69, 69);
+    // $pdf->MultiCell(198, 6, utf8_decode('Transportista:'), 1, 'L');
+    // $y = $pdf->GetY();
+    // $pdf->MultiCell(198, 6, utf8_decode('Nombres y Apellidos:'), 1, 'L');
+    // $y = $pdf->GetY();
+    // $pdf->MultiCell(198, 6, utf8_decode('DNI:'), 1, 'L');
+    // $y = $pdf->GetY();
 
-    $pdf->SetDrawColor(150, 153, 141);
-    $pdf->Line(10, $y + 2, 195, $y + 2);
-    $pdf->Ln(4);
-    $y = $pdf->GetY();
+    // $pdf->SetDrawColor(150, 153, 141);
+    // $pdf->Line(10, $y + 2, 195, $y + 2);
+    // $pdf->Ln(4);
+    // $y = $pdf->GetY();
 
-    $pdf->SetDrawColor(69, 69, 69);
-    $pdf->MultiCell(120, 40, utf8_decode(''), 1, 'L');
-    $pdf->SetXY($lmargin + 120, $y);
-    $pdf->MultiCell(78, 40, '', 1, 'L');
-    $y = $pdf->GetY();
+    // $pdf->SetDrawColor(69, 69, 69);
+    // $pdf->MultiCell(120, 40, utf8_decode(''), 1, 'L');
+    // $pdf->SetXY($lmargin + 120, $y);
+    // $pdf->MultiCell(78, 40, '', 1, 'L');
+    // $y = $pdf->GetY();
 
-    $pdf->Text(22, $y - 10, '____________________________________________________________');
-    $pdf->Text(55, $y - 5, 'FIRMA');
+    // $pdf->Text(22, $y - 10, '____________________________________________________________');
+    // $pdf->Text(55, $y - 5, 'FIRMA');
 
-    $pdf->Text(153, $y - 5, 'HUELLA DACTILAR');
+    // $pdf->Text(153, $y - 5, 'HUELLA DACTILAR');
 
     $pdf->Output();
     exit;
@@ -239,12 +239,12 @@ Route::get('pdf2', function () {
     $box_x = 5;
     $box_y = 5;
     for ($i = 0; $i < 9; $i++) {
-        if ($i  % 3 == 0 && $i != 0) {
+        if ($i  % 4 == 0 && $i != 0) {
             $pdf->AddPage();
             $box_y = 5;
         }
         // cuadro principal
-        $pdf->Rect($box_x, $box_y, 190, 92);
+        $pdf->Rect($box_x, $box_y, 190, 59);
 
         // cuadro 1.1 REMITENTE
             //header
@@ -269,48 +269,48 @@ Route::get('pdf2', function () {
             $pdf->MultiCell(89,4,'DIRECCION: $asdfasdfasdfasdf ASDF ASDFASDFASDFASDF asdfas dfasd fasdfasdfasdfasd fsdfasdfasdfasd',0,'L');
 
         // codigo de barra
-            $pdf->code128($box_x + 20, ($box_y + 28 + 2), '201324092503', 50, 9, false);
+            $pdf->code128($box_x + 20, ($box_y + 28 + 2), '201324092503', 50, 12, false);
             $pdf->Ln(2);
         
         // cuadro 2.1 DATOS
             //header
-            $pdf->Rect($box_x + 1, ($box_y + 38 + 2), 6, 13);
+            $pdf->Rect($box_x + 1, ($box_y + 41 + 2), 6, 9);
             $pdf->SetFont('Times', 'B', 6);
             // $pdf->MultiCell(100,5,'asdfasdf',1,'J');
-            $pdf->TextWithDirection($box_x + 5, $box_y + 50, 'DATOS', 'U');
+            $pdf->TextWithDirection($box_x + 5, $box_y + 51, 'DATOS', 'U');
             
             // body
-            $pdf->Rect($box_x + 7, ($box_y + 38 + 2), 90, 13);
+            $pdf->Rect($box_x + 7, ($box_y + 41 + 2), 90, 9);
             $pdf->SetFont('Times', 'B', 10);
-            $pdf->SetXY($box_x+8, ($box_y + 43 + 2));
+            $pdf->SetXY($box_x+8, ($box_y + 44 + 2));
             $pdf->MultiCell(45,4,'NRO. DE PIEZAS: $14',0,'J');
-            $pdf->SetXY($box_x+8+45, ($box_y + 43 + 2));
+            $pdf->SetXY($box_x+8+45, ($box_y + 44 + 2));
             $pdf->MultiCell(45,4,'PESO SECO: $14',0,'J');
-            $pdf->Line($box_x+8+41, ($box_y + 38 + 2), $box_x+8+41, ($box_y + 51 + 2));
+            $pdf->Line($box_x+8+41, ($box_y + 41 + 2), $box_x+8+41, ($box_y + 50 + 2));
             
             $pdf->SetX($box_x+8);
 
-        // cuadro 3.1 DATOS DE ENTREGA
-            //header
-            $pdf->Rect($box_x + 1, ($box_y + 52 + 2) , 6, 37);
-            $pdf->SetFont('Times', 'B', 6);
-            $pdf->TextWithDirection($box_x + 5, $box_y + 83, 'DATOS DE ENTREGA', 'U');
+        // // cuadro 3.1 DATOS DE ENTREGA
+        //     //header
+        //     $pdf->Rect($box_x + 1, ($box_y + 52 + 2) , 6, 37);
+        //     $pdf->SetFont('Times', 'B', 6);
+        //     $pdf->TextWithDirection($box_x + 5, $box_y + 83, 'DATOS DE ENTREGA', 'U');
 
-            // body
-            $pdf->Rect($box_x + 7, ($box_y + 52 + 2), 90, 37);
-            $pdf->SetFont('Times', '', 6);
-            $pdf->SetXY($box_x+8, ($box_y + 57 + 2));
-            $pdf->MultiCell(89,6,'FIRMA:  ____________________________________________________________',0,'J');
-            $pdf->SetX($box_x+8);
-            $pdf->MultiCell(89,6,'NOMBRE:  _________________________________________________________',0,'J');
-            $pdf->SetX($box_x+8);
-            $pdf->MultiCell(89,6,'VINCULO:  _________________________________________________________',0,'J');
-            $pdf->SetX($box_x+8);
-            $pdf->MultiCell(89,6,'DNI:  __________________________________',0,'J');
-            $pdf->SetX($box_x+8);
-            $pdf->Cell(44,6,'FECHA: _______ / _______ / _______',0,0,'L');
-            $pdf->Cell(44,6,'Hora: __________________',0,0,'L');
-            $pdf->SetX($box_x+8);
+        //     // body
+        //     $pdf->Rect($box_x + 7, ($box_y + 52 + 2), 90, 37);
+        //     $pdf->SetFont('Times', '', 6);
+        //     $pdf->SetXY($box_x+8, ($box_y + 57 + 2));
+        //     $pdf->MultiCell(89,6,'FIRMA:  ____________________________________________________________',0,'J');
+        //     $pdf->SetX($box_x+8);
+        //     $pdf->MultiCell(89,6,'NOMBRE:  _________________________________________________________',0,'J');
+        //     $pdf->SetX($box_x+8);
+        //     $pdf->MultiCell(89,6,'VINCULO:  _________________________________________________________',0,'J');
+        //     $pdf->SetX($box_x+8);
+        //     $pdf->MultiCell(89,6,'DNI:  __________________________________',0,'J');
+        //     $pdf->SetX($box_x+8);
+        //     $pdf->Cell(44,6,'FECHA: _______ / _______ / _______',0,0,'L');
+        //     $pdf->Cell(44,6,'Hora: __________________',0,0,'L');
+        //     $pdf->SetX($box_x+8);
 
         // cuadro 1.2 DESTINATARIO
             //header
@@ -352,53 +352,53 @@ Route::get('pdf2', function () {
                 $pdf->MultiCell(89,4,'DIRECCION: $afasdsdfasd fsdfasdfasdfasd',0,'L');
             // }
 
-        // cuadro 2.3 OBSERVACIONES
-            //header
-            // $pdf->Rect($box_x + 99, $box_y + 66, 6, 25);
-            $pdf->SetFont('Times', 'B', 6);
-            $pdf->SetXY($box_x + 92 + 7, $box_y + 59);
-            $pdf->Cell(26,4,'PRIMERA VISITA',1,0,'L');
-            $pdf->Cell(26,4,'SEGUNDA VISITA',1,0,'L');
-            $pdf->Cell(4,4,'1',1,0,'L');
-            $pdf->Cell(4,4,'2',1,0,'L');
-            $pdf->Cell(30,4,'MOTIVO DE REZAGO',1,1,'L');
+        // // cuadro 2.3 OBSERVACIONES
+        //     //header
+        //     // $pdf->Rect($box_x + 99, $box_y + 66, 6, 25);
+        //     $pdf->SetFont('Times', 'B', 6);
+        //     $pdf->SetXY($box_x + 92 + 7, $box_y + 59);
+        //     $pdf->Cell(26,4,'PRIMERA VISITA',1,0,'L');
+        //     $pdf->Cell(26,4,'SEGUNDA VISITA',1,0,'L');
+        //     $pdf->Cell(4,4,'1',1,0,'L');
+        //     $pdf->Cell(4,4,'2',1,0,'L');
+        //     $pdf->Cell(30,4,'MOTIVO DE REZAGO',1,1,'L');
 
-            $pdf->SetX($box_x + 92 + 7);
-            $pdf->Cell(26,4,'FECHA:',1,0,'L');
-            $pdf->Cell(26,4,'FECHA:',1,1,'L');
-            // $pdf->Cell(4,4,'',1,0,'L');
-            // $pdf->Cell(4,4,'',1,1,'L');
+        //     $pdf->SetX($box_x + 92 + 7);
+        //     $pdf->Cell(26,4,'FECHA:',1,0,'L');
+        //     $pdf->Cell(26,4,'FECHA:',1,1,'L');
+        //     // $pdf->Cell(4,4,'',1,0,'L');
+        //     // $pdf->Cell(4,4,'',1,1,'L');
 
-            $pdf->SetX($box_x + 92 + 7);
-            $pdf->Cell(26,4,'HORA:',1,0,'L');
-            $pdf->Cell(26,4,'HORA:',1,1,'L');
-            // $pdf->Cell(4,4,'',1,0,'L');
-            // $pdf->Cell(4,4,'',1,1,'L');
+        //     $pdf->SetX($box_x + 92 + 7);
+        //     $pdf->Cell(26,4,'HORA:',1,0,'L');
+        //     $pdf->Cell(26,4,'HORA:',1,1,'L');
+        //     // $pdf->Cell(4,4,'',1,0,'L');
+        //     // $pdf->Cell(4,4,'',1,1,'L');
 
-            $pdf->SetX($box_x + 92 + 7);
-            $pdf->Cell(26,4,'CODIGO:',1,0,'L');
-            $pdf->Cell(26,4,'CODIGO:',1,1,'L');
-            // $pdf->Cell(4,4,'',1,0,'L');
-            // $pdf->Cell(4,4,'',1,1,'L');
+        //     $pdf->SetX($box_x + 92 + 7);
+        //     $pdf->Cell(26,4,'CODIGO:',1,0,'L');
+        //     $pdf->Cell(26,4,'CODIGO:',1,1,'L');
+        //     // $pdf->Cell(4,4,'',1,0,'L');
+        //     // $pdf->Cell(4,4,'',1,1,'L');
 
-            $pdf->SetX($box_x + 92 + 7);
-            $pdf->Cell(52,4,'OBSERVACIONES',1,1,'C');
+        //     $pdf->SetX($box_x + 92 + 7);
+        //     $pdf->Cell(52,4,'OBSERVACIONES',1,1,'C');
             
-            $pdf->SetX($box_x + 92 + 7);
-            $pdf->Cell(52,12,'',1,1,'C');
+        //     $pdf->SetX($box_x + 92 + 7);
+        //     $pdf->Cell(52,12,'',1,1,'C');
 
-            $pdf->SetXY($box_x + 144 + 7, $box_y + 63);
-            for ($zi=0; $zi < 6; $zi++) { 
-                $pdf->Cell(4,4,'',1,0,'L');
-                $pdf->Cell(4,4,'',1,0,'L');
-                $pdf->Cell(30,4,'TEST',1,1,'L');
-                $pdf->SetX($box_x + 144 + 7);
-            }
-            $pdf->Cell(4,4,'',1,0,'L');
-            $pdf->Cell(4,4,'',1,0,'L');
-            $pdf->Cell(30,4,'OTROS',1,1,'L');
+        //     $pdf->SetXY($box_x + 144 + 7, $box_y + 63);
+        //     for ($zi=0; $zi < 6; $zi++) { 
+        //         $pdf->Cell(4,4,'',1,0,'L');
+        //         $pdf->Cell(4,4,'',1,0,'L');
+        //         $pdf->Cell(30,4,'TEST',1,1,'L');
+        //         $pdf->SetX($box_x + 144 + 7);
+        //     }
+        //     $pdf->Cell(4,4,'',1,0,'L');
+        //     $pdf->Cell(4,4,'',1,0,'L');
+        //     $pdf->Cell(30,4,'OTROS',1,1,'L');
 
-        $box_y = 92 + $box_y + 2;
+        $box_y = 59 + $box_y + 2;
     }
 
 
