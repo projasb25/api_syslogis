@@ -202,29 +202,29 @@ class ShippingService
             $pdf->Ln(4);
             $y = $pdf->GetY();
     
-            $pdf->SetDrawColor(69, 69, 69);
-            $pdf->MultiCell(198, 6, utf8_decode('Transportista:'), 1, 'L');
-            $y = $pdf->GetY();
-            $pdf->MultiCell(198, 6, utf8_decode('Nombres y Apellidos:'), 1, 'L');
-            $y = $pdf->GetY();
-            $pdf->MultiCell(198, 6, utf8_decode('DNI:'), 1, 'L');
-            $y = $pdf->GetY();
+            // $pdf->SetDrawColor(69, 69, 69);
+            // $pdf->MultiCell(198, 6, utf8_decode('Transportista:'), 1, 'L');
+            // $y = $pdf->GetY();
+            // $pdf->MultiCell(198, 6, utf8_decode('Nombres y Apellidos:'), 1, 'L');
+            // $y = $pdf->GetY();
+            // $pdf->MultiCell(198, 6, utf8_decode('DNI:'), 1, 'L');
+            // $y = $pdf->GetY();
     
-            $pdf->SetDrawColor(150, 153, 141);
-            $pdf->Line(10, $y + 2, 195, $y + 2);
-            $pdf->Ln(4);
-            $y = $pdf->GetY();
+            // $pdf->SetDrawColor(150, 153, 141);
+            // $pdf->Line(10, $y + 2, 195, $y + 2);
+            // $pdf->Ln(4);
+            // $y = $pdf->GetY();
     
-            $pdf->SetDrawColor(69, 69, 69);
-            $pdf->MultiCell(120, 40, utf8_decode(''), 1, 'L');
-            $pdf->SetXY($lmargin + 120, $y);
-            $pdf->MultiCell(78, 40, '', 1, 'L');
-            $y = $pdf->GetY();
+            // $pdf->SetDrawColor(69, 69, 69);
+            // $pdf->MultiCell(120, 40, utf8_decode(''), 1, 'L');
+            // $pdf->SetXY($lmargin + 120, $y);
+            // $pdf->MultiCell(78, 40, '', 1, 'L');
+            // $y = $pdf->GetY();
     
-            $pdf->Text(22, $y - 10, '____________________________________________________________');
-            $pdf->Text(55, $y - 5, 'FIRMA');
+            // $pdf->Text(22, $y - 10, '____________________________________________________________');
+            // $pdf->Text(55, $y - 5, 'FIRMA');
     
-            $pdf->Text(153, $y - 5, 'HUELLA DACTILAR');
+            // $pdf->Text(153, $y - 5, 'HUELLA DACTILAR');
 
             $disk = Storage::disk('hoja_ruta');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
