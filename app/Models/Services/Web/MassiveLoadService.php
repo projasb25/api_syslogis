@@ -411,14 +411,14 @@ class MassiveLoadService
 
             foreach ($data as $i => $guide) {
                 if ($i  % 3 == 0 && $i !== 0) {
-                    $fila+=1;
                     $box_y = 27 + $box_y + 1;
                     $box_x = 5;
-                    if ($fila % 11 === 0) {
+                    if ($fila % 10 === 0) {
                         $pdf->AddPage();
                         $box_y = 5;
                         $box_x = 5;
                     }
+                    $fila+=1;
                 }
                 // cuadro principal
                 $pdf->Rect($box_x, $box_y, 65, 27);
