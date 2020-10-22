@@ -45,11 +45,7 @@ class MassiveLoadRepository
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
                     throw new CustomException([
                         [
-                            'msj' => 'Ubigeo no encontrado.',
-                            'distrito' => $value['district'],
-                            'provincia' => $value['province'], 
-                            'departamento' => $value['department'],
-                            'linea' => $key+2
+                            'msj' => 'Error en el departamento, provincia y distrito. \nLinea: '.($key+2)
                         ]
                         , 2121], 400);
                 }
