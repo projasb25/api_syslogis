@@ -42,7 +42,7 @@ class Oechsle extends Command
     public function handle()
     {
         try {
-            $this->line("INTEGRACION CON RIPLEY");
+            $this->line("INTEGRACION CON OECHSLE");
             $this->line("=============================================");
             $this->line('');
 
@@ -51,7 +51,7 @@ class Oechsle extends Command
                 throw new Exception($integracion['mensaje'], 500);
             }
 
-            $this->info('Integracion con ripley');
+            $this->info('Integracion con Oechsle');
             $this->info('');
 
         } catch (Exception $exc) {
