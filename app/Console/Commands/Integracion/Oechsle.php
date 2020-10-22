@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Integracion;
 
+use App\Models\Services\IntegracionService;
 use Exception;
 use Illuminate\Console\Command;
 
@@ -45,7 +46,6 @@ class Oechsle extends Command
             $this->line("=============================================");
             $this->line('');
 
-            $integracion = $this->integracionServi->integracionRipley();
             $integracion = $this->integracionServi->integracionOechsle();
             if (!$integracion['success']) {
                 throw new Exception($integracion['mensaje'], 500);
