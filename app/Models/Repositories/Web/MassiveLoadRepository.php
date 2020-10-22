@@ -16,6 +16,12 @@ class MassiveLoadRepository
     {
         return DB::table('massive_load')->where('id_massive_load', $id)->first();
     }
+
+    public function getPropiedad($name)
+    {
+        return DB::table('properties')->where('name', $name)->first();
+    }
+
     public function insertMassiveLoad($data)
     {
         DB::beginTransaction();
@@ -37,7 +43,14 @@ class MassiveLoadRepository
                     ->first();
                 if (!$check_ubigeo) {
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
-                    throw new CustomException(['Error datos ubigeo erroneos.', 2121], 400);
+                    throw new CustomException([
+                        [
+                            'msj' => 'Ubigeo no encontrado.',
+                            'distrito' => $value['district'],
+                            'provincia' => $value['province'], 
+                            'departamento' => $value['department']
+                        ]
+                        , 2121], 400);
                 }
                 
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {

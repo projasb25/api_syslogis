@@ -74,7 +74,11 @@ class MassiveLoadService
             $data['id_organization'] = $load->id_organization;
 
             $adresses = $this->repo->process($data);
-            $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
+
+            $propiedad = $this->repo->getPropiedad('apigmaps_call');
+            if ($propiedad && $propiedad->value === '1') {
+                $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
+            }
             
         } catch (CustomException $e) {
             Log::warning('Massive Load Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
