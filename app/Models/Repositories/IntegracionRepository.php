@@ -2,6 +2,7 @@
 
 namespace App\Models\Repositories;
 
+use App\Models\Entities\Guide;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,5 +43,14 @@ class IntegracionRepository
     public function updateReportado($id_guide)
     {
         DB::table('guide')->where('id_guide', $id_guide)->update(['reportado_integracion', 1]);
+    }
+
+    public function getGuideOeschle()
+    {
+        $data = Guide::where('id_corporation', 4)
+            ->where('status','ENTREGADO')
+            ->where('reportado_integracion', 0)
+            ->get();
+        return $data;
     }
 }

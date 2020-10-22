@@ -72,11 +72,63 @@ class IntegracionService
             $res['success'] = true;
             Log::info('Proceso de integracion con ripley exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
-            dd($e);
             Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage()]);
             $res['mensaje'] = $e->getMessage();    
         }
+        return $res;
+    }
 
+    public function integracionOechsle()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuideOeschle();
+            Log::info('Proceso de integracion con Oeschle', ['nro_registros' => count($guides)]);
+            
+            $req_body = [];
+            foreach ($guides as $key => $guide) {
+                $items = [];
+                foreach ($guide->sku_product as $key => $product) {
+                    array_push($items, [
+                        'skuCode' => $product->sku_code,
+                        'deliveredQuantity' => $product->sku_pieces
+                    ]);
+                }
+
+                array_push($req_body, [
+                    "companyCode" => "OE",
+                    "dispatchNumber" => $guide->seg_code,
+                    "items" => $items
+                ]);
+
+                // $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL')]);
+                
+                // try {
+                //     $req = $cliente->request('POST', 'provider/delivery', [
+                //         "headers" => [
+                //             'client_id' => env('OESCHLE_INTEGRACION_API_KEY'),
+                //         ],
+                //         "json" => $req_body
+                //     ]);
+                // } catch (\GuzzleHttp\Exception\RequestException $e) {
+                //     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+                //     Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
+                //     $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'ERROR', $req_body, $response);
+                //     continue;
+                // }
+            }
+
+            // $response = json_decode($req->getBody()->getContents());
+            // $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, $response);
+            // $this->repository->updateReportado($guide->id_guide);
+
+            $res['success'] = true;
+            Log::info('Request', $req_body);
+            Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
+        } catch (Exception $e) {
+            Log::error('Integracion Oechsle', ['cliente' => 'Oechsle', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();    
+        }
         return $res;
     }
 }
