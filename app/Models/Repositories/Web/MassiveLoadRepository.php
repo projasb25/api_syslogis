@@ -43,11 +43,7 @@ class MassiveLoadRepository
                     ->first();
                 if (!$check_ubigeo) {
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
-                    throw new CustomException([
-                        [
-                            'msj' => 'Error en el departamento, provincia y distrito. \nLinea: '.($key+2)
-                        ]
-                        , 2121], 400);
+                    throw new CustomException(['Error en el departamento, provincia y distrito. \nLinea: '.($key+2), 2121], 400);
                 }
                 
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
