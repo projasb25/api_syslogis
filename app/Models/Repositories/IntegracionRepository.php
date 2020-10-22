@@ -59,7 +59,7 @@ class IntegracionRepository
         DB::beginTransaction();
         try {
             foreach ($guides as $key => $guide) {
-                DB::table('guide')->where('id_guide', $guide->id_guide)->update(['reportado_integracion', 1]);
+                DB::table('guide')->where('id_guide', $guide->id_guide)->update(['reportado_integracion' => 1]);
             }
         } catch (Exception $e) {
             Log::warning("updateReportadoOeschle" . $e->getMessage());
