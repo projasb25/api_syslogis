@@ -7,6 +7,7 @@ use App\Models\Entities\Guide;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class MassiveLoadRepository
@@ -35,6 +36,7 @@ class MassiveLoadRepository
                     ->whereRaw('LOWER(district) = ? ', [trim(strtolower($value['district']))])
                     ->first();
                 if (!$check_ubigeo) {
+                    Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
                     throw new CustomException(['Error datos ubigeo erroneos.', 2121], 400);
                 }
                 
