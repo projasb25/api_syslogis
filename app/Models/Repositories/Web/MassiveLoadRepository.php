@@ -48,7 +48,8 @@ class MassiveLoadRepository
                             'msj' => 'Ubigeo no encontrado.',
                             'distrito' => $value['district'],
                             'provincia' => $value['province'], 
-                            'departamento' => $value['department']
+                            'departamento' => $value['department'],
+                            'linea' => $key+1
                         ]
                         , 2121], 400);
                 }
