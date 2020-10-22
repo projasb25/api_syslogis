@@ -100,30 +100,29 @@ class IntegracionService
                     "dispatchNumber" => $guide->seg_code,
                     "items" => $items
                 ]);
-
-                // $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL')]);
-                
-                // try {
-                //     $req = $cliente->request('POST', 'provider/delivery', [
-                //         "headers" => [
-                //             'client_id' => env('OESCHLE_INTEGRACION_API_KEY'),
-                //         ],
-                //         "json" => $req_body
-                //     ]);
-                // } catch (\GuzzleHttp\Exception\RequestException $e) {
-                //     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
-                //     Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
-                //     $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'ERROR', $req_body, $response);
-                //     continue;
-                // }
             }
 
+            // $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL')]);
+                
+            // try {
+            //     $req = $cliente->request('POST', 'provider/delivery', [
+            //         "headers" => [
+            //             'client_id' => env('OESCHLE_INTEGRACION_API_KEY'),
+            //         ],
+            //         "json" => $req_body
+            //     ]);
+            // } catch (\GuzzleHttp\Exception\RequestException $e) {
+            //     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+            //     Log::error('Reportar estado a Oechsle, ', ['req' => $req_body, 'exception' => $response]);
+            //     $this->repository->LogInsertOechsle('ERROR', $req_body, $response);
+            //     return $res;
+            // }
+
             // $response = json_decode($req->getBody()->getContents());
-            // $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, $response);
-            // $this->repository->updateReportado($guide->id_guide);
+            $this->repository->LogInsertOechsle('EXITO', $req_body, 'EXITO');
+            $this->repository->updateReportadoOeschle($guides);
 
             $res['success'] = true;
-            Log::info('Request', $req_body);
             Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
             Log::error('Integracion Oechsle', ['cliente' => 'Oechsle', 'exception' => $e->getMessage()]);

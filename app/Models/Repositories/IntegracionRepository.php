@@ -53,4 +53,29 @@ class IntegracionRepository
             ->get();
         return $data;
     }
+
+    public function updateReportadoOeschle($guides)
+    {
+        DB::beginTransaction();
+        try {
+            foreach ($guides as $key => $guide) {
+                DB::table('guide')->where('id_guide', $guide->id_guide)->update(['reportado_integracion', 1]);
+            }
+        } catch (Exception $e) {
+            Log::warning("updateReportadoOeschle" . $e->getMessage());
+            DB::rollback();
+        }
+        DB::commit();
+    }
+
+    public function LogInsertOechsle($result, $request, $response)
+    {
+        DB::table('log_integracion_oechsle')->insert(
+            [
+                'result' => $result,
+                'response' => json_encode($response),
+                'request' => json_encode($request)
+            ]
+            );
+    }
 }
