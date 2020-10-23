@@ -60,6 +60,9 @@ class IntegracionService
                 if($guide->subestado ==="Direccion errada"){
                     $guide->subestado = "Consignaron Datos Incorrectos";
                 }
+                if($guide->subestado ==="Direccion no existe"){
+                    $guide->subestado = "Consignaron Datos Incorrectos";
+                }
                 if($guide->subestado ==="Direccion Insuficiente"){
                     $guide->subestado = "Zona restringida y/o sin referencia";
                 }
