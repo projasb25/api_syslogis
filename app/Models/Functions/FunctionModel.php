@@ -125,8 +125,8 @@ class FunctionModel
             "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
         ],
         "SP_REPORTE_CONTROL" => [
-            "query" => 'CALL SP_REPORTE_CONTROL(:desde, :hasta)',
-            "params" => ['desde', 'hasta']
+            "query" => 'CALL SP_REPORTE_CONTROL(:desde, :hasta, :username)',
+            "params" => ['desde', 'hasta', 'username']
         ],
         "SP_REPORTE_TORRE_CONTROL" => [
             "query" => 'CALL SP_REPORTE_TORRE_CONTROL(:desde, :hasta)',
