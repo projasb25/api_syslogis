@@ -84,7 +84,7 @@ class IntegracionService
                     "URL" => $guide->url
                 ];
 
-                $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, 'test');
+                $this->repository->LogInsert($guide->cud, $guide->id_guide, 'SUCCESS', $req_body, 'test');
             }
             
             $res['success'] = true;
