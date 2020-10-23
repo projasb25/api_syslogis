@@ -129,12 +129,12 @@ class FunctionModel
             "params" => ['desde', 'hasta', 'username']
         ],
         "SP_REPORTE_TORRE_CONTROL" => [
-            "query" => 'CALL SP_REPORTE_TORRE_CONTROL(:desde, :hasta)',
-            "params" => ['desde', 'hasta']
+            "query" => 'CALL SP_REPORTE_TORRE_CONTROL(:desde, :hasta, :username)',
+            "params" => ['desde', 'hasta', 'username']
         ],
         "SP_REPORTE_CONTROL_SKU" => [
-            "query" => 'CALL SP_REPORTE_CONTROL_SKU(:desde, :hasta)',
-            "params" => ['desde', 'hasta']
+            "query" => 'CALL SP_REPORTE_CONTROL_SKU(:desde, :hasta, :username)',
+            "params" => ['desde', 'hasta', 'username']
         ],
         
         /**
