@@ -71,6 +71,94 @@ class IntegracionService
 
             $guides = $this->repository->getTestRipley();
             foreach ($guides as $key => $guide) {
+                if ($guide->estado === 'CURSO') {
+                    $guide->Estado = 'En Transito';
+                    $guide->SubEstado = 'En Ruta hacia el Cliente';
+                }
+                if ($guide->estado === 'ENTREGADO') {
+                    $guide->Estado = 'ENTREGADO';
+                    $guide->SubEstado = 'ENTREGA EXITOSA';
+                }
+
+                if($guide->subestado ==="Ausente"){
+                    $guide->subestado = "Sin Morador";
+                }
+                if($guide->subestado ==="Rechazado"){
+                    $guide->subestado = "Suspende Entrega";
+                }
+                if($guide->subestado ==="Zona Peligrosa"){
+                    $guide->subestado = utf8_decode("Acceso Difícil y/o Inaccesible");
+                }
+                if($guide->subestado ==="Siniestro"){
+                    $guide->subestado = "Robo";
+                }
+                if($guide->subestado ==="Robo"){
+                    $guide->subestado = "Robo";
+                }
+                if($guide->subestado ==="Producto Siniestrado"){
+                    $guide->subestado = "Robo";
+                }
+                if($guide->subestado ==="Direccion errada"){
+                    $guide->subestado = "Consignaron Datos Incorrectos";
+                }
+                if($guide->subestado ==="Direccion Insuficiente"){
+                    $guide->subestado = "Zona restringida y/o sin referencia";
+                }
+                if($guide->subestado ==="Desconocido"){
+                    $guide->subestado = "Documentacion Incorrecta";
+                }
+                if($guide->subestado ==="Acceso Difícil y/o Inaccesible"){
+                    $guide->subestado = "Acceso Difícil y/o Inaccesible";
+                }
+                if($guide->subestado ==="Cambio Fecha de Despacho"){
+                    $guide->subestado = "Cambio Fecha de Despacho";
+                }
+                if($guide->subestado ==="Anula Compra"){
+                    $guide->subestado = "Anula Compra";
+                }
+                if($guide->subestado ==="Cambio de Producto"){
+                    $guide->subestado = "Cambio de Producto";
+                }
+                if($guide->subestado ==="Cambio Fecha de Despacho"){
+                    $guide->subestado = "Cambio Fecha de Despacho";
+                }
+                if($guide->subestado ==="Cliente no coordino recepción"){
+                    $guide->subestado = "Cliente no coordino recepción";
+                }
+                if($guide->subestado ==="Consignaron Datos Incorrectos"){
+                    $guide->subestado = "Consignaron Datos Incorrectos";
+                    }
+                if($guide->subestado ==="Documentacion Incorrecta"){
+                    $guide->subestado = "Documentacion Incorrecta";
+                }
+                if($guide->subestado ==="Falto Personal de Apoyo"){
+                    $guide->subestado = "Falto Personal de Apoyo";
+                }
+                if($guide->subestado ==="Fuera de Hora"){
+                    $guide->subestado = "Fuera de Hora";
+                }
+                if($guide->subestado ==="Mercaderia Dañada"){
+                    $guide->subestado = "Mercaderia Dañada";
+                }
+                if($guide->subestado ==="Mercadería Incompleta"){
+                    $guide->subestado = "Mercadería Incompleta";
+                }
+                if($guide->subestado ==="Mercaderia Incorrecta"){
+                    $guide->subestado = "Mercaderia Incorrecta";
+                }
+                if($guide->subestado ==="Sin Morador"){
+                    $guide->subestado = "Sin Morador";
+                }
+                if($guide->subestado ==="Suspende Entrega"){
+                    $guide->subestado = "Suspende Entrega";
+                }
+                if($guide->subestado ==="Transporte en espera de atención"){
+                    $guide->subestado = "Transporte en espera de atención";
+                }
+                if($guide->c ==="Zona Restringida y/o Sin $guide->subestado"){
+                    $guide->subestado = "Zona Restringida y/o Sin Referencia";
+                }
+                
                 $req_body = [
                     "CUD" => $guide->cud,
                     "Estado" => ucwords(strtolower($guide->estado)),
