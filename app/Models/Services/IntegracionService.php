@@ -72,12 +72,12 @@ class IntegracionService
             $guides = $this->repository->getTestRipley();
             foreach ($guides as $key => $guide) {
                 if ($guide->estado === 'CURSO') {
-                    $guide->Estado = 'En Transito';
-                    $guide->SubEstado = 'En Ruta hacia el Cliente';
+                    $guide->estado = 'En Transito';
+                    $guide->subestado = 'En Ruta hacia el Cliente';
                 }
                 if ($guide->estado === 'ENTREGADO') {
-                    $guide->Estado = 'ENTREGADO';
-                    $guide->SubEstado = 'ENTREGA EXITOSA';
+                    $guide->estado = 'ENTREGADO';
+                    $guide->subestado = 'ENTREGA EXITOSA';
                 }
 
                 if($guide->subestado ==="Ausente"){
