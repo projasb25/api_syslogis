@@ -104,6 +104,6 @@ class IntegracionRepository
 
     public function checkReported($cud, $estado, $subestado)
     {
-        return DB::table('log_integration_ripley')->where('cud', $cud)->where('estado', $estado)->where('subEstado', $subestado)->first();
+        return DB::table('log_integration_ripley')->where('cud', $cud)->where('estado', $estado)->where('subEstado', $subestado)->where('result', 'SUCCESS')->first();
     }
 }
