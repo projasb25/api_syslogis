@@ -96,7 +96,7 @@ class IntegracionService
                 } catch (\GuzzleHttp\Exception\RequestException $e) {
                     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                     Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
-                    $this->repository->LogInsert($guide->CUD, $guide->id_prim, 'ERROR', $req_body, $response);
+                    $this->repository->LogInsert($guide->cud, $guide->id_prim, 'ERROR', $req_body, $response);
                     continue;
                 }
 
