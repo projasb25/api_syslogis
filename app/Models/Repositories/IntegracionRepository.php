@@ -78,4 +78,9 @@ class IntegracionRepository
             ]
             );
     }
+
+    public function getTestRipley()
+    {
+        return DB::table('test_ripley')->get();
+    }
 }

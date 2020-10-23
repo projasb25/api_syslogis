@@ -28,45 +28,63 @@ class IntegracionService
     {
         $res['success'] = false;
         try {
-            $guides = $this->repository->getGuides();
-            Log::info('Proceso de integracion con ripley', ['nro_registros' => count($guides)]);
+            // $guides = $this->repository->getGuides();
+            // Log::info('Proceso de integracion con ripley', ['nro_registros' => count($guides)]);
+            // foreach ($guides as $key => $guide) {
+            //     if ($guide->Estado === 'CURSO') {
+            //         $guide->Estado = 'En Transito';
+            //         $guide->SubEstado = 'En Ruta hacia el Cliente';
+            //     }
+            //     $req_body = [
+            //         "CUD" => $guide->CUD,
+            //         "Estado" => ucwords(strtolower($guide->Estado)),
+            //         "SubEstado" => $guide->SubEstado,
+            //         "Placa" => $guide->Placa,
+            //         "Courier" => $guide->Courier,
+            //         "Fecha" => $guide->Fecha,
+            //         "NombreReceptor" => $guide->NombreReceptor,
+            //         "IDReceptor" => $guide->IDReceptor,
+            //         "TrackNumber" => $guide->TrackNumber,
+            //         "URL" => 'http://144.217.253.15:3000/guidestatus/'.$guide->id_guide
+            //     ];
+
+            //     $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
+                
+            //     try {
+            //         $req = $cliente->request('POST', 'sendStateCourierOnline', [
+            //             "headers" => [
+            //                 'x-api-key' => '2ECPcJU2hs6PAEsvj9K8BapnSt3bPNkg9GQlNAoU',
+            //             ],
+            //             "json" => $req_body
+            //         ]);
+            //     } catch (\GuzzleHttp\Exception\RequestException $e) {
+            //         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+            //         Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
+            //         $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'ERROR', $req_body, $response);
+            //         continue;
+            //     }
+
+            //     $response = json_decode($req->getBody()->getContents());
+            //     $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, $response);
+            //     $this->repository->updateReportado($guide->id_guide);
+            // }
+
+            $guides = $this->repository->getTestRipley();
             foreach ($guides as $key => $guide) {
-                if ($guide->Estado === 'CURSO') {
-                    $guide->Estado = 'En Transito';
-                    $guide->SubEstado = 'En Ruta hacia el Cliente';
-                }
                 $req_body = [
-                    "CUD" => $guide->CUD,
-                    "Estado" => ucwords(strtolower($guide->Estado)),
-                    "SubEstado" => $guide->SubEstado,
-                    "Placa" => $guide->Placa,
-                    "Courier" => $guide->Courier,
-                    "Fecha" => $guide->Fecha,
-                    "NombreReceptor" => $guide->NombreReceptor,
-                    "IDReceptor" => $guide->IDReceptor,
-                    "TrackNumber" => $guide->TrackNumber,
-                    "URL" => 'http://144.217.253.15:3000/guidestatus/'.$guide->id_guide
+                    "CUD" => $guide->cud,
+                    "Estado" => ucwords(strtolower($guide->estado)),
+                    "SubEstado" => $guide->subestado,
+                    "Placa" => $guide->placa,
+                    "Courier" => $guide->courier,
+                    "Fecha" => $guide->fecha,
+                    "NombreReceptor" => $guide->nombreReceptor,
+                    "IDReceptor" => $guide->idReceptor,
+                    "TrackNumber" => $guide->trackNumber,
+                    "URL" => $guide->url
                 ];
 
-                $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
-                
-                try {
-                    $req = $cliente->request('POST', 'sendStateCourierOnline', [
-                        "headers" => [
-                            'x-api-key' => '2ECPcJU2hs6PAEsvj9K8BapnSt3bPNkg9GQlNAoU',
-                        ],
-                        "json" => $req_body
-                    ]);
-                } catch (\GuzzleHttp\Exception\RequestException $e) {
-                    $response = (array) json_decode($e->getResponse()->getBody()->getContents());
-                    Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
-                    $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'ERROR', $req_body, $response);
-                    continue;
-                }
-
-                $response = json_decode($req->getBody()->getContents());
-                $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, $response);
-                $this->repository->updateReportado($guide->id_guide);
+                $this->repository->LogInsert($guide->CUD, $guide->id_guide, 'SUCCESS', $req_body, 'test');
             }
             
             $res['success'] = true;
