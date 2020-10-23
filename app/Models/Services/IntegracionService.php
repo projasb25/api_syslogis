@@ -84,7 +84,24 @@ class IntegracionService
                     "URL" => $guide->url
                 ];
 
-                $this->repository->LogInsert($guide->cud, $guide->id_prim, 'SUCCESS', $req_body, 'test');
+                $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
+                
+                try {
+                    $req = $cliente->request('POST', 'sendStateCourierOnline', [
+                        "headers" => [
+                            'x-api-key' => '2ECPcJU2hs6PAEsvj9K8BapnSt3bPNkg9GQlNAoU',
+                        ],
+                        "json" => $req_body
+                    ]);
+                } catch (\GuzzleHttp\Exception\RequestException $e) {
+                    $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+                    Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
+                    $this->repository->LogInsert($guide->CUD, $guide->id_prim, 'ERROR', $req_body, $response);
+                    continue;
+                }
+
+                $response = json_decode($req->getBody()->getContents());
+                $this->repository->LogInsert($guide->cud, $guide->id_prim, 'SUCCESS', $req_body, $response);
             }
             
             $res['success'] = true;
