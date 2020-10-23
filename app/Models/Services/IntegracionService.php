@@ -155,7 +155,7 @@ class IntegracionService
                 if($guide->subestado ==="Transporte en espera de atención"){
                     $guide->subestado = "Transporte en espera de atención";
                 }
-                if($guide->c ==="Zona Restringida y/o Sin $guide->subestado"){
+                if($guide->subestado ==="Zona Restringida y/o Sin $guide->subestado"){
                     $guide->subestado = "Zona Restringida y/o Sin Referencia";
                 }
                 
