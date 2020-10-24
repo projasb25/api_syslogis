@@ -26,13 +26,14 @@ class IntegracionRepository
         // and gd.id_guide in (104,121,138,93,94,97,99,110,111,114,116,127,128,131,133,144,145,148,150,92)
     }
 
-    public function LogInsert($cud, $estado, $subEstado, $result, $request, $response)
+    public function LogInsert($cud, $estado, $subEstado, $idpedido_detalle, $result, $request, $response)
     {
         DB::table('log_integration_ripley')->insert(
             [
                 'cud' => $cud,
                 'estado' => $estado,
                 'subEstado' => $subEstado,
+                'idpedido_detalle' => $idpedido_detalle,
                 'result' => $result,
                 'request' => json_encode($request),
                 'response' => json_encode($response)
@@ -93,7 +94,8 @@ class IntegracionRepository
                 WHEN pdep.idestado_pedido_detalle = 16 THEN 'ENTREGADO'
                 WHEN pdep.idestado_pedido_detalle = 12 THEN 'CURSO'
             END AS estado,
-            pdep.observaciones as subestado, vh.numero_placa, 'Qayarix' as courier,env.fecha, pd.contacto_nombre_descarga, pd.contacto_dni_descarga, p.nro_guia_sistema ,CONCAT('https://www.qayarix.com:4721/ripley/status?c=',pd.idpedido_detalle) AS url  
+            pdep.observaciones as subestado, vh.numero_placa, 'Qayarix' as courier,env.fecha, pd.contacto_nombre_descarga, pd.contacto_dni_descarga, p.nro_guia_sistema ,CONCAT('https://www.qayarix.com:4721/ripley/status?c=',pd.idpedido_detalle) AS url ,
+            pd.idpedido_detalle
         from pedido p
         join pedido_detalle pd on pd.idpedido = p.idpedido and pd.idpedido_detalle = (select max(idpedido_detalle) from pedido_detalle pd2 where pd2.idpedido = p.idpedido)
         join pedido_detalle_estado_pedido_detalle as pdep on pdep.idpedido_detalle = pd.idpedido_detalle and pdep.idpedido_detalle_estado_pedido_detalle = (select max(idpedido_detalle_estado_pedido_detalle) from pedido_detalle_estado_pedido_detalle where idpedido_detalle = pd.idpedido_detalle)
@@ -102,8 +104,14 @@ class IntegracionRepository
         where date(p.fecha) >= '2020-10-23' and p.idcliente in (108,5,109,112,113,115)");
     }
 
-    public function checkReported($cud, $estado, $subestado)
+    public function checkReported($cud, $estado, $subestado, $idpedido_detalle)
     {
-        return DB::table('log_integration_ripley')->where('cud', $cud)->where('estado', $estado)->where('subEstado', $subestado)->where('result', 'SUCCESS')->first();
+        return DB::table('log_integration_ripley')
+            ->where('cud', $cud)
+            ->where('estado', $estado)
+            ->where('subEstado', $subestado)
+            ->where('idpedido_detalle', $idpedido_detalle)
+            ->where('result', 'SUCCESS')
+            ->first();
     }
 }

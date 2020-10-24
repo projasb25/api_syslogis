@@ -121,13 +121,11 @@ class IntegracionService
                     $guide->subestado = "Zona Restringida y/o Sin Referencia";
                 }
                 
-                $chequear = $this->repository->checkReported($guide->cud, $guide->estado, $guide->subestado);
+                $chequear = $this->repository->checkReported($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle);
                 if ($chequear) {
                     Log::info('Ya se reporto esta guia ', (array) $guide);
                     continue;
                 }
-
-
 
                 $req_body = [
                     "CUD" => $guide->cud,
@@ -155,7 +153,7 @@ class IntegracionService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
-                        $this->repository->LogInsert($guide->cud, $guide->estado, $guide->subestado, 'ERROR', $req_body, $response);
+                        $this->repository->LogInsert($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle, 'ERROR', $req_body, $response);
                         continue;
                     }
 
@@ -164,7 +162,7 @@ class IntegracionService
                     $response = 'test response';
                 }
 
-                $this->repository->LogInsert($guide->cud, $guide->estado, $guide->subestado, 'SUCCESS', $req_body, $response);
+                $this->repository->LogInsert($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle, 'SUCCESS', $req_body, $response);
             }
             
             $res['success'] = true;
