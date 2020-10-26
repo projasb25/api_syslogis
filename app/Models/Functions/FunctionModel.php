@@ -137,8 +137,8 @@ class FunctionModel
             "params" => ['desde', 'hasta', 'username']
         ],
         "SP_REASIGNAR_ENVIO" => [
-            "query" => 'CALL SP_REASIGNAR_ENVIO(:id_shipping_order, :id_vehicle, :id_driver)',
-            "params" => ['id_shipping_order', 'id_vehicle', 'id_driver']
+            "query" => 'CALL SP_REASIGNAR_ENVIO(:id_shipping_order, :id_vehicle, :id_driver, :username)',
+            "params" => ['id_shipping_order', 'id_vehicle', 'id_driver', 'username']
         ],
         
         /**
