@@ -101,9 +101,22 @@ class IntegracionRepository
         join pedido_detalle_estado_pedido_detalle as pdep on pdep.idpedido_detalle = pd.idpedido_detalle and pdep.idpedido_detalle_estado_pedido_detalle = (select max(idpedido_detalle_estado_pedido_detalle) from pedido_detalle_estado_pedido_detalle where idpedido_detalle = pd.idpedido_detalle)
         join envio as env on env.idenvio = pd.idenvio
         join vehiculo as vh on vh.idvehiculo = env.idvehiculo
-        where date(p.fecha) >= '2020-10-23' and p.idcliente in (108,5,109,112,113,115)
+        where p.token in (
+            '0600050000841439440001',
+            '0600050000841313280003',
+            '0600050000841965120001',
+            '0600050000836336650004',
+            '0600050000837256150002',
+            '0600050000839217630003',
+            '0600050000839217120002',
+            '0600050000841329570001',
+            '0600050000837606510001',
+            '0600050000841617690601',
+            '0600050000839940520002'
+            )
         group by p.token");
     }
+    // where date(p.fecha) >= '2020-10-23' and p.idcliente in (108,5,109,112,113,115)
 
     public function checkReported($cud, $estado, $subestado, $idpedido_detalle)
     {
