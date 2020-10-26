@@ -95,7 +95,7 @@ class ShippingRepository
     public function get_imprimir_hoja_ruta($shipping_order)
     {
         $query = DB::select('select
-        adr.address, adr.district, vh.plate_number, gd.client_barcode,  dv.first_name, dv.last_name, pv.name as provider_name, so.*
+        adr.address, adr.district, vh.plate_number, gd.client_barcode, gd.alt_code1, dv.first_name, dv.last_name, pv.name as provider_name, so.*
     from
         shipping_order so
     join vehicle vh on vh.id_vehicle = so.id_vehicle 
