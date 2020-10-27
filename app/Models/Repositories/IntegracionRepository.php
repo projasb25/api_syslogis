@@ -87,22 +87,23 @@ class IntegracionRepository
 
     public function getIntegracionRipley()
     {
-        return DB::select("select
-            p.token as cud,
-            CASE 
-                WHEN pdep.idestado_pedido_detalle = 17 THEN 'NO ENTREGADO'
-                WHEN pdep.idestado_pedido_detalle = 16 THEN 'ENTREGADO'
-                WHEN pdep.idestado_pedido_detalle = 12 THEN 'CURSO'
-            END AS estado,
-            pdep.observaciones as subestado, vh.numero_placa, 'Qayarix' as courier,env.fecha, pd.contacto_nombre_descarga, pd.contacto_dni_descarga, p.nro_guia_sistema ,CONCAT('https://www.qayarix.com:4721/ripley/status?c=',pd.idpedido_detalle) AS url ,
-            pd.idpedido_detalle
-        from pedido p
-        join pedido_detalle pd on pd.idpedido = p.idpedido and pd.idpedido_detalle = (select max(idpedido_detalle) from pedido_detalle pd2 where pd2.idpedido = p.idpedido)
-        join pedido_detalle_estado_pedido_detalle as pdep on pdep.idpedido_detalle = pd.idpedido_detalle and pdep.idpedido_detalle_estado_pedido_detalle = (select max(idpedido_detalle_estado_pedido_detalle) from pedido_detalle_estado_pedido_detalle where idpedido_detalle = pd.idpedido_detalle)
-        join envio as env on env.idenvio = pd.idenvio
-        join vehiculo as vh on vh.idvehiculo = env.idvehiculo
-        where date(p.fecha) >= '2020-10-19' and p.idcliente in (108,5,109,112,113,115)
-        group by p.token");
+        return DB::select("CALL SP_INTEGRACION_RIPLEY()");
+        // return DB::select("select
+        //     p.token as cud,
+        //     CASE 
+        //         WHEN pdep.idestado_pedido_detalle = 17 THEN 'NO ENTREGADO'
+        //         WHEN pdep.idestado_pedido_detalle = 16 THEN 'ENTREGADO'
+        //         WHEN pdep.idestado_pedido_detalle = 12 THEN 'CURSO'
+        //     END AS estado,
+        //     pdep.observaciones as subestado, vh.numero_placa, 'Qayarix' as courier,env.fecha, pd.contacto_nombre_descarga, pd.contacto_dni_descarga, p.nro_guia_sistema ,CONCAT('https://www.qayarix.com:4721/ripley/status?c=',pd.idpedido_detalle) AS url ,
+        //     pd.idpedido_detalle
+        // from pedido p
+        // join pedido_detalle pd on pd.idpedido = p.idpedido and pd.idpedido_detalle = (select max(idpedido_detalle) from pedido_detalle pd2 where pd2.idpedido = p.idpedido)
+        // join pedido_detalle_estado_pedido_detalle as pdep on pdep.idpedido_detalle = pd.idpedido_detalle and pdep.idpedido_detalle_estado_pedido_detalle = (select max(idpedido_detalle_estado_pedido_detalle) from pedido_detalle_estado_pedido_detalle where idpedido_detalle = pd.idpedido_detalle)
+        // join envio as env on env.idenvio = pd.idenvio
+        // join vehiculo as vh on vh.idvehiculo = env.idvehiculo
+        // where date(p.fecha) >= '2020-10-19' and p.idcliente in (108,5,109,112,113,115)
+        // group by p.token");
     }
                 // where p.token in (
                 //     '0600050000858418560001',
