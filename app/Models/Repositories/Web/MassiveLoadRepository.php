@@ -100,6 +100,8 @@ class MassiveLoadRepository
     public function process($data)
     {
         $prev_val = '';
+        $prev_nguia = '';
+        $prev_barcode = '';
         $total_weight = 0;
         $total_pieces = 0;
         DB::beginTransaction();
@@ -129,9 +131,10 @@ class MassiveLoadRepository
 
             $detalles = DB::table('massive_load_details')->select('*')
                         ->where('id_massive_load', $data['id_massive_load'])
+                        ->orderBy('guide_number')
                         ->orderBy('seg_code')
-                        ->orderBy('alt_code1')
-                        ->orderBy('alt_code2')
+                        // ->orderBy('alt_code1')
+                        // ->orderBy('alt_code2')
                         ->orderBy('client_barcode')
                         ->get();
             
@@ -200,8 +203,16 @@ class MassiveLoadRepository
                     }
                 }
 
-                $client_barcode = Carbon::now()->format('Ymd') . str_pad($id_guide, 7, "0", STR_PAD_LEFT);
-                DB::table('guide')->where('id_guide', $id_guide)->update(['client_barcode' => $client_barcode]);
+                if (is_null($value->client_barcode)) {
+                    if ($prev_nguia === $value->guide_number) {
+                        DB::table('guide')->where('id_guide', $id_guide)->update(['client_barcode' => $prev_barcode]);
+                    } else {
+                        $client_barcode = Carbon::now()->format('Ymd') . str_pad($id_guide, 7, "0", STR_PAD_LEFT);
+                        DB::table('guide')->where('id_guide', $id_guide)->update(['client_barcode' => $client_barcode]);
+                        $prev_barcode = $client_barcode;
+                        $prev_nguia = $value->guide_number;
+                    }
+                }
 
                 /* Insertar en sku_producto */
                 $id_sku = DB::table('sku_product')->insertGetId([
