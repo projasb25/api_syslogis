@@ -162,9 +162,9 @@ class ShippingService
             $pdf->SetDrawColor(69, 69, 69);
             $pdf->MultiCell(10, 6, 'Nro', 1, 'L');
             $pdf->SetXY($lmargin + 10, $y);
-            $pdf->MultiCell(35, 6, 'Codigo Carton', 1, 'L');
+            $pdf->MultiCell(28, 6, 'Codigo de Barra', 1, 'L');
             $pdf->SetXY($lmargin + 45, $y);
-            $pdf->MultiCell(28, 6, 'Distrito', 1, 'L');
+            $pdf->MultiCell(35, 6, 'Distrito', 1, 'L');
             $pdf->SetXY($lmargin + 73, $y);
             $pdf->MultiCell(125, 6, utf8_decode('Direccion de Entrega'), 1, 'L');
             $y = $pdf->GetY();
@@ -188,7 +188,7 @@ class ShippingService
                 $pdf->SetDrawColor(69, 69, 69);
                 $pdf->MultiCell(10, 4 * $rows, $key+1, 1, 'C');
                 $pdf->SetXY($lmargin + 10, $y);
-                $pdf->MultiCell(35, 4 * $rows, $value->alt_code1, 1, 'L');
+                $pdf->MultiCell(35, 4 * $rows, $value->client_barcode, 1, 'L');
                 $pdf->SetXY($lmargin + 45, $y);
                 $pdf->MultiCell(28, ($distrito_row > $direccion_row) ? 4 : 4 * $rows, $distrito, 1, 'L');
                 $pdf->SetXY($lmargin + 73, $y);

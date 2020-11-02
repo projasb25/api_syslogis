@@ -100,17 +100,23 @@ class ShippingRepository
     public function get_imprimir_hoja_ruta($shipping_order)
     {
         $query = DB::select('select
-        adr.address, adr.district, vh.plate_number, gd.client_barcode, gd.alt_code1, dv.first_name, dv.last_name, pv.name as provider_name, so.*
-    from
-        shipping_order so
-    join vehicle vh on vh.id_vehicle = so.id_vehicle 
-    join driver dv on dv.id_driver = vh.id_driver
-    join provider pv on pv.id_provider = vh.id_provider
-    join shipping_order_detail sod on sod.id_shipping_order = so.id_shipping_order
-    join guide gd on gd.id_guide = sod.id_guide
-    join address adr on adr.id_address = gd.id_address
-    where
-        so.id_shipping_order = ?;', [$shipping_order]);
+            adr.address, adr.district, vh.plate_number, gd.client_barcode, dv.first_name, dv.last_name, pv.name as provider_name, so.*,
+            (select count(guide_number) from shipping_order_detail as sod2 where sod2.guide_number = gd.guide_number) as nro_guias
+        from
+            shipping_order so
+        join vehicle vh on vh.id_vehicle = so.id_vehicle 
+        join driver dv on dv.id_driver = vh.id_driver
+        join provider pv on pv.id_provider = vh.id_provider
+        join shipping_order_detail sod on sod.id_shipping_order = so.id_shipping_order
+        join guide as gd on gd.id_guide = (SELECT max(id_guide) from shipping_order_detail sod3 where sod3.id_shipping_order = so.id_shipping_order and guide_number = sod.guide_number)
+        join address adr on adr.id_address = gd.id_address
+        where
+            so.id_shipping_order = ?
+        group by 
+            gd.client_barcode,
+            gd.guide_number,
+            adr.address,
+            adr.district;', [$shipping_order]);
         return $query;
     }
 
