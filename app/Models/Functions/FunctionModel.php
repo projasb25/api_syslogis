@@ -101,8 +101,8 @@ class FunctionModel
             "params" => ['id_guide']
         ],
         "SP_SEL_GUIDE_BY_BARCODE" => [
-            "query" => 'CALL SP_SEL_GUIDE_BY_BARCODE(:client_barcode, :username)',
-            "params" => ['client_barcode', 'username']
+            "query" => 'CALL SP_SEL_GUIDE_BY_BARCODE(:client_barcode, :filterBy, :username)',
+            "params" => ['client_barcode', 'filterBy', 'username']
             //"params" => ['client_barcode', 'seg_code', 'alt_code1', 'username']
         ],
         "SP_SEL_GUIDE_INFO" => [
