@@ -166,7 +166,9 @@ class ShippingService
             $pdf->SetXY($lmargin + 38, $y);
             $pdf->MultiCell(35, 6, 'Distrito', 1, 'L');
             $pdf->SetXY($lmargin + 73, $y);
-            $pdf->MultiCell(125, 6, utf8_decode('Direccion de Entrega'), 1, 'L');
+            $pdf->MultiCell(115, 6, utf8_decode('Direccion de Entrega'), 1, 'L');
+            $pdf->SetXY($lmargin + 188, $y);
+            $pdf->MultiCell(10, 6, 'Bultos', 1, 'L');
             $y = $pdf->GetY();
     
             $pdf->SetFont('Times', '', 7);
@@ -192,7 +194,9 @@ class ShippingService
                 $pdf->SetXY($lmargin + 38, $y);
                 $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 4 : 4 * $rows, $distrito, 1, 'L');
                 $pdf->SetXY($lmargin + 73, $y);
-                $pdf->MultiCell(125, ($direccion_row > $distrito_row) ? 4 : 4 * $rows, utf8_decode($direccion), 1, 'L');
+                $pdf->MultiCell(115, ($direccion_row > $distrito_row) ? 4 : 4 * $rows, utf8_decode($direccion), 1, 'L');
+                $pdf->SetXY($lmargin + 188, $y);
+                $pdf->MultiCell(10, 4 * $rows, $value->nro_guias, 1, 'L');
                 $y = $pdf->GetY();
             }
 
