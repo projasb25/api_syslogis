@@ -81,8 +81,8 @@ class ShippingService
             $pdf->SetXY($lmargin + 16, $y);
             $pdf->MultiCell(61, 5, $data[0]->id_shipping_order, 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
-            $pdf->MultiCell(15, 5, 'Total Guias:', 0, 'L');
-            $pdf->SetXY($lmargin + 92, $y);
+            $pdf->MultiCell(18, 5, 'Total Guias:', 0, 'L');
+            $pdf->SetXY($lmargin + 94, $y);
             $uniqueCount = count(array_unique(array_column($data, 'guide_number'))); 
             $pdf->MultiCell(13, 5, $uniqueCount, 0, 'L');
             $y = $pdf->GetY();
