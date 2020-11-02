@@ -45,6 +45,11 @@ class ShippingRepository
         return DB::table('shipping_order_detail')->where('id_shipping_order_detail', $id)->first();
     }
 
+    public function getShippingDetailByGuideNumber($guide_number, $id_shipping_order)
+    {
+        return DB::table('shipping_order_detail')->where('guide_number', $guide_number)->where('id_shipping_order', $id_shipping_order)->get();
+    }
+
     public function insertarImagen($id, $id_shipping, $url, $desc, $type)
     {
         DB::table('guide_images')->insert(['id_guide' => $id, 'id_shipping_order' => $id_shipping ,'url' => $url, 'description' => $desc, 'type' => $type]);

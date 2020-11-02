@@ -20,7 +20,9 @@ class grabarImagen extends FormRequest
     {
         return [
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20048',
-            'id_shipping_order_detail' => 'required|numeric',
+            'id_shipping_order' => 'required|numeric',
+            'guide_number' => 'required|numeric',
+            // 'id_shipping_order_detail' => 'required|numeric',
             'tipo_imagen' => 'required',
             'descripcion' => 'required|string'
         ];
@@ -31,8 +33,11 @@ class grabarImagen extends FormRequest
         return [
             'imagen.required' => 'La imagen es requerida.',
             'imagen.mimes'  => 'Extension invalida.',
-            'id_shipping_order_detail.required' => 'Falta id_shipping_order_detail',
-            'id_shipping_order_detail.numeric' => 'pedido invalido',
+            'id_shipping_order.required' => 'Falta id_shipping_order',
+            'id_shipping_order.numeric' => 'pedido invalido',
+            'guide_number.*' => 'pedido invalido',
+            // 'id_shipping_order_detail.required' => 'Falta id_shipping_order_detail',
+            // 'id_shipping_order_detail.numeric' => 'pedido invalido',
             'tipo_imagen.*' => 'Tipo imagen inválido.',
             'descripcion.required' => 'Descripcion requerida.',
             'descripcion.*' => 'Descripción inválida.'

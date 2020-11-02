@@ -127,7 +127,7 @@ class ShippingService
             foreach ($motivos as $key => $motivo) {
                 array_push($data, $motivo->name);
             }
-            Log::info('Listar Motivos exitoso', ['motivos'=>$data]);
+            Log::info('Listar Motivos exitoso', ['motivos' => $data]);
         } catch (CustomException $e) {
             Log::warning('Listar Motivos', ['expcetion' => $e->getData()[0]]);
             return Res::error($e->getData(), $e->getCode());
@@ -140,18 +140,17 @@ class ShippingService
         }
         return Res::success($data);
     }
-    
+
     public function grabarImagen($request)
     {
         try {
-            $guide = $this->repository->getShippingOrderDetail($request->get('id_shipping_order_detail'));
-            if (!$guide) {
+            $guide = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
+            if (!count($guide)) {
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
-            } elseif ($guide->status !== 'CURSO') {
+            } elseif ($guide[0]->status !== 'CURSO') {
                 throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
             }
-            
-            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide->id_guide;
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide[0]->id_guide;
             # CHeck if folder exists before create one
             if (!file_exists($destination_path)) {
                 File::makeDirectory($destination_path, $mode = 0777, true, true);
@@ -159,22 +158,24 @@ class ShippingService
             }
 
             $imagen = $request->file('imagen');
-            $nombre_imagen = $guide->id_guide . '_' . time() . '.jpg';
+            $nombre_imagen = $guide[0]->id_guide . '_' . time() . '.jpg';
             $thumbnail = Image::make($imagen->getRealPath());
-            
+
             # Guardamos el thumnail primero
             $thumbnail->resize(250, 250, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destination_path . '/thumbnail/' . $nombre_imagen);
-            
+
             # Redimesionamos la imagen a 720x720
             $resize = Image::make($imagen->getRealPath());
             $resize->resize(720, 720, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destination_path . '/' . $nombre_imagen);
 
-            $ruta = url('storage/imagenes/' . $guide->id_guide. '/' . $nombre_imagen);
-            $this->repository->insertarImagen($guide->id_guide, $guide->id_shipping_order,$ruta,$request->get('descripcion'),$request->get('tipo_imagen'));
+            $ruta = url('storage/imagenes/' . $guide[0]->id_guide . '/' . $nombre_imagen);
+            foreach ($guide as $key => $gd) {
+                $this->repository->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
+            }
 
             Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
         } catch (CustomException $e) {
@@ -193,27 +194,43 @@ class ShippingService
     public function getImagen($request)
     {
         try {
-            $guide = $this->repository->getShippingOrderDetail($request->id_shipping_order_detail);
-            if (!$guide) {
+            $guide = $this->repository->getShippingDetailByGuideNumber($request->guide_number, $request->id_shipping_order);
+            if (!count($guide)) {
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
             }
 
-            $imagenes = $this->repository->obtenerImagenes($guide->id_guide, $guide->id_shipping_order);
+            $imagenes = $this->repository->obtenerImagenes($guide[0]->id_guide, $guide[0]->id_shipping_order);
             $data = [];
 
             foreach ($imagenes as $key => $img) {
-                $segmentos = explode('/',$img->url);
+                $segmentos = explode('/', $img->url);
                 array_push($data, url('storage/imagenes/' . $img->id_guide . '/thumbnail/' . end($segmentos)));
             }
-            Log::info("Obtener imagen exitoso", ['id_shipping_order_detail' => $request->id_shipping_order_detail, 'nro_imagenes' => $imagenes->count()]);
+            Log::info("Obtener imagen exitoso", [
+                'id_shipping_order' => $request->id_shipping_order,
+                'guide_number' => $request->guide_number,
+                'nro_imagenes' => $imagenes->count()
+            ]);
         } catch (CustomException $e) {
-            Log::warning('Obtener Imagen', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request->id_shipping_order_detail]);
+            Log::warning('Obtener Imagen', [
+                'expcetion' => $e->getData()[0],
+                'guide_number' => $request->guide_number,
+                'id_shipping_order' => $request->id_shipping_order
+            ]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Obtener Imagen', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request->id_shipping_order_detail]);
+            Log::warning('Obtener Imagen', [
+                'expcetion' => $e->getMessage(),
+                'guide_number' => $request->guide_number,
+                'id_shipping_order' => $request->id_shipping_order
+            ]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Obtener Imagen', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request->id_shipping_order_detail]);
+            Log::warning('Obtener Imagen', [
+                'exception' => $e->getMessage(),
+                'guide_number' => $request->guide_number,
+                'id_shipping_order' => $request->id_shipping_order
+            ]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success($data);
@@ -222,15 +239,26 @@ class ShippingService
     public function actualizarPedido($request)
     {
         try {
+            $guias = [];
             $data = $request->all();
-            $pedido = $this->repository->getShippingOrderDetail($request['id_shipping_order_detail']);
-            if (!$pedido) {
+            $pedido = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
+            if (!count($pedido)) {
                 throw new CustomException(['Pedido no encontrado.', 2012], 400);
-            } elseif ($pedido->status !== 'CURSO') {
+            } elseif ($pedido[0]->status !== 'CURSO') {
                 throw new CustomException(['El pedido no se encuentra en Curso.', 2013], 400);
             }
+            
+            foreach ($pedido as $key => $pd) {
+                array_push($guias, [
+                    'id_shipping_order_detail' => $pd->id_shipping_order_detail,
+                    'estado' => $data['estado'],
+                    'observacion' => $data['observacion'],
+                    'latitud' => $data['latitud'],
+                    'longitud' => $data['longitud']
+                    ]);
+            }
 
-            $this->repository->actualizarPedido($data);
+            $this->repository->actualizarPedido($guias);
 
             Log::info('Actualización pedido exitoso', ['request' => $data]);
         } catch (CustomException $e) {

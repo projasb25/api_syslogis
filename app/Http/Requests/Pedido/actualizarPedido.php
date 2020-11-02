@@ -19,7 +19,9 @@ class actualizarPedido extends FormRequest
     public function rules()
     {
         return [
-            'id_shipping_order_detail' => 'required|numeric',
+            // 'id_shipping_order_detail' => 'required|numeric',
+            'id_shipping_order' => 'required|numeric',
+            'guide_number' => 'required|numeric',
             'estado' => 'required|string',
             'observacion' => 'string|nullable',
             'latitud' => 'string|numeric',
@@ -30,8 +32,9 @@ class actualizarPedido extends FormRequest
     public function messages()
     {
         return [
-            'id_shipping_order_detail.required' => 'Falta id_shipping_order_detail',
-            'id_shipping_order_detail.numeric' => 'pedido invalido',
+            'id_shipping_order.required' => 'Falta id_shipping_order',
+            'id_shipping_order.numeric' => 'pedido invalido',
+            'guide_number.*' => 'guia invalido',
             'estado.*' => 'estado inválido.',
             'observacion.*' => 'Obseracion inválida.',
             'latitud.*' => 'Latitud Inválida',
