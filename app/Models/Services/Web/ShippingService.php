@@ -173,9 +173,10 @@ class ShippingService
     
             $pdf->SetFont('Times', '', 7);
     
-            
+            $filas = 0;
             foreach ($data as $key => $value) {
-                if ($key % 44 === 0 && $key!== 0) {
+
+                if ($filas % 44 === 0 && $filas!== 0) {
                     $pdf->AddPage();
                     $y = $pdf->GetY();
                 }
@@ -198,6 +199,8 @@ class ShippingService
                 $pdf->SetXY($lmargin + 188, $y);
                 $pdf->MultiCell(10, 4 * $rows, $value->nro_guias, 1, 'L');
                 $y = $pdf->GetY();
+
+                $filas += $rows;
             }
 
             $pdf->SetFont('Times', '', 8);
