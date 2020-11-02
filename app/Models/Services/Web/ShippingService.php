@@ -181,16 +181,16 @@ class ShippingService
                 $distrito = $value->district;
                 $width_dir = $pdf->GetStringWidth($direccion);
                 $width_dis = $pdf->GetStringWidth($distrito);
-                $distrito_row = ceil($width_dis / (28 - $cellMargin));
+                $distrito_row = ceil($width_dis / (35 - $cellMargin));
                 $direccion_row = ceil($width_dir / (125 - $cellMargin));
                 $rows = max($distrito_row, $direccion_row);
         
                 $pdf->SetDrawColor(69, 69, 69);
                 $pdf->MultiCell(10, 4 * $rows, $key+1, 1, 'C');
                 $pdf->SetXY($lmargin + 10, $y);
-                $pdf->MultiCell(35, 4 * $rows, $value->client_barcode, 1, 'L');
+                $pdf->MultiCell(28, 4 * $rows, $value->client_barcode, 1, 'L');
                 $pdf->SetXY($lmargin + 45, $y);
-                $pdf->MultiCell(28, ($distrito_row > $direccion_row) ? 4 : 4 * $rows, $distrito, 1, 'L');
+                $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 4 : 4 * $rows, $distrito, 1, 'L');
                 $pdf->SetXY($lmargin + 73, $y);
                 $pdf->MultiCell(125, ($direccion_row > $distrito_row) ? 4 : 4 * $rows, utf8_decode($direccion), 1, 'L');
                 $y = $pdf->GetY();
