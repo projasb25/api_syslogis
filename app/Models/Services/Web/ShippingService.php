@@ -89,8 +89,11 @@ class ShippingService
             $pdf->SetXY($lmargin + 104, $y);
             $pdf->MultiCell(18, 5, 'Total Bultos:', 0, 'L');
             $pdf->SetXY($lmargin + 122, $y);
-            $uniqueCount = count(array_unique(array_column($data, 'guide_number'))); 
-            $pdf->MultiCell(10, 5, $uniqueCount, 0, 'L');
+            $sum = 0;
+            foreach ($data as $item) {
+                $sum += $item->nro_guias;
+            }
+            $pdf->MultiCell(10, 5, $sum, 0, 'L');
             
             $y = $pdf->GetY();
     
