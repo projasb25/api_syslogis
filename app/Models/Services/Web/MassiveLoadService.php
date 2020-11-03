@@ -212,17 +212,15 @@ class MassiveLoadService
                     $pdf->Rect($box_x + 7, $box_y + 1, 90, 28);
                     $pdf->SetFont('Times', '', 6);
                     $pdf->SetXY($box_x+8, $box_y + 1);
-                    $pdf->MultiCell(89,4,'NOMBRE: '. $guide->organization->name,0,'J');
+                    $pdf->MultiCell(89,4,'NOMBRE: '. $guide->name,0,'J');
                     $pdf->SetX($box_x+8);
                     $pdf->MultiCell(89,4,'CIUDAD: LIMA',0,'J');
                     $pdf->SetX($box_x+8);
                     $pdf->MultiCell(89,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'SEGUIMIENTO: ' . $guide->seg_code,0,'J');
+                    $pdf->MultiCell(89,4,'Nº de Guía: ' . $guide->guide_number,0,'J');
                     $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'COD.ALTERNO: '. $guide->alt_code1,0,'J');
-                    $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->organization->address,0,'L');
+                    $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->org_address,0,'L');
 
                 // codigo de barra
                     $pdf->code128($box_x + 20, ($box_y + 28 + 2), $guide->client_barcode , 50, 12, false);
@@ -238,9 +236,9 @@ class MassiveLoadService
                     $pdf->Rect($box_x + 7, ($box_y + 41 + 2), 90, 9);
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->SetXY($box_x+8, ($box_y + 44 + 2));
-                    $pdf->MultiCell(45,4,'NRO. DE PIEZAS: '. $guide->total_pieces,0,'J');
+                    $pdf->MultiCell(45,4,'NRO. DE PIEZAS: '. 0,0,'J');
                     $pdf->SetXY($box_x+8+45, ($box_y + 44 + 2));
-                    $pdf->MultiCell(45,4,'PESO SECO: '. $guide->total_weight,0,'J');
+                    $pdf->MultiCell(45,4,'PESO SECO: '. 0,0,'J');
                     $pdf->Line($box_x+8+41, ($box_y + 41 + 2), $box_x+8+41, ($box_y + 50 + 2));
                     
                     $pdf->SetX($box_x+8);
@@ -284,9 +282,9 @@ class MassiveLoadService
                     $pdf->Cell(27,4,'TELEFONO: '. $guide->client_phone1 ,0,0,'L');
                     $pdf->Cell(52,4,'EMAIL: '. utf8_decode(strtolower($guide->client_email)),0,1,'L'); //lower to space
                     $pdf->SetX($box_x + 99 + 7);
-                    $pdf->MultiCell(89,4,'DIRECCION: '. utf8_decode(strtolower($guide->address->address)),0,'L');
+                    $pdf->MultiCell(89,4,'DIRECCION: '. utf8_decode(strtolower($guide->address)),0,'L');
 
-                // cuadro 2.2 CONTENIDOs
+                // cuadro 2.2 CONTENIDO
                     //header
                     $pdf->Rect($box_x + 99, $box_y + 21, 6, 37);
                     $pdf->SetFont('Times', 'B', 7);
@@ -297,8 +295,10 @@ class MassiveLoadService
                     $pdf->SetFont('Times', 'B', 5);
                     $pdf->SetXY($box_x + 99 + 7, $box_y + 22);
 
-                    foreach ($guide->sku_product as $key => $product) {
-                        $pdf->MultiCell(89,2,$product->sku_code.' - '.$product->sku_description,0,'J');
+                    $contenidoArray = explode(",", $guide->contenido);
+                    foreach ($contenidoArray as $key => $product) {
+                        // $pdf->MultiCell(89,2,$product->sku_code.' - '.$product->sku_description,0,'J');
+                        $pdf->MultiCell(89,2,$product,0,'J');
                         $pdf->SetX($box_x + 99 + 7);
                     }
 
