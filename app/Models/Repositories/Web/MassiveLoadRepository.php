@@ -281,7 +281,8 @@ class MassiveLoadRepository
         $query = DB::select("select 
             org.name, org.address as org_address, gd.guide_number, gd.client_barcode, adr.district,
             gd.client_name, adr.province, gd.client_phone1, gd.client_email, adr.address,
-            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido
+            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido,
+            gd.date_created
         from guide gd
         join organization as org on org.id_organization = gd.id_organization
         join address as adr on adr.id_address = gd.id_address
@@ -297,7 +298,8 @@ class MassiveLoadRepository
             adr.province,
             gd.client_phone1,
             gd.client_email,
-            adr.address;", [$id]);
+            adr.address,
+            gd.date_created;;", [$id]);
         return $query;
     }
 
