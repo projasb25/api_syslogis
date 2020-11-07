@@ -441,7 +441,7 @@ class MassiveLoadService
                     $pdf->Cell(65,5,$guide->client_barcode,0,1,'C');
                     $pdf->SetX($box_x);
                     $pdf->SetFont('Times', '', 6);
-                    $pdf->MultiCell(65,3,utf8_decode($guide->address->address),0,'C');
+                    $pdf->MultiCell(65,3,utf8_decode($guide->address),0,'C');
                     $pdf->Ln(2);
 
                 $box_x = 65 + $box_x + 2;
