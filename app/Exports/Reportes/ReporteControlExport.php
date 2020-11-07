@@ -22,12 +22,12 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            'cliente', 'codigo_barra', 'codigo_seguimiento', 'nro_guia', 'fecha_promesa', 'estado_pedido',
-            'fecha_pedido', 'hora_pedido', 'fecha_envio', 'nombre_conductor', 'tipo_vehiculo', 'nro_placa', 'proveedor',
-            'ultimo_estado', 'nombre_cliente', 'telefono_1', 'telefono_2', 'direccion', 'departamento', 'distrito',
-            'provincia', 'tipo_zona', 'fecha_asignado', 'ultfecha_estado', 'estado_de_descarga', 'observaciones',
-            'fecha_visita1', 'resultado_1', 'fecha_visita2', 'resultado_2', 'fecha_visita3', 'resultado_3',
-            'cantidad_visitas', 'nro_imagenes'
+            'CLIENTE', 'CODIGO BARRA', 'CODIGO SEGUIMIENTO', 'NRO GUIA', 'FECHA PROMESA', 'ESTADO PEDIDO',
+            'FECHA PEDIDO', 'HORA PEDIDO', 'FECHA ENVIO', 'NOMBRE CONDUCTOR', 'TIPO VEHICULO', 'NRO PLACA', 'PROVEEDOR',
+            'ULTIMO ESTADO', 'NOMBRE CLIENTE', 'TELEFONO 1', 'TELEFONO 2', 'DIRECCION', 'DEPARTAMENTO', 'DISTRITO',
+            'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ESTADO DE DESCARGA', 'OBSERVACIONES',
+            'FECHA VISITA1', 'RESULTADO 1', 'FECHA VISITA2', 'RESULTADO 2', 'FECHA VISITA3', 'RESULTADO 3',
+            'CANTIDAD VISITAS', 'NRO IMAGENES'
         ];
     }
     /**
