@@ -35,7 +35,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
     */
     public function collection()
     {
-        return DB::select("CALL SP_REPORTE_CONTROL(?,?,?)",[$this->fechaInicio, $this->fechaFin, $this->username]);
+        return collect(DB::select("CALL SP_REPORTE_CONTROL(?,?,?)",[$this->fechaInicio, $this->fechaFin, $this->username]));
     }
 
     public function map($collection): array
