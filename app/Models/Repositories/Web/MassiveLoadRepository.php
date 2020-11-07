@@ -244,7 +244,7 @@ class MassiveLoadRepository
                     ->select('gd.id_address','add.address', 'add.latitude', 'add.longitude', 'ubi.district')
                     ->distinct()
                     ->join('address AS add','add.id_address','=','gd.id_address')
-                    ->join('ubigeo as ubi', 'ubi.ubigeo', '=', 'adr.ubigeo')
+                    ->join('ubigeo as ubi', 'ubi.ubigeo', '=', 'add.ubigeo')
                     ->where('gd.id_massive_load', $data['id_massive_load'])
                     ->get();
             DB::commit();
