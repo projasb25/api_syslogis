@@ -241,9 +241,10 @@ class MassiveLoadRepository
             DB::table('guide')->where('id_guide', $id_guide)->update(['total_weight' => $total_weight, 'total_pieces' => $total_pieces]);
 
             $address = DB::table('guide AS gd')
-                    ->select('gd.id_address','add.address', 'add.latitude', 'add.longitude')
+                    ->select('gd.id_address','add.address', 'add.latitude', 'add.longitude', 'ubi.district')
                     ->distinct()
                     ->join('address AS add','add.id_address','=','gd.id_address')
+                    ->join('ubigeo as ubi', 'ubi.ubigeo', '=', 'adr.ubigeo')
                     ->where('gd.id_massive_load', $data['id_massive_load'])
                     ->get();
             DB::commit();

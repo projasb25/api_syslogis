@@ -105,7 +105,7 @@ class MassiveLoadService
 
                 try {
                     $client = new Client(['base_uri' => env('GOOGLEAPIS_GEOCODE_URL')]);
-                    $url = "json?address=" . $direccion . "&components=country:PE&key=" . env('GOOGLEAPIS_GEOCODE_KEY');
+                    $url = "json?address=" . $direccion . "-" . $value->district . "&components=country:PE&key=" . env('GOOGLEAPIS_GEOCODE_KEY');
 
                     $req = $client->request('GET', $url);
                     $resp = json_decode($req->getBody()->getContents());
