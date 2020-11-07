@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\DB;
 
 class ReporteRepository
 {
-    public function sp_reporte_control($desde, $hasta)
+    public function sp_reporte_control($desde, $hasta, $username)
     {
-        return DB::select("CALL SP_REPORTE_CONTROL(?,?)",[$desde, $hasta]);
+        return DB::select("CALL SP_REPORTE_CONTROL(?,?,?)",[$desde, $hasta, $username]);
     }
 
     public function sp_reporte_torre_control($desde, $hasta)

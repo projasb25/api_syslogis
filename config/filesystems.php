@@ -74,6 +74,11 @@ return [
             'root' => storage_path('app/public/hoja_ruta'),
         ],
 
+        'reportes' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/reportes'),
+        ],
+
         'imagenes' => [
             'driver' => 'local',
             'root' => storage_path('app/public/imagenes'),
