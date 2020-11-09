@@ -152,7 +152,7 @@ class IntegracionService
                         ]);
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
-                        Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
+                        Log::warning('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
                         $this->repository->LogInsert($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle, 'ERROR', $req_body, $response);
                         continue;
                     }
@@ -168,7 +168,7 @@ class IntegracionService
             $res['success'] = true;
             Log::info('Proceso de integracion con ripley exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
-            Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage()]);
+            Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
             $res['mensaje'] = $e->getMessage();    
         }
         return $res;
