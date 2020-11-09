@@ -157,7 +157,7 @@ class IntegracionService
                         continue;
                     }
                     catch (Exception $e) {
-                        Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                        Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'req' => $req_body]);
                         die();
                     }
 
