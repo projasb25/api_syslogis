@@ -156,6 +156,10 @@ class IntegracionService
                         $this->repository->LogInsert($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle, 'ERROR', $req_body, $response);
                         continue;
                     }
+                    catch (Exception $e) {
+                        Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile()]);
+                        die();
+                    }
 
                     $response = json_decode($req->getBody()->getContents());
                 } else {
