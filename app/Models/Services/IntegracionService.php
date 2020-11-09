@@ -130,7 +130,7 @@ class IntegracionService
                 $req_body = [
                     "CUD" => $guide->cud,
                     "Estado" => ucwords(strtolower($guide->estado)),
-                    "SubEstado" => $guide->subestado,
+                    "SubEstado" => utf8_decode($guide->subestado),
                     "Placa" => $guide->numero_placa,
                     "Courier" => $guide->courier,
                     "Fecha" => $guide->fecha,
