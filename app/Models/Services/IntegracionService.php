@@ -123,7 +123,7 @@ class IntegracionService
                 
                 $chequear = $this->repository->checkReported($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle);
                 if ($chequear) {
-                    Log::info('Ya se reporto esta guia ', ['CUD' => $guide->cud]);
+                    // Log::info('Ya se reporto esta guia ', ['CUD' => $guide->cud]);
                     continue;
                 }
 
@@ -155,10 +155,6 @@ class IntegracionService
                         Log::warning('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
                         $this->repository->LogInsert($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle, 'ERROR', $req_body, $response);
                         continue;
-                    }
-                    catch (Exception $e) {
-                        Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage(), 'line' => $e->getLine(), 'file' => $e->getFile(), 'req' => $req_body]);
-                        die();
                     }
 
                     $response = json_decode($req->getBody()->getContents());
