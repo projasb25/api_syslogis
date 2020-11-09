@@ -123,7 +123,7 @@ class IntegracionService
                 
                 $chequear = $this->repository->checkReported($guide->cud, $guide->estado, $guide->subestado, $guide->idpedido_detalle);
                 if ($chequear) {
-                    // Log::info('Ya se reporto esta guia ', (array) $guide);
+                    Log::info('Ya se reporto esta guia ', ['CUD' => $guide->cud]);
                     continue;
                 }
 
