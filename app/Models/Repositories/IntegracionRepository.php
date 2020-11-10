@@ -12,6 +12,7 @@ class IntegracionRepository
     public function getGuides($corpId)
     {
         $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES(?)", [$corpId]);
+        return $query;
         // return DB::select("select 
         //         gd.id_guide, gd.seg_code as CUD, gd.status, 
         //         gt.status as Estado, gt.motive as SubEstado, 
