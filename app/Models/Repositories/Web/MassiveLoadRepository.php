@@ -51,12 +51,12 @@ class MassiveLoadRepository
                 // }
                 // if (!array_key_exists('sku_code', $value) || !isset($value['sku_code'])) {
                 //     $value['sku_code'] = Str::random(10);
-                // }
+                // }    (value - (25567 + 1)) * 86400 * 1000
 
                 if (isset($value['client_date']) && !is_string($value['client_date'])) {
-                    $value['client_date'] = date('Y-m-d H:i:s', $value['client_date']);
+                    $value['client_date'] = date('Y-m-d H:i:s', (($value['client_date'] - (25567 + 1)) * 86400));
                 }
-                
+
                 $value['id_massive_load'] = $id;
                 $value['status'] = 'PENDIENTE';
                 $value['created_by'] = $data['username'];
