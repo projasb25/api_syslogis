@@ -43,7 +43,7 @@ class MassiveLoadRepository
                     ->first();
                 if (!$check_ubigeo) {
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
-                    throw new CustomException(['Error en el departamento, provincia y distrito. \nLinea: '.($key+2), 2121], 400);
+                    throw new CustomException(['Error en el departamento, provincia y distrito. (Linea: '.($key+2).' )', 2121], 400);
                 }
                 
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
@@ -52,6 +52,11 @@ class MassiveLoadRepository
                 // if (!array_key_exists('sku_code', $value) || !isset($value['sku_code'])) {
                 //     $value['sku_code'] = Str::random(10);
                 // }
+
+                if (isset($value['client_date']) && !is_string($value['client_date'])) {
+                    $value['client_date'] = date('Y-m-d H:i:s', $value['client_date']);
+                }
+                
                 $value['id_massive_load'] = $id;
                 $value['status'] = 'PENDIENTE';
                 $value['created_by'] = $data['username'];
