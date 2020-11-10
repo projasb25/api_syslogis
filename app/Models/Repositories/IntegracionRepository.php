@@ -9,21 +9,22 @@ use Illuminate\Support\Facades\Log;
 
 class IntegracionRepository
 {
-    public function getGuides()
+    public function getGuides($corpId)
     {
-        return DB::select("select 
-                gd.id_guide, gd.seg_code as CUD, gd.status, 
-                gt.status as Estado, gt.motive as SubEstado, 
-                vh.plate_number as Placa, 'Qayarix' as Courier,
-                date_sub(gt.date_created, INTERVAL 5 hour) as Fecha, gd.date_updated, gd.client_name as NombreReceptor,
-                gd.client_dni as IDReceptor, gd.client_barcode as TrackNumber
-            from guide as gd
-            join guide_tracking as gt on gt.id_guide = gd.id_guide and gt.id_guide_tracking = (select max(id_guide_tracking) from guide_tracking where id_guide = gt.id_guide)
-            left join shipping_order as so on so.id_shipping_order = gt.id_shipping_order
-            left join vehicle as vh on vh.id_vehicle = so.id_vehicle
-            WHERE gd.id_corporation IN (1) and gd.reportado_integracion = 0
-            and gd.status IN ('CURSO', 'ENTREGADO', 'NO ENTREGADO')"
-        );
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES(?)", [$corpId]);
+        // return DB::select("select 
+        //         gd.id_guide, gd.seg_code as CUD, gd.status, 
+        //         gt.status as Estado, gt.motive as SubEstado, 
+        //         vh.plate_number as Placa, 'Qayarix' as Courier,
+        //         date_sub(gt.date_created, INTERVAL 5 hour) as Fecha, gd.date_updated, gd.client_name as NombreReceptor,
+        //         gd.client_dni as IDReceptor, gd.client_barcode as TrackNumber
+        //     from guide as gd
+        //     join guide_tracking as gt on gt.id_guide = gd.id_guide and gt.id_guide_tracking = (select max(id_guide_tracking) from guide_tracking where id_guide = gt.id_guide)
+        //     left join shipping_order as so on so.id_shipping_order = gt.id_shipping_order
+        //     left join vehicle as vh on vh.id_vehicle = so.id_vehicle
+        //     WHERE gd.id_corporation IN (1) and gd.reportado_integracion = 0
+        //     and gd.status IN ('CURSO', 'ENTREGADO', 'NO ENTREGADO')"
+        // );
     }
     // gt.date_created as Fecha, gd.date_updated, gd.client_name as NombreReceptor,
     

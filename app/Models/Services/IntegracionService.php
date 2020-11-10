@@ -28,7 +28,7 @@ class IntegracionService
     {
         $res['success'] = false;
         try {
-            $guides = $this->repository->getGuides();
+            $guides = $this->repository->getGuides(1);
             Log::info('Proceso de integracion con ripley', ['nro_registros' => count($guides)]);
             foreach ($guides as $key => $guide) {
                 if ($guide->Estado === 'CURSO') {
