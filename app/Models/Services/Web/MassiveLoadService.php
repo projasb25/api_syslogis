@@ -224,9 +224,9 @@ class MassiveLoadService
 
                 // codigo de barra
                     $pdf->code128($box_x + 20, ($box_y + 28 + 2), $guide->client_barcode , 50, 12, false);
-                    $pdf->SetXY($box_x+1, ($box_y + 42 + 2));
+                    $pdf->SetXY($box_x+1, ($box_y + 41 + 2));
                     $pdf->SetFont('Times', 'B', 10);
-                    $pdf->MultiCell(90,4,$guide->client_barcode, 1,'C');
+                    $pdf->MultiCell(96,4,$guide->client_barcode, 0,'C');
                     $pdf->Ln(2);
                 
                 // cuadro 2.1 DATOS
