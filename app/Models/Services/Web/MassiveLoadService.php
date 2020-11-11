@@ -214,7 +214,7 @@ class MassiveLoadService
                     $pdf->SetXY($box_x+8, $box_y + 1);
                     $pdf->MultiCell(89,4,'NOMBRE: '. $guide->name,0,'J');
                     $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'CIUDAD: LIMA',0,'J');
+                    $pdf->MultiCell(89,4,'DIST.: ' . $guide->district,0,'J');
                     $pdf->SetX($box_x+8);
                     $pdf->MultiCell(89,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+8);
