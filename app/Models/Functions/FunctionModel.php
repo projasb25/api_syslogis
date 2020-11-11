@@ -141,7 +141,10 @@ class FunctionModel
             "query" => 'CALL SP_REASIGNAR_ENVIO(:id_shipping_order, :id_vehicle, :id_driver, :username)',
             "params" => ['id_shipping_order', 'id_vehicle', 'id_driver', 'username']
         ],
-        
+        "SP_ELIMINAR_ENVIO" => [
+            "query" => 'CALL SP_ELIMINAR_ENVIO(:id_shipping_order, :username)',
+            "params" => ['id_shipping_order', 'username']
+        ],
         /**
          * Funciones para Transaccions
          **/
