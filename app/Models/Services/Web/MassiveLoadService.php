@@ -224,13 +224,14 @@ class MassiveLoadService
 
                 // codigo de barra
                     $pdf->code128($box_x + 20, ($box_y + 28 + 2), $guide->client_barcode , 50, 12, false);
-                    $pdf->SetXY($box_x+8, ($box_y + 42 + 2));
-                    $pdf->MultiCell(90,4,$guide->client_barcode. 0,0,'C');
+                    $pdf->SetXY($box_x+1, ($box_y + 42 + 2));
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->MultiCell(90,4,$guide->client_barcode, 1,'C');
                     $pdf->Ln(2);
                 
                 // cuadro 2.1 DATOS
                     //header
-                    $pdf->Rect($box_x + 1, ($box_y + 41 + 2), 6, 9);
+                    $pdf->Rect($box_x + 1, ($box_y + 46 + 2), 6, 9);
                     $pdf->SetFont('Times', 'B', 6);
                     $pdf->TextWithDirection($box_x + 5, $box_y + 56, 'DATOS', 'U');
                     
