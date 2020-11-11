@@ -224,22 +224,24 @@ class MassiveLoadService
 
                 // codigo de barra
                     $pdf->code128($box_x + 20, ($box_y + 28 + 2), $guide->client_barcode , 50, 12, false);
+                    $pdf->SetXY($box_x+8, ($box_y + 42 + 2));
+                    $pdf->MultiCell(90,4,$guide->client_barcode. 0,0,'C');
                     $pdf->Ln(2);
                 
                 // cuadro 2.1 DATOS
                     //header
                     $pdf->Rect($box_x + 1, ($box_y + 41 + 2), 6, 9);
                     $pdf->SetFont('Times', 'B', 6);
-                    $pdf->TextWithDirection($box_x + 5, $box_y + 51, 'DATOS', 'U');
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 56, 'DATOS', 'U');
                     
                     // body
-                    $pdf->Rect($box_x + 7, ($box_y + 41 + 2), 90, 9);
+                    $pdf->Rect($box_x + 7, ($box_y + 46 + 2), 90, 9);
                     $pdf->SetFont('Times', 'B', 10);
-                    $pdf->SetXY($box_x+8, ($box_y + 44 + 2));
+                    $pdf->SetXY($box_x+8, ($box_y + 49 + 2));
                     $pdf->MultiCell(45,4,'NRO. DE PIEZAS: '. 0,0,'J');
-                    $pdf->SetXY($box_x+8+45, ($box_y + 44 + 2));
+                    $pdf->SetXY($box_x+8+45, ($box_y + 49 + 2));
                     $pdf->MultiCell(45,4,'PESO SECO: '. 0,0,'J');
-                    $pdf->Line($box_x+8+41, ($box_y + 41 + 2), $box_x+8+41, ($box_y + 50 + 2));
+                    $pdf->Line($box_x+8+41, ($box_y + 46 + 2), $box_x+8+41, ($box_y + 55 + 2));
                     
                     $pdf->SetX($box_x+8);
 
