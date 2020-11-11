@@ -147,9 +147,10 @@ class ShippingService
             $guide = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
             if (!count($guide)) {
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
-            } elseif ($guide[0]->status !== 'CURSO') {
-                throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
-            }
+            } 
+            // elseif ($guide[0]->status !== 'CURSO') {
+            //     throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
+            // }
             $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide[0]->id_guide;
             # CHeck if folder exists before create one
             if (!file_exists($destination_path)) {
