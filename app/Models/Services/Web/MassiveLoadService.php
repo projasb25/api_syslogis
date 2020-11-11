@@ -223,7 +223,7 @@ class MassiveLoadService
                     $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->org_address,0,'L');
 
                 // codigo de barra
-                    $pdf->code128($box_x + 25, ($box_y + 28 + 2), $guide->client_barcode , 50, 12, false);
+                    $pdf->code128($box_x + 23, ($box_y + 28 + 2), $guide->client_barcode , 50, 12, false);
                     $pdf->SetXY($box_x+1, ($box_y + 41 + 2));
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->MultiCell(96,4,$guide->client_barcode, 0,'C');
