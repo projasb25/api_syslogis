@@ -166,7 +166,11 @@ class MassiveLoadService
         $ruta = url('storage/cargo/');
 
         if (!$massive_load->ruta_doc_cargo) {
-            $data = $this->repo->get_datos_ruta_cargo($massive_load->id_massive_load);
+            if ($massive_load->id_organization === 1) {
+                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+            } else {
+                $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
+            }
             $motivos = $this->repo->get_motivos();
             $doc = $this->generate_doc_ruta($data, $motivos);
             $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
@@ -223,10 +227,17 @@ class MassiveLoadService
                     $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->org_address,0,'L');
 
                 // codigo de barra
-                    $pdf->code128($box_x + 23, ($box_y + 28 + 2), $guide->guide_number , 50, 12, false);
+                    if (isset($guide->client_barcode)) {
+                        $cod_barra = $guide->client_barcode;
+                    } else {
+                        $cod_barra = $guide->guide_number;
+                    }
+
+
+                    $pdf->code128($box_x + 23, ($box_y + 28 + 2), $cod_barra , 50, 12, false);
                     $pdf->SetXY($box_x+1, ($box_y + 41 + 2));
                     $pdf->SetFont('Times', 'B', 10);
-                    $pdf->MultiCell(96,4,$guide->guide_number, 0,'C');
+                    $pdf->MultiCell(96,4,$cod_barra, 0,'C');
                     $pdf->Ln(2);
                 
                 // cuadro 2.1 DATOS
