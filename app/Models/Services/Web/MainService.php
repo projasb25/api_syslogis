@@ -69,7 +69,7 @@ class MainService
             Log::warning('Main Service error', ['exception' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected error', 3000], 400);
         }
-        return Res::success($data);
+        return Res::success($paginate);
     }
 
     public function simpleTransaction(Request $request)
