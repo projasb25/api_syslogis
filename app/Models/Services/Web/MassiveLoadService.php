@@ -166,7 +166,7 @@ class MassiveLoadService
         $ruta = url('storage/cargo/');
 
         if (!$massive_load->ruta_doc_cargo) {
-            if ($massive_load->id_organization === 1) {
+            if ($massive_load->id_corporation === 1) {
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
             } else {
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
