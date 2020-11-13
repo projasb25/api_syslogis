@@ -301,7 +301,8 @@ class MassiveLoadRepository
             gd.client_phone1,
             gd.client_email,
             adr.address,
-            gd.date_created;;", [$id]);
+            gd.date_created
+        order by adr.district;", [$id]);
         return $query;
     }
 
@@ -327,7 +328,8 @@ class MassiveLoadRepository
             gd.client_phone1,
             gd.client_email,
             adr.address,
-            gd.date_created;", [$id]);
+            gd.date_created
+        order by adr.district;", [$id]);
         return $query;
     }
 
