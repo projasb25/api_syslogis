@@ -46,7 +46,7 @@ class IntegracionService
                     $guide->subestado = "Suspende Entrega";
                 }
                 if($guide->subestado ==="Zona Peligrosa"){
-                    $guide->subestado = utf8_decode("Acceso Difícil y/o Inaccesible");
+                    $guide->subestado = utf8_decode("Acceso Dificil y/o Inaccesible");
                 }
                 if($guide->subestado ==="Siniestro"){
                     $guide->subestado = "Robo";
@@ -70,7 +70,7 @@ class IntegracionService
                     $guide->subestado = "Documentacion Incorrecta";
                 }
                 if($guide->subestado ==="Acceso Difícil y/o Inaccesible"){
-                    $guide->subestado = "Acceso Difícil y/o Inaccesible";
+                    $guide->subestado = "Acceso Dificil y/o Inaccesible";
                 }
                 if($guide->subestado ==="Cambio Fecha de Despacho"){
                     $guide->subestado = "Cambio Fecha de Despacho";
@@ -103,7 +103,7 @@ class IntegracionService
                     $guide->subestado = "Mercaderia Dañada";
                 }
                 if($guide->subestado ==="Mercadería Incompleta"){
-                    $guide->subestado = "Mercadería Incompleta";
+                    $guide->subestado = "Mercaderia Incompleta";
                 }
                 if($guide->subestado ==="Mercaderia Incorrecta"){
                     $guide->subestado = "Mercaderia Incorrecta";
