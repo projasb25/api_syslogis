@@ -284,8 +284,30 @@ class MassiveLoadRepository
         //     ->whereNotIn('status',['SIN FISICO'])
         //     ->get();
         // return $data;
+        // $query = DB::select("select 
+        //     org.name, org.address as org_address, gd.guide_number, gd.client_barcode, adr.district,
+        //     gd.client_name, adr.province, gd.client_phone1, gd.client_email, adr.address,
+        //     GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido,
+        //     gd.date_created
+        // from guide gd
+        // join organization as org on org.id_organization = gd.id_organization
+        // join address as adr on adr.id_address = gd.id_address
+        // join sku_product as sku on sku.id_guide = gd.id_guide
+        // where id_massive_load = ?
+        // group by 
+        //     org.name,
+        //     org.address,
+        //     gd.client_barcode,
+        //     gd.guide_number,
+        //     adr.district,
+        //     gd.client_name,
+        //     adr.province,
+        //     gd.client_phone1,
+        //     gd.client_email,
+        //     adr.address,
+        //     gd.date_created;;", [$id]);
         $query = DB::select("select 
-            org.name, org.address as org_address, gd.guide_number, gd.client_barcode, adr.district,
+            org.name, org.address as org_address, gd.guide_number, adr.district,
             gd.client_name, adr.province, gd.client_phone1, gd.client_email, adr.address,
             GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido,
             gd.date_created
@@ -297,7 +319,6 @@ class MassiveLoadRepository
         group by 
             org.name,
             org.address,
-            gd.client_barcode,
             gd.guide_number,
             adr.district,
             gd.client_name,
@@ -305,7 +326,7 @@ class MassiveLoadRepository
             gd.client_phone1,
             gd.client_email,
             adr.address,
-            gd.date_created;;", [$id]);
+            gd.date_created;", [$id]);
         return $query;
     }
 
