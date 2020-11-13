@@ -310,7 +310,7 @@ class MassiveLoadRepository
         $query = DB::select("select 
             org.name, org.address as org_address, gd.guide_number, adr.district,
             gd.client_name, adr.province, gd.client_phone1, gd.client_email, adr.address,
-            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido,
+            GROUP_CONCAT(gd.client_barcode, '-',sku.sku_description) as contenido,
             gd.date_created
         from guide gd
         join organization as org on org.id_organization = gd.id_organization
