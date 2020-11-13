@@ -50,11 +50,6 @@ class MainService
                 }
             }
             $data = $this->repository->execute_store($query, $bindings);
-            $paginate = new \Illuminate\Pagination\LengthAwarePaginator(
-                $data, count($data), 10, null,
-                ['path' => \Illuminate\Pagination\Paginator::resolveCurrentPath()]
-            );
-
         } catch (CustomException $e) {
             Log::warning('Main Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
@@ -69,7 +64,7 @@ class MainService
             Log::warning('Main Service error', ['exception' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected error', 3000], 400);
         }
-        return Res::success($paginate);
+        return Res::success($data);
     }
 
     public function simpleTransaction(Request $request)
