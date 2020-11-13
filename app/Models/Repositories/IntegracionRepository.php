@@ -44,9 +44,9 @@ class IntegracionRepository
             );
     }
     
-    public function updateReportado($id_guide)
+    public function updateReportado($id_guide, $report)
     {
-        DB::table('guide')->where('id_guide', $id_guide)->update(['reportado_integracion' => 1]);
+        DB::table('guide')->where('id_guide', $id_guide)->update(['reportado_integracion' => $report]);
     }
 
     public function getGuideOeschle()

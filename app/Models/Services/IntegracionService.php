@@ -61,12 +61,13 @@ class IntegracionService
                     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                     Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
                     $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'ERROR', $req_body, $response);
+                    $this->repository->updateReportado($guide->id_guide, 2);
                     continue;
                 }
 
                 $response = json_decode($req->getBody()->getContents());
                 $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);
-                $this->repository->updateReportado($guide->id_guide);
+                $this->repository->updateReportado($guide->id_guide, 1);
             }
             
             $res['success'] = true;
