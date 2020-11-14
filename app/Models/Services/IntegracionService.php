@@ -140,7 +140,7 @@ class IntegracionService
                 }
     
                 $response = json_decode($req->getBody()->getContents());
-                $this->repository->updateReportadoOeschle($guides);
+                $this->repository->updateReportadoOeschle($guias);
             } else {
                 $response = $guias;
             }

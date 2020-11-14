@@ -59,13 +59,17 @@ class IntegracionRepository
         return $query;
     }
 
-    public function updateReportadoOeschle($guides)
+    public function updateReportadoOeschle($guias)
     {
         DB::beginTransaction();
         try {
-            foreach ($guides as $key => $guide) {
-                DB::table('guide')->where('id_guide', $guide->id_guide)->update(['reportado_integracion' => 1]);
+            $guias_l = explode(',', $guias);
+            foreach ($guias_l as $id_guia) {
+                DB::table('guide')->where('id_guide', $id_guia)->update(['reportado_integracion' => 1]);
             }
+            // foreach ($guides as $key => $guide) {
+            //     DB::table('guide')->where('id_guide', $guide->id_guide)->update(['reportado_integracion' => 1]);
+            // }
         } catch (Exception $e) {
             Log::warning("updateReportadoOeschle" . $e->getMessage());
             DB::rollback();
