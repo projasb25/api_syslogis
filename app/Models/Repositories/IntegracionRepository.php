@@ -51,11 +51,12 @@ class IntegracionRepository
 
     public function getGuideOeschle()
     {
-        $data = Guide::where('id_corporation', 4)
-            ->where('status','ENTREGADO')
-            ->where('reportado_integracion', 0)
-            ->get();
-        return $data;
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_OECHSLE()");
+        // $data = Guide::where('id_corporation', 4)
+        //     ->where('status','ENTREGADO')
+        //     ->where('reportado_integracion', 0)
+        //     ->get();
+        return $query;
     }
 
     public function updateReportadoOeschle($guides)

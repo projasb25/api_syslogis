@@ -89,18 +89,33 @@ class IntegracionService
             $req_body = [];
             foreach ($guides as $key => $guide) {
                 $items = [];
-                foreach ($guide->sku_product as $key => $product) {
+                $productos = explode("|||", $guide->contenido);
+                foreach($productos as $producto) {    
+                    $detalle = explode("///", $producto);
                     array_push($items, [
-                        'skuCode' => $product->sku_code,
-                        'deliveredQuantity' => $product->sku_pieces
+                        'skuCode' => $detalle[0],
+                        'deliveredQuantity' => $detalle[1]
                     ]);
                 }
 
                 array_push($req_body, [
                     "companyCode" => "OE",
-                    "dispatchNumber" => $guide->seg_code,
+                    "dispatchNumber" => $guide->alt_code1,
                     "items" => $items
                 ]);
+                // $items = [];
+                // foreach ($guide->sku_product as $key => $product) {
+                //     array_push($items, [
+                //         'skuCode' => $product->sku_code,
+                //         'deliveredQuantity' => $product->sku_pieces
+                //     ]);
+                // }
+
+                // array_push($req_body, [
+                //     "companyCode" => "OE",
+                //     "dispatchNumber" => $guide->seg_code,
+                //     "items" => $items
+                // ]);
             }
 
             if (env('OESCHLE_INTEGRACION_API_SEND')) {
