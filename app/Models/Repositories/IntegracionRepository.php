@@ -77,7 +77,7 @@ class IntegracionRepository
         DB::commit();
     }
 
-    public function LogInsertOechsle($result, $request, $response, $guias)
+    public function LogInsertOechsle($result, $request, $response, $guias, $altcode)
     {
         $guias_l = explode(',', $guias);
         foreach ($guias_l as $id_guia) {
@@ -85,6 +85,7 @@ class IntegracionRepository
                 [
                     'result' => $result,
                     'id_guide' => $id_guia,
+                    'nro_despacho' => $altcode,
                     'response' => json_encode($response),
                     'request' => json_encode($request)
                 ]
