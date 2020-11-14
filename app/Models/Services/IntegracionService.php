@@ -99,11 +99,11 @@ class IntegracionService
                     ]);
                 }
 
-                array_push($req_body, [
+                $req_body = [
                     "companyCode" => "OE",
                     "dispatchNumber" => $guide->alt_code1,
                     "items" => $items
-                ]);
+                ];
 
                 $guias = rtrim($g, ',');
 
