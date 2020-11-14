@@ -388,7 +388,11 @@ class MassiveLoadService
             $ruta = url('storage/marathon/');
 
             if (!$massive_load->ruta_marathon) {
-                $data = $this->repo->get_datos_ruta_cargo($massive_load->id_massive_load);
+                if ($massive_load->id_corporation === 1) {
+                    $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                } else {
+                    $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
+                }
                 $doc = $this->generate_doc_marathon($data);
                 $this->repo->actualizar_doc_marathon($massive_load->id_massive_load, $doc['file_name']);
                 $massive_load->ruta_marathon = $doc['file_name'];
