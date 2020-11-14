@@ -73,15 +73,19 @@ class IntegracionRepository
         DB::commit();
     }
 
-    public function LogInsertOechsle($result, $request, $response)
+    public function LogInsertOechsle($result, $request, $response, $guias)
     {
-        DB::table('log_integracion_oechsle')->insert(
-            [
-                'result' => $result,
-                'response' => json_encode($response),
-                'request' => json_encode($request)
-            ]
+        $guias_l = explode(',', $guias);
+        foreach ($guias_l as $id_guia) {
+            DB::table('log_integracion_oechsle')->insert(
+                [
+                    'result' => $result,
+                    'id_guide' => $id_guia,
+                    'response' => json_encode($response),
+                    'request' => json_encode($request)
+                ]
             );
+        }
     }
 
     public function getTestRipley()
