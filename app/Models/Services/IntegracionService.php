@@ -121,11 +121,12 @@ class IntegracionService
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar estado a Oechsle, ', ['req' => $req_body, 'exception' => $response]);
                         $this->repository->LogInsertOechsle('ERROR', $req_body, $response, $guias, $guide->alt_code1);
-                        return $res;
+                        $this->repository->updateReportadoOeschle($guias, 2);
+                        continue;
                     }
         
                     $response = json_decode($req->getBody()->getContents());
-                    $this->repository->updateReportadoOeschle($guias);
+                    $this->repository->updateReportadoOeschle($guias,1);
                 } else {
                     $response = $guias;
                 }

@@ -59,13 +59,13 @@ class IntegracionRepository
         return $query;
     }
 
-    public function updateReportadoOeschle($guias)
+    public function updateReportadoOeschle($guias, $report)
     {
         DB::beginTransaction();
         try {
             $guias_l = explode(',', $guias);
             foreach ($guias_l as $id_guia) {
-                DB::table('guide')->where('id_guide', $id_guia)->update(['reportado_integracion' => 1]);
+                DB::table('guide')->where('id_guide', $id_guia)->update(['reportado_integracion' => $report]);
             }
             // foreach ($guides as $key => $guide) {
             //     DB::table('guide')->where('id_guide', $guide->id_guide)->update(['reportado_integracion' => 1]);
