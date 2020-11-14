@@ -140,7 +140,7 @@ class IntegracionService
                 $response = json_decode($req->getBody()->getContents());
                 $this->repository->updateReportadoOeschle($guides);
             } else {
-                $response = rtrim($guides, ',');
+                $response = rtrim($g, ',');
             }
 
             $this->repository->LogInsertOechsle('EXITO', $req_body, $response);
