@@ -90,7 +90,7 @@ class IntegracionService
             $g = '';
             foreach ($guides as $key => $guide) {
                 $items = [];
-                $g .= $guides->ids_guias . ',';
+                $g .= $guide->ids_guias . ',';
                 $productos = explode("|||", $guide->contenido);
                 foreach($productos as $producto) {    
                     $detalle = explode("///", $producto);
