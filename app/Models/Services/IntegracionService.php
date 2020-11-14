@@ -86,7 +86,6 @@ class IntegracionService
             $guides = $this->repository->getGuideOeschle();
             Log::info('Proceso de integracion con Oeschle', ['nro_registros' => count($guides)]);
             
-            $req_body = [];
             foreach ($guides as $key => $guide) {
                 $g = '';
                 $items = [];
