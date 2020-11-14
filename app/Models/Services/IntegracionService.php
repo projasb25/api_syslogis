@@ -87,8 +87,10 @@ class IntegracionService
             Log::info('Proceso de integracion con Oeschle', ['nro_registros' => count($guides)]);
             
             $req_body = [];
+            $g = '';
             foreach ($guides as $key => $guide) {
                 $items = [];
+                $g .= $guides->ids_guias . ',';
                 $productos = explode("|||", $guide->contenido);
                 foreach($productos as $producto) {    
                     $detalle = explode("///", $producto);
@@ -138,7 +140,7 @@ class IntegracionService
                 $response = json_decode($req->getBody()->getContents());
                 $this->repository->updateReportadoOeschle($guides);
             } else {
-                $response = 'fake_response';
+                $response = rtrim($guides, ',');
             }
 
             $this->repository->LogInsertOechsle('EXITO', $req_body, $response);
