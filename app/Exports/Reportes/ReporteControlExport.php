@@ -42,9 +42,9 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
     {
         return [
             $collection->cliente,
-            $collection->codigo_barra,
-            $collection->codigo_seguimiento,
-            $collection->nro_guia,
+            "'".$collection->codigo_barra,
+            "'".$collection->codigo_seguimiento,
+            "'".$collection->nro_guia,
             $collection->fecha_promesa,
             $collection->estado_pedido,
             $collection->fecha_pedido,
