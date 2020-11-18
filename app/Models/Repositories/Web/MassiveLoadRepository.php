@@ -56,6 +56,9 @@ class MassiveLoadRepository
                 if (isset($value['client_date']) && !is_string($value['client_date'])) {
                     $value['client_date'] = date('Y-m-d H:i:s', (($value['client_date'] - (25567 + 1)) * 86400));
                 }
+                if (isset($value['client_date2']) && !is_string($value['client_date2'])) {
+                    $value['client_date2'] = date('Y-m-d H:i:s', (($value['client_date2'] - (25567 + 1)) * 86400));
+                }
 
                 $value['id_massive_load'] = $id;
                 $value['status'] = 'PENDIENTE';
@@ -68,6 +71,7 @@ class MassiveLoadRepository
                     'alt_code1' => $value['alt_code1'] ?? null,
                     'alt_code2' => $value['alt_code2'] ?? null,
                     'client_date' => $value['client_date'] ?? null,
+                    'client_date2' => $value['client_date2'] ?? null,
                     'client_barcode' => $value['client_barcode'] ?? null,
                     'client_dni' => $value['client_dni'] ?? null,
                     'client_name' => $value['client_name'] ?? null,
@@ -183,6 +187,7 @@ class MassiveLoadRepository
                         'alt_code1' => $value->alt_code1,
                         'alt_code2' => $value->alt_code2,
                         'client_date' => $value->client_date,
+                        'client_date2' => $value->client_date2,
                         'client_barcode' => $value->client_barcode,
                         'client_dni' => $value->client_dni,
                         'client_name' => $value->client_name,
