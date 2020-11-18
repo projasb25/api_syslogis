@@ -285,28 +285,29 @@ class MassiveLoadRepository
 
     public function get_datos_ruta_cargo_ripley($id)
     {
-        $query = DB::select("select 
-            org.name, org.address as org_address, gd.guide_number, gd.client_barcode, adr.district,
-            gd.client_name, adr.province, gd.client_phone1, gd.client_email, adr.address,
-            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido,
-            gd.date_created
-        from guide gd
+        $query = DB::select("select
+            gd.guide_number, gd.client_barcode, gd.client_name, gd.client_phone1, gd.client_email,
+            org.name, org.address as org_address, adr.district, adr.province, adr.address,
+            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created
+        from
+            guide gd
+        join massive_load ml on ml.id_massive_load = gd.id_massive_load
         join organization as org on org.id_organization = gd.id_organization
         join address as adr on adr.id_address = gd.id_address
         join sku_product as sku on sku.id_guide = gd.id_guide
-        where id_massive_load = ?
-        group by 
-            org.name,
-            org.address,
+        where
+            gd.id_massive_load = ?
+        group by
             gd.client_barcode,
             gd.guide_number,
-            adr.district,
             gd.client_name,
-            adr.province,
             gd.client_phone1,
             gd.client_email,
-            adr.address,
-            gd.date_created
+            org.name,
+            org.address,
+            adr.district,
+            adr.province,
+            adr.address
         order by adr.district;", [$id]);
         return $query;
     }
