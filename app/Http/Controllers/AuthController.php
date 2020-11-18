@@ -37,7 +37,7 @@ class AuthController extends Controller
 
             Config::set('auth.providers.users.model', \App\Models\Entities\Driver::class);
 
-            $driver = Driver::where('email', $username)->where('status', 'ACTIVO')->first();
+            $driver = Driver::where('email', $username)->whereNotIn('status', 'ELIMINADO')->first();
 
             if (!$driver) {
                 throw new CustomException(['Usuario no existe.', 2000], 401);
