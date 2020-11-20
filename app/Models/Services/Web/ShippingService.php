@@ -186,13 +186,23 @@ class ShippingService
     
             $pdf->SetFont('Times', '', 10);
     
-            $filas = 0;
+            $filas = 1;
+            $pagina = 1;
             foreach ($data as $key => $value) {
 
-                if ($filas % 36 === 0 && $filas!== 0) {
+                if($filas === 36 && $pagina === 1)
+                {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
+                    $filas = 1;
+                }
+
+                else if ($filas % 36 === 0 && $pagina > 1) {
+                    $pdf->AddPage();
+                    $pdf->Ln(4);
+                    $y = $pdf->GetY();
+                    $filas = 1;
                 }
                 $direccion = $value->address;
                 $distrito = $value->district;
@@ -217,6 +227,7 @@ class ShippingService
                 $y = $pdf->GetY();
 
                 $filas += $rows;
+                $pagina += 1;
             }
 
             $pdf->SetFont('Times', '', 8);
