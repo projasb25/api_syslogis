@@ -190,7 +190,7 @@ class ShippingService
             $pagina = 1;
             foreach ($data as $key => $value) {
 
-                if($filas === 36 && $pagina === 1)
+                if($filas === 20 && $pagina === 1)
                 {
                     $pdf->AddPage();
                     $pdf->Ln(4);
@@ -198,7 +198,7 @@ class ShippingService
                     $filas = 1;
                 }
 
-                elseif ($filas % 50 === 0 && $pagina > 1 && $filas !== 1 ) {
+                if ($filas % 20 === 0 && $pagina > 1 && $filas !== 1 ) {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
