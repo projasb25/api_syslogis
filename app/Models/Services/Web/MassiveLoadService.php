@@ -474,7 +474,7 @@ class MassiveLoadService
             }
 
             $disk = Storage::disk('marathon');
-            $fileName = date('YmdHis') . '_cc_' . $guide->client_barcode . '_' . rand(1, 100) . '.pdf';
+            $fileName = date('YmdHis') . '_cc_' . $cod_barra . '_' . rand(1, 100) . '.pdf';
             $save = $disk->put($fileName, $pdf->Output('S', '', true));
             if (!$save) {
                 throw new Exception('No se pudo grabar la hoja marathon');
