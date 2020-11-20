@@ -59,12 +59,12 @@ class ShippingService
             $pdf->Ln(0);
             $pdf->SetFont('Times', '', 10);
             $y = $pdf->GetY();
-            $pdf->MultiCell(13, 5, 'Empresa: ', 0, 'L');
-            $pdf->SetXY($lmargin + 13, $y);
-            $pdf->MultiCell(64, 5, utf8_decode($data[0]->provider_name), 0, 'L');
+            $pdf->MultiCell(16, 5, 'Empresa: ', 0, 'L');
+            $pdf->SetXY($lmargin + 16, $y);
+            $pdf->MultiCell(61, 5, utf8_decode($data[0]->provider_name), 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
-            $pdf->MultiCell(27, 5, 'Fecha de Asignacion:', 0, 'L');
-            $pdf->SetXY($lmargin + 104, $y);
+            $pdf->MultiCell(35, 5, 'Fecha de Asignacion:', 0, 'L');
+            $pdf->SetXY($lmargin + 112, $y);
             $pdf->MultiCell(20, 5, Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
             $y = $pdf->GetY();
     
