@@ -106,13 +106,13 @@ class ShippingService
             $pdf->MultiCell(29, 5, '______ : _______', 0, 'L');
             $y = $pdf->GetY();
     
-            $pdf->MultiCell(29, 5, 'Nº Celular:', 0, 'L');
+            $pdf->MultiCell(29, 5, 'Nro de Celular:', 0, 'L');
             $pdf->SetXY($lmargin + 29, $y);
             $pdf->MultiCell(48, 5, '__________________', 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
             $pdf->MultiCell(30, 5, utf8_decode('Batería del Celular:'), 0, 'L');
             $pdf->SetXY($lmargin + 107, $y);
-            $pdf->MultiCell(30, 5, '__________________', 0, 'L');
+            $pdf->MultiCell(30, 5, '_________________', 0, 'L');
             $y = $pdf->GetY();
             $pdf->code128(150, 13, str_pad($data[0]->id_shipping_order, 7, "0", STR_PAD_LEFT) , 50, 20, false);
             $pdf->Ln(2);
