@@ -202,9 +202,9 @@ class ShippingService
                 $rows = max($distrito_row, $direccion_row);
         
                 $pdf->SetDrawColor(69, 69, 69);
-                $pdf->MultiCell(10, 4 * $rows, $key+1, 1, 'C');
-                $pdf->SetXY($lmargin + 10, $y);
-                $pdf->MultiCell(36, 4 * $rows, $value->client_barcode, 1, 'L');
+                $pdf->MultiCell(8, 4 * $rows, $key+1, 1, 'C');
+                $pdf->SetXY($lmargin + 8, $y);
+                $pdf->MultiCell(38, 4 * $rows, $value->client_barcode, 1, 'L');
                 $pdf->SetXY($lmargin + 46, $y);
                 $pdf->MultiCell(20, 4 * $rows, $value->guide_number, 1, 'L');
                 $pdf->SetXY($lmargin + 58, $y);
