@@ -196,6 +196,7 @@ class ShippingService
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
                     $filas = 1;
+                    $pagina += 1;
                 }
 
                 if ($filas % 25 === 0 && $pagina > 1 && $filas !== 1 ) {
@@ -227,7 +228,6 @@ class ShippingService
                 $y = $pdf->GetY();
 
                 $filas += $rows;
-                $pagina += 1;
             }
 
             $pdf->SetFont('Times', '', 8);
