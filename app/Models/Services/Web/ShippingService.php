@@ -57,7 +57,7 @@ class ShippingService
             $pdf->AddPage();
             $pdf->SetMargins($lmargin, $rmargin);
             $pdf->Ln(0);
-            $pdf->SetFont('Times', '', 8);
+            $pdf->SetFont('Times', '', 10);
             $y = $pdf->GetY();
             $pdf->MultiCell(13, 5, 'Empresa: ', 0, 'L');
             $pdf->SetXY($lmargin + 13, $y);
