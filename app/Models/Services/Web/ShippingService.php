@@ -199,7 +199,7 @@ class ShippingService
                     $pagina += 1;
                 }
 
-                if ($filas === 30 && $pagina > 1 ) {
+                if ($filas === 10 && $pagina > 1 ) {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
