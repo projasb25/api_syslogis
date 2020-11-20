@@ -41,8 +41,8 @@ class FunctionModel
             "params" => ['status', 'current_corp', 'current_org']
         ],
         "SP_SEL_VEHICLES" => [
-            "query" => 'CALL SP_SEL_VEHICLES(:status)',
-            "params" => ['status']
+            "query" => 'CALL SP_SEL_VEHICLES(:status, :id_provider)',
+            "params" => ['status', 'id_provider']
         ],
         "SP_SEL_DOMAIN" => [
             "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',

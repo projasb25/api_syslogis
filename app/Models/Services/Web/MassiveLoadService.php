@@ -445,7 +445,13 @@ class MassiveLoadService
                 // cuadro principal
                 $pdf->Rect($box_x, $box_y, 65, 27);
                 // codigo de barra
-                    $pdf->code128($box_x + 8, ($box_y + 6 + 2), $guide->client_barcode, 50, 6, false);
+                    if (isset($guide->client_barcode)) {
+                        $cod_barra = $guide->client_barcode;
+                    } else {
+                        $cod_barra = $guide->guide_number;
+                    }
+
+                    $pdf->code128($box_x + 8, ($box_y + 6 + 2), $cod_barra, 50, 6, false);
                     $pdf->SetY($box_y);
                     $pdf->SetX($box_x);
                     $pdf->Cell(32,4, $guide->name . ' - ' . ($i+1) ,0,0,'L');
@@ -456,11 +462,13 @@ class MassiveLoadService
                     $pdf->Cell(65,6,'',0,1,'L');
                     $pdf->SetX($box_x);
                     $pdf->SetFont('Times', '', 8);
-                    $pdf->Cell(65,5,$guide->client_barcode,0,1,'C');
+                    $pdf->Cell(65,5,$cod_barra,0,1,'C');
                     $pdf->SetX($box_x);
                     $pdf->SetFont('Times', '', 6);
                     $pdf->MultiCell(65,3,utf8_decode($guide->address),0,'C');
                     $pdf->Ln(2);
+
+                    
 
                 $box_x = 65 + $box_x + 2;
             }
