@@ -200,7 +200,7 @@ class ShippingService
                     $pagina += 1;
                 }
 
-                if ( in_array($filas, [40,41,42]) && $pagina > 1 ) {
+                if ( in_array($filas, [50,51,52]) && $pagina > 1 ) {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
