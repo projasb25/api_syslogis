@@ -145,6 +145,10 @@ class FunctionModel
             "query" => 'CALL SP_ELIMINAR_ENVIO(:id_shipping_order, :username)',
             "params" => ['id_shipping_order', 'username']
         ],
+        "SP_DEL_MASSIVE_LOAD" => [
+            "query" => 'CALL SP_DEL_MASSIVE_LOAD(:id_massive_load, :username)',
+            "params" => ['id_massive_load', 'username']
+        ],
         /**
          * Funciones para Transaccions
          **/
