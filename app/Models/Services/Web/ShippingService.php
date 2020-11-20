@@ -191,7 +191,7 @@ class ShippingService
             foreach ($data as $key => $value) {
 
 
-                if( in_array($filas, [38,39,40]) && $pagina === 1 )
+                if( in_array($filas, [35,36,37]) && $pagina === 1 )
                 {
                     $pdf->AddPage();
                     $pdf->Ln(4);
