@@ -171,9 +171,9 @@ class ShippingService
             $y = $pdf->GetY();
     
             $pdf->SetDrawColor(69, 69, 69);
-            $pdf->MultiCell(10, 6, 'Nro', 1, 'L');
-            $pdf->SetXY($lmargin + 10, $y);
-            $pdf->MultiCell(36, 6, 'Codigo de Barra', 1, 'L');
+            $pdf->MultiCell(8, 6, 'Nro', 1, 'L');
+            $pdf->SetXY($lmargin + 8, $y);
+            $pdf->MultiCell(38, 6, 'Codigo de Barra', 1, 'L');
             $pdf->SetXY($lmargin + 46, $y);
             $pdf->MultiCell(20, 6, 'Nro Guia', 1, 'L');
             $pdf->SetXY($lmargin + 66, $y);
