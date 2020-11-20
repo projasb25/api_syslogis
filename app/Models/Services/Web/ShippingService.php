@@ -191,7 +191,7 @@ class ShippingService
             foreach ($data as $key => $value) {
 
 
-                if( in_array($filas, [20,21,22]) && $pagina === 1 )
+                if( in_array($filas, [33,34,35]) && $pagina === 1 )
                 {
                     $pdf->AddPage();
                     $pdf->Ln(4);
@@ -222,9 +222,9 @@ class ShippingService
                 $pdf->SetXY($lmargin + 46, $y);
                 $pdf->MultiCell(24, 5 * $rows, $value->guide_number, 1, 'L');
                 $pdf->SetXY($lmargin + 70, $y);
-                $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 5 : 5 * $rows, $distrito . $pagina, 1, 'L');
+                $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 5 : 5 * $rows, $distrito, 1, 'L');
                 $pdf->SetXY($lmargin + 105, $y);
-                $pdf->MultiCell(84, ($direccion_row > $distrito_row) ? 5 : 5 * $rows, utf8_decode($direccion) . $filas, 1, 'L');
+                $pdf->MultiCell(84, ($direccion_row > $distrito_row) ? 5 : 5 * $rows, utf8_decode($direccion), 1, 'L');
                 $pdf->SetXY($lmargin + 189, $y);
                 $pdf->MultiCell(10, 5 * $rows, $value->nro_guias, 1, 'L');
                 $y = $pdf->GetY();
