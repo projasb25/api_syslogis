@@ -116,7 +116,10 @@ class ShippingRepository
             gd.client_barcode,
             gd.guide_number,
             adr.address,
-            adr.district;', [$shipping_order]);
+            adr.district
+        order by 
+            adr.district,
+            gd.guide_number;', [$shipping_order]);
         return $query;
     }
 
