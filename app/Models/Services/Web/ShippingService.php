@@ -181,7 +181,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 105, $y);
             $pdf->MultiCell(84, 6, utf8_decode('Direccion de Entrega'), 1, 'L');
             $pdf->SetXY($lmargin + 189, $y);
-            $pdf->MultiCell(10, 6, 'Bultos', 1, 'L');
+            $pdf->MultiCell(10, 6, 'Bults', 1, 'L');
             $y = $pdf->GetY();
     
             $pdf->SetFont('Times', '', 10);
