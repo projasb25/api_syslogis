@@ -77,18 +77,18 @@ class ShippingService
             $pdf->MultiCell(20, 5, utf8_decode($data[0]->plate_number), 0, 'L');
             $y = $pdf->GetY();
     
-            $pdf->MultiCell(16, 5, 'Cod. Envio: ', 0, 'L');
-            $pdf->SetXY($lmargin + 16, $y);
-            $pdf->MultiCell(61, 5, $data[0]->id_shipping_order, 0, 'L');
+            $pdf->MultiCell(22, 5, 'Cod. Envio: ', 0, 'L');
+            $pdf->SetXY($lmargin + 22, $y);
+            $pdf->MultiCell(55, 5, $data[0]->id_shipping_order, 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
-            $pdf->MultiCell(18, 5, 'Total Guias:', 0, 'L');
-            $pdf->SetXY($lmargin + 94, $y);
+            $pdf->MultiCell(24, 5, 'Total Guias:', 0, 'L');
+            $pdf->SetXY($lmargin + 101, $y);
             $uniqueCount = count(array_unique(array_column($data, 'guide_number'))); 
             $pdf->MultiCell(10, 5, $uniqueCount, 0, 'L');
 
-            $pdf->SetXY($lmargin + 104, $y);
-            $pdf->MultiCell(18, 5, 'Total Bultos:', 0, 'L');
-            $pdf->SetXY($lmargin + 122, $y);
+            $pdf->SetXY($lmargin + 111, $y);
+            $pdf->MultiCell(24, 5, 'Total Bultos:', 0, 'L');
+            $pdf->SetXY($lmargin + 135, $y);
             $sum = 0;
             foreach ($data as $item) {
                 $sum += $item->nro_guias;
