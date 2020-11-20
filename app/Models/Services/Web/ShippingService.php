@@ -198,7 +198,7 @@ class ShippingService
                     $filas = 1;
                 }
 
-                elseif ($filas % 50 === 0 && $pagina > 1) {
+                elseif ($filas % 50 === 0 && $pagina > 1 && $filas !== 1 ) {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
