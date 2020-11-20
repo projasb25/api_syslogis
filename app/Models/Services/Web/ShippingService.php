@@ -174,9 +174,9 @@ class ShippingService
             $pdf->MultiCell(10, 6, 'Nro', 1, 'L');
             $pdf->SetXY($lmargin + 10, $y);
             $pdf->MultiCell(36, 6, 'Codigo de Barra', 1, 'L');
-            $pdf->SetXY($lmargin + 38, $y);
+            $pdf->SetXY($lmargin + 48, $y);
             $pdf->MultiCell(16, 6, 'Nro Guia', 1, 'L');
-            $pdf->SetXY($lmargin + 58, $y);
+            $pdf->SetXY($lmargin + 64, $y);
             $pdf->MultiCell(35, 6, 'Distrito', 1, 'L');
             $pdf->SetXY($lmargin + 93, $y);
             $pdf->MultiCell(91, 6, utf8_decode('Direccion de Entrega'), 1, 'L');
