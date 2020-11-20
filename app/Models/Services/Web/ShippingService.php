@@ -198,7 +198,7 @@ class ShippingService
                 $width_dir = $pdf->GetStringWidth($direccion);
                 $width_dis = $pdf->GetStringWidth($distrito);
                 $distrito_row = ceil($width_dis / (35 - $cellMargin));
-                $direccion_row = ceil($width_dir / (125 - $cellMargin));
+                $direccion_row = ceil($width_dir / (84 - $cellMargin));
                 $rows = max($distrito_row, $direccion_row);
         
                 $pdf->SetDrawColor(69, 69, 69);
