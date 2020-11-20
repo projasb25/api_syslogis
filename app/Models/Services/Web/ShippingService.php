@@ -68,12 +68,12 @@ class ShippingService
             $pdf->MultiCell(20, 5, Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
             $y = $pdf->GetY();
     
-            $pdf->MultiCell(14, 5, 'Conductor: ', 0, 'L');
-            $pdf->SetXY($lmargin + 14, $y);
-            $pdf->MultiCell(63, 5, utf8_decode($data[0]->first_name .' '. $data[0]->last_name), 0, 'L');
+            $pdf->MultiCell(20, 5, 'Conductor: ', 0, 'L');
+            $pdf->SetXY($lmargin + 20, $y);
+            $pdf->MultiCell(57, 5, utf8_decode($data[0]->first_name .' '. $data[0]->last_name), 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
-            $pdf->MultiCell(10, 5, 'Placa:', 0, 'L');
-            $pdf->SetXY($lmargin + 87, $y);
+            $pdf->MultiCell(11, 5, 'Placa:', 0, 'L');
+            $pdf->SetXY($lmargin + 88, $y);
             $pdf->MultiCell(20, 5, utf8_decode($data[0]->plate_number), 0, 'L');
             $y = $pdf->GetY();
     
