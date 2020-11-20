@@ -191,8 +191,8 @@ class ShippingService
 
                 if ($filas % 44 === 0 && $filas!== 0) {
                     $pdf->AddPage();
-                    $y = $pdf->GetY();
                     $pdf->Ln(4);
+                    $y = $pdf->GetY();
                 }
                 $direccion = $value->address;
                 $distrito = $value->district;
