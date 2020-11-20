@@ -190,7 +190,8 @@ class ShippingService
             $pagina = 1;
             foreach ($data as $key => $value) {
 
-                if($filas === 20 && $pagina === 1)
+
+                if( in_array($filas, [20,21,22]) && $pagina === 1 )
                 {
                     $pdf->AddPage();
                     $pdf->Ln(4);
@@ -199,12 +200,13 @@ class ShippingService
                     $pagina += 1;
                 }
 
-                if ($filas === 10 && $pagina > 1 ) {
+                if ( in_array($filas, [20,21,22]) && $pagina > 1 ) {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
                     $filas = 1;
                 }
+                
                 $direccion = $value->address;
                 $distrito = $value->district;
                 $width_dir = $pdf->GetStringWidth($direccion);
