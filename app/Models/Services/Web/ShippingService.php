@@ -209,9 +209,9 @@ class ShippingService
                 $pdf->SetXY($lmargin + 46, $y);
                 $pdf->MultiCell(24, 5 * $rows, $value->guide_number, 1, 'L');
                 $pdf->SetXY($lmargin + 70, $y);
-                $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 4 : 5 * $rows, $distrito, 1, 'L');
+                $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 5 : 5 * $rows, $distrito, 1, 'L');
                 $pdf->SetXY($lmargin + 105, $y);
-                $pdf->MultiCell(84, ($direccion_row > $distrito_row) ? 4 : 5 * $rows, utf8_decode($direccion), 1, 'L');
+                $pdf->MultiCell(84, ($direccion_row > $distrito_row) ? 5 : 5 * $rows, utf8_decode($direccion), 1, 'L');
                 $pdf->SetXY($lmargin + 189, $y);
                 $pdf->MultiCell(10, 5 * $rows, $value->nro_guias, 1, 'L');
                 $y = $pdf->GetY();
