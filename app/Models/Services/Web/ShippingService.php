@@ -184,7 +184,7 @@ class ShippingService
             $pdf->MultiCell(10, 6, 'Bultos', 1, 'L');
             $y = $pdf->GetY();
     
-            $pdf->SetFont('Times', '', 7);
+            $pdf->SetFont('Times', '', 10);
     
             $filas = 0;
             foreach ($data as $key => $value) {
