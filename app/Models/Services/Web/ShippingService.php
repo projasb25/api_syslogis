@@ -207,12 +207,12 @@ class ShippingService
                     $filas = 1;
                 }
 
-                $direccion = $value->address;
-                $distrito = $value->district;
+                $direccion = utf8_decode(ucwords(strtolower($value->address)));
+                $distrito = utf8_decode(ucwords(strtolower($value->district)));
                 $width_dir = $pdf->GetStringWidth($direccion);
                 $width_dis = $pdf->GetStringWidth($distrito);
                 $distrito_row = ceil($width_dis / (35 - $cellMargin));
-                $direccion_row = ceil($width_dir / (84 - $cellMargin));
+                $direccion_row = ceil($width_dir / (82 - $cellMargin));
                 $rows = max($distrito_row, $direccion_row);
         
                 $pdf->SetDrawColor(69, 69, 69);
@@ -222,9 +222,9 @@ class ShippingService
                 $pdf->SetXY($lmargin + 46, $y);
                 $pdf->MultiCell(26, 5 * $rows, $value->guide_number, 1, 'L');
                 $pdf->SetXY($lmargin + 72, $y);
-                $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 5 : 5 * $rows, utf8_decode(ucwords(strtolower($distrito))), 1, 'L');
+                $pdf->MultiCell(35, ($distrito_row > $direccion_row) ? 5 : 5 * $rows, $distrito, 1, 'L');
                 $pdf->SetXY($lmargin + 107, $y);
-                $pdf->MultiCell(82, ($direccion_row > $distrito_row) ? 5 : 5 * $rows, utf8_decode($direccion), 1, 'L');
+                $pdf->MultiCell(82, ($direccion_row > $distrito_row) ? 5 : 5 * $rows, $direccion, 1, 'L');
                 $pdf->SetXY($lmargin + 189, $y);
                 $pdf->MultiCell(10, 5 * $rows, $value->nro_guias, 1, 'L');
                 $y = $pdf->GetY();
