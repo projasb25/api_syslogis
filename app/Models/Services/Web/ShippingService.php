@@ -81,14 +81,14 @@ class ShippingService
             $pdf->SetXY($lmargin + 22, $y);
             $pdf->MultiCell(55, 5, $data[0]->id_shipping_order, 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
-            $pdf->MultiCell(24, 5, 'Total Guias:', 0, 'L');
-            $pdf->SetXY($lmargin + 101, $y);
+            $pdf->MultiCell(22, 5, 'Total Guias:', 0, 'L');
+            $pdf->SetXY($lmargin + 99, $y);
             $uniqueCount = count(array_unique(array_column($data, 'guide_number'))); 
             $pdf->MultiCell(10, 5, $uniqueCount, 0, 'L');
 
-            $pdf->SetXY($lmargin + 111, $y);
-            $pdf->MultiCell(24, 5, 'Total Bultos:', 0, 'L');
-            $pdf->SetXY($lmargin + 135, $y);
+            $pdf->SetXY($lmargin + 109, $y);
+            $pdf->MultiCell(22, 5, 'Total Bultos:', 0, 'L');
+            $pdf->SetXY($lmargin + 133, $y);
             $sum = 0;
             foreach ($data as $item) {
                 $sum += $item->nro_guias;
@@ -97,12 +97,12 @@ class ShippingService
             
             $y = $pdf->GetY();
     
-            $pdf->MultiCell(24, 5, 'Hora de Llegada: ', 0, 'L');
-            $pdf->SetXY($lmargin + 24, $y);
-            $pdf->MultiCell(53, 5, '______ : _______', 0, 'L');
+            $pdf->MultiCell(29, 5, 'Hora de Llegada: ', 0, 'L');
+            $pdf->SetXY($lmargin + 29, $y);
+            $pdf->MultiCell(48, 5, '______ : _______', 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
-            $pdf->MultiCell(21, 5, 'Hora de Salida:', 0, 'L');
-            $pdf->SetXY($lmargin + 98, $y);
+            $pdf->MultiCell(26, 5, 'Hora de Salida:', 0, 'L');
+            $pdf->SetXY($lmargin + 103, $y);
             $pdf->MultiCell(23, 5, '______ : _______', 0, 'L');
             $y = $pdf->GetY();
     
