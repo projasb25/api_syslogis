@@ -168,11 +168,12 @@ class MassiveLoadService
         if (!$massive_load->ruta_doc_cargo) {
             if ($massive_load->id_corporation === 1) {
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $doc = $this->generar_doc_cargo_tipo1($data);
             } else {
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
+                $motivos = $this->repo->get_motivos();
+                $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
             }
-            $motivos = $this->repo->get_motivos();
-            $doc = $this->generate_doc_ruta($data, $motivos);
             $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
             $massive_load->ruta_doc_cargo = $doc['file_name'];
         }
@@ -180,7 +181,7 @@ class MassiveLoadService
         return Res::success(['hoja_ruta' => $ruta .'/'. $massive_load->ruta_doc_cargo]);
     }
 
-    public function generate_doc_ruta($data, $motivos)
+    public function generar_doc_cargo_tipo1($data)
     {
         try {
             $pdf = new CustomPDF();
@@ -199,32 +200,34 @@ class MassiveLoadService
             $box_y = 5;
 
             foreach ($data as $i => $guide) {
-                if ($i  % 4 == 0 && $i != 0) {
+                if ($i  % 3 == 0 && $i != 0) {
                     $pdf->AddPage();
                     $box_y = 5;
                 }
                 // cuadro principal
-                $pdf->Rect($box_x, $box_y, 190, 59);
+                $pdf->Rect($box_x, $box_y, 200, 78);
 
                 // cuadro 1.1 REMITENTE
                     //header
-                    $pdf->Rect($box_x + 1, $box_y + 1, 6, 28);
-                    $pdf->SetFont('Times', 'B', 6);
-                    $pdf->TextWithDirection($box_x + 5, $box_y + 21, 'REMITENTE', 'U');
+                    $pdf->Rect($box_x + 0, $box_y + 0, 6, 37);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 29, 'REMITENTE', 'U');
 
                     // body
-                    $pdf->Rect($box_x + 7, $box_y + 1, 90, 28);
-                    $pdf->SetFont('Times', '', 6);
-                    $pdf->SetXY($box_x+8, $box_y + 1);
-                    $pdf->MultiCell(89,4,'NOMBRE: '. $guide->name,0,'J');
-                    $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'CIUDAD: LIMA',0,'J');
-                    $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
-                    $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
-                    $pdf->SetX($box_x+8);
-                    $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->org_address,0,'L');
+                    $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetXY($box_x+6, $box_y + 1);
+                    $pdf->MultiCell(85,6,'NOMBRE: '. $guide->name,0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(85,6,'CIUDAD: LIMA',0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
 
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
@@ -233,136 +236,272 @@ class MassiveLoadService
                         $cod_barra = $guide->guide_number;
                     }
 
-
-                    $pdf->code128($box_x + 23, ($box_y + 28 + 2), $cod_barra , 50, 12, false);
-                    $pdf->SetXY($box_x+1, ($box_y + 41 + 2));
-                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->code128($box_x + 23, ($box_y + 38 + 2), $cod_barra , 50, 12, false);
+                    $pdf->SetXY($box_x+1, ($box_y + 52 + 2));
+                    $pdf->SetFont('Times', 'B', 16);
                     $pdf->MultiCell(96,4,$cod_barra, 0,'C');
                     $pdf->Ln(2);
                 
                 // cuadro 2.1 DATOS
                     //header
-                    $pdf->Rect($box_x + 1, ($box_y + 46 + 2), 6, 9);
-                    $pdf->SetFont('Times', 'B', 6);
-                    $pdf->TextWithDirection($box_x + 5, $box_y + 56, 'DATOS', 'U');
+                    $pdf->Rect($box_x + 0, ($box_y + 59 + 2), 6, 17);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 76, 'DATOS', 'U');
                     
                     // body
-                    $pdf->Rect($box_x + 7, ($box_y + 46 + 2), 90, 9);
-                    $pdf->SetFont('Times', 'B', 10);
-                    $pdf->SetXY($box_x+8, ($box_y + 49 + 2));
-                    $pdf->MultiCell(45,4,'NRO. DE PIEZAS: '. 0,0,'J');
-                    $pdf->SetXY($box_x+8+45, ($box_y + 49 + 2));
+                    $pdf->Rect($box_x + 6, ($box_y + 59 + 2), 85, 17);
+                    $pdf->SetFont('Times', 'B', 12);
+                    $pdf->SetXY($box_x+8, ($box_y + 66 + 2));
+                    $pdf->MultiCell(45,4,'NRO. PIEZAS: '. 0,0,'J');
+                    $pdf->SetXY($box_x+8+45, ($box_y + 66 + 2));
                     $pdf->MultiCell(45,4,'PESO SECO: '. 0,0,'J');
-                    $pdf->Line($box_x+8+41, ($box_y + 46 + 2), $box_x+8+41, ($box_y + 55 + 2));
+                    $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
                     
                     $pdf->SetX($box_x+8);
-
-                // // cuadro 3.1 DATOS DE ENTREGA
-                //     //header
-                //     $pdf->Rect($box_x + 1, ($box_y + 52 + 2) , 6, 37);
-                //     $pdf->SetFont('Times', 'B', 6);
-                //     $pdf->TextWithDirection($box_x + 5, $box_y + 83, 'DATOS DE ENTREGA', 'U');
-
-                //     // body
-                //     $pdf->Rect($box_x + 7, ($box_y + 52 + 2), 90, 37);
-                //     $pdf->SetFont('Times', '', 6);
-                //     $pdf->SetXY($box_x+8, ($box_y + 57 + 2));
-                //     $pdf->MultiCell(89,6,'FIRMA:  ____________________________________________________________',0,'J');
-                //     $pdf->SetX($box_x+8);
-                //     $pdf->MultiCell(89,6,'NOMBRE:  _________________________________________________________',0,'J');
-                //     $pdf->SetX($box_x+8);
-                //     $pdf->MultiCell(89,6,'VINCULO:  _________________________________________________________',0,'J');
-                //     $pdf->SetX($box_x+8);
-                //     $pdf->MultiCell(89,6,'DNI:  __________________________________',0,'J');
-                //     $pdf->SetX($box_x+8);
-                //     $pdf->Cell(44,6,'FECHA: _______ / _______ / _______',0,0,'L');
-                //     $pdf->Cell(44,6,'Hora: __________________',0,0,'L');
-                //     $pdf->SetX($box_x+8);
-
                 // cuadro 1.2 DESTINATARIO
                     //header
-                    $pdf->Rect($box_x + 99, $box_y + 1, 6, 19);
-                    $pdf->SetFont('Times', 'B', 6);
-                    $pdf->TextWithDirection($box_x + 99 + 4, $box_y + 19, 'DESTINATARIO', 'U');
+                    $pdf->Rect($box_x + 93, $box_y + 0, 6, 41);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 35, 'DESTINATARIO', 'U');
 
                     // body
-                    $pdf->Rect($box_x + 99 + 6, $box_y + 1, 84, 19);
-                    $pdf->SetFont('Times', '', 6);
-                    $pdf->SetXY($box_x + 99 + 7, $box_y + 1);
-                    $pdf->MultiCell(89,4,'NOMBRE: '. $guide->client_name,0,'J');
-                    $pdf->SetX($box_x + 99 + 7);
-                    $pdf->MultiCell(89,4,'DIST.: ' . $guide->district,0,'J');
-                    $pdf->SetX($box_x + 99 + 7);
-                    $pdf->Cell(27,4,'TELEFONO: '. $guide->client_phone1 ,0,0,'L');
-                    $pdf->Cell(52,4,'EMAIL: '. utf8_decode(strtolower($guide->client_email)),0,1,'L'); //lower to space
-                    $pdf->SetX($box_x + 99 + 7);
-                    $pdf->MultiCell(89,4,'DIRECCION: '. utf8_decode(strtolower($guide->address)),0,'L');
+                    $nombre = utf8_decode(ucwords(strtolower($guide->client_name)));
+                    $distrito = utf8_decode(ucwords(strtolower($guide->district)));
+                    $direccion = utf8_decode(ucwords(strtolower($guide->address)));
+                    $pdf->Rect($box_x + 93 + 6, $box_y + 0, 101, 41);
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetXY($box_x + 92 + 7, $box_y + 1);
+                    $pdf->MultiCell(101,5,'NOMBRE: '. $nombre,0,'L');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'DNI: '. $guide->client_dni,0,'L');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'EMAIL.: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->MultiCell(100,5,'DIRECCION: '. $direccion,0,'L');
+                    $pdf->SetFont('Times', '', 11);
 
                 // cuadro 2.2 CONTENIDO
                     //header
-                    $pdf->Rect($box_x + 99, $box_y + 21, 6, 37);
-                    $pdf->SetFont('Times', 'B', 7);
-                    $pdf->TextWithDirection($box_x + 99 + 4, $box_y + 47, 'CONTENIDO', 'U');
+                    $pdf->Rect($box_x + 93, $box_y + 42, 6, 36);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 70, 'CONTENIDO', 'U');
 
                     // body
-                    $pdf->Rect($box_x + 99 + 6, $box_y + 21, 84, 37);
-                    $pdf->SetFont('Times', 'B', 5);
-                    $pdf->SetXY($box_x + 99 + 7, $box_y + 22);
+                    $pdf->Rect($box_x + 93 + 6, $box_y + 42, 101, 36);
+                    $pdf->SetFont('Times', '', 9);
+                    $pdf->SetXY($box_x + 93 + 6, $box_y + 44);
 
                     $contenidoArray = explode(",", $guide->contenido);
                     foreach ($contenidoArray as $key => $product) {
-                        // $pdf->MultiCell(89,2,$product->sku_code.' - '.$product->sku_description,0,'J');
-                        $pdf->MultiCell(89,2,$product,0,'J');
-                        $pdf->SetX($box_x + 99 + 7);
+                        $pdf->MultiCell(101,3,utf8_decode(ucwords(strtolower($product))),0,'L');
+                        $pdf->SetX($box_x + 93 + 6);
+                    }
+                $box_y = 78+ $box_y + 4;
+            }
+            
+            $disk = Storage::disk('cargo');
+            $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
+            $save = $disk->put($fileName, $pdf->Output('S', '', true));
+            if (!$save) {
+                throw new Exception('No se pudo grabar la hoja de ruta');
+            }
+            $res['file_name'] = $fileName;
+        } catch (Exception $e) {
+            Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
+        }
+        return $res;
+    }
+
+    public function generar_doc_cargo_tipo2($data, $motivos)
+    {
+        try {
+            $pdf = new CustomPDF();
+            $cellMargin = 2 * 1.000125;
+            $lmargin = 5;
+            $rmargin = 5;
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->SetMargins($lmargin, $rmargin);
+            $pdf->Ln(0);
+            $pdf->SetFont('Times', '', 7);
+            $y = $pdf->GetY();
+            $pdf->SetAutoPageBreak(false);
+
+            $box_x = 5;
+            $box_y = 5;
+
+            foreach ($data as $i => $guide) {
+                if ($i  % 2 == 0 && $i != 0) {
+                    $pdf->AddPage();
+                    $box_y = 5;
+                }
+                // cuadro principal
+                $pdf->Rect($box_x, $box_y, 200, 119);
+
+                // cuadro 1.1 REMITENTE
+                    //header
+                    $pdf->Rect($box_x + 0, $box_y + 0, 6, 37);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 29, 'REMITENTE', 'U');
+
+                    // body
+                    $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetXY($box_x+6, $box_y + 1);
+                    $pdf->MultiCell(85,6,'NOMBRE: '. $guide->name,0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(85,6,'CIUDAD: LIMA',0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
+
+                // codigo de barra
+                    if (isset($guide->client_barcode)) {
+                        $cod_barra = $guide->client_barcode;
+                    } else {
+                        $cod_barra = $guide->guide_number;
                     }
 
-                // // cuadro 2.3 OBSERVACIONES
-                //     //header
-                //     // $pdf->Rect($box_x + 99, $box_y + 66, 6, 25);
-                //     $pdf->SetFont('Times', 'B', 6);
-                //     $pdf->SetXY($box_x + 92 + 7, $box_y + 59);
-                //     $pdf->Cell(26,4,'PRIMERA VISITA',1,0,'L');
-                //     $pdf->Cell(26,4,'SEGUNDA VISITA',1,0,'L');
-                //     $pdf->Cell(4,4,'1',1,0,'L');
-                //     $pdf->Cell(4,4,'2',1,0,'L');
-                //     $pdf->Cell(30,4,'MOTIVO DE REZAGO',1,1,'L');
-
-                //     $pdf->SetX($box_x + 92 + 7);
-                //     $pdf->Cell(26,4,'FECHA:',1,0,'L');
-                //     $pdf->Cell(26,4,'FECHA:',1,1,'L');
-                //     // $pdf->Cell(4,4,'',1,0,'L');
-                //     // $pdf->Cell(4,4,'',1,1,'L');
-
-                //     $pdf->SetX($box_x + 92 + 7);
-                //     $pdf->Cell(26,4,'HORA:',1,0,'L');
-                //     $pdf->Cell(26,4,'HORA:',1,1,'L');
-                //     // $pdf->Cell(4,4,'',1,0,'L');
-                //     // $pdf->Cell(4,4,'',1,1,'L');
-
-                //     $pdf->SetX($box_x + 92 + 7);
-                //     $pdf->Cell(26,4,'CODIGO:',1,0,'L');
-                //     $pdf->Cell(26,4,'CODIGO:',1,1,'L');
-                //     // $pdf->Cell(4,4,'',1,0,'L');
-                //     // $pdf->Cell(4,4,'',1,1,'L');
-
-                //     $pdf->SetX($box_x + 92 + 7);
-                //     $pdf->Cell(52,4,'OBSERVACIONES',1,1,'C');
+                    $pdf->code128($box_x + 23, ($box_y + 38 + 2), $cod_barra , 50, 12, false);
+                    $pdf->SetXY($box_x+1, ($box_y + 52 + 2));
+                    $pdf->SetFont('Times', 'B', 16);
+                    $pdf->MultiCell(96,4,$cod_barra, 0,'C');
+                    $pdf->Ln(2);
+                
+                // cuadro 2.1 DATOS
+                    //header
+                    $pdf->Rect($box_x + 0, ($box_y + 59 + 2), 6, 17);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 76, 'DATOS', 'U');
                     
-                //     $pdf->SetX($box_x + 92 + 7);
-                //     $pdf->Cell(52,12,'',1,1,'C');
+                    // body
+                    $pdf->Rect($box_x + 6, ($box_y + 59 + 2), 85, 17);
+                    $pdf->SetFont('Times', 'B', 12);
+                    $pdf->SetXY($box_x+8, ($box_y + 66 + 2));
+                    $pdf->MultiCell(45,4,'NRO. PIEZAS: '. 0,0,'J');
+                    $pdf->SetXY($box_x+8+45, ($box_y + 66 + 2));
+                    $pdf->MultiCell(45,4,'PESO SECO: '. 0,0,'J');
+                    $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
+                    
+                    $pdf->SetX($box_x+8);
+                // cuadro 1.2 DESTINATARIO
+                    //header
+                    $pdf->Rect($box_x + 93, $box_y + 0, 6, 41);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 35, 'DESTINATARIO', 'U');
 
-                //     $pdf->SetXY($box_x + 144 + 7, $box_y + 63);
-                //     foreach ($motivos as $key => $motivo) {
-                //         $pdf->Cell(4,4,'',1,0,'L');
-                //         $pdf->Cell(4,4,'',1,0,'L');
-                //         $pdf->Cell(30,4,utf8_decode($motivo->name),1,1,'L');
-                //         $pdf->SetX($box_x + 144 + 7);
-                //     }
-                //     $pdf->Cell(4,4,'',1,0,'L');
-                //     $pdf->Cell(4,4,'',1,0,'L');
-                //     $pdf->Cell(30,4,'OTROS',1,1,'L');
+                    // body
+                    $nombre = utf8_decode(ucwords(strtolower($guide->client_name)));
+                    $distrito = utf8_decode(ucwords(strtolower($guide->district)));
+                    $direccion = utf8_decode(ucwords(strtolower($guide->address)));
+                    $pdf->Rect($box_x + 93 + 6, $box_y + 0, 101, 41);
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetXY($box_x + 92 + 7, $box_y + 1);
+                    $pdf->MultiCell(101,5,'NOMBRE: '. $nombre,0,'L');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'DNI: '. $guide->client_dni,0,'L');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'EMAIL.: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->MultiCell(100,5,'DIRECCION: '. $direccion,0,'L');
+                    $pdf->SetFont('Times', '', 11);
 
-                $box_y = 59 + $box_y + 2;
+                // cuadro 3.1 DATOS DE ENTREGA
+                    //header
+                    $pdf->Rect($box_x + 0, ($box_y + 77 + 2) , 6, 40);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 118, 'DATOS DE ENTREGA', 'U');
+
+                    // body
+                    $pdf->Rect($box_x + 6, ($box_y + 77 + 2), 85, 40);
+                    $pdf->SetFont('Times', '', 9);
+                    $pdf->SetXY($box_x+7, ($box_y + 80 + 2));
+                    $pdf->MultiCell(85,6,'FIRMA:  ____________________________________________',0,'J');
+                    $pdf->SetX($box_x+7);
+                    $pdf->MultiCell(85,6,'NOMBRE:  __________________________________________',0,'J');
+                    $pdf->SetX($box_x+7);
+                    $pdf->MultiCell(85,6,'VINCULO:  _________________________________________',0,'J');
+                    $pdf->SetX($box_x+7);
+                    $pdf->MultiCell(85,6,'DNI:  ______________________________________________',0,'J');
+                    $pdf->SetX($box_x+7);
+                    $pdf->MultiCell(85,6,'FECHA: ________ / ________ / ________',0,'J');
+                    $pdf->SetX($box_x+7);
+                    $pdf->MultiCell(85,6,'HORA: ______________:______________',0,'J');
+                    $pdf->SetX($box_x+7);
+
+                // cuadro 2.2 CONTENIDO
+                    //header
+                    $pdf->Rect($box_x + 93, $box_y + 42, 6, 36);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 70, 'CONTENIDO', 'U');
+
+                    // body
+                    $pdf->Rect($box_x + 93 + 6, $box_y + 42, 101, 36);
+                    $pdf->SetFont('Times', '', 9);
+                    $pdf->SetXY($box_x + 93 + 6, $box_y + 44);
+
+                    $contenidoArray = explode(",", $guide->contenido);
+                    foreach ($contenidoArray as $key => $product) {
+                        $pdf->MultiCell(101,3,utf8_decode(ucwords(strtolower($product))),0,'L');
+                        $pdf->SetX($box_x + 93 + 6);
+                    }
+
+                // cuadro 2.3 OBSERVACIONES
+                    //header
+                    $pdf->SetFont('Times', '', 9);
+                    $pdf->SetXY($box_x + 86 + 7, $box_y + 79);
+                    $pdf->Cell(28,4,'PRIMERA VISITA',1,0,'L');
+                    $pdf->Cell(28,4,'SEGUNDA VISITA',1,0,'L');
+                    $pdf->Cell(4,4,'1',1,0,'L');
+                    $pdf->Cell(4,4,'2',1,0,'L');
+                    $pdf->Cell(43,4,'MOTIVO DE REZAGO',1,1,'L');
+
+                    $pdf->SetX($box_x + 86 + 7);
+                    $pdf->Cell(28,5,'FECHA:',1,0,'L');
+                    $pdf->Cell(28,5,'FECHA:',1,1,'L');
+
+                    $pdf->SetX($box_x + 86 + 7);
+                    $pdf->Cell(28,5,'HORA:',1,0,'L');
+                    $pdf->Cell(28,5,'HORA:',1,1,'L');
+
+                    $pdf->SetX($box_x + 86 + 7);
+                    $pdf->Cell(28,5,'CODIGO:',1,0,'L');
+                    $pdf->Cell(28,5,'CODIGO:',1,1,'L');
+
+                    $pdf->SetX($box_x + 86 + 7);
+                    $pdf->Cell(56,5,'OBSERVACIONES',1,1,'C');
+                    
+                    $pdf->SetX($box_x + 86 + 7);
+                    $pdf->Cell(56,16,'',1,1,'C');
+
+                    $pdf->SetXY($box_x + 142 + 7, $box_y + 83);
+                    foreach ($motivos as $key => $motivo) {
+                        $pdf->Cell(4,5,'',1,0,'L');
+                        $pdf->Cell(4,5,'',1,0,'L');
+                        $pdf->Cell(43,5,utf8_decode($motivo->name),1,1,'L');
+                        $pdf->SetX($box_x + 142 + 7);
+                    }
+                    $pdf->Cell(4,6,'',1,0,'L');
+                    $pdf->Cell(4,6,'',1,0,'L');
+                    $pdf->Cell(43,6,'OTROS',1,1,'L');
+
+                $box_y = 119+ $box_y + 3;
             }
 
             $disk = Storage::disk('cargo');
@@ -378,6 +517,205 @@ class MassiveLoadService
         }
         return $res;
     }
+
+    // public function generate_doc_ruta($data, $motivos)
+    // {
+    //     try {
+    //         $pdf = new CustomPDF();
+    //         $cellMargin = 2 * 1.000125;
+    //         $lmargin = 5;
+    //         $rmargin = 5;
+    //         $pdf->AliasNbPages();
+    //         $pdf->AddPage();
+    //         $pdf->SetMargins($lmargin, $rmargin);
+    //         $pdf->Ln(0);
+    //         $pdf->SetFont('Times', '', 7);
+    //         $y = $pdf->GetY();
+    //         $pdf->SetAutoPageBreak(false);
+
+    //         $box_x = 5;
+    //         $box_y = 5;
+
+    //         foreach ($data as $i => $guide) {
+    //             if ($i  % 4 == 0 && $i != 0) {
+    //                 $pdf->AddPage();
+    //                 $box_y = 5;
+    //             }
+    //             // cuadro principal
+    //             $pdf->Rect($box_x, $box_y, 190, 59);
+
+    //             // cuadro 1.1 REMITENTE
+    //                 //header
+    //                 $pdf->Rect($box_x + 1, $box_y + 1, 6, 28);
+    //                 $pdf->SetFont('Times', 'B', 6);
+    //                 $pdf->TextWithDirection($box_x + 5, $box_y + 21, 'REMITENTE', 'U');
+
+    //                 // body
+    //                 $pdf->Rect($box_x + 7, $box_y + 1, 90, 28);
+    //                 $pdf->SetFont('Times', '', 6);
+    //                 $pdf->SetXY($box_x+8, $box_y + 1);
+    //                 $pdf->MultiCell(89,4,'NOMBRE: '. $guide->name,0,'J');
+    //                 $pdf->SetX($box_x+8);
+    //                 $pdf->MultiCell(89,4,'CIUDAD: LIMA',0,'J');
+    //                 $pdf->SetX($box_x+8);
+    //                 $pdf->MultiCell(89,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
+    //                 $pdf->SetX($box_x+8);
+    //                 $pdf->MultiCell(89,4,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
+    //                 $pdf->SetX($box_x+8);
+    //                 $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->org_address,0,'L');
+
+    //             // codigo de barra
+    //                 if (isset($guide->client_barcode)) {
+    //                     $cod_barra = $guide->client_barcode;
+    //                 } else {
+    //                     $cod_barra = $guide->guide_number;
+    //                 }
+
+
+    //                 $pdf->code128($box_x + 23, ($box_y + 28 + 2), $cod_barra , 50, 12, false);
+    //                 $pdf->SetXY($box_x+1, ($box_y + 41 + 2));
+    //                 $pdf->SetFont('Times', 'B', 10);
+    //                 $pdf->MultiCell(96,4,$cod_barra, 0,'C');
+    //                 $pdf->Ln(2);
+                
+    //             // cuadro 2.1 DATOS
+    //                 //header
+    //                 $pdf->Rect($box_x + 1, ($box_y + 46 + 2), 6, 9);
+    //                 $pdf->SetFont('Times', 'B', 6);
+    //                 $pdf->TextWithDirection($box_x + 5, $box_y + 56, 'DATOS', 'U');
+                    
+    //                 // body
+    //                 $pdf->Rect($box_x + 7, ($box_y + 46 + 2), 90, 9);
+    //                 $pdf->SetFont('Times', 'B', 10);
+    //                 $pdf->SetXY($box_x+8, ($box_y + 49 + 2));
+    //                 $pdf->MultiCell(45,4,'NRO. DE PIEZAS: '. 0,0,'J');
+    //                 $pdf->SetXY($box_x+8+45, ($box_y + 49 + 2));
+    //                 $pdf->MultiCell(45,4,'PESO SECO: '. 0,0,'J');
+    //                 $pdf->Line($box_x+8+41, ($box_y + 46 + 2), $box_x+8+41, ($box_y + 55 + 2));
+                    
+    //                 $pdf->SetX($box_x+8);
+
+    //             // // cuadro 3.1 DATOS DE ENTREGA
+    //             //     //header
+    //             //     $pdf->Rect($box_x + 1, ($box_y + 52 + 2) , 6, 37);
+    //             //     $pdf->SetFont('Times', 'B', 6);
+    //             //     $pdf->TextWithDirection($box_x + 5, $box_y + 83, 'DATOS DE ENTREGA', 'U');
+
+    //             //     // body
+    //             //     $pdf->Rect($box_x + 7, ($box_y + 52 + 2), 90, 37);
+    //             //     $pdf->SetFont('Times', '', 6);
+    //             //     $pdf->SetXY($box_x+8, ($box_y + 57 + 2));
+    //             //     $pdf->MultiCell(89,6,'FIRMA:  ____________________________________________________________',0,'J');
+    //             //     $pdf->SetX($box_x+8);
+    //             //     $pdf->MultiCell(89,6,'NOMBRE:  _________________________________________________________',0,'J');
+    //             //     $pdf->SetX($box_x+8);
+    //             //     $pdf->MultiCell(89,6,'VINCULO:  _________________________________________________________',0,'J');
+    //             //     $pdf->SetX($box_x+8);
+    //             //     $pdf->MultiCell(89,6,'DNI:  __________________________________',0,'J');
+    //             //     $pdf->SetX($box_x+8);
+    //             //     $pdf->Cell(44,6,'FECHA: _______ / _______ / _______',0,0,'L');
+    //             //     $pdf->Cell(44,6,'Hora: __________________',0,0,'L');
+    //             //     $pdf->SetX($box_x+8);
+
+    //             // cuadro 1.2 DESTINATARIO
+    //                 //header
+    //                 $pdf->Rect($box_x + 99, $box_y + 1, 6, 19);
+    //                 $pdf->SetFont('Times', 'B', 6);
+    //                 $pdf->TextWithDirection($box_x + 99 + 4, $box_y + 19, 'DESTINATARIO', 'U');
+
+    //                 // body
+    //                 $pdf->Rect($box_x + 99 + 6, $box_y + 1, 84, 19);
+    //                 $pdf->SetFont('Times', '', 6);
+    //                 $pdf->SetXY($box_x + 99 + 7, $box_y + 1);
+    //                 $pdf->MultiCell(89,4,'NOMBRE: '. $guide->client_name,0,'J');
+    //                 $pdf->SetX($box_x + 99 + 7);
+    //                 $pdf->MultiCell(89,4,'DIST.: ' . $guide->district,0,'J');
+    //                 $pdf->SetX($box_x + 99 + 7);
+    //                 $pdf->Cell(27,4,'TELEFONO: '. $guide->client_phone1 ,0,0,'L');
+    //                 $pdf->Cell(52,4,'EMAIL: '. utf8_decode(strtolower($guide->client_email)),0,1,'L'); //lower to space
+    //                 $pdf->SetX($box_x + 99 + 7);
+    //                 $pdf->MultiCell(89,4,'DIRECCION: '. utf8_decode(strtolower($guide->address)),0,'L');
+
+    //             // cuadro 2.2 CONTENIDO
+    //                 //header
+    //                 $pdf->Rect($box_x + 99, $box_y + 21, 6, 37);
+    //                 $pdf->SetFont('Times', 'B', 7);
+    //                 $pdf->TextWithDirection($box_x + 99 + 4, $box_y + 47, 'CONTENIDO', 'U');
+
+    //                 // body
+    //                 $pdf->Rect($box_x + 99 + 6, $box_y + 21, 84, 37);
+    //                 $pdf->SetFont('Times', 'B', 5);
+    //                 $pdf->SetXY($box_x + 99 + 7, $box_y + 22);
+
+    //                 $contenidoArray = explode(",", $guide->contenido);
+    //                 foreach ($contenidoArray as $key => $product) {
+    //                     // $pdf->MultiCell(89,2,$product->sku_code.' - '.$product->sku_description,0,'J');
+    //                     $pdf->MultiCell(89,2,$product,0,'J');
+    //                     $pdf->SetX($box_x + 99 + 7);
+    //                 }
+
+    //             // // cuadro 2.3 OBSERVACIONES
+    //             //     //header
+    //             //     // $pdf->Rect($box_x + 99, $box_y + 66, 6, 25);
+    //             //     $pdf->SetFont('Times', 'B', 6);
+    //             //     $pdf->SetXY($box_x + 92 + 7, $box_y + 59);
+    //             //     $pdf->Cell(26,4,'PRIMERA VISITA',1,0,'L');
+    //             //     $pdf->Cell(26,4,'SEGUNDA VISITA',1,0,'L');
+    //             //     $pdf->Cell(4,4,'1',1,0,'L');
+    //             //     $pdf->Cell(4,4,'2',1,0,'L');
+    //             //     $pdf->Cell(30,4,'MOTIVO DE REZAGO',1,1,'L');
+
+    //             //     $pdf->SetX($box_x + 92 + 7);
+    //             //     $pdf->Cell(26,4,'FECHA:',1,0,'L');
+    //             //     $pdf->Cell(26,4,'FECHA:',1,1,'L');
+    //             //     // $pdf->Cell(4,4,'',1,0,'L');
+    //             //     // $pdf->Cell(4,4,'',1,1,'L');
+
+    //             //     $pdf->SetX($box_x + 92 + 7);
+    //             //     $pdf->Cell(26,4,'HORA:',1,0,'L');
+    //             //     $pdf->Cell(26,4,'HORA:',1,1,'L');
+    //             //     // $pdf->Cell(4,4,'',1,0,'L');
+    //             //     // $pdf->Cell(4,4,'',1,1,'L');
+
+    //             //     $pdf->SetX($box_x + 92 + 7);
+    //             //     $pdf->Cell(26,4,'CODIGO:',1,0,'L');
+    //             //     $pdf->Cell(26,4,'CODIGO:',1,1,'L');
+    //             //     // $pdf->Cell(4,4,'',1,0,'L');
+    //             //     // $pdf->Cell(4,4,'',1,1,'L');
+
+    //             //     $pdf->SetX($box_x + 92 + 7);
+    //             //     $pdf->Cell(52,4,'OBSERVACIONES',1,1,'C');
+                    
+    //             //     $pdf->SetX($box_x + 92 + 7);
+    //             //     $pdf->Cell(52,12,'',1,1,'C');
+
+    //             //     $pdf->SetXY($box_x + 144 + 7, $box_y + 63);
+    //             //     foreach ($motivos as $key => $motivo) {
+    //             //         $pdf->Cell(4,4,'',1,0,'L');
+    //             //         $pdf->Cell(4,4,'',1,0,'L');
+    //             //         $pdf->Cell(30,4,utf8_decode($motivo->name),1,1,'L');
+    //             //         $pdf->SetX($box_x + 144 + 7);
+    //             //     }
+    //             //     $pdf->Cell(4,4,'',1,0,'L');
+    //             //     $pdf->Cell(4,4,'',1,0,'L');
+    //             //     $pdf->Cell(30,4,'OTROS',1,1,'L');
+
+    //             $box_y = 59 + $box_y + 2;
+    //         }
+
+    //         $disk = Storage::disk('cargo');
+    //         $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
+    //         $save = $disk->put($fileName, $pdf->Output('S', '', true));
+    //         if (!$save) {
+    //             throw new Exception('No se pudo grabar la hoja de ruta');
+    //         }
+    //         $res['file_name'] = $fileName;
+    //     } catch (Exception $e) {
+    //         Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
+    //         $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
+    //     }
+    //     return $res;
+    // }
 
     public function print_marathon($request)
     {
