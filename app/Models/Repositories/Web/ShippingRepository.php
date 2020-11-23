@@ -75,6 +75,7 @@ class ShippingRepository
         DB::beginTransaction();
         try {
             DB::table('shipping_order')->where('id_shipping_order',$id)->update(['status' => 'RECHAZADO']);
+            DB::table('shipping_order_detail')->where('id_shipping_order',$id)->update(['status' => 'RECHAZADO']);
 
             $guias = DB::table('shipping_order_detail')->select('id_guide')->where('id_shipping_order',$id)->get();
             foreach ($guias as $key => $guia) {
