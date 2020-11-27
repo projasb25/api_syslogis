@@ -150,6 +150,20 @@ class FunctionModel
             "params" => ['id_massive_load', 'username']
         ],
         /**
+         * Funciones para Paginacion
+         **/
+
+        "SP_SEL_GUIDES_P" => [
+            "query" => 'CALL SP_SEL_GUIDES_P(?,?,?)',
+            "params" => ['id_massive_load', 'username']
+        ],
+        "SP_SEL_GUIDES_PCOUNT" => [
+            "query" => 'CALL SP_SEL_GUIDES_PCOUNT(?,?,?)',
+            "params" => ['id_massive_load', 'username']
+        ],
+
+
+        /**
          * Funciones para Transaccions
          **/
         "SP_INS_CORPORATION" => [

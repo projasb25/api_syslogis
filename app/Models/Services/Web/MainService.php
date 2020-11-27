@@ -3,6 +3,7 @@
 namespace App\Models\Services\Web;
 
 use App\Exceptions\CustomException;
+use App\Helpers\QueryHelper;
 use App\Models\Functions\FunctionModel;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Web\MainRepository;
@@ -136,5 +137,47 @@ class MainService
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success('Exito');
+    }
+
+    public function paginated($request)
+    {
+        $data= [];
+        try {
+            $filtros = $request->get('filters');
+            $origen = $request->get('origin');
+            $daterange = $request->get('daterange');
+            $skip = $request->get('skip');
+            $take = $request->get('take');
+            $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
+
+            $user = auth()->user();
+            $req = $request->all();
+            // $req['data'] = array_merge($req['data'], $user->getIdentifierData());
+            $fun = $this->functions->getFunctions();
+            if (!isset($fun[$req['methodcollection']]) || !isset($fun[$req['methodcount']]) ) {
+                throw new CustomException(['metodo no existe.', 2100], 400);
+            }
+
+            $query_collection = $fun[$req['methodcollection']]['query'];
+            $query_count = $fun[$req['methodcount']]['query'];
+
+            $data['collection'] = $this->repository->execute_store($query_collection, [$where, $take, $skip]);
+            $data['count'] = $this->repository->execute_store($query_count, [$where, $take, $skip])[0]->count;
+        } catch (CustomException $e) {
+            Log::warning('Main Service paginated error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            if ((int) $e->getCode() >= 60000) {
+                Log::warning('Main Service paginated Query error', ['expcetion' => $e->errorInfo[2], 'request' => $request->all()]);
+                return Res::error([$e->errorInfo[2], 3000], 400);
+            }
+            Log::warning('Main Service paginated error', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Main Service paginated error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+
+        return Res::success($data);
     }
 }

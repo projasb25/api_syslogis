@@ -76,6 +76,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'main'], function() {
         Route::post('', 'MainController@index');
         Route::post('/simpleTransaction', 'MainController@simpleTransaction');
+        Route::post('paginated', 'MainController@paginated');
     });
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'massive_load'], function() {

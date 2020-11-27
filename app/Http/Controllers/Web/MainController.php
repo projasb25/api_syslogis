@@ -26,4 +26,9 @@ class MainController extends Controller
     {
         return $this->mainService->simpleTransaction($request);
     }
+
+    public function paginated(Request $request)
+    {
+        return $this->mainService->paginated($request);
+    }
 }

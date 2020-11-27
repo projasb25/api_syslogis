@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\QueryHelper;
 use App\Helpers\Response\ResponseHelper;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,6 +18,10 @@ class HelperServiceProvider extends ServiceProvider
         // Creacion de respuestas
         $this->app->bind('ResponseHelper', function () {
             return new ResponseHelper;
+        });
+        // Creacion de querys
+        $this->app->bind('QueryHelper', function () {
+            return new QueryHelper;
         });
     }
 
