@@ -20,10 +20,10 @@ class QueryHelper # implements ResponseInterface
             if ($value !== '') {
                 switch ($filtro['operator']) {
                     case 'contains':
-                        $where .= " and $column ilike '%$value%'";
+                        $where .= " and $column like '%$value%'";
                         break;
                     case 'nocontains':
-                        $where .= " and $column not ilike '%$value%'";
+                        $where .= " and $column not like '%$value%'";
                         break;
                     case 'equals':
                         $where .= " and $column = '$value'";
