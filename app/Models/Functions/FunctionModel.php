@@ -149,6 +149,10 @@ class FunctionModel
             "query" => 'CALL SP_DEL_MASSIVE_LOAD(:id_massive_load, :username)',
             "params" => ['id_massive_load', 'username']
         ],
+        "SP_ELIMINAR_GUIA" => [
+            "query" => 'CALL SP_ELIMINAR_GUIA(:id_guide, :username)',
+            "params" => ['id_guide', 'username']
+        ],
         /**
          * Funciones para Paginacion
          **/
