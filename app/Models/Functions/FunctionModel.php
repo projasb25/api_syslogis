@@ -161,6 +161,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_PROPERTIES(:name)',
             "params" => ['name']
         ],
+        "SP_INS_PROPERTIES" => [
+            "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
+            "params" => ['id_properties', 'name', 'value', 'status']
+        ],
         /**
          * Funciones para Paginacion
          **/
