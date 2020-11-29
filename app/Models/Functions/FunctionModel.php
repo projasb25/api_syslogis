@@ -157,6 +157,10 @@ class FunctionModel
             "query" => 'CALL SP_DESASIGNAR_GUIA(:id_guide, :username)',
             "params" => ['id_guide', 'username']
         ],
+        "SP_SEL_PROPERTIES" => [
+            "query" => 'CALL SP_SEL_PROPERTIES(:name)',
+            "params" => ['name']
+        ],
         /**
          * Funciones para Paginacion
          **/
