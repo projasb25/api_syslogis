@@ -114,6 +114,26 @@ class Diccionario
                 "column" => "gd.reportado_integracion",
                 "type" => "string"
             ],
+            "address" => [
+                "column" => "adr.address",
+                "type" => "string"
+            ],
+            "org_name" => [
+                "column" => "org.name",
+                "type" => "string"
+            ],
+            "province" => [
+                "column" => "adr.province",
+                "type" => "string"
+            ],
+            "district" => [
+                "column" => "adr.district",
+                "type" => "string"
+            ],
+            "department" => [
+                "column" => "adr.department",
+                "type" => "string"
+            ],
             "fechafilter" => [
                 "column" => "DATE_FORMAT(gd.date_created, '%Y-%m-%d')",
                 "type" => "string"
