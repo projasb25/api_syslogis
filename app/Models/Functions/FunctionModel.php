@@ -153,6 +153,10 @@ class FunctionModel
             "query" => 'CALL SP_ELIMINAR_GUIA(:id_guide, :username)',
             "params" => ['id_guide', 'username']
         ],
+        "SP_DESASIGNAR_GUIA" => [
+            "query" => 'CALL SP_DESASIGNAR_GUIA(:id_guide, :username)',
+            "params" => ['id_guide', 'username']
+        ],
         /**
          * Funciones para Paginacion
          **/
