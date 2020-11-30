@@ -10,6 +10,7 @@ use App\Http\Requests\Web\ChangeRequest;
 use App\Models\Repositories\ConductorRepository;
 use App\User;
 use Exception;
+use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
