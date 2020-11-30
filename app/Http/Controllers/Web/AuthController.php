@@ -156,4 +156,13 @@ class AuthController extends Controller
             return Res::error(['Unxpected error', 3000], 400);
         }
     }
+
+    public function properties(Request $request)
+    {
+        $user = auth()->user();
+        $query = DB::table('properties')->whereIn('name', ['sys_company_name', 'sys_company_img', 'sys_company_color_primary', 'sys_company_color_secondary'])->get();
+        return Res::success([
+            $query
+        ]);
+    }
 }

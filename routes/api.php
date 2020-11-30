@@ -70,6 +70,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     Route::post('refresh', 'AuthController@refresh');
     Route::get('validateToken', 'AuthController@me');
     Route::post('change', 'AuthController@change');
+    Route::get('properties', 'AuthController@properties');
 
     Route::get('guide/status/{id_guide}', 'PublicoController@guide_status');
 
