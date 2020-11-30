@@ -158,9 +158,8 @@ class AuthController extends Controller
         }
     }
 
-    public function properties(Request $request)
+    public function properties()
     {
-        $user = auth()->user();
         $query = DB::table('properties')->whereIn('name', ['sys_company_name', 'sys_company_img', 'sys_company_color_primary', 'sys_company_color_secondary'])->get();
         return Res::success([
             $query
