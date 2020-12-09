@@ -166,13 +166,13 @@ class MassiveLoadService
         $ruta = url('storage/cargo/');
 
         if (!$massive_load->ruta_doc_cargo) {
-            if ($massive_load->id_corporation === 1) {
-                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
-                $doc = $this->generar_doc_cargo_tipo1($data);
-            } else {
+            if ($massive_load->id_corporation === 4) {
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
                 $motivos = $this->repo->get_motivos();
                 $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
+            } else {
+                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $doc = $this->generar_doc_cargo_tipo1($data);
             }
             $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
             $massive_load->ruta_doc_cargo = $doc['file_name'];
