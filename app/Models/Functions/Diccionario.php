@@ -138,6 +138,44 @@ class Diccionario
                 "column" => "DATE_FORMAT(gd.date_created, '%Y-%m-%d')",
                 "type" => "string"
             ]
+        ],
+        "img_monitor" => [
+            "id_shipping_order" => [
+                "column" => "sod.id_shipping_order",
+                "type" => "string"
+            ],
+            "id_guide" => [
+                "column" => "sod.id_guide",
+                "type" => "string"
+            ],
+            "status" => [
+                "column" => "sod.status",
+                "type" => "string"
+            ],
+            "guide_barcode" => [
+                "column" => "sod.guide_barcode",
+                "type" => "string"
+            ],
+            "guide_number" => [
+                "column" => "sod.guide_number",
+                "type" => "string"
+            ],
+            "id_vehicle" => [
+                "column" => "so.id_vehicle",
+                "type" => "string"
+            ],
+            "fechafilter" => [
+                "column" => "DATE_FORMAT(so.date_created, '%Y-%m-%d')",
+                "type" => "string"
+            ],
+            "plate_number" => [
+                "column" => "vh.plate_number",
+                "type" => "string"
+            ],
+            "name" => [
+                "column" => "pv.name",
+                "type" => "string"
+            ]
         ]
     ];
 
