@@ -175,6 +175,10 @@ class Diccionario
             "name" => [
                 "column" => "pv.name",
                 "type" => "string"
+            ],
+            "id_provider" => [
+                "column" => "pv.id_provider",
+                "type" => "string"
             ]
         ]
     ];
