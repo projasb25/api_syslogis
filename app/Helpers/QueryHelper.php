@@ -49,6 +49,9 @@ class QueryHelper # implements ResponseInterface
                     case 'smallerequal':
                         $where .= " and $column <= $value";
                         break;
+                    case 'in':
+                        $where .= " and $column in ($value)";
+                        break;
                     default:
                         break;
                 }
