@@ -174,7 +174,7 @@ class MainService
             Log::warning('Main Service paginated error', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Main Service paginated error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            Log::warning('Main Service paginated error', ['exception' => $e->getMessage(), 'request' => $request->all(), 'data' => $data]);
             return Res::error(['Unxpected error', 3000], 400);
         }
 
