@@ -179,6 +179,9 @@ class Diccionario
             "id_provider" => [
                 "column" => "pv.id_provider",
                 "type" => "string"
+            ],
+            "images_count" => [
+                "column" =>  "(select count(id_guide_images) from guide_images where id_guide = sod.id_guide and id_shipping_order = sod.id_shipping_order)"
             ]
         ]
     ];
