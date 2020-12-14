@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pedido\grabarImagen;
 use App\Models\Services\Web\ShippingService;
 use Illuminate\Http\Request;
 
@@ -23,5 +24,10 @@ class ShippingController extends Controller
     public function print_hoja_ruta(Request $request)
     {
         return $this->shippingServi->print_hoja_ruta($request);
+    }
+    
+    public function grabarImagen(grabarImagen $request)
+    {
+        return $this->service->grabarImagen($request);
     }
 }

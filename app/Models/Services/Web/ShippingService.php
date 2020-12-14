@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Mumpo\FpdfBarcode\FpdfBarcode;
 use App\Models\Services\Web\CustomPDF;
 use Carbon\Carbon;
@@ -26,6 +27,57 @@ class ShippingService
 
     public function index()
     {
+    }
+
+    public function grabarImagen($request)
+    {
+        try {
+            $guide = $this->repo->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
+            if (!count($guide)) {
+                throw new CustomException(['Detalle no encontrado.', 2010], 400);
+            } 
+            // elseif ($guide[0]->status !== 'CURSO') {
+            //     throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
+            // }
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide[0]->id_guide;
+            # CHeck if folder exists before create one
+            if (!file_exists($destination_path)) {
+                File::makeDirectory($destination_path, $mode = 0777, true, true);
+                File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
+            }
+
+            $imagen = $request->file('imagen');
+            $nombre_imagen = $guide[0]->id_guide . '_' . time() . '.jpg';
+            $thumbnail = Image::make($imagen->getRealPath());
+
+            # Guardamos el thumnail primero
+            $thumbnail->resize(250, 250, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination_path . '/thumbnail/' . $nombre_imagen);
+
+            # Redimesionamos la imagen a 720x720
+            $resize = Image::make($imagen->getRealPath());
+            $resize->resize(720, 720, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination_path . '/' . $nombre_imagen);
+
+            $ruta = url('storage/imagenes/' . $guide[0]->id_guide . '/' . $nombre_imagen);
+            foreach ($guide as $key => $gd) {
+                $this->repo->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
+            }
+
+            Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
+        } catch (CustomException $e) {
+            Log::warning('Grabar imagen', ['expcetion' => $e->getData()[0], 'request' => $request->except('imagen')]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Grabar imagen', ['expcetion' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Grabar imagen', ['exception' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['mensaje' => 'Imagen guardada con exito']);
     }
 
     public function print_hoja_ruta($request)
