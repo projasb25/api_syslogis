@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Mumpo\FpdfBarcode\FpdfBarcode;
+use Intervention\Image\Facades\Image;
 use App\Models\Services\Web\CustomPDF;
 use Carbon\Carbon;
 
