@@ -169,6 +169,10 @@ class FunctionModel
             "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
             "params" => ['id_properties', 'name', 'value', 'status']
         ],
+        "SP_ELIMINAR_IMAGEN" => [
+            "query" => 'CALL SP_BORRAR_IMAGEN(:url, :id_shipping_order)',
+            "params" => ['url', 'id_shipping_order']
+        ],
         /**
          * Funciones para Paginacion
          **/
