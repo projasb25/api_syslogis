@@ -33,4 +33,9 @@ class ReporteController extends Controller
     {
         return $this->service->control_proveedor($request);
     }
+
+    public function img_monitor(Request $request)
+    {
+        return $this->service->img_monitor($request);
+    }
 }

@@ -5,6 +5,8 @@ namespace App\Models\Services\Web;
 use App\Exceptions\CustomException;
 use App\Exports\Reportes\ReporteControlExport;
 use App\Exports\Reportes\ReporteControlProveedorExport;
+use App\Exports\Reportes\ReporteImgMonitorExport;
+use App\Helpers\QueryHelper;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Web\ReporteRepository;
 use DateTime;
@@ -149,6 +151,32 @@ class ReporteService
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Generar reporte control proveedor', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['reporte' => $ruta .'/'. $fileName]);
+    }
+
+    public function img_monitor($request)
+    {
+        try {
+            $filtros = $request->get('filters');
+            $origen = $request->get('origin');
+            $daterange = $request->get('daterange');
+            $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
+            $user = auth()->user();
+            $ruta = url('storage/reportes/');
+            $fileName = date('YmdHis') . '_reporte_img_monitor_' . rand(1, 100) . '.xlsx';
+            Excel::store(new ReporteImgMonitorExport($user->username, $where), $fileName, 'reportes');
+            
+            Log::info('Generar reporte monitor imagenes', ['request' => $request->all()]);
+        } catch (CustomException $e) {
+            Log::warning('Generar reporte monitor imagenes', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Generar reporte monitor imagenes', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Generar reporte monitor imagenes', ['exception' => $e->getMessage(), 'request' => $request->all()]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success(['reporte' => $ruta .'/'. $fileName]);
