@@ -27,7 +27,6 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
             'FECHA ENVIO',
             'NRO PLACA',
             'PROVEEDOR',
-            'ID PROVEEDOR',
             'IMAGENES',
             'NRO IMAGENES'
         ];
@@ -50,7 +49,6 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
             $collection->date_created,
             $collection->plate_number,
             $collection->name,
-            $collection->id_provider,
             $collection->imagenes,
             $collection->images_count
         ];
