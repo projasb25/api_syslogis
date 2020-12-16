@@ -37,7 +37,7 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
     */
     public function collection()
     {
-        return collect(DB::select("CALL SP_REPORTE_MONITOR_IMAGEN(?,?,?)",[$this->username, $this->where]));
+        return collect(DB::select("CALL SP_REPORTE_MONITOR_IMAGEN(?,?)",[$this->username, $this->where]));
     }
 
     public function map($collection): array
