@@ -137,6 +137,10 @@ class FunctionModel
             "query" => 'CALL SP_REPORTE_CONTROL_SKU(:desde, :hasta, :username)',
             "params" => ['desde', 'hasta', 'username']
         ],
+        "SP_REPORTE_ASIGNACION_POR_GUIA" => [
+            "query" => 'CALL SP_REPORTE_ASIGNACION_POR_GUIA(:desde, :hasta, :username)',
+            "params" => ['desde', 'hasta', 'username']
+        ],
         "SP_REASIGNAR_ENVIO" => [
             "query" => 'CALL SP_REASIGNAR_ENVIO(:id_shipping_order, :id_vehicle, :id_driver, :username)',
             "params" => ['id_shipping_order', 'id_vehicle', 'id_driver', 'username']
