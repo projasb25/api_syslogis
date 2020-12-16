@@ -28,4 +28,9 @@ class ReporteController extends Controller
     {
         return $this->service->reporte_control_sku($request);
     }
+
+    public function control_proveedor(Request $request)
+    {
+        return $this->service->control_proveedor($request);
+    }
 }

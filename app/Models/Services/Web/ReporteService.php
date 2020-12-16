@@ -4,6 +4,7 @@ namespace App\Models\Services\Web;
 
 use App\Exceptions\CustomException;
 use App\Exports\Reportes\ReporteControlExport;
+use App\Exports\Reportes\ReporteControlProveedorExport;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Web\ReporteRepository;
 use DateTime;
@@ -123,6 +124,31 @@ class ReporteService
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Generar reporte control sku', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['reporte' => $ruta .'/'. $fileName]);
+    }
+
+    public function control_proveedor($request)
+    {
+        try {
+            $user = auth()->user();
+            $ruta = url('storage/reportes/');
+            $data = $request->all();
+            // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
+            $fileName = date('YmdHis') . '_reporte_control_proveedor_' . rand(1, 100) . '.xlsx';
+            $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
+            Excel::store(new ReporteControlProveedorExport($user->username, $data['desde'], $data['hasta']), $fileName, 'reportes');
+
+            Log::info('Generar reporte control proveedor', ['request' => $request->all()]);
+        } catch (CustomException $e) {
+            Log::warning('Generar reporte control proveedor', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Generar reporte control proveedor', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Generar reporte control proveedor', ['exception' => $e->getMessage(), 'request' => $request->all()]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success(['reporte' => $ruta .'/'. $fileName]);

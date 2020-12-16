@@ -97,5 +97,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('control', 'ReporteController@reporte_control');
         Route::post('torre_control', 'ReporteController@reporte_torre_control');
         Route::post('control_sku', 'ReporteController@reporte_control_sku');
+        Route::post('control_proveedor', 'ReporteController@control_proveedor');
     });
 });
