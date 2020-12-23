@@ -200,9 +200,9 @@ class MassiveLoadRepository
                         'client_email' => $value->client_email,
                         'status' => ($value->status === 'PROCESADO') ? 'PENDIENTE' : 'SIN FISICO',
                         'created_by' => $data['username'],
-                        'delivery_type' => $data['delivery_type'],
-                        'contact_name' => $data['contact_name'],
-                        'contact_phone' => $data['contact_phone']
+                        'delivery_type' => $value->delivery_type,
+                        'contact_name' => $value->contact_name,
+                        'contact_phone' => $value->contact_phone
                     ]);
 
                     if ($value->status === 'PROCESADO') {
