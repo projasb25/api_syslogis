@@ -488,7 +488,15 @@ class MassiveLoadService
                     $pdf->Cell(56,5,'OBSERVACIONES',1,1,'C');
                     
                     $pdf->SetX($box_x + 86 + 7);
-                    $pdf->Cell(56,16,'',1,1,'C');
+                    if (is_null($guide->observaciones)) {
+                        $pdf->Cell(56,16,'',1,1,'C');
+                    } else {
+                        $observaciones = explode(";", $guide->observaciones);
+                        $detalle = explode("||", $observaciones[0]);
+                        $pdf->Cell(56,5,$detalle[0],1,1,'L');
+                        $pdf->Cell(56,5,$detalle[1],1,1,'L');
+                        $pdf->Cell(56,5,$detalle[2],1,1,'L');
+                    }
 
                     $pdf->SetXY($box_x + 142 + 7, $box_y + 83);
                     foreach ($motivos as $key => $motivo) {
