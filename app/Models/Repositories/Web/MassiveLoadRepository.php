@@ -325,7 +325,7 @@ class MassiveLoadRepository
             org.name, org.address as org_address,
             adr.district, adr.province, adr.address,
             GROUP_CONCAT(gd.client_barcode, '-',sku.sku_description) as contenido,
-            GROUP_CONCAT(gd.delivery_type, '||',gd.contact_name, '||',gd.contact_phone SEPARATOR ';') as observaciones,
+            GROUP_CONCAT(if(gd.delivery_type is null, '',gd.delivery_type), '||',if(gd.contact_name is null, '',gd.contact_name), '||',if(gd.contact_phone is null, '',gd.contact_phone) SEPARATOR ';') as observaciones,
             ml.date_created
         from guide gd
         join massive_load as ml on ml.id_massive_load = gd.id_massive_load

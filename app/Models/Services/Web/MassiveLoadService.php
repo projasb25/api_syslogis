@@ -497,7 +497,7 @@ class MassiveLoadService
                         $pdf->SetX($box_x + 86 + 7);
                         $pdf->Cell(56,5,$detalle[1],1,1,'L');
                         $pdf->SetX($box_x + 86 + 7);
-                        $pdf->Cell(56,5,$detalle[2],1,1,'L');
+                        $pdf->Cell(56,6,$detalle[2],1,1,'L');
                     }
 
                     $pdf->SetXY($box_x + 142 + 7, $box_y + 83);
