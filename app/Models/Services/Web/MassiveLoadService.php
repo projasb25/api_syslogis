@@ -491,6 +491,7 @@ class MassiveLoadService
                     if (is_null($guide->observaciones)) {
                         $pdf->Cell(56,16,'',1,1,'C');
                     } else {
+                        $pdf->SetFont('Times', '', 10);
                         $observaciones = explode(";", $guide->observaciones);
                         $detalle = explode("||", $observaciones[0]);
                         $pdf->Cell(56,5,$detalle[0],'LR',1,'L');
@@ -500,6 +501,7 @@ class MassiveLoadService
                         $pdf->Cell(56,6,$detalle[2],'LR',1,'L');
                     }
 
+                    $pdf->SetFont('Times', '', 9);
                     $pdf->SetXY($box_x + 142 + 7, $box_y + 83);
                     foreach ($motivos as $key => $motivo) {
                         $pdf->Cell(4,5,'',1,0,'L');
