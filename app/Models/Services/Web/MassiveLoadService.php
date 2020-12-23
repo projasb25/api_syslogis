@@ -493,11 +493,11 @@ class MassiveLoadService
                     } else {
                         $observaciones = explode(";", $guide->observaciones);
                         $detalle = explode("||", $observaciones[0]);
-                        $pdf->Cell(56,5,$detalle[0],1,1,'L');
+                        $pdf->Cell(56,5,$detalle[0],'LR',1,'L');
                         $pdf->SetX($box_x + 86 + 7);
-                        $pdf->Cell(56,5,$detalle[1],1,1,'L');
+                        $pdf->Cell(56,5,$detalle[1],'LR',1,'L');
                         $pdf->SetX($box_x + 86 + 7);
-                        $pdf->Cell(56,6,$detalle[2],1,1,'L');
+                        $pdf->Cell(56,6,$detalle[2],'LR',1,'L');
                     }
 
                     $pdf->SetXY($box_x + 142 + 7, $box_y + 83);
