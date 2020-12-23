@@ -37,9 +37,9 @@ class MassiveLoadRepository
             foreach ($data['data'] as $key => &$value) {
 
                 $check_ubigeo = DB::table('ubigeo')
-                    ->whereRaw('LOWER(department) = ? ', [trim(strtolower($value['department']))])
-                    ->whereRaw('LOWER(province) = ? ', [trim(strtolower($value['province']))])
-                    ->whereRaw('LOWER(district) = ? ', [trim(strtolower($value['district']))])
+                    ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower($value['department']))])
+                    ->whereRaw('LOWER(TRIM(province)) = ? ', [trim(strtolower($value['province']))])
+                    ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
                     ->first();
                 if (!$check_ubigeo) {
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
