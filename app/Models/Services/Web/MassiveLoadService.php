@@ -494,11 +494,11 @@ class MassiveLoadService
                         $pdf->SetFont('Times', '', 10);
                         $observaciones = explode(";", $guide->observaciones);
                         $detalle = explode("||", $observaciones[0]);
-                        $pdf->Cell(56,5,$detalle[0],'LR',1,'L');
+                        $pdf->Cell(56,5,utf8_decode($detalle[0]),'LR',1,'L');
                         $pdf->SetX($box_x + 86 + 7);
-                        $pdf->Cell(56,5,$detalle[1],'LR',1,'L');
+                        $pdf->Cell(56,5,utf8_decode(strtolower($detalle[1])),'LR',1,'L');
                         $pdf->SetX($box_x + 86 + 7);
-                        $pdf->Cell(56,6,$detalle[2],'LR',1,'L');
+                        $pdf->Cell(56,6,utf8_decode(strtolower($detalle[2])),'LR',1,'L');
                     }
 
                     $pdf->SetFont('Times', '', 9);
