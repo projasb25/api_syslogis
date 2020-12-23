@@ -95,7 +95,10 @@ class MassiveLoadRepository
                     'sku_size' => $value['sku_size'] ?? null,
                     'box_code' => $value['box_code'] ?? null,
                     'status' => $value['status'] ?? null,
-                    'created_by' => $value['created_by'] ?? null
+                    'created_by' => $value['created_by'] ?? null,
+                    'delivery_type' => $value['delivery_type'] ?? null,
+                    'contact_name' => $value['contact_name'] ?? null,
+                    'contact_phone' => $value['contact_phone'] ?? null
                 ]);
             }
             DB::commit();
@@ -196,7 +199,10 @@ class MassiveLoadRepository
                         'client_phone3' => $value->client_phone3,
                         'client_email' => $value->client_email,
                         'status' => ($value->status === 'PROCESADO') ? 'PENDIENTE' : 'SIN FISICO',
-                        'created_by' => $data['username']
+                        'created_by' => $data['username'],
+                        'delivery_type' => $data['delivery_type'],
+                        'contact_name' => $data['contact_name'],
+                        'contact_phone' => $data['contact_phone']
                     ]);
 
                     if ($value->status === 'PROCESADO') {
@@ -319,6 +325,7 @@ class MassiveLoadRepository
             org.name, org.address as org_address,
             adr.district, adr.province, adr.address,
             GROUP_CONCAT(gd.client_barcode, '-',sku.sku_description) as contenido,
+            GROUP_CONCAT(gd.delivery_type, '||',gd.contact_name, '||',gd.contact_phone SEPARATOR ';') as observaciones,
             ml.date_created
         from guide gd
         join massive_load as ml on ml.id_massive_load = gd.id_massive_load
