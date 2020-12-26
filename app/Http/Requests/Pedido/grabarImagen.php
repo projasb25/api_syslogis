@@ -21,7 +21,7 @@ class grabarImagen extends FormRequest
         return [
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20048',
             'id_shipping_order' => 'required|numeric',
-            'guide_number' => 'required|numeric',
+            'guide_number' => 'required|string',
             // 'id_shipping_order_detail' => 'required|numeric',
             'tipo_imagen' => 'required',
             'descripcion' => 'required|string'
