@@ -21,7 +21,7 @@ class actualizarPedido extends FormRequest
         return [
             // 'id_shipping_order_detail' => 'required|numeric',
             'id_shipping_order' => 'required|numeric',
-            'guide_number' => 'required|numeric',
+            'guide_number' => 'required|string',
             'estado' => 'required|string',
             'observacion' => 'string|nullable',
             'latitud' => 'string|numeric',
