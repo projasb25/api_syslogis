@@ -173,6 +173,14 @@ class FunctionModel
             "query" => 'CALL SP_ELIMINAR_IMAGEN(:url, :id_shipping_order)',
             "params" => ['url', 'id_shipping_order']
         ],
+        "SP_SEL_MOTIVES" => [
+            "query" => 'CALL SP_SEL_MOTIVES()',
+            "params" => []
+        ],
+        "SP_CAMBIAR_ESTADO" => [
+            "query" => 'CALL SP_CAMBIAR_ESTADO(:id_guide,:status,:motive,:username)',
+            "params" => ['id_guide', 'status', 'motive', 'username']
+        ],
         /**
          * Funciones para Paginacion
          **/
