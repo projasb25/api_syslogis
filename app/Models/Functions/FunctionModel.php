@@ -162,8 +162,8 @@ class FunctionModel
             "params" => ['id_guide', 'username']
         ],
         "SP_SEL_PROPERTIES" => [
-            "query" => 'CALL SP_SEL_PROPERTIES(:name)',
-            "params" => ['name']
+            "query" => 'CALL SP_SEL_PROPERTIES(:name, :status)',
+            "params" => ['name', 'status']
         ],
         "SP_INS_PROPERTIES" => [
             "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
