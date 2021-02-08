@@ -436,9 +436,9 @@ class MassiveLoadRepository
                     'box_code' => $value['box_code'] ?? null,
                     'status' => $value['status'] ?? null,
                     'created_by' => $value['created_by'] ?? null,
-                    'delivery_type' => $value['delivery_type'] ?? null,
-                    'contact_name' => $value['contact_name'] ?? null,
-                    'contact_phone' => $value['contact_phone'] ?? null
+                    // 'delivery_type' => $value['delivery_type'] ?? null,
+                    // 'contact_name' => $value['contact_name'] ?? null,
+                    // 'contact_phone' => $value['contact_phone'] ?? null
                 ]);
             }
 
