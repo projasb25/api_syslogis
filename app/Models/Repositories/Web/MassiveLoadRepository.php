@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use App\Helpers\ArrayHelper;
 
 class MassiveLoadRepository
 {
@@ -372,5 +373,80 @@ class MassiveLoadRepository
         DB::table('massive_load')->where('id_massive_load', $id)->update([
             'ruta_marathon' => $filename
         ]);
+    }
+
+    public function publicoInsertarCarga($data)
+    {
+        DB::beginTransaction();
+        try {
+            $id = DB::table('massive_load')->insertGetId([
+                'number_records' => count($data),
+                'status' => 'PENDIENTE',
+                'created_by' => 'Integracion',
+                'id_corporation' => 5,
+                'id_organization' => 15
+            ]);
+
+            foreach ($data as $key => &$value) {
+
+                // Check informacion de ubigeo
+                $check_ubigeo = DB::table('ubigeo')
+                    ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower($value['department']))])
+                    ->whereRaw('LOWER(TRIM(province)) = ? ', [trim(strtolower($value['province']))])
+                    ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
+                    ->first();
+                if (!$check_ubigeo) {
+                    Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
+                    throw new CustomException(['Error en el departamento, provincia y distrito. (Linea: '.($key+2).' )', 2121], 400);
+                }
+
+                $value['id_massive_load'] = $id;
+                $value['status'] = 'PENDIENTE';
+                $value['created_by'] = 'Integracion';
+
+                DB::table('massive_load_details')->insert([
+                    'id_massive_load' => $value['id_massive_load'] ?? null,
+                    'seg_code' => $value['seg_code'] ?? null,
+                    'guide_number' => $value['guide_number'] ?? null,
+                    'alt_code1' => $value['alt_code1'] ?? null,
+                    'alt_code2' => $value['alt_code2'] ?? null,
+                    'client_date' => $value['client_date'] ?? null,
+                    'client_date2' => $value['client_date2'] ?? null,
+                    'client_barcode' => $value['client_barcode'] ?? null,
+                    'client_dni' => $value['client_dni'] ?? null,
+                    'client_name' => $value['client_name'] ?? null,
+                    'client_phone1' => $value['client_phone1'] ?? null,
+                    'client_phone2' => $value['client_phone2'] ?? null,
+                    'client_phone3' => $value['client_phone3'] ?? null,
+                    'client_email' => $value['client_email'] ?? null,
+                    'client_address' => $value['client_address'] ?? null,
+                    'client_address_reference' => $value['client_address_reference'] ?? null,
+                    'coord_latitude' => $value['coord_latitude'] ?? null,
+                    'coord_longitude' => $value['coord_longitude'] ?? null,
+                    'ubigeo' => $check_ubigeo->ubigeo,
+                    'department' => $value['department'] ?? null,
+                    'district' => $value['district'] ?? null,
+                    'province' => $value['province'] ?? null,
+                    'sku_code' => $value['sku_code'] ?? null,
+                    'sku_description' => $value['sku_description'] ?? null,
+                    'sku_weight' => $value['sku_weight'] ?? null,
+                    'sku_pieces' => $value['sku_pieces'] ?? null,
+                    'sku_brand' => $value['sku_brand'] ?? null,
+                    'sku_size' => $value['sku_size'] ?? null,
+                    'box_code' => $value['box_code'] ?? null,
+                    'status' => $value['status'] ?? null,
+                    'created_by' => $value['created_by'] ?? null,
+                    'delivery_type' => $value['delivery_type'] ?? null,
+                    'contact_name' => $value['contact_name'] ?? null,
+                    'contact_phone' => $value['contact_phone'] ?? null
+                ]);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return $id;
     }
 }

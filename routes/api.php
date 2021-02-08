@@ -74,6 +74,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 
     Route::get('guide/status/{id_guide}', 'PublicoController@guide_status');
 
+    Route::group(['middleware' => ['assign.guard:users'], 'prefix' => 'public'], function() {
+        Route::post('massive_load', 'MassiveLoadController@public_massive_load');
+    });
+
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'main'], function() {
         Route::post('', 'MainController@index');
         Route::post('/simpleTransaction', 'MainController@simpleTransaction');

@@ -6,6 +6,7 @@ use Exception;
 use Log;
 
 use App\Exceptions\CustomException;
+use App\Helpers\ArrayHelper;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Web\MassiveLoadRepository;
 use Carbon\Carbon;
@@ -91,6 +92,31 @@ class MassiveLoadService
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success('Exito');
+    }
+
+    public function publicoInsertarCarga(Request $request)
+    {
+        try {
+            $req = $request->get('data');
+            $obligatorios = [
+                'seg_code','guide_number','sku_description','client_dni','client_name',
+                'client_address','department','district','province'
+            ];
+
+            $id = $this->repo->publicoInsertarCarga($req);
+
+            Log::info('Publico - Carga masiva exito', ['numero de registros' => count($req)]);
+        } catch (CustomException $e) {
+            Log::warning('Publico - Carga masiva', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Publico - Carga masiva', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Publico - Carga masiva', ['exception' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success('Carga insertada correctamente');
     }
 
     public function obtenerCoordenadas($direcciones, $id_massive_load)
@@ -529,205 +555,6 @@ class MassiveLoadService
         }
         return $res;
     }
-
-    // public function generate_doc_ruta($data, $motivos)
-    // {
-    //     try {
-    //         $pdf = new CustomPDF();
-    //         $cellMargin = 2 * 1.000125;
-    //         $lmargin = 5;
-    //         $rmargin = 5;
-    //         $pdf->AliasNbPages();
-    //         $pdf->AddPage();
-    //         $pdf->SetMargins($lmargin, $rmargin);
-    //         $pdf->Ln(0);
-    //         $pdf->SetFont('Times', '', 7);
-    //         $y = $pdf->GetY();
-    //         $pdf->SetAutoPageBreak(false);
-
-    //         $box_x = 5;
-    //         $box_y = 5;
-
-    //         foreach ($data as $i => $guide) {
-    //             if ($i  % 4 == 0 && $i != 0) {
-    //                 $pdf->AddPage();
-    //                 $box_y = 5;
-    //             }
-    //             // cuadro principal
-    //             $pdf->Rect($box_x, $box_y, 190, 59);
-
-    //             // cuadro 1.1 REMITENTE
-    //                 //header
-    //                 $pdf->Rect($box_x + 1, $box_y + 1, 6, 28);
-    //                 $pdf->SetFont('Times', 'B', 6);
-    //                 $pdf->TextWithDirection($box_x + 5, $box_y + 21, 'REMITENTE', 'U');
-
-    //                 // body
-    //                 $pdf->Rect($box_x + 7, $box_y + 1, 90, 28);
-    //                 $pdf->SetFont('Times', '', 6);
-    //                 $pdf->SetXY($box_x+8, $box_y + 1);
-    //                 $pdf->MultiCell(89,4,'NOMBRE: '. $guide->name,0,'J');
-    //                 $pdf->SetX($box_x+8);
-    //                 $pdf->MultiCell(89,4,'CIUDAD: LIMA',0,'J');
-    //                 $pdf->SetX($box_x+8);
-    //                 $pdf->MultiCell(89,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
-    //                 $pdf->SetX($box_x+8);
-    //                 $pdf->MultiCell(89,4,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
-    //                 $pdf->SetX($box_x+8);
-    //                 $pdf->MultiCell(89,4,'DIRECCION: ' . $guide->org_address,0,'L');
-
-    //             // codigo de barra
-    //                 if (isset($guide->client_barcode)) {
-    //                     $cod_barra = $guide->client_barcode;
-    //                 } else {
-    //                     $cod_barra = $guide->guide_number;
-    //                 }
-
-
-    //                 $pdf->code128($box_x + 23, ($box_y + 28 + 2), $cod_barra , 50, 12, false);
-    //                 $pdf->SetXY($box_x+1, ($box_y + 41 + 2));
-    //                 $pdf->SetFont('Times', 'B', 10);
-    //                 $pdf->MultiCell(96,4,$cod_barra, 0,'C');
-    //                 $pdf->Ln(2);
-                
-    //             // cuadro 2.1 DATOS
-    //                 //header
-    //                 $pdf->Rect($box_x + 1, ($box_y + 46 + 2), 6, 9);
-    //                 $pdf->SetFont('Times', 'B', 6);
-    //                 $pdf->TextWithDirection($box_x + 5, $box_y + 56, 'DATOS', 'U');
-                    
-    //                 // body
-    //                 $pdf->Rect($box_x + 7, ($box_y + 46 + 2), 90, 9);
-    //                 $pdf->SetFont('Times', 'B', 10);
-    //                 $pdf->SetXY($box_x+8, ($box_y + 49 + 2));
-    //                 $pdf->MultiCell(45,4,'NRO. DE PIEZAS: '. 0,0,'J');
-    //                 $pdf->SetXY($box_x+8+45, ($box_y + 49 + 2));
-    //                 $pdf->MultiCell(45,4,'PESO SECO: '. 0,0,'J');
-    //                 $pdf->Line($box_x+8+41, ($box_y + 46 + 2), $box_x+8+41, ($box_y + 55 + 2));
-                    
-    //                 $pdf->SetX($box_x+8);
-
-    //             // // cuadro 3.1 DATOS DE ENTREGA
-    //             //     //header
-    //             //     $pdf->Rect($box_x + 1, ($box_y + 52 + 2) , 6, 37);
-    //             //     $pdf->SetFont('Times', 'B', 6);
-    //             //     $pdf->TextWithDirection($box_x + 5, $box_y + 83, 'DATOS DE ENTREGA', 'U');
-
-    //             //     // body
-    //             //     $pdf->Rect($box_x + 7, ($box_y + 52 + 2), 90, 37);
-    //             //     $pdf->SetFont('Times', '', 6);
-    //             //     $pdf->SetXY($box_x+8, ($box_y + 57 + 2));
-    //             //     $pdf->MultiCell(89,6,'FIRMA:  ____________________________________________________________',0,'J');
-    //             //     $pdf->SetX($box_x+8);
-    //             //     $pdf->MultiCell(89,6,'NOMBRE:  _________________________________________________________',0,'J');
-    //             //     $pdf->SetX($box_x+8);
-    //             //     $pdf->MultiCell(89,6,'VINCULO:  _________________________________________________________',0,'J');
-    //             //     $pdf->SetX($box_x+8);
-    //             //     $pdf->MultiCell(89,6,'DNI:  __________________________________',0,'J');
-    //             //     $pdf->SetX($box_x+8);
-    //             //     $pdf->Cell(44,6,'FECHA: _______ / _______ / _______',0,0,'L');
-    //             //     $pdf->Cell(44,6,'Hora: __________________',0,0,'L');
-    //             //     $pdf->SetX($box_x+8);
-
-    //             // cuadro 1.2 DESTINATARIO
-    //                 //header
-    //                 $pdf->Rect($box_x + 99, $box_y + 1, 6, 19);
-    //                 $pdf->SetFont('Times', 'B', 6);
-    //                 $pdf->TextWithDirection($box_x + 99 + 4, $box_y + 19, 'DESTINATARIO', 'U');
-
-    //                 // body
-    //                 $pdf->Rect($box_x + 99 + 6, $box_y + 1, 84, 19);
-    //                 $pdf->SetFont('Times', '', 6);
-    //                 $pdf->SetXY($box_x + 99 + 7, $box_y + 1);
-    //                 $pdf->MultiCell(89,4,'NOMBRE: '. $guide->client_name,0,'J');
-    //                 $pdf->SetX($box_x + 99 + 7);
-    //                 $pdf->MultiCell(89,4,'DIST.: ' . $guide->district,0,'J');
-    //                 $pdf->SetX($box_x + 99 + 7);
-    //                 $pdf->Cell(27,4,'TELEFONO: '. $guide->client_phone1 ,0,0,'L');
-    //                 $pdf->Cell(52,4,'EMAIL: '. utf8_decode(strtolower($guide->client_email)),0,1,'L'); //lower to space
-    //                 $pdf->SetX($box_x + 99 + 7);
-    //                 $pdf->MultiCell(89,4,'DIRECCION: '. utf8_decode(strtolower($guide->address)),0,'L');
-
-    //             // cuadro 2.2 CONTENIDO
-    //                 //header
-    //                 $pdf->Rect($box_x + 99, $box_y + 21, 6, 37);
-    //                 $pdf->SetFont('Times', 'B', 7);
-    //                 $pdf->TextWithDirection($box_x + 99 + 4, $box_y + 47, 'CONTENIDO', 'U');
-
-    //                 // body
-    //                 $pdf->Rect($box_x + 99 + 6, $box_y + 21, 84, 37);
-    //                 $pdf->SetFont('Times', 'B', 5);
-    //                 $pdf->SetXY($box_x + 99 + 7, $box_y + 22);
-
-    //                 $contenidoArray = explode(",", $guide->contenido);
-    //                 foreach ($contenidoArray as $key => $product) {
-    //                     // $pdf->MultiCell(89,2,$product->sku_code.' - '.$product->sku_description,0,'J');
-    //                     $pdf->MultiCell(89,2,$product,0,'J');
-    //                     $pdf->SetX($box_x + 99 + 7);
-    //                 }
-
-    //             // // cuadro 2.3 OBSERVACIONES
-    //             //     //header
-    //             //     // $pdf->Rect($box_x + 99, $box_y + 66, 6, 25);
-    //             //     $pdf->SetFont('Times', 'B', 6);
-    //             //     $pdf->SetXY($box_x + 92 + 7, $box_y + 59);
-    //             //     $pdf->Cell(26,4,'PRIMERA VISITA',1,0,'L');
-    //             //     $pdf->Cell(26,4,'SEGUNDA VISITA',1,0,'L');
-    //             //     $pdf->Cell(4,4,'1',1,0,'L');
-    //             //     $pdf->Cell(4,4,'2',1,0,'L');
-    //             //     $pdf->Cell(30,4,'MOTIVO DE REZAGO',1,1,'L');
-
-    //             //     $pdf->SetX($box_x + 92 + 7);
-    //             //     $pdf->Cell(26,4,'FECHA:',1,0,'L');
-    //             //     $pdf->Cell(26,4,'FECHA:',1,1,'L');
-    //             //     // $pdf->Cell(4,4,'',1,0,'L');
-    //             //     // $pdf->Cell(4,4,'',1,1,'L');
-
-    //             //     $pdf->SetX($box_x + 92 + 7);
-    //             //     $pdf->Cell(26,4,'HORA:',1,0,'L');
-    //             //     $pdf->Cell(26,4,'HORA:',1,1,'L');
-    //             //     // $pdf->Cell(4,4,'',1,0,'L');
-    //             //     // $pdf->Cell(4,4,'',1,1,'L');
-
-    //             //     $pdf->SetX($box_x + 92 + 7);
-    //             //     $pdf->Cell(26,4,'CODIGO:',1,0,'L');
-    //             //     $pdf->Cell(26,4,'CODIGO:',1,1,'L');
-    //             //     // $pdf->Cell(4,4,'',1,0,'L');
-    //             //     // $pdf->Cell(4,4,'',1,1,'L');
-
-    //             //     $pdf->SetX($box_x + 92 + 7);
-    //             //     $pdf->Cell(52,4,'OBSERVACIONES',1,1,'C');
-                    
-    //             //     $pdf->SetX($box_x + 92 + 7);
-    //             //     $pdf->Cell(52,12,'',1,1,'C');
-
-    //             //     $pdf->SetXY($box_x + 144 + 7, $box_y + 63);
-    //             //     foreach ($motivos as $key => $motivo) {
-    //             //         $pdf->Cell(4,4,'',1,0,'L');
-    //             //         $pdf->Cell(4,4,'',1,0,'L');
-    //             //         $pdf->Cell(30,4,utf8_decode($motivo->name),1,1,'L');
-    //             //         $pdf->SetX($box_x + 144 + 7);
-    //             //     }
-    //             //     $pdf->Cell(4,4,'',1,0,'L');
-    //             //     $pdf->Cell(4,4,'',1,0,'L');
-    //             //     $pdf->Cell(30,4,'OTROS',1,1,'L');
-
-    //             $box_y = 59 + $box_y + 2;
-    //         }
-
-    //         $disk = Storage::disk('cargo');
-    //         $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
-    //         $save = $disk->put($fileName, $pdf->Output('S', '', true));
-    //         if (!$save) {
-    //             throw new Exception('No se pudo grabar la hoja de ruta');
-    //         }
-    //         $res['file_name'] = $fileName;
-    //     } catch (Exception $e) {
-    //         Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
-    //         $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
-    //     }
-    //     return $res;
-    // }
 
     public function print_marathon($request)
     {
