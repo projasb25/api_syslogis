@@ -105,7 +105,7 @@ class AuthController extends Controller
         $res = [];
         $user = auth()->user();
         $query = DB::select("CALL SP_AUTHENTICATE(?)", [$user->username]);
-        $roles = DB::select("CALL SP_OBTENER_APLICACIONES_ROLES(?)", [$user->id_role]);
+        $roles = DB::select("CALL SP_OBTENER_APLICACIONES_ROLES(?,?)", [$query[0]->id_corporation, $query[0]->id_role]);
         foreach ($roles as $rol) {
             array_push($res, [
                 "application" => $rol->name,
