@@ -24,6 +24,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ROLEAPPLICATION(:id_corporation, :id_role)',
             "params" => ['id_corporation', 'id_role']
         ],
+        "SP_SEL_USER" => [
+            "query" => 'CALL SP_SEL_USER(:status)',
+            "params" => ['status']
+        ],
 
         /**
          * Funciones para Transaccions
@@ -85,10 +89,6 @@ class FunctionModel
         "SP_SEL_SHIPPING_ORDERS" => [
             "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :username)',
             "params" => ['status', 'username']
-        ],
-        "SP_SEL_USER" => [
-            "query" => 'CALL SP_SEL_USER(:status)',
-            "params" => ['status']
         ],
         "SP_SEL_CORPORATIONS" => [
             "query" => 'CALL SP_SEL_CORPORATIONS(:status, :username)',
