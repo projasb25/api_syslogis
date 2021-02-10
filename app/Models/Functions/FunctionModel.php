@@ -73,7 +73,7 @@ class FunctionModel
             "params" => ['status', 'id_user']
         ],
         "SP_SEL_ROLE" => [
-            "query" => 'CALL SP_SEL_ROLE(:status)',
+            "query" => 'CALL SP_SEL_ROLES(:status)',
             "params" => ['status']
         ],
         "SP_UPDATE_ADDRESS" => [
