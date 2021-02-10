@@ -25,6 +25,15 @@ class FunctionModel
             "params" => ['id_corporation', 'id_role']
         ],
 
+        /**
+         * Funciones para Transaccions
+         **/
+        "SP_INS_ROLEAPPLICATION" => [
+            'query' => 'CALL SP_INS_ROLEAPPLICATION(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => ['id_organization', 'name', 'description', 'ruc', 'address', 'status', 'type']
+        ],
+
 
 
 
