@@ -31,7 +31,7 @@ class FunctionModel
         "SP_INS_ROLEAPPLICATION" => [
             'query' => 'CALL SP_INS_ROLEAPPLICATION(:header, :details, :username)',
             'headers_params' => [],
-            'details_params' => ['id_organization', 'name', 'description', 'ruc', 'address', 'status', 'type']
+            'details_params' => ['id_roleapplication','id_role','id_application','view','modify','insert','delete']
         ],
 
 
