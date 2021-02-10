@@ -117,9 +117,7 @@ class AuthController extends Controller
             ]);
         }
 
-        return Res::success([
-            $res
-        ]);
+        return Res::success($res);
     }
 
     protected function respondWithToken($token)
