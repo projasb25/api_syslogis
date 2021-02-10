@@ -20,7 +20,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
             "params" => ['domain_name', 'status']
         ],
-
+        "SP_SEL_ROLEAPPLICATION" => [
+            "query" => 'CALL SP_SEL_ROLEAPPLICATION(:id_corporation, :id_role)',
+            "params" => ['id_corporation', 'id_role']
+        ],
 
 
 
