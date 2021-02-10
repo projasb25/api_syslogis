@@ -109,6 +109,7 @@ class AuthController extends Controller
         foreach ($roles as $rol) {
             array_push($res, [
                 "application" => $rol->name,
+                'description' =>  $rol->app_desc,
                 "path" => $rol->path,
                 "insert" => $rol->insert,
                 "view" => $rol->view,
