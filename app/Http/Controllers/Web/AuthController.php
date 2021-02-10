@@ -117,7 +117,12 @@ class AuthController extends Controller
             ]);
         }
 
-        return Res::success($res);
+        return Res::success([
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'rol_name' => $query[0]->role_name,
+            'menu' => $res,
+        ]);
     }
 
     protected function respondWithToken($token)
