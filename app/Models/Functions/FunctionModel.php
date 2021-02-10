@@ -16,6 +16,10 @@ class FunctionModel
             "query" => 'CALL SP_INS_ROLE(:id_role,:id_corporation,:description,:status,:username)',
             "params" => ['id_role','id_corporation','description','status','username']
         ],
+        "SP_SEL_DOMAIN" => [
+            "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
+            "params" => ['domain_name', 'status']
+        ],
 
 
 
@@ -57,10 +61,6 @@ class FunctionModel
         "SP_SEL_VEHICLES" => [
             "query" => 'CALL SP_SEL_VEHICLES(:status, :id_provider)',
             "params" => ['status', 'id_provider']
-        ],
-        "SP_SEL_DOMAIN" => [
-            "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
-            "params" => ['domain_name', 'status']
         ],
         "SP_VEHICLE_DRIVER" => [
             "query" => 'CALL SP_VEHICLE_DRIVER()',
