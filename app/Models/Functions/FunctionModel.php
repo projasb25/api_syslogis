@@ -8,6 +8,20 @@ use Log;
 class FunctionModel
 {
     private $functions = [
+        "SP_SEL_ROLE" => [
+            "query" => 'CALL SP_SEL_ROLES(:status)',
+            "params" => ['status']
+        ],
+        "SP_INS_ROLE" => [
+            "query" => 'CALL SP_INS_ROLE(:id_role,:id_corporation,:description,:status,:username)',
+            "params" => ['id_role','id_corporation','description','status','username']
+        ],
+
+
+
+
+
+
         "SP_AUTHENTICATE" => [
             "query" => 'CALL SP_AUTHENTICATE(:username)',
             "params" => ['username']
@@ -71,10 +85,6 @@ class FunctionModel
         "SP_SEL_ORGUSER" => [
             "query" => 'CALL SP_SEL_ORGUSER(:status, :id_user)',
             "params" => ['status', 'id_user']
-        ],
-        "SP_SEL_ROLE" => [
-            "query" => 'CALL SP_SEL_ROLES(:status)',
-            "params" => ['status']
         ],
         "SP_UPDATE_ADDRESS" => [
             "query" => 'CALL SP_UPDATE_ADDRESS(:id_guide, :latitude, :longitude)',
