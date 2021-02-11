@@ -51,6 +51,7 @@ class MainService
                 }
             }
             $data = $this->repository->execute_store($query, $bindings);
+            Log::info('Main Service exito', ['request' => $req]);
         } catch (CustomException $e) {
             Log::warning('Main Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
