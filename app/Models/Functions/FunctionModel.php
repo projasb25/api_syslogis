@@ -32,6 +32,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_CLIENT(:id_corporation, :status)',
             "params" => ['id_corporation', 'status']
         ],
+        "SP_SEL_CLIENT_STORE" => [
+            "query" => 'CALL SP_SEL_CLIENT_STORE(:id_client, :status)',
+            "params" => ['id_client', 'status']
+        ],
         
         /**
          * Funciones para Transaccions
