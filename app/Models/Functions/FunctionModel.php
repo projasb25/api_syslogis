@@ -42,6 +42,11 @@ class FunctionModel
             'headers_params' => [],
             'details_params' => []
         ],
+        "SP_INS_CLIENTS" => [
+            'query' => 'CALL SP_INS_CLIENTS(:header, :details, :username)',
+            'headers_params' => ['id_client','doc_type','document','company_name','category','status'],
+            'details_params' => ['id_client_store','store_name','description','address','status']
+        ],
 
 
 
