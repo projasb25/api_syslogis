@@ -56,9 +56,7 @@ class AuthController extends Controller
             //     $corporaciones = null;
             // }
 
-            // $token = auth()->claims(
-            //         ['current_org' => $query[0]->current_org, 'current_corp' => $query[0]->current_corp]
-            //     )->login($user);
+            $token = auth()->claims(['id_organization' => $query[0]->id_organization])->login($user);
             $token = auth()->login($user);
 
             return Res::success([
