@@ -36,6 +36,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_CLIENT_STORE(:id_client, :status)',
             "params" => ['id_client', 'status']
         ],
+        "SP_INS_BILL_TEMPLATE" => [
+            "query" => 'CALL SP_INS_BILL_TEMPLATE(:id_bill_load_template,:id_corporation,:id_organization,:id_client,:name,:description,:json_detail,:status,:username)',
+            "params" => ['id_bill_load_template','id_corporation','id_organization','id_client','name','description','json_detail','status','username']
+        ],
         
         /**
          * Funciones para Transaccions
