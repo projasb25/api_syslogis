@@ -29,8 +29,8 @@ class FunctionModel
             "params" => ['status']
         ],
         "SP_SEL_CLIENT" => [
-            "query" => 'CALL SP_SEL_CLIENT(:id_corporation, :status)',
-            "params" => ['id_corporation', 'status']
+            "query" => 'CALL SP_SEL_CLIENT(:id_corporation, :id_organization, :status)',
+            "params" => ['id_corporation', 'id_organization', 'status']
         ],
         "SP_SEL_CLIENT_STORE" => [
             "query" => 'CALL SP_SEL_CLIENT_STORE(:id_client, :status)',
