@@ -28,7 +28,7 @@ class FunctionModel
             "query" => 'CALL SP_SEL_USER(:status)',
             "params" => ['status']
         ],
-
+        
         /**
          * Funciones para Transaccions
          **/
@@ -37,7 +37,11 @@ class FunctionModel
             'headers_params' => [],
             'details_params' => ['id_roleapplication','id_role','id_application','view','modify','insert','delete']
         ],
-
+        "SP_INS_DOMAIN" => [
+            'query' => 'CALL SP_INS_DOMAIN(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => []
+        ],
 
 
 
@@ -236,11 +240,6 @@ class FunctionModel
             'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
             'headers_params' => ["id_driver","first_name","last_name","doc_number", "doc_type","email","phone","status","password"],
             'details_params' => ["id_vehicle", "id_provider", "vehicle_type","brand","model","plate_number","soat","status"]
-        ],
-        "SP_INS_DOMAIN" => [
-            'query' => 'CALL SP_INS_DOMAIN(:header, :details, :username)',
-            'headers_params' => [],
-            'details_params' => []
         ],
         "SP_INS_USER" => [
             'query' => 'CALL SP_INS_USER(:header, :details, :username)',
