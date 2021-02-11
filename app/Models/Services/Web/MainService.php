@@ -122,6 +122,7 @@ class MainService
             $data['username'] = json_encode($user->getIdentifierData());
 
             $data = $this->repository->execute_store($query, $data);
+            Log::info('Main service Transaction exito', ['request' => $req]);
         } catch (CustomException $e) {
             Log::warning('Main Service Transaction error', ['expcetion' => $e->getData()[0], 'request' => $req, 'missing_params' => $missing_param]);
             return Res::error($e->getData(), $e->getCode());
