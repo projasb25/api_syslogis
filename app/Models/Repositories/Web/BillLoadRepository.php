@@ -32,7 +32,7 @@ class BillLoadRepository
                 $value['status'] = 'PENDIENTE';
                 $value['created_by'] = $data['username'];
 
-                DB::table('massive_load_details')->insert([
+                DB::table('bill_load_detail')->insert([
                     'id_bill_load' => $value['id_bill_load'] ?? null,
                     'id_corporation' => $value['id_corporation'] ?? null,
                     'id_organization' => $value['id_organization'] ?? null,
