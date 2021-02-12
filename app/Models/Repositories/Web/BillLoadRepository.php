@@ -20,7 +20,7 @@ class BillLoadRepository
                 'number_records' => $data['count'],
                 'status' => 'PENDIENTE',
                 'created_by' => $data['username'],
-                'id_bill_load_template' => $data['id_bill_load_template']
+                'id_load_template' => $data['id_load_template']
             ]);
 
             foreach ($data['data'] as $key => &$value) {
