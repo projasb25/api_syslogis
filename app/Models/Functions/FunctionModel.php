@@ -37,8 +37,8 @@ class FunctionModel
             "params" => ['id_client', 'status']
         ],
         "SP_INS_LOAD_TEMPLATE" => [
-            "query" => 'CALL SP_INS_LOAD_TEMPLATE(:id_bill_load_template,:id_corporation,:id_organization,:id_client,:name,:description,:json_detail,:status,:username, :type)',
-            "params" => ['id_bill_load_template','id_corporation','id_organization','id_client','name','description','json_detail','status','username','type']
+            "query" => 'CALL SP_INS_LOAD_TEMPLATE(:id_load_template,:id_corporation,:id_organization,:id_client,:name,:description,:json_detail,:status,:username, :type)',
+            "params" => ['id_load_template','id_corporation','id_organization','id_client','name','description','json_detail','status','username','type']
         ],
         "SP_SEL_LOAD_TEMPLATE" => [
             "query" => 'CALL SP_SEL_LOAD_TEMPLATE(:id_corporation, :id_organization, :status)',
