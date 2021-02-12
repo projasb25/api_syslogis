@@ -108,6 +108,7 @@ class AuthController extends Controller
             array_push($res, [
                 "application" => $rol->name,
                 'description' =>  $rol->app_desc,
+                'tag' => $rol->tag,
                 "path" => $rol->path,
                 "insert" => $rol->insert,
                 "view" => $rol->view,
