@@ -5,6 +5,45 @@ namespace App\Models\Functions;
 class Diccionario
 {
     private $diccionario = [
+        "bill_load" => [
+            "id_bill_load" => [
+                "column" => "bl.id_bill_load",
+                "type" => "string"
+            ],
+            "id_client" => [
+                "column" => "bl.id_client",
+                "type" => "string"
+            ],
+            "id_client_store" => [
+                "column" => "bl.id_client_store",
+                "type" => "string"
+            ],
+            "id_bill_load_template" => [
+                "column" => "bl.id_bill_load_template",
+                "type" => "string"
+            ],
+            "number_records" => [
+                "column" => "bl.number_records",
+                "type" => "string"
+            ],
+            "status" => [
+                "column" => "bl.status",
+                "type" => "string"
+            ],
+            "created_by" => [
+                "column" => "bl.created_by",
+                "type" => "string"
+            ],
+            "date_created" => [
+                "column" => "bl.date_created",
+                "type" => "string"
+            ],
+            "store_name" => [
+                "column" => "cs.store_name",
+                "type" => "string"
+            ],
+        ],
+//asdfasdfasdfasdasdf
         "guide" => [
             "id_guide" => [
                 "column" => "gd.id_guide",
