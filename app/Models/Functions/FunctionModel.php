@@ -40,8 +40,8 @@ class FunctionModel
             "query" => 'CALL SP_INS_LOAD_TEMPLATE(:id_bill_load_template,:id_corporation,:id_organization,:id_client,:name,:description,:json_detail,:status,:username, :type)',
             "params" => ['id_bill_load_template','id_corporation','id_organization','id_client','name','description','json_detail','status','username','type']
         ],
-        "SP_SEL_BILL_TEMPLATE" => [
-            "query" => 'CALL SP_SEL_BILL_TEMPLATE(:id_corporation, :id_organization, :status)',
+        "SP_SEL_LOAD_TEMPLATE" => [
+            "query" => 'CALL SP_SEL_LOAD_TEMPLATE(:id_corporation, :id_organization, :status)',
             "params" => ['id_corporation', 'id_organization', 'status']
         ],
         "SP_SEL_BILL_LOAD_DETAILS" => [
