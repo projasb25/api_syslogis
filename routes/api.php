@@ -80,6 +80,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('paginated', 'MainController@paginated');
     });
 
+    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'bill_load'], function() {
+        Route::post('', 'BillLoadController@index');
+    });
+
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'massive_load'], function() {
         Route::post('', 'MassiveLoadController@index');
         Route::post('process', 'MassiveLoadController@process');
