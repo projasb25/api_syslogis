@@ -45,7 +45,7 @@ class FunctionModel
             "params" => ['id_corporation', 'id_organization', 'status']
         ],
         "SP_SEL_BILL_LOAD_DETAILS" => [
-            "query" => 'SELECT * FROM bill_load_detail WHERE id_massive_load = :id_bill_load;',
+            "query" => 'SELECT * FROM bill_load_detail WHERE id_bill_load = :id_bill_load;',
             "params" => ['id_bill_load']
         ],
         
