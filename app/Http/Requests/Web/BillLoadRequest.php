@@ -53,13 +53,13 @@ class BillLoadRequest extends FormRequest
             'data.*.product_lots' => 'min:1|string',
             'data.*.product_exp_date' => 'min:4|string',
             'data.*.product_available' => 'min:2|string',
-            'data.*.product_quantity' => 'min:1|numeric',
+            'data.*.product_quantity' => 'required|min:1|numeric',
             'data.*.product_color' => 'min:1|string',
             'data.*.product_size' => 'min:4|string',
             'data.*.product_package_number' => 'min:1|string',
             'data.*.product_unitp_box' => 'min:1|numeric',
             'data.*.product_cmtr_pbox' => 'min:1|numeric',
-            'data.*.product_cmtr_quantity' => 'required|min:1|numeric',
+            'data.*.product_cmtr_quantity' => 'min:1|numeric',
         ];
     }
 
