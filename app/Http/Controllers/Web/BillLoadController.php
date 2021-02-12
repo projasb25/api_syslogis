@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\BillLoadRequest;
 use App\Models\Services\Web\BillLoadService;
 use Illuminate\Http\Request;
 
@@ -15,8 +16,8 @@ class BillLoadController extends Controller
         $this->mainService = $service;
     }
 
-    public function index(Request $request)
+    public function index(BillLoadRequest $request)
     {
-        # code...
+        return $this->mainService->index($request);
     }
 }
