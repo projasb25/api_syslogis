@@ -52,7 +52,7 @@ class BillLoadRequest extends FormRequest
             'data.*.product_serie' => 'min:4|string',
             'data.*.product_lots' => 'min:1|string',
             'data.*.product_exp_date' => 'min:4|string',
-            'data.*.product_available' => 'min:4|string',
+            'data.*.product_available' => 'min:2|string',
             'data.*.product_quantity' => 'min:1|numeric',
             'data.*.product_color' => 'min:1|string',
             'data.*.product_size' => 'min:4|string',
