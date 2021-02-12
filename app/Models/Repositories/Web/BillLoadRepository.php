@@ -35,8 +35,6 @@ class BillLoadRepository
 
                 DB::table('bill_load_detail')->insert([
                     'id_bill_load' => $value['id_bill_load'] ?? null,
-                    'id_corporation' => $data['id_corporation'] ?? null,
-                    'id_organization' => $data['id_organization'] ?? null,
                     'product_code' => $value['product_code'] ?? null,
                     'product_alt_code1' => $value['product_alt_code1'] ?? null,
                     'product_alt_code2' => $value['product_alt_code2'] ?? null,
