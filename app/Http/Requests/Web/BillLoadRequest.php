@@ -66,6 +66,7 @@ class BillLoadRequest extends FormRequest
     public function messages()
     {
         return [
+            'required' => 'El campo :attribute es requerido',
             'data.required' => 'El campo data es requerido',
             'data.*.required' => 'El campo :attribute es requerido',
             'data.*.min' => 'El campo :attribute debe tener al menos :min caracteres',
