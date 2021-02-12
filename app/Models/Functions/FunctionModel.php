@@ -68,11 +68,11 @@ class FunctionModel
          * Funciones para Paginacion
          **/
         "SP_SEL_BILL_LOADS" => [
-            "query" => 'CALL SP_SEL_BILL_LOADS(?,?,?)',
+            "query" => 'CALL SP_SEL_BILL_LOADS(?,?,?,?)',
             "params" => []
         ],
         "SP_SEL_BILL_LOADS_COUNT" => [
-            "query" => 'CALL SP_SEL_BILL_LOADS_COUNT(?,?,?)',
+            "query" => 'CALL SP_SEL_BILL_LOADS_COUNT(?,?)',
             "params" => []
         ],
 
