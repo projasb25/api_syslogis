@@ -81,6 +81,11 @@ class BillLoadRepository
                 ->update([
                     'status' => 'PROCESADO', 'modified_by' => $data['username']
                 ]);
+            DB::table('bill_load_detail')
+                ->where('id_bill_load', $data['id_bill_load'])
+                ->update([
+                    'status' => 'PROCESADO', 'modified_by' => $data['username']
+                ]);
 
             foreach ($data['detalle'] as $value) {
                 // TABLA PRODUCTO
