@@ -58,9 +58,6 @@ class BillLoadService
         try {
             $user = auth()->user();
             $req = $request->all();
-            $data['username'] = $user->username;
-            $data['data'] = $req['data'];
-            $data['id_bill_load'] = $req['id_bill_load'];
             $req_detalle = $req['data'];
             
             $load = $this->repo->get($req['id_bill_load']);
@@ -70,9 +67,7 @@ class BillLoadService
             if ($load->status !== "PENDIENTE") {
                 throw new CustomException(['La carga ya fue procesada.', 2120], 400);
             }
-            $data['id_corporation'] = $load->id_corporation;
-            $data['id_organization'] = $load->id_organization;
-
+            
             $detalle = $this->repo->getDetail($req['id_bill_load']);
             foreach ($detalle as &$value) {
                 $key = array_search($value->id_bill_load_detail, array_column($req_detalle, 'id_bill_load_detail'));
@@ -85,15 +80,16 @@ class BillLoadService
                 $value->level = $req_detalle[$key]['level'];
                 $value->column = $req_detalle[$key]['column'];
             }
-           
-            $data['detalle'] = $detalle;
-            dd($data);
-            $adresses = $this->repo->process($data);
 
-            $propiedad = $this->repo->getPropiedad('apigmaps_call');
-            if ($propiedad && $propiedad->value === '1') {
-                $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
-            }
+            $data['id_corporation'] = $load->id_corporation;
+            $data['id_organization'] = $load->id_organization;
+            $data['username'] = $user->username;
+            $data['id_bill_load'] = $req['id_bill_load'];
+            $data['id_client'] = $load->id_client;
+            $data['id_client_store'] = $load->id_client_store;
+            $data['detalle'] = $detalle;
+
+            $id = $this->repo->process($data);
 
             Log::info('Bill Load procecss exito', ['id_bill_load' => $request->get('id_bill_load'), 'num_registros' => count($request->get('data'))]);
         } catch (CustomException $e) {

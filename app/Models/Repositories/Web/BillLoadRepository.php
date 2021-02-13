@@ -82,11 +82,66 @@ class BillLoadRepository
                     'status' => 'PROCESADO', 'modified_by' => $data['username']
                 ]);
 
+            foreach ($data['detalle'] as $value) {
+                // TABLA PRODUCTO
+                $check_product = DB::table('product')->where([
+                    'product_code', $value->product_code, 'id_client' => $data['id_client'],
+                    'id_client_store' => $data['id_client_store']
+                ])->first();
+                if (!$check_product) {
+                    $product_id = DB::table('product')->insertGetId([
+                        'id_corporation' => $data['id_corporation'],
+                        'id_organization' => $data['id_organization'],
+                        'id_client' => $data['id_client'],
+                        'id_client_store' => $data['id_client_store'],
+                        'product_code' => $value->product_code,
+                        'product_alt_code1' => $value->product_alt_code1,
+                        'product_alt_code2' => $value->product_alt_code2,
+                        'product_description' => $value->product_description,
+                        'product_serie' => $value->product_serie,
+                        'product_lots' => $value->product_lots,
+                        'product_exp_date' => $value->product_exp_date,
+                        'product_available' => $value->product_available,
+                        'product_color' => $value->product_color,
+                        'product_size' => $value->product_size,
+                        'product_package_number' => $value->product_package_number,
+                        'product_unitp_box' => $value->product_unitp_box,
+                        'product_cmtr_pbox' => $value->product_cmtr_pbox,
+                        'product_cmtr_quantity' => $value->product_cmtr_quantity,
+                        'product_quantity' => $value->product_quantity,
+                        // 'product_shrinkage_total' => $value->product_shrinkage_total,
+                        // 'product_quarantine_total' => $value->product_quarantine_total,
+                    ]);
+                } else {
+                    $product_id = $check_product->id_product;
+                }
+
+                $check_inventory = DB::table('inventory')->where([
+                    'id_product' => $product_id, 'hallway' => $value->hallway,
+                    'level' => $value->level, 'column' => $value->column
+                ])->first();
+
+                if (!$check_inventory) {
+                    $inventory_id = DB::table('inventory')->insertGetId([
+                        'id_corporation' => $data['id_corporation'],
+                        'id_organization' => $data['id_organization'],
+                        'id_client' => $data['id_client'],
+                        'id_client_store' => $data['id_client_store'],
+                        'id_product' => $product_id,
+                        'hallway' => $value->hallway,
+                        'level' => $value->level,
+                        'column' => $value->column,
+                        'quantity' => $value->quantity,
+                        'shrinkage' => $value->shrinkage,
+                        'quarantine' => $value->quarantine,
+                    ]);
+                }
+            }
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
-        return $id;
+        return $inventory_id;
     }
 }
