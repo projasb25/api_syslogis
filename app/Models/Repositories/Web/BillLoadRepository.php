@@ -134,7 +134,7 @@ class BillLoadRepository
                         'hallway' => $value->hallway,
                         'level' => $value->level,
                         'column' => $value->column,
-                        'quantity' => $value->quantity,
+                        'quantity' => $value->product_quantity,
                         'shrinkage' => $value->shrinkage,
                         'quarantine' => $value->quarantine,
                     ]);
