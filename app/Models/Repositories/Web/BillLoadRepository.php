@@ -76,11 +76,11 @@ class BillLoadRepository
     {
         DB::beginTransaction();
         try {
-            // DB::table('bill_load')
-            //     ->where('id_bill_load', $data['id_bill_load'])
-            //     ->update([
-            //         'status' => 'PROCESADO', 'modified_by' => $data['username']
-            //     ]);
+            DB::table('bill_load')
+                ->where('id_bill_load', $data['id_bill_load'])
+                ->update([
+                    'status' => 'PROCESADO', 'modified_by' => $data['username']
+                ]);
 
             foreach ($data['detalle'] as $value) {
                 // TABLA PRODUCTO
@@ -110,6 +110,7 @@ class BillLoadRepository
                         'product_cmtr_pbox' => $value->product_cmtr_pbox,
                         'product_cmtr_quantity' => $value->product_cmtr_quantity,
                         'product_quantity' => $value->product_quantity,
+                        'created_by' => $data['username']
                         // 'product_shrinkage_total' => $value->product_shrinkage_total,
                         // 'product_quarantine_total' => $value->product_quarantine_total,
                     ]);
@@ -137,6 +138,7 @@ class BillLoadRepository
                         'quantity' => $value->product_quantity,
                         'shrinkage' => $value->shrinkage,
                         'quarantine' => $value->quarantine,
+                        'created_by' => $data['username']
                     ]);
                 } else {
                     DB::table('inventory')->where('id_inventory', $check_inventory->id_inventory)
@@ -144,6 +146,7 @@ class BillLoadRepository
                         'quantity' => $check_inventory->quantity + $value->product_quantity,
                         'shrinkage' => $check_inventory->shrinkage + $value->shrinkage,
                         'quarantine' => $check_inventory->quarantine + $value->quarantine,
+                        'modified_by' => $data['username']
                     ]);
                     $inventory_id = $check_inventory->id_inventory;
                 }
