@@ -61,9 +61,8 @@ class BillLoadService
             $data['username'] = $user->username;
             $data['data'] = $req['data'];
             $data['id_bill_load'] = $req['id_bill_load'];
-            $data['id_corporation'] = $load->id_corporation;
-            $data['id_organization'] = $load->id_organization;
-
+            $req_detalle = $req['data'];
+            
             $load = $this->repo->get($req['id_bill_load']);
             if (!$load) {
                 throw new CustomException(['Registro no encontrado.', 2121], 404);
@@ -71,12 +70,24 @@ class BillLoadService
             if ($load->status !== "PENDIENTE") {
                 throw new CustomException(['La carga ya fue procesada.', 2120], 400);
             }
+            $data['id_corporation'] = $load->id_corporation;
+            $data['id_organization'] = $load->id_organization;
 
             $detalle = $this->repo->getDetail($req['id_bill_load']);
-            if (count($detalle) !== count($data['data'])) {
-                throw new CustomException(['Data invalida, numero de registros no coinciden.', 2020], 400);
+            foreach ($detalle as &$value) {
+                $key = array_search($value->id_load_detail, array_column($req_detalle, 'id_load_detail'));
+                if (!$key) {
+                    throw new CustomException(['Data invalida, numero de registros no coinciden.', 2020], 400);
+                }
+                $value->shrinkage = $req_detalle[$key]['shrinkage'];
+                $value->quarantine = $req_detalle[$key]['quarantine'];
+                $value->hallway = $req_detalle[$key]['hallway'];
+                $value->level = $req_detalle[$key]['level'];
+                $value->column = $req_detalle[$key]['column'];
             }
-
+           
+            $data['detalle'] = $detalle;
+            dd($data);
             $adresses = $this->repo->process($data);
 
             $propiedad = $this->repo->getPropiedad('apigmaps_call');

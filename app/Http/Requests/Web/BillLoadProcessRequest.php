@@ -44,7 +44,7 @@ class BillLoadProcessRequest extends FormRequest
         return [
             'id_bill_load' => 'required|numeric',
             'data' => 'required',
-            'data.*.product_code' => 'required|min:4|string',
+            'data.*.id_bill_load_detail' => 'required|min:1|numeric',
             'data.*.shrinkage' => 'min:1|required|numeric',
             'data.*.quarantine' => 'min:1|required|numeric',
             'data.*.hallway' => 'min:1|required|numeric',

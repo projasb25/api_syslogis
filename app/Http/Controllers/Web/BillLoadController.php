@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\BillLoadProcessRequest;
 use App\Http\Requests\Web\BillLoadRequest;
 use App\Models\Services\Web\BillLoadService;
 use Illuminate\Http\Request;
@@ -21,8 +22,8 @@ class BillLoadController extends Controller
         return $this->mainService->index($request);
     }
 
-    public function process(BillLoadRequest $request)
+    public function process(BillLoadProcessRequest $request)
     {
-        return $this->mainService->index($request);
+        return $this->mainService->process($request);
     }
 }
