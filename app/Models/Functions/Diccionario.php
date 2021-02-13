@@ -42,6 +42,14 @@ class Diccionario
                 "column" => "cs.store_name",
                 "type" => "string"
             ],
+            "company_name" => [
+                "column" => "cl.company_name",
+                "type" => "string"
+            ],
+            "template_name" => [
+                "column" => "lt.name",
+                "type" => "string"
+            ],
             "fechafilter" => [
                 "column" => "DATE_FORMAT(bl.date_created, '%Y-%m-%d')",
                 "type" => "string"
