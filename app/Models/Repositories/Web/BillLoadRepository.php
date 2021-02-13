@@ -86,8 +86,8 @@ class BillLoadRepository
                 // TABLA PRODUCTO
                 $check_product = DB::table('product')->where([
                     ['product_code', $value->product_code], 
-                    ['id_client' => $data['id_client']],
-                    ['id_client_store' => $data['id_client_store']]
+                    ['id_client', $data['id_client']],
+                    ['id_client_store', $data['id_client_store']]
                 ])->first();
                 if (!$check_product) {
                     $product_id = DB::table('product')->insertGetId([
@@ -118,10 +118,10 @@ class BillLoadRepository
                 }
 
                 $check_inventory = DB::table('inventory')->where([
-                    ['id_product' => $product_id],
-                    ['hallway' => $value->hallway],
-                    ['level' => $value->level],
-                    ['column' => $value->column]
+                    ['id_product', $product_id],
+                    ['hallway', $value->hallway],
+                    ['level', $value->level],
+                    ['column', $value->column]
                 ])->first();
 
                 if (!$check_inventory) {
