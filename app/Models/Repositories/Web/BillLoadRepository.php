@@ -115,11 +115,18 @@ class BillLoadRepository
                         'product_cmtr_pbox' => $value->product_cmtr_pbox,
                         'product_cmtr_quantity' => $value->product_cmtr_quantity,
                         'product_quantity' => $value->product_quantity,
-                        'created_by' => $data['username']
-                        // 'product_shrinkage_total' => $value->product_shrinkage_total,
-                        // 'product_quarantine_total' => $value->product_quarantine_total,
+                        'created_by' => $data['username'],
+                        'product_shrinkage_total' =>  $value->shrinkage,
+                        'product_quarantine_total' => $value->quarantine,
                     ]);
                 } else {
+                    DB::table('product')->where('id_product', $check_product->id_product)
+                    ->update([
+                        'product_quantity' => $check_product->product_quantity + $value->product_quantity,
+                        'product_shrinkage_total' => $check_product->product_shrinkage_total + $value->shrinkage,
+                        'product_quarantine_total' => $check_product->product_quarantine_total + $value->quarantine,
+                        'modified_by' => $data['username']
+                    ]);
                     $product_id = $check_product->id_product;
                 }
 
