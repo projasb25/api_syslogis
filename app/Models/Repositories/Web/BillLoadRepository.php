@@ -88,6 +88,9 @@ class BillLoadRepository
                 ]);
 
             foreach ($data['detalle'] as $value) {
+                if (($value->shrinkage + $value->quarantine) > $value->product_quantity) {
+                    throw new CustomException(['Cantidad invalida.', 2020], 400);
+                }
                 // TABLA PRODUCTO
                 $check_product = DB::table('product')->where([
                     ['product_code', $value->product_code], 
