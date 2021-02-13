@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Log;
 
 class BillLoadRepository
 {
+    public function get($id)
+    {
+        return DB::table('bill_load')->where('id_bill_load', $id)->first();
+    }
+
+    public function getDetail($id)
+    {
+        return DB::table('bill_load_detail')->where('id_bill_load',$id)->get();
+    }
+
     public function insertBillLoad($data)
     {
         DB::beginTransaction();
@@ -54,6 +64,24 @@ class BillLoadRepository
                     'created_by' => $value['created_by'] ?? null
                 ]);
             }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return $id;
+    }
+
+    public function process($data)
+    {
+        DB::beginTransaction();
+        try {
+            DB::table('bill_load')
+                ->where('id_bill_load', $data['id_bill_load'])
+                ->update([
+                    'status' => 'PROCESADO', 'modified_by' => $data['username']
+                ]);
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

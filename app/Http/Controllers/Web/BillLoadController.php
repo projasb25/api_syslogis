@@ -20,4 +20,9 @@ class BillLoadController extends Controller
     {
         return $this->mainService->index($request);
     }
+
+    public function process(BillLoadRequest $request)
+    {
+        return $this->mainService->index($request);
+    }
 }
