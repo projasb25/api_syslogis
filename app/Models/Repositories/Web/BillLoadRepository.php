@@ -76,11 +76,11 @@ class BillLoadRepository
     {
         DB::beginTransaction();
         try {
-            DB::table('bill_load')
-                ->where('id_bill_load', $data['id_bill_load'])
-                ->update([
-                    'status' => 'PROCESADO', 'modified_by' => $data['username']
-                ]);
+            // DB::table('bill_load')
+            //     ->where('id_bill_load', $data['id_bill_load'])
+            //     ->update([
+            //         'status' => 'PROCESADO', 'modified_by' => $data['username']
+            //     ]);
 
             foreach ($data['detalle'] as $value) {
                 // TABLA PRODUCTO
@@ -137,6 +137,13 @@ class BillLoadRepository
                         'quantity' => $value->product_quantity,
                         'shrinkage' => $value->shrinkage,
                         'quarantine' => $value->quarantine,
+                    ]);
+                } else {
+                    DB::table('inventory')->where(['id_inventory', $check_inventory->id_inventory])
+                    ->update([
+                        'quantity' => $check_inventory->quantity + $value->product_quantity,
+                        'shrinkage' => $check_inventory->shrinkage + $value->shrinkage,
+                        'quarantine' => $check_inventory->quarantine + $value->quarantine,
                     ]);
                 }
             }
