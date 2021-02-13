@@ -145,6 +145,7 @@ class BillLoadRepository
                         'shrinkage' => $check_inventory->shrinkage + $value->shrinkage,
                         'quarantine' => $check_inventory->quarantine + $value->quarantine,
                     ]);
+                    $inventory_id = $check_inventory->id_inventory;
                 }
             }
             DB::commit();
