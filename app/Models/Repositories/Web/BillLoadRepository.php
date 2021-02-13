@@ -139,7 +139,7 @@ class BillLoadRepository
                         'quarantine' => $value->quarantine,
                     ]);
                 } else {
-                    DB::table('inventory')->where(['id_inventory', $check_inventory->id_inventory])
+                    DB::table('inventory')->where('id_inventory', $check_inventory->id_inventory)
                     ->update([
                         'quantity' => $check_inventory->quantity + $value->product_quantity,
                         'shrinkage' => $check_inventory->shrinkage + $value->shrinkage,
