@@ -45,8 +45,8 @@ class BillLoadProcessRequest extends FormRequest
             'id_bill_load' => 'required|numeric',
             'data' => 'required',
             'data.*.id_bill_load_detail' => 'required|min:1|numeric',
-            'data.*.shrinkage' => 'min:1|required|numeric',
-            'data.*.quarantine' => 'min:1|required|numeric',
+            'data.*.shrinkage' => 'required|numeric',
+            'data.*.quarantine' => 'required|numeric',
             'data.*.hallway' => 'min:1|required|numeric',
             'data.*.level' => 'min:1|required|numeric',
             'data.*.column' => 'min:1|required|numeric'
