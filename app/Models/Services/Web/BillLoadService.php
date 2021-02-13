@@ -76,7 +76,7 @@ class BillLoadService
             $detalle = $this->repo->getDetail($req['id_bill_load']);
             foreach ($detalle as &$value) {
                 $key = array_search($value->id_bill_load_detail, array_column($req_detalle, 'id_bill_load_detail'));
-                if (!$key) {
+                if (is_null($key)) {
                     throw new CustomException(['Data invalida, numero de registros no coinciden.', 2020], 400);
                 }
                 $value->shrinkage = $req_detalle[$key]['shrinkage'];
