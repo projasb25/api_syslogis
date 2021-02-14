@@ -165,6 +165,21 @@ class BillLoadRepository
                     ]);
                     $inventory_id = $check_inventory->id_inventory;
                 }
+
+                DB::table('kardex')->insert([
+                    'id_corporation' => $data['id_corporation'],
+                    'id_organization' => $data['id_organization'],
+                    'id_product' => $product_id,
+                    'description' => '',
+                    'hallway' => $value->hallway,
+                    'level' => $value->level,
+                    'column' => $value->column,
+                    'quantity' => $value->product_quantity,
+                    'balance' => 0,
+                    'type' => 'NOTA DE INGRESO',
+                    'doc_type' => $value->doc_type,
+                    'id_document' => $data['id_bill_load']
+                ]);
             }
             DB::commit();
         } catch (\Exception $e) {
