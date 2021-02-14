@@ -117,6 +117,7 @@ class BillLoadRepository
                         'created_by' => $data['username'],
                         'product_shrinkage_total' =>  $value->shrinkage,
                         'product_quarantine_total' => $value->quarantine,
+                        'product_available_total' => $value->product_quantity - $value->shrinkage - $value->quarantine,
                     ]);
                 } else {
                     DB::table('product')->where('id_product', $check_product->id_product)
@@ -124,6 +125,7 @@ class BillLoadRepository
                         'product_quantity' => $check_product->product_quantity + $value->product_quantity,
                         'product_shrinkage_total' => $check_product->product_shrinkage_total + $value->shrinkage,
                         'product_quarantine_total' => $check_product->product_quarantine_total + $value->quarantine,
+                        'product_available_total' => $check_product->product_available_total + ($value->product_quantity - $value->shrinkage - $value->quarantine),
                         'modified_by' => $data['username']
                     ]);
                     $product_id = $check_product->id_product;
@@ -149,6 +151,7 @@ class BillLoadRepository
                         'quantity' => $value->product_quantity,
                         'shrinkage' => $value->shrinkage,
                         'quarantine' => $value->quarantine,
+                        'available' => $value->product_quantity - $value->shrinkage - $value->quarantine,
                         'created_by' => $data['username']
                     ]);
                     $balance = $value->product_quantity;
@@ -158,6 +161,7 @@ class BillLoadRepository
                         'quantity' => $check_inventory->quantity + $value->product_quantity,
                         'shrinkage' => $check_inventory->shrinkage + $value->shrinkage,
                         'quarantine' => $check_inventory->quarantine + $value->quarantine,
+                        'available' => $check_inventory->available + ($value->product_quantity - $value->shrinkage - $value->quarantine),
                         'modified_by' => $data['username']
                     ]);
                     $inventory_id = $check_inventory->id_inventory;
