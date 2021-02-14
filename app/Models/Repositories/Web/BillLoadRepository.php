@@ -81,11 +81,7 @@ class BillLoadRepository
                 ->update([
                     'status' => 'PROCESADO', 'modified_by' => $data['username']
                 ]);
-            DB::table('bill_load_detail')
-                ->where('id_bill_load', $data['id_bill_load'])
-                ->update([
-                    'status' => 'PROCESADO', 'modified_by' => $data['username']
-                ]);
+            
 
             foreach ($data['detalle'] as $value) {
                 if (($value->shrinkage + $value->quarantine) > $value->product_quantity) {
@@ -178,7 +174,17 @@ class BillLoadRepository
                     'balance' => 0,
                     'type' => null,
                     'doc_type' => 'NOTA DE INGRESO',
-                    'id_document' => $data['id_bill_load']
+                    'id_document' => $data['id_bill_load'],
+                    'created_by' => $data['username']
+                ]);
+
+                DB::table('bill_load_detail')
+                ->where('id_bill_load_detail', $value->id_bill_load_detail)
+                ->update([
+                    'status' => 'PROCESADO', 'modified_by' => $data['username'],
+                    'hallway' => $value->hallway, 'level' => $value->level,
+                    'column' => $value->column, 'shrinkage' => $value->shrinkage,
+                    'quarantine' => $value->quarantine
                 ]);
             }
             DB::commit();
