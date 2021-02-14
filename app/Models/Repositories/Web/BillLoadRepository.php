@@ -176,8 +176,8 @@ class BillLoadRepository
                     'column' => $value->column,
                     'quantity' => $value->product_quantity,
                     'balance' => 0,
-                    'type' => 'NOTA DE INGRESO',
-                    'doc_type' => $value->doc_type,
+                    'type' => null,
+                    'doc_type' => 'NOTA DE INGRESO',
                     'id_document' => $data['id_bill_load']
                 ]);
             }
