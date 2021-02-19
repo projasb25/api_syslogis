@@ -87,6 +87,14 @@ class FunctionModel
             "query" => 'CALL SP_SEL_BILL_LOADS_COUNT(?,?)',
             "params" => []
         ],
+        "SP_SEL_PURCHASE_ORDER" => [
+            "query" => 'CALL SP_SEL_PURCHASE_ORDER(?,?,?,?)',
+            "params" => []
+        ],
+        "SP_SEL_PURCHASE_ORDER_COUNT" => [
+            "query" => 'CALL SP_SEL_PURCHASE_ORDER_COUNT(?,?)',
+            "params" => []
+        ],
 
 
 

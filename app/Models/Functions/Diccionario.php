@@ -55,6 +55,60 @@ class Diccionario
                 "type" => "string"
             ]
         ],
+        "purchase_order" => [
+            "id_purchase_order" => [
+                "column" => "po.id_purchase_order",
+                "type" => "string"
+            ],
+            "id_client" => [
+                "column" => "po.id_client",
+                "type" => "string"
+            ],
+            "id_client_store" => [
+                "column" => "po.id_client_store",
+                "type" => "string"
+            ],
+            "id_load_template" => [
+                "column" => "po.id_load_template",
+                "type" => "string"
+            ],
+            "number_records" => [
+                "column" => "po.number_records",
+                "type" => "string"
+            ],
+            "status" => [
+                "column" => "po.status",
+                "type" => "string"
+            ],
+            "created_by" => [
+                "column" => "po.created_by",
+                "type" => "string"
+            ],
+            "date_created" => [
+                "column" => "po.date_created",
+                "type" => "string"
+            ],
+            "store_name" => [
+                "column" => "cs.store_name",
+                "type" => "string"
+            ],
+            "company_name" => [
+                "column" => "cl.company_name",
+                "type" => "string"
+            ],
+            "template_name" => [
+                "column" => "lt.name",
+                "type" => "string"
+            ],
+            "fechafilter" => [
+                "column" => "DATE_FORMAT(po.date_created, '%Y-%m-%d')",
+                "type" => "string"
+            ],
+            "purchase_order_number" => [
+                "column" => "po.purchase_order_number",
+                "type" => "string"
+            ]
+        ],
 //asdfasdfasdfasdasdf
         "guide" => [
             "id_guide" => [
