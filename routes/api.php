@@ -85,6 +85,11 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('process', 'BillLoadController@process');
     });
 
+    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'purchase_order'], function() {
+        Route::post('', 'PurchaseOderController@index');
+        Route::post('process', 'BillLoadController@process');
+    });
+
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'massive_load'], function() {
         Route::post('', 'MassiveLoadController@index');
         Route::post('process', 'MassiveLoadController@process');
