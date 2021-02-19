@@ -91,7 +91,6 @@ class IntegracionService
                 $items = [];
                 $g .= $guide->ids_guias . ',';
                 $productos = explode("|||", $guide->contenido);
-                Log::info('test', $productos);
                 foreach($productos as $producto) {    
                     $detalle = explode("///", $producto);
                     array_push($items, [
