@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Web\PurchaseOrderLoadRequest;
 use App\Services\Web\PurchaseOrderService;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class PurchaseOrderController extends Controller
         $this->mainService = $service;
     }
 
-    public function index(Request $request)
+    public function index(PurchaseOrderLoadRequest $request)
     {
         return $this->mainService->index($request);
     }
