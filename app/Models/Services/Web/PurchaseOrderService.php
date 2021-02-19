@@ -31,7 +31,7 @@ class PurchaseOrderService
             $data['id_client_store'] = $req['id_client_store'];
             $data['id_load_template'] = $req['id_load_template'];
             $data['id_buyer'] = $req['id_buyer'];
-            $data['purchase_order_number'] = $req+['purchase_order_number'];
+            $data['purchase_order_number'] = $req['purchase_order_number'];
 
             $id = $this->repo->insertPurchaseOrder($data);
             
