@@ -48,7 +48,15 @@ class FunctionModel
             "query" => 'SELECT * FROM bill_load_detail WHERE id_bill_load = :id_bill_load;',
             "params" => ['id_bill_load']
         ],
-        
+        "SP_INS_BUYER" => [
+            "query" => 'CALL SP_INS_BUYER(:id_buyer,:id_corporation,:id_organization,:company_name,:doc_type,:doc_number,:buyer_email,:status,:username,:address)',
+            "params" => ['id_buyer','id_corporation','id_organization', 'company_name','doc_type','doc_number','buyer_email','status','username','address']
+        ],
+        "SP_SEL_BUYER" => [
+            "query" => 'CALL SP_SEL_BUYER(:id_corporation, :id_organization, :status, :doc_number)',
+            "params" => ['id_corporation', 'id_organization', 'status', 'doc_number']
+        ],
+
         /**
          * Funciones para Transaccions
          **/
