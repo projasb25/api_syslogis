@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\PurchaseOrderLoadRequest;
-use App\Services\Web\PurchaseOrderService;
+use App\Models\Services\Web\PurchaseOrderService;
 use Illuminate\Http\Request;
 
 class PurchaseOrderController extends Controller

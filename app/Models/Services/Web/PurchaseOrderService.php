@@ -4,7 +4,7 @@ namespace App\Models\Services\Web;
 
 use App\Exceptions\CustomException;
 use App\Helpers\ResponseHelper as Res;
-use App\Repositories\Web\PurchaseOrderRepository;
+use App\Models\Repositories\Web\PurchaseOrderRepository;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
