@@ -107,6 +107,14 @@ class FunctionModel
             "query" => 'CALL SP_REPORTE_INVENTARIO_COUNT(?,?)',
             "params" => []
         ],
+        "SP_REPORTE_INVENTARIO_PRODUCTO" => [
+            "query" => 'CALL SP_REPORTE_INVENTARIO_PRODUCTO(?,?,?,?)',
+            "params" => []
+        ],
+        "SP_REPORTE_INVENTARIO_PRODUCTO_COUNT" => [
+            "query" => 'CALL SP_REPORTE_INVENTARIO_PRODUCTO_COUNT(?,?)',
+            "params" => []
+        ],
 
 
 
