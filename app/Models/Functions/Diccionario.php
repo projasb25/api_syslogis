@@ -114,6 +114,14 @@ class Diccionario
             ]
         ],
         "reporte_inventario" => [
+            "id_client" => [
+                "column" => "cli.id_client",
+                "type" => "string"
+            ],
+            "id_client_store" => [
+                "column" => "cli.id_client_store",
+                "type" => "string"
+            ],
             "client_name" => [
                 "column" => "cli.company_name",
                 "type" => "string"
