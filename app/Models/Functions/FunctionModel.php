@@ -56,6 +56,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_BUYER(:id_corporation, :id_organization, :status, :doc_number)',
             "params" => ['id_corporation', 'id_organization', 'status', 'doc_number']
         ],
+        "SP_SEL_PURCHASE_ORDER_DETAILS" => [
+            "query" => 'SELECT * FROM purchase_order_detail WHERE id_purchase_order = :id_purchase_order;',
+            "params" => ['id_bill_load']
+        ],
 
         /**
          * Funciones para Transaccions
