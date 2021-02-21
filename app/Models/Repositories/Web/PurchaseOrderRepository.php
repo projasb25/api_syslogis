@@ -74,7 +74,7 @@ class PurchaseOrderRepository
 
             $detalle = DB::table('purchase_order_detail')->where('id_purchase_order',$data['id_purchase_order'])->get();
             foreach ($detalle as $key => $value) {
-                $product = DB::table('product')->where('product_code',$value->product_code)->first();
+                $product = DB::table('product')->where('product_code',$value->product_code)->where('id_client_store', $oc->id_client_store)->first();
 
                 // Validamos que la cantidad de compra no exceda la cantidad en stock
                 if (

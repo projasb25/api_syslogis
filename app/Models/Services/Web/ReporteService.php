@@ -22,6 +22,62 @@ class ReporteService
         $this->repository = $reporteRepository;
     }
 
+    public function reporte_inventario($request)
+    {
+        try {
+            $filtros = $request->get('filters');
+            $origen = 'reporte_inventario';
+            $daterange = $request->get('daterange');
+            $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
+
+            $user = auth()->user();
+            $user_data= json_encode($user->getIdentifierData());
+            $req = $request->all();
+            // $req['data'] = array_merge($req['data'], $user->getIdentifierData());
+            $fun = $this->functions->getFunctions();
+            if (!isset($fun[$req['methodcollection']]) || !isset($fun[$req['methodcount']]) ) {
+                throw new CustomException(['metodo no existe.', 2100], 400);
+            }
+
+            $query_collection = $fun[$req['methodcollection']]['query'];
+            $query_count = $fun[$req['methodcount']]['query'];
+
+            $data['collection'] = $this->repository->execute_store($query_collection, [$where, $take, $skip,$user_data]);
+            $data['count'] = $this->repository->execute_store($query_count, [$where,$user_data])[0]->count;
+
+
+
+
+
+
+
+
+
+
+
+
+            $user = auth()->user();
+            $ruta = url('storage/reportes/');
+            $data = $request->all();
+            // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
+            $fileName = date('YmdHis') . '_reporte_inventario_' . rand(1, 100) . '.xlsx';
+            // $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
+            Excel::store(new ReporteControlExport($user->username, $data['desde'], $data['hasta']), $fileName, 'reportes');
+
+            Log::info('Generar Reporte Inventario', ['request' => $request->all()]);
+        } catch (CustomException $e) {
+            Log::warning('Generar Reporte Inventario', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Generar Reporte Inventario', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Generar Reporte Inventario', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['reporte' => $ruta .'/'. $fileName]);
+    }
+
     public function reporte_control($request)
     {
         try {
