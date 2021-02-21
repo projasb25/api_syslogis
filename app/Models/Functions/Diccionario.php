@@ -119,7 +119,7 @@ class Diccionario
                 "type" => "string"
             ],
             "id_client_store" => [
-                "column" => "cli.id_client_store",
+                "column" => "cs.id_client_store",
                 "type" => "string"
             ],
             "client_name" => [
