@@ -211,6 +211,89 @@ class Diccionario
                 "type" => "string"
             ],
         ],
+        
+        "reporte_inventario_producto" => [
+            "id_client" => [
+                "column" => "cli.id_client",
+                "type" => "string"
+            ],
+            "id_client_store" => [
+                "column" => "cli.id_client_store",
+                "type" => "string"
+            ],
+            "client_name" => [
+                "column" => "cli.client_name",
+                "type" => "string"
+            ],
+            "store_name" => [
+                "column" => "cs.store_name",
+                "type" => "string"
+            ],
+            "product_code" => [
+                "column" => "p.product_code",
+                "type" => "string"
+            ],
+            "product_quantity" => [
+                "column" => "p.product_quantity",
+                "type" => "string"
+            ],
+            "product_quarantine_total" => [
+                "column" => "p.product_quarantine_total",
+                "type" => "string"
+            ],
+            "product_shrinkage_total" => [
+                "column" => "p.product_shrinkage_total",
+                "type" => "string"
+            ],
+            "product_available_total" => [
+                "column" => "p.product_available_total",
+                "type" => "string"
+            ],
+            "product_description" => [
+                "column" => "p.product_description",
+                "type" => "string"
+            ],
+            "product_serie" => [
+                "column" => "p.product_serie",
+                "type" => "string"
+            ],
+            "product_lots" => [
+                "column" => "p.product_lots",
+                "type" => "string"
+            ],
+            "product_exp_date" => [
+                "column" => "p.product_exp_date",
+                "type" => "string"
+            ],
+            "product_available" => [
+                "column" => "p.product_available",
+                "type" => "string"
+            ],
+            "product_color" => [
+                "column" => "p.product_color",
+                "type" => "string"
+            ],
+            "product_size" => [
+                "column" => "p.product_size",
+                "type" => "string"
+            ],
+            "product_package_number" => [
+                "column" => "p.product_package_number",
+                "type" => "string"
+            ],
+            "product_unitp_box" => [
+                "column" => "p.product_unitp_box",
+                "type" => "string"
+            ],
+            "product_cmtr_pbox" => [
+                "column" => "p.product_cmtr_pbox",
+                "type" => "string"
+            ],
+            "product_cmtr_quantity" => [
+                "column" => "p.product_cmtr_quantity",
+                "type" => "string"
+            ]
+        ]
 
 //asdfasdfasdfasdasdf
         "guide" => [
