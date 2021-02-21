@@ -69,9 +69,7 @@ class ReporteService
             $req = $request->all();
 
             $ruta = url('storage/reportes/');
-            // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
             $fileName = date('YmdHis') . '_reporte_inventario_producto_' . rand(1, 100) . '.xlsx';
-            // $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
             Excel::store(new ReporteInventarioProductoExport($where,$user_data), $fileName, 'reportes');
 
             Log::info('Generar Reporte Inventario Producto', ['request' => $request->all()]);

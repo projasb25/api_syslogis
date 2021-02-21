@@ -292,7 +292,11 @@ class Diccionario
             "product_cmtr_quantity" => [
                 "column" => "p.product_cmtr_quantity",
                 "type" => "string"
-            ]
+            ],
+            "fechafilter" => [
+                "column" => "DATE_FORMAT(p.date_created, '%Y-%m-%d')",
+                "type" => "string"
+            ],
         ],
 
 //asdfasdfasdfasdasdf
