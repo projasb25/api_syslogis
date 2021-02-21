@@ -61,8 +61,8 @@ class FunctionModel
             "params" => ['id_purchase_order']
         ],
         "SP_SEL_KARDEX" => [
-            "query" => 'CALL SP_SEL_KARDEX(:id_product, :id_inventroy)',
-            "params" => ['id_product', 'id_inventroy']
+            "query" => 'CALL SP_SEL_KARDEX(:id_product, :id_inventory)',
+            "params" => ['id_product', 'id_inventory']
         ],
 
         /**
