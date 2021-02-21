@@ -60,6 +60,10 @@ class FunctionModel
             "query" => 'SELECT * FROM purchase_order_detail WHERE id_purchase_order = :id_purchase_order;',
             "params" => ['id_purchase_order']
         ],
+        "SP_SEL_KARDEX" => [
+            "query" => 'CALL SP_SEL_KARDEX(:id_product, :id_inventroy)',
+            "params" => ['id_product', 'id_inventroy']
+        ],
 
         /**
          * Funciones para Transaccions
