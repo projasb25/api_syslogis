@@ -52,4 +52,34 @@ class PurchaseOrderService
         }
         return Res::success($res);
     }
+
+    public function process($request)
+    {
+        try {
+            $req = $request->all();
+            $user = auth()->user();
+            $data = array_merge($req, ['username' => $user->username]);
+
+            $purchase_order = $this->repo->getPurchaseOrder($req['id_purchase_order']);
+            if (!$purchase_order) {
+                throw new CustomException(['Orden de compra invalida', 2090], 400);
+            } elseif ($purchase_order->status !== 'PENDIENTE') {
+                throw new CustomException(['La orden de compra ya fue procesada o cancelada.', 2091], 400);
+            }
+
+            $res = $this->repo->processPurchaseOrder($data);
+
+            
+        } catch (CustomException $e) {
+            Log::warning('Purchase Order Process Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Purchase Order Process Service Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Purchase Order Process Service error', ['exception' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success('Ok');
+    }
 }

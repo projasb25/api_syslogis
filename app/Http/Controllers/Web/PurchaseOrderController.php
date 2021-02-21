@@ -18,4 +18,9 @@ class PurchaseOrderController extends Controller
     {
         return $this->mainService->index($request);
     }
+
+    public function process(Request $request)
+    {
+        return $this->mainService->process($request);
+    }
 }
