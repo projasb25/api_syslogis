@@ -58,7 +58,7 @@ class FunctionModel
         ],
         "SP_SEL_PURCHASE_ORDER_DETAILS" => [
             "query" => 'SELECT * FROM purchase_order_detail WHERE id_purchase_order = :id_purchase_order;',
-            "params" => ['id_bill_load']
+            "params" => ['id_purchase_order']
         ],
 
         /**
