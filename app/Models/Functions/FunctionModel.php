@@ -99,7 +99,14 @@ class FunctionModel
             "query" => 'CALL SP_SEL_PURCHASE_ORDER_COUNT(?,?)',
             "params" => []
         ],
-
+        "SP_REPORTE_INVENTARIO" => [
+            "query" => 'CALL SP_REPORTE_INVENTARIO(?,?,?,?)',
+            "params" => []
+        ],
+        "SP_REPORTE_INVENTARIO_COUNT" => [
+            "query" => 'CALL SP_REPORTE_INVENTARIO_COUNT(?,?)',
+            "params" => []
+        ],
 
 
 
