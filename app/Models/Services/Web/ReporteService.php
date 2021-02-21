@@ -60,7 +60,7 @@ class ReporteService
     {
         try {
             $filtros = $request->get('filters');
-            $origen = 'reporte_inventario';
+            $origen = 'reporte_inventario_producto';
             $daterange = $request->get('daterange');
             $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
 
