@@ -18,6 +18,12 @@ class ReporteController extends Controller
     {
         return $this->service->reporte_inventario($request);
     }
+
+    public function reporte_inventario_producto(Request $request)
+    {
+        return $this->service->reporte_inventario_producto($request);
+    }
+
     // public function reporte_control(Request $request)
     // {
     //     return $this->service->reporte_control($request);

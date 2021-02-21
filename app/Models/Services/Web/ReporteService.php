@@ -7,6 +7,7 @@ use App\Exports\Reportes\ReporteControlExport;
 use App\Exports\Reportes\ReporteControlProveedorExport;
 use App\Exports\Reportes\ReporteImgMonitorExport;
 use App\Exports\Reportes\ReporteInventarioExport;
+use App\Exports\Reportes\ReporteInventarioProductoExport;
 use App\Helpers\QueryHelper;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Web\ReporteRepository;
@@ -50,6 +51,38 @@ class ReporteService
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Generar Reporte Inventario', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['reporte' => $ruta .'/'. $fileName]);
+    }
+
+    public function reporte_inventario_producto($request)
+    {
+        try {
+            $filtros = $request->get('filters');
+            $origen = 'reporte_inventario';
+            $daterange = $request->get('daterange');
+            $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
+
+            $user = auth()->user();
+            $user_data= json_encode($user->getIdentifierData());
+            $req = $request->all();
+
+            $ruta = url('storage/reportes/');
+            // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
+            $fileName = date('YmdHis') . '_reporte_inventario_producto_' . rand(1, 100) . '.xlsx';
+            // $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
+            Excel::store(new ReporteInventarioProductoExport($where,$user_data), $fileName, 'reportes');
+
+            Log::info('Generar Reporte Inventario Producto', ['request' => $request->all()]);
+        } catch (CustomException $e) {
+            Log::warning('Generar Reporte Inventario Producto', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Generar Reporte Inventario Producto', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Generar Reporte Inventario Producto', ['exception' => $e->getMessage(), 'request' => $request->all()]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success(['reporte' => $ruta .'/'. $fileName]);

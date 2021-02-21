@@ -105,6 +105,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'reportes'], function() {
         Route::post('inventario', 'ReporteController@reporte_inventario');
+        Route::post('inventario_producto', 'ReporteController@reporte_inventario_producto');
 
 
         // Route::post('control', 'ReporteController@reporte_control');
