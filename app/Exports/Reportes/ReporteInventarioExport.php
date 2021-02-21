@@ -9,14 +9,16 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 
 class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadings
 {
-    protected $username;
-    protected $fechaInicio;
-    protected $fechaFin;
+    protected $where;
+    protected $take;
+    protected $skip;
+    protected $user_data;
 
-    public function __construct($username, $fechaInicio, $fechaFin) {
-        $this->username = $username;
-        $this->fechaInicio = $fechaInicio;
-        $this->fechaFin = $fechaFin;
+    public function __construct($where, $take, $skip,$user_data) {
+        $this->where = $where;
+        $this->take = $take;
+        $this->skip = $skip;
+        $this->user_data = $user_data;
     }
 
     public function headings(): array
@@ -32,7 +34,14 @@ class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadin
 
     public function collection()
     {
-        return collect(DB::select("CALL SP_REPORTE_INVENTARIO(?,?,?)",[$this->fechaInicio, $this->fechaFin, $this->username]));
+        return collect(DB::select("CALL SP_REPORTE_INVENTARIO(?,?,?,?)",
+            [
+                $this->where,
+                $this->take,
+                $this->skip,
+                $this->user_data
+            ]
+        ));
     }
 
     public function map($collection): array

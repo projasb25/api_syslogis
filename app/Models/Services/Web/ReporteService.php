@@ -6,6 +6,7 @@ use App\Exceptions\CustomException;
 use App\Exports\Reportes\ReporteControlExport;
 use App\Exports\Reportes\ReporteControlProveedorExport;
 use App\Exports\Reportes\ReporteImgMonitorExport;
+use App\Exports\Reportes\ReporteInventarioExport;
 use App\Helpers\QueryHelper;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Web\ReporteRepository;
@@ -27,42 +28,20 @@ class ReporteService
         try {
             $filtros = $request->get('filters');
             $origen = 'reporte_inventario';
+            $take = 10000;
+            $skip = 0;
             $daterange = $request->get('daterange');
             $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
 
             $user = auth()->user();
             $user_data= json_encode($user->getIdentifierData());
             $req = $request->all();
-            // $req['data'] = array_merge($req['data'], $user->getIdentifierData());
-            $fun = $this->functions->getFunctions();
-            if (!isset($fun[$req['methodcollection']]) || !isset($fun[$req['methodcount']]) ) {
-                throw new CustomException(['metodo no existe.', 2100], 400);
-            }
 
-            $query_collection = $fun[$req['methodcollection']]['query'];
-            $query_count = $fun[$req['methodcount']]['query'];
-
-            $data['collection'] = $this->repository->execute_store($query_collection, [$where, $take, $skip,$user_data]);
-            $data['count'] = $this->repository->execute_store($query_count, [$where,$user_data])[0]->count;
-
-
-
-
-
-
-
-
-
-
-
-
-            $user = auth()->user();
             $ruta = url('storage/reportes/');
-            $data = $request->all();
             // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
             $fileName = date('YmdHis') . '_reporte_inventario_' . rand(1, 100) . '.xlsx';
             // $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
-            Excel::store(new ReporteControlExport($user->username, $data['desde'], $data['hasta']), $fileName, 'reportes');
+            Excel::store(new ReporteInventarioExport($where, $take, $skip,$user_data), $fileName, 'reportes');
 
             Log::info('Generar Reporte Inventario', ['request' => $request->all()]);
         } catch (CustomException $e) {
