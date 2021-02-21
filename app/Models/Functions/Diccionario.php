@@ -293,7 +293,7 @@ class Diccionario
                 "column" => "p.product_cmtr_quantity",
                 "type" => "string"
             ]
-        ]
+        ],
 
 //asdfasdfasdfasdasdf
         "guide" => [
