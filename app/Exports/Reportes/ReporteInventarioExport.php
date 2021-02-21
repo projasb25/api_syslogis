@@ -10,14 +10,10 @@ use Maatwebsite\Excel\Concerns\WithMapping;
 class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadings
 {
     protected $where;
-    protected $take;
-    protected $skip;
     protected $user_data;
 
-    public function __construct($where, $take, $skip,$user_data) {
+    public function __construct($where,$user_data) {
         $this->where = $where;
-        $this->take = $take;
-        $this->skip = $skip;
         $this->user_data = $user_data;
     }
 
@@ -37,8 +33,8 @@ class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadin
         return collect(DB::select("CALL SP_REPORTE_INVENTARIO(?,?,?,?)",
             [
                 $this->where,
-                $this->take,
-                $this->skip,
+                0,
+                0,
                 $this->user_data
             ]
         ));

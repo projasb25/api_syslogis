@@ -28,8 +28,6 @@ class ReporteService
         try {
             $filtros = $request->get('filters');
             $origen = 'reporte_inventario';
-            $take = 10000;
-            $skip = 0;
             $daterange = $request->get('daterange');
             $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
 
@@ -41,7 +39,7 @@ class ReporteService
             // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
             $fileName = date('YmdHis') . '_reporte_inventario_' . rand(1, 100) . '.xlsx';
             // $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
-            Excel::store(new ReporteInventarioExport($where, $take, $skip,$user_data), $fileName, 'reportes');
+            Excel::store(new ReporteInventarioExport($where,$user_data), $fileName, 'reportes');
 
             Log::info('Generar Reporte Inventario', ['request' => $request->all()]);
         } catch (CustomException $e) {
