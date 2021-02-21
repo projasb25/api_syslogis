@@ -109,7 +109,7 @@ class Diccionario
                 "type" => "string"
             ],
             "buyer_name" => [
-                "column" => "by.company_name",
+                "column" => "byr.company_name",
                 "type" => "string"
             ]
         ],
