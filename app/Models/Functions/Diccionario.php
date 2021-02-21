@@ -233,19 +233,19 @@ class Diccionario
                 "column" => "p.product_code",
                 "type" => "string"
             ],
-            "product_quantity" => [
+            "quantity" => [
                 "column" => "p.product_quantity",
                 "type" => "string"
             ],
-            "product_quarantine_total" => [
+            "quarantine" => [
                 "column" => "p.product_quarantine_total",
                 "type" => "string"
             ],
-            "product_shrinkage_total" => [
+            "shrinkage" => [
                 "column" => "p.product_shrinkage_total",
                 "type" => "string"
             ],
-            "product_available_total" => [
+            "available" => [
                 "column" => "p.product_available_total",
                 "type" => "string"
             ],
