@@ -155,6 +155,7 @@ class BillLoadRepository
                         'created_by' => $data['username']
                     ]);
                     $balance = $value->product_quantity;
+                    $balance_available = $value->product_quantity - $value->shrinkage - $value->quarantine;
                 } else {
                     DB::table('inventory')->where('id_inventory', $check_inventory->id_inventory)
                     ->update([
@@ -166,6 +167,7 @@ class BillLoadRepository
                     ]);
                     $inventory_id = $check_inventory->id_inventory;
                     $balance = $check_inventory->quantity + $value->product_quantity;
+                    $balance_available = $check_inventory->available + ($value->product_quantity - $value->shrinkage - $value->quarantine);
                 }
 
                 DB::table('kardex')->insert([
@@ -176,6 +178,7 @@ class BillLoadRepository
                     'description' => 'ENTRADA',
                     'quantity' => $value->product_quantity,
                     'balance' => $balance,
+                    'balance_available' => $balance_available,
                     'type' => null,
                     'doc_type' => 'NOTA DE INGRESO',
                     'id_document' => $data['id_bill_load'],
