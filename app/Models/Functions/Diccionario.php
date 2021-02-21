@@ -107,6 +107,10 @@ class Diccionario
             "purchase_order_number" => [
                 "column" => "po.purchase_order_number",
                 "type" => "string"
+            ],
+            "buyer_name" => [
+                "column" => "by.company_name",
+                "type" => "string"
             ]
         ],
 //asdfasdfasdfasdasdf
