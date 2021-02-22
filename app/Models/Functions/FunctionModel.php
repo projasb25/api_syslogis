@@ -83,6 +83,12 @@ class FunctionModel
             'headers_params' => ['id_client','doc_type','document','company_name','category','status'],
             'details_params' => ['id_client_store','store_name','description','address','status']
         ],
+        "SP_INS_USER" => [
+            'query' => 'CALL SP_INS_USER(:header, :details, :username)',
+            'headers_params' => ["id_user","username","first_name","last_name","doc_type","doc_number","user_email","password","status", "type", "id_role"],
+            'details_params' => []
+            // "id_orguser", "id_corporation", "id_organization","id_role","bydefault","status"
+        ],
 
         /**
          * Funciones para Paginacion
@@ -324,12 +330,6 @@ class FunctionModel
             'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
             'headers_params' => ["id_driver","first_name","last_name","doc_number", "doc_type","email","phone","status","password"],
             'details_params' => ["id_vehicle", "id_provider", "vehicle_type","brand","model","plate_number","soat","status"]
-        ],
-        "SP_INS_USER" => [
-            'query' => 'CALL SP_INS_USER(:header, :details, :username)',
-            'headers_params' => ["id_user","username","first_name","last_name","doc_type","doc_number","user_email","password","status", "type", "id_role"],
-            'details_params' => []
-            // "id_orguser", "id_corporation", "id_organization","id_role","bydefault","status"
         ],
         "SP_UPDATE_SHIPPING_ORDER" => [
             'query' => 'CALL SP_UPDATE_SHIPPING_ORDER(:header, :details, :username)',
