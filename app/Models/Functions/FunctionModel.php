@@ -41,8 +41,8 @@ class FunctionModel
             "params" => ['id_load_template','id_corporation','id_organization','id_client','name','description','json_detail','status','username','type']
         ],
         "SP_SEL_LOAD_TEMPLATE" => [
-            "query" => 'CALL SP_SEL_LOAD_TEMPLATE(:ui, :id_corporation, :id_organization, :status, :type)',
-            "params" => ['ui', 'id_corporation', 'id_organization', 'status', 'type']
+            "query" => 'CALL SP_SEL_LOAD_TEMPLATE(:username, :id_corporation, :id_organization, :status, :type)',
+            "params" => ['username', 'id_corporation', 'id_organization', 'status', 'type']
         ],
         "SP_SEL_BILL_LOAD_DETAILS" => [
             "query" => 'SELECT * FROM bill_load_detail WHERE id_bill_load = :id_bill_load;',
