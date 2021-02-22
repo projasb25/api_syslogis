@@ -109,7 +109,7 @@ class PurchaseOrderRepository
                             'id_organization' => $oc->id_organization,
                             'id_product' => $product->id_product,
                             'id_inventory' => $inventario->id_inventory,
-                            'quantity' => $inventario->quantity,
+                            'quantity' => $descontar,
                             'shrinkage' => 0,
                             'quarantine' => 0,
                             'balance' => $total_inventario,
