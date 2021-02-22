@@ -91,7 +91,7 @@ class PurchaseOrderRepository
                         $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where('available','>',0)->first();
                         if ($descontar > $inventario->available) {  // 1000 > 780
                             $total_inventario = $inventario->quantity - $inventario->available;  // 800 - 780 = 20
-                            $aux_descontar = $total_inventario;
+                            $aux_descontar = $inventario->available;
                         } else {
                             $total_inventario = max($inventario->quantity - $descontar,0);  
                             $aux_descontar = $descontar;
