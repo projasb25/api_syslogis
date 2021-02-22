@@ -128,6 +128,12 @@ class PurchaseOrderRepository
                     $descontar = $value->product_quantity;
                     do {
                         $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where('available','>',0)->first();
+                        if ($descontar > $inventario->quantity) {
+                            $aux_descontar = $inventario->quantity;
+                        } else {
+                            $aux_descontar = $descontar;
+                        }
+
                         $total_inventario = max($inventario->quantity - $descontar,0);
 
                         $aux_shrink = max($inventario->shrinkage - $descontar, 0);
@@ -152,7 +158,7 @@ class PurchaseOrderRepository
                             'id_organization' => $oc->id_organization,
                             'id_product' => $product->id_product,
                             'id_inventory' => $inventario->id_inventory,
-                            'quantity' => $inventario->quantity,
+                            'quantity' => $aux_descontar,
                             'shrinkage' => $aux_shrink,
                             'quarantine' => $aux_quarantine,
                             'balance' => $total_inventario,
