@@ -86,17 +86,19 @@ class PurchaseOrderRepository
 
                 if (!$data['flag']) {
                     // Actualizamos Inventario
-                    $descontar = $value->product_quantity;
+                    $descontar = $value->product_quantity; // 1000
                     do {
                         $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where('available','>',0)->first();
-                        if ($descontar > $inventario->available) {
-                            $total_inventario = $inventario->quantity - $inventario->available;
+                        if ($descontar > $inventario->available) {  // 1000 > 780
+                            $total_inventario = $inventario->quantity - $inventario->available;  // 800 - 780 = 20
+                            $aux_descontar = $total_inventario;
                         } else {
-                            $total_inventario = max($inventario->quantity - $descontar,0);
+                            $total_inventario = max($inventario->quantity - $descontar,0);  
+                            $aux_descontar = $descontar;
                         }
 
-                        $disponible = max($inventario->available - $descontar, 0);
-                        $descontar = max($descontar - $inventario->available, 0);
+                        $disponible = max($inventario->available - $descontar, 0);  // 780 - 1000 = 0
+                        $descontar = max($descontar - $inventario->available, 0); // 1000  - 780 = 220
                         
                         DB::table('inventory')->where('id_inventory', $inventario->id_inventory)
                         ->update([
@@ -109,7 +111,7 @@ class PurchaseOrderRepository
                             'id_organization' => $oc->id_organization,
                             'id_product' => $product->id_product,
                             'id_inventory' => $inventario->id_inventory,
-                            'quantity' => $descontar,
+                            'quantity' => $aux_descontar,
                             'shrinkage' => 0,
                             'quarantine' => 0,
                             'balance' => $total_inventario,
