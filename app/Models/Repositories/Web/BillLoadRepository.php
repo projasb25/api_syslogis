@@ -139,6 +139,11 @@ class BillLoadRepository
                 ])->first();
 
                 if (!$check_inventory) {
+                    $shrinkage = $value->shrinkage;
+                    $quarantine = $value->quarantine;
+                    $balance = $value->product_quantity;
+                    $balance_available = $value->product_quantity - $value->shrinkage - $value->quarantine;
+
                     $inventory_id = DB::table('inventory')->insertGetId([
                         'id_corporation' => $data['id_corporation'],
                         'id_organization' => $data['id_organization'],
@@ -149,25 +154,26 @@ class BillLoadRepository
                         'level' => $value->level,
                         'column' => $value->column,
                         'quantity' => $value->product_quantity,
-                        'shrinkage' => $value->shrinkage,
-                        'quarantine' => $value->quarantine,
-                        'available' => $value->product_quantity - $value->shrinkage - $value->quarantine,
+                        'shrinkage' => $shrinkage,
+                        'quarantine' => $quarantine,
+                        'available' =>  $balance_available,
                         'created_by' => $data['username']
                     ]);
-                    $balance = $value->product_quantity;
-                    $balance_available = $value->product_quantity - $value->shrinkage - $value->quarantine;
                 } else {
+                    $inventory_id = $check_inventory->id_inventory;
+                    $shrinkage = $check_inventory->shrinkage + $value->shrinkage;
+                    $quarantine = $check_inventory->quarantine + $value->quarantine;
+                    $balance = $check_inventory->quantity + $value->product_quantity;
+                    $balance_available = $check_inventory->available + ($value->product_quantity - $value->shrinkage - $value->quarantine);
+
                     DB::table('inventory')->where('id_inventory', $check_inventory->id_inventory)
                     ->update([
                         'quantity' => $check_inventory->quantity + $value->product_quantity,
-                        'shrinkage' => $check_inventory->shrinkage + $value->shrinkage,
-                        'quarantine' => $check_inventory->quarantine + $value->quarantine,
-                        'available' => $check_inventory->available + ($value->product_quantity - $value->shrinkage - $value->quarantine),
+                        'shrinkage' => $shrinkage,
+                        'quarantine' => $quarantine,
+                        'available' => $balance_available,
                         'modified_by' => $data['username']
                     ]);
-                    $inventory_id = $check_inventory->id_inventory;
-                    $balance = $check_inventory->quantity + $value->product_quantity;
-                    $balance_available = $check_inventory->available + ($value->product_quantity - $value->shrinkage - $value->quarantine);
                 }
 
                 DB::table('kardex')->insert([
@@ -177,6 +183,8 @@ class BillLoadRepository
                     'id_inventory' => $inventory_id,
                     'description' => 'ENTRADA',
                     'quantity' => $value->product_quantity,
+                    'shrinkage' => $shrinkage,
+                    'quarantine' => $quarantine,
                     'balance' => $balance,
                     'balance_available' => $balance_available,
                     'type' => null,
