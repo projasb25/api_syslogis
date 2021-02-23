@@ -68,7 +68,11 @@ class FunctionModel
             "query" => 'CALL SP_INS_PRODUCTO(:id_product,:product_code,:product_alt_code1,:product_alt_code2,:product_description,:product_serie,:product_lots,:product_exp_date,:product_available,:product_color,:product_size,:product_package_number,:product_unitp_box,:product_cmtr_pbox,:product_cmtr_quantity,:product_quantity,:product_shrinkage_total,:product_quarantine_total,:product_available_total,:username)',
             "params" => ['id_product','product_code','product_alt_code1','product_alt_code2','product_description','product_serie','product_lots','product_exp_date','product_available','product_color','product_size','product_package_number','product_unitp_box','product_cmtr_pbox','product_cmtr_quantity','product_quantity','product_shrinkage_total','product_quarantine_total','product_available_total','username']
         ],
-
+        "SP_SEL_ORGUSER" => [
+            "query" => 'CALL SP_SEL_ORGUSER(:status, :id_user)',
+            "params" => ['status', 'id_user']
+        ],
+        
         /**
          * Funciones para Transaccions
          **/
@@ -191,10 +195,6 @@ class FunctionModel
         "SP_SEL_CORPORATIONS" => [
             "query" => 'CALL SP_SEL_CORPORATIONS(:status, :username)',
             "params" => ['status', 'username']
-        ],
-        "SP_SEL_ORGUSER" => [
-            "query" => 'CALL SP_SEL_ORGUSER(:status, :id_user)',
-            "params" => ['status', 'id_user']
         ],
         "SP_UPDATE_ADDRESS" => [
             "query" => 'CALL SP_UPDATE_ADDRESS(:id_guide, :latitude, :longitude)',
