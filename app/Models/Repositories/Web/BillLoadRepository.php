@@ -61,7 +61,12 @@ class BillLoadRepository
                     'product_cmtr_pbox' => $value['product_cmtr_pbox'] ?? null,
                     'product_cmtr_quantity' => $value['product_cmtr_quantity'] ?? null,
                     'status' => $value['status'] ?? null,
-                    'created_by' => $value['created_by'] ?? null
+                    'created_by' => $value['created_by'] ?? null,
+                    'hallway' => $value['hallway'] ?? null,
+                    'level' => $value['level'] ?? null,
+                    'column' => $value['column'] ?? null,
+                    'shrinkage' => $value['shrinkage'] ?? null,
+                    'quarantine' => $value['quarantine'] ?? null
                 ]);
             }
             DB::commit();

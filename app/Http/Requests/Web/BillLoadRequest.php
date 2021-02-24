@@ -36,6 +36,11 @@ class BillLoadRequest extends FormRequest
             'data.*.product_unitp_box' => 'product_unitp_box',
             'data.*.product_cmtr_pbox' => 'product_cmtr_pbox',
             'data.*.product_cmtr_quantity' => 'product_cmtr_quantity',
+            'data.*.hallway' => 'hallway',
+            'data.*.level' => 'level',
+            'data.*.column' => 'column',
+            'data.*.shrinkage' => 'shrinkage',
+            'data.*.quarantine' => 'quarantine',
         ];
     }
 
@@ -61,6 +66,11 @@ class BillLoadRequest extends FormRequest
             'data.*.product_unitp_box' => 'min:1|numeric',
             'data.*.product_cmtr_pbox' => 'min:1|numeric',
             'data.*.product_cmtr_quantity' => 'min:1|numeric',
+            'data.*.hallway' => 'min:0|numeric',
+            'data.*.level' => 'min:0|numeric',
+            'data.*.column' => 'min:0|numeric',
+            'data.*.shrinkage' => 'min:0|numeric',
+            'data.*.quarantine' => 'min:0|numeric',
         ];
     }
 
