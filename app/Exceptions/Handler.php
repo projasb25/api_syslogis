@@ -80,7 +80,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'success' => false,
                 'error' => [
-                    'message' => $errors[$first_error][0],
+                    'mensaje' => $errors[$first_error][0],
                 ]
             ], 400);
         }
@@ -105,7 +105,7 @@ class Handler extends ExceptionHandler
         return response()->json([
             'success' => false,
             'error' => [
-                'message' => $errors[$first_error][0],
+                'mensaje' => $errors[$first_error][0],
             ]
         ], $exception->status);
     }
