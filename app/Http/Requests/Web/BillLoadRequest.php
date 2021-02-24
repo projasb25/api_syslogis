@@ -68,6 +68,7 @@ class BillLoadRequest extends FormRequest
             'data.*.product_unitp_box' => 'min:1|numeric',
             'data.*.product_cmtr_pbox' => 'min:1|numeric',
             'data.*.product_cmtr_quantity' => 'min:1|numeric',
+            'data.*.product_line' => 'string',
             'data.*.hallway' => 'min:0|numeric',
             'data.*.level' => 'min:0|numeric',
             'data.*.column' => 'min:0|numeric',

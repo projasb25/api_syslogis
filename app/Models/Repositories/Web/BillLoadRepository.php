@@ -60,6 +60,7 @@ class BillLoadRepository
                     'product_unitp_box' => $value['product_unitp_box'] ?? null,
                     'product_cmtr_pbox' => $value['product_cmtr_pbox'] ?? null,
                     'product_cmtr_quantity' => $value['product_cmtr_quantity'] ?? null,
+                    'product_line' => $value['product_line'] ?? null,
                     'status' => $value['status'] ?? null,
                     'created_by' => $value['created_by'] ?? null,
                     'hallway' => $value['hallway'] ?? null,
