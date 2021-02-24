@@ -32,6 +32,8 @@ class BillLoadService
             $data['id_client'] = $req['id_client'];
             $data['id_client_store'] = $req['id_client_store'];
             $data['id_load_template'] = $req['id_load_template'];
+            $data['entrance_guide'] = $req['entrance_guide'];
+            $data['entry_purchase_order'] = $req['entry_purchase_order'];
 
             $id = $this->repo->insertBillLoad($data);
             
