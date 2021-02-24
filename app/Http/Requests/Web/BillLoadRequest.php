@@ -51,6 +51,8 @@ class BillLoadRequest extends FormRequest
             'id_client' => 'required|numeric',
             'id_client_store' => 'required|numeric',
             "id_load_template" => 'required|numeric',
+            "entrance_guide" => 'required',
+            "entry_purchase_order" => 'required',
             'data.*.product_code' => 'required|min:4|string',
             'data.*.product_alt_code1' => 'min:4|string',
             'data.*.product_alt_code2' => 'min:4|string',
