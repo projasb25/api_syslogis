@@ -91,6 +91,7 @@ class MainService
             if (array_key_exists('password', $header['data']) && !empty($header['data']['password'])) {
                 $header['data']['password'] = Hash::make($header['data']['password']);
             }
+            dd($header);
 
             foreach ($headerParams as $key => $param) {
                 if (array_key_exists($param, $header['data'])) {
