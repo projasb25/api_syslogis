@@ -84,6 +84,17 @@ class FunctionModel
             "query" => 'CALL SP_SEL_PROVIDERS(:username, :id_corporation, :id_organization, :status)',
             "params" => ['username', 'id_corporation', 'id_organization', 'status']
         ],
+        "SP_INS_VEHICLE" => [
+            "query" => 'CALL SP_INS_VEHICLE(:id_vehicle,:id_provider,:id_corporation,:id_organization,:brand,:model,:plate_number,:soat,:driver_license,:status,:username)',
+            "params" => ['id_vehicle','id_provider','id_corporation','id_organization','brand','model','plate_number','soat','driver_license','status','username']
+        ],
+        "SP_SEL_VEHICLE" => [
+            "query" => 'CALL SP_SEL_VEHICLE(:username, :id_corporation, :id_organization, :status)',
+            "params" => ['username', 'id_corporation', 'id_organization', 'status']
+        ],
+
+
+
 
 
         
