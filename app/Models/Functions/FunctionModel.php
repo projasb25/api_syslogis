@@ -76,6 +76,16 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ORGANIZTIONS(:status, :id_corporation, :username)',
             "params" => ['status', 'id_corporation', 'username']
         ],
+        "SP_INS_PROVIDER" => [
+            "query" => 'CALL SP_INS_PROVIDER(:id_provider,:name,:ruc,:responsible_name,:responsible_phone,:responsible_email,:description,:address,:status,:username)',
+            "params" => ['id_provider','name','ruc','responsible_name','responsible_phone','responsible_email','description','address','status','username']
+        ],
+        "SP_SEL_PROVIDERS" => [
+            "query" => 'CALL SP_SEL_PROVIDERS(:username, :id_corporation, :id_organization, :status)',
+            "params" => ['username', 'id_corporation', 'id_organization', 'status']
+        ],
+
+
         
         /**
          * Funciones para Transaccions
@@ -203,14 +213,6 @@ class FunctionModel
         "SP_UPDATE_ADDRESS" => [
             "query" => 'CALL SP_UPDATE_ADDRESS(:id_guide, :latitude, :longitude)',
             "params" => ['id_guide', 'latitude', 'longitude']
-        ],
-        "SP_SEL_PROVIDERS" => [
-            "query" => 'CALL SP_SEL_PROVIDERS(:status)',
-            "params" => ['status']
-        ],
-        "SP_INS_PROVIDER" => [
-            "query" => 'CALL SP_INS_PROVIDER(:id_provider,:name,:ruc,:responsible_name,:responsible_phone,:responsible_email,:description,:address,:status,:username)',
-            "params" => ['id_provider','name','ruc','responsible_name','responsible_phone','responsible_email','description','address','status','username']
         ],
         "SP_SEL_SHIPPING_DETAIL" => [
             "query" => 'CALL SP_SEL_SHIPPING_DETAIL(:id_shipping_order)',
