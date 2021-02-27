@@ -50,6 +50,8 @@ class MainService
                     throw new CustomException(['parametros incorrectos.', 2100], 400);
                 }
             }
+
+            dd($bindings);
             $data = $this->repository->execute_store($query, $bindings);
             Log::info('Main Service exito', ['request' => $req]);
         } catch (CustomException $e) {
