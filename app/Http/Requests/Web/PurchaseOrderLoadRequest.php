@@ -34,6 +34,7 @@ class PurchaseOrderLoadRequest extends FormRequest
             "id_vehicle" => 'required|numeric',
             "document_type" => 'string',
             "document_number" => 'string',
+            "driver_license" => "required|string",
             'purchase_order_number' => 'required',
             'data.*.product_code' => 'required|min:4|string',
             'data.*.product_description' => 'string|min:6',

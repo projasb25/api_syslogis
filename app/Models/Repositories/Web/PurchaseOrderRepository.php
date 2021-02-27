@@ -32,6 +32,7 @@ class PurchaseOrderRepository
                 "id_vehicle" => $data["id_vehicle"],
                 "document_type" => $data["document_type"],
                 "document_number" => $data["document_number"],
+                "driver_license" => $data["driver_license"],
             ]);
 
             foreach ($data['data'] as $key => $value) {

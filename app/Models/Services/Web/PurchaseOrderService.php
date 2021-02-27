@@ -36,6 +36,7 @@ class PurchaseOrderService
             $data["id_vehicle"] = $req['id_vehicle'];
             $data["document_type"] = $req['document_type'];
             $data["document_number"] = $req['document_number'];
+            $data["driver_license"] = $req['driver_license'];
 
             $id = $this->repo->insertPurchaseOrder($data);
             
