@@ -92,6 +92,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_VEHICLE(:username, :id_corporation, :id_organization, :status)',
             "params" => ['username', 'id_corporation', 'id_organization', 'status']
         ],
+        "SP_SEL_CORPORATIONS" => [
+            "query" => 'CALL SP_SEL_CORPORATIONS(:status)',
+            "params" => ['status']
+        ],
 
 
 
@@ -216,11 +220,7 @@ class FunctionModel
         "SP_SEL_SHIPPING_ORDERS" => [
             "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :username)',
             "params" => ['status', 'username']
-        ],
-        "SP_SEL_CORPORATIONS" => [
-            "query" => 'CALL SP_SEL_CORPORATIONS(:status, :username)',
-            "params" => ['status', 'username']
-        ],
+        ],        
         "SP_UPDATE_ADDRESS" => [
             "query" => 'CALL SP_UPDATE_ADDRESS(:id_guide, :latitude, :longitude)',
             "params" => ['id_guide', 'latitude', 'longitude']
