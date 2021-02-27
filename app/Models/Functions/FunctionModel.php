@@ -126,6 +126,11 @@ class FunctionModel
             'details_params' => []
             // "id_orguser", "id_corporation", "id_organization","id_role","bydefault","status"
         ],
+        "SP_INS_CORPORATION" => [
+            'query' => 'CALL SP_INS_CORPORATION(:header, :details, :username)',
+            'headers_params' => ['id_corporation', 'name', 'description', 'status', 'doc_type', 'document'],
+            'details_params' => ['id_organization', 'name', 'description', 'address', 'status', 'type']
+        ],
 
         /**
          * Funciones para Paginacion
@@ -341,12 +346,7 @@ class FunctionModel
 
         /**
          * Funciones para Transaccions
-         **/
-        "SP_INS_CORPORATION" => [
-            'query' => 'CALL SP_INS_CORPORATION(:header, :details, :username)',
-            'headers_params' => ['id_corporation', 'name', 'description', 'status'],
-            'details_params' => ['id_organization', 'name', 'description', 'ruc', 'address', 'status', 'type']
-        ],
+         **/        
         "SP_INS_VEHICLE_DRIVER" => [
             'query' => 'CALL SP_INS_VEHICLE_DRIVER(:header, :details, :username)',
             'headers_params' => ["id_driver","first_name","last_name","doc_number", "doc_type","email","phone","status","password"],
