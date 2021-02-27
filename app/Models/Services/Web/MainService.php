@@ -51,7 +51,6 @@ class MainService
                 }
             }
 
-            dd($bindings);
             $data = $this->repository->execute_store($query, $bindings);
             Log::info('Main Service exito', ['request' => $req]);
         } catch (CustomException $e) {
