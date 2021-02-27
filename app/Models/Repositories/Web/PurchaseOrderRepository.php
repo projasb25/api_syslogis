@@ -27,7 +27,11 @@ class PurchaseOrderRepository
                 'number_records' => $data['count'],
                 'status' => 'PENDIENTE',
                 'created_by' => $data['username'],
-                'purchase_order_number' => $data['purchase_order_number']
+                'purchase_order_number' => $data['purchase_order_number'],
+                "id_provider" => $data["id_provider"],
+                "id_vehicle" => $data["id_vehicle"],
+                "document_type" => $data["document_type"],
+                "document_number" => $data["document_number"],
             ]);
 
             foreach ($data['data'] as $key => $value) {

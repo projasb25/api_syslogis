@@ -32,6 +32,10 @@ class PurchaseOrderService
             $data['id_load_template'] = $req['id_load_template'];
             $data['id_buyer'] = $req['id_buyer'];
             $data['purchase_order_number'] = $req['purchase_order_number'];
+            $data["id_provider"] = $req['id_provider'];
+            $data["id_vehicle"] = $req['id_vehicle'];
+            $data["document_type"] = $req['document_type'];
+            $data["document_number"] = $req['document_number'];
 
             $id = $this->repo->insertPurchaseOrder($data);
             
