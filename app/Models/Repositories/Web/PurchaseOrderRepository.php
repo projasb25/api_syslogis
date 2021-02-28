@@ -121,7 +121,7 @@ class PurchaseOrderRepository
                         $aux_descontar = $descontar;
                     }
 
-                    $disponible = max($inventario->available - $descontar, 0);  // 780 - 1000 = 0
+                    // $disponible = max($inventario->available - $aux_descontar, 0);  // 780 - 1000 = 0
                     $descontar = $descontar - $aux_descontar; # 9 - 5 = 4  |  4 - 4 = 0;
 
                     DB::table('inventory')->where('id_inventory', $inventario->id_inventory)
