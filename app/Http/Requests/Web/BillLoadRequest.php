@@ -75,7 +75,7 @@ class BillLoadRequest extends FormRequest
             'data.*.level' => 'min:0|numeric',
             'data.*.column' => 'min:0|numeric',
             'data.*.shrinkage' => 'min:0|numeric',
-            'data.*.quarantine' => 'min:0|numeric',
+            'data.*.quarantine' => 'min:0|numeric|nullable',
             'data.*.scrap'  => 'min:0|numeric',
             'data.*.demo'  => 'min:0|numeric',
         ];
