@@ -78,6 +78,8 @@ class BillLoadService
                 }
                 $value->shrinkage = $req_detalle[$key]['shrinkage'];
                 $value->quarantine = $req_detalle[$key]['quarantine'];
+                $value->scrap = $req_detalle[$key]['scrap'];
+                $value->demo = $req_detalle[$key]['demo'];
                 $value->hallway = $req_detalle[$key]['hallway'];
                 $value->level = $req_detalle[$key]['level'];
                 $value->column = $req_detalle[$key]['column'];
