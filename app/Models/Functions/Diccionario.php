@@ -154,6 +154,14 @@ class Diccionario
                 "column" => "inv.shrinkage",
                 "type" => "string"
             ],
+            "demo" => [
+                "column" => "inv.demo",
+                "type" => "string"
+            ],
+            "scrap" => [
+                "column" => "inv.scrap",
+                "type" => "string"
+            ],
             "available" => [
                 "column" => "inv.available",
                 "type" => "string"
