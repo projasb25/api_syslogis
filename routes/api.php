@@ -20,7 +20,8 @@ use Location\Distance\Vincenty;
 
 Route::post('test', function(Request $request){
     $inventario = DB::table('inventory')->where('id_product',124)->where('available','>',0)->first();
-    dd($inventario);
+    $property_name = '$shrinkage';
+    dd($inventario->$property_name);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
