@@ -110,10 +110,10 @@ class PurchaseOrderRepository
                 $product = DB::table('product')->where('product_code',$value->product_code)->where('id_client_store', $oc->id_client_store)->first();
                 Log::info('property_name ->'. $property_name);
                Log::info('product', (array) $product);
+               $descontar = $value->product_quantity; # 9 | 4
                 do {
                     $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where($property_name,'>',0)->first();
                     Log::info('inventario', (array) $inventario);
-                    $descontar = $value->product_quantity; # 9 | 4
                     Log::info('descontar ->'. $descontar);
 
 
