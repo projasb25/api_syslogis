@@ -130,13 +130,14 @@ class PurchaseOrderRepository
                         'quantity' => $total_inventario,
                     ]);
 
+                    $kardex_column = ($property_name === 'available') ? 'quantity' : $property_name;
                     DB::table('kardex')->insert([
                         'id_corporation' => $oc->id_corporation,
                         'id_organization' => $oc->id_organization,
                         'id_product' => $product->id_product,
                         'id_inventory' => $inventario->id_inventory,
                         'quantity' => $aux_descontar,
-                        $property_name => $aux_descontar,
+                        $kardex_column => $aux_descontar,
                         'balance' => $total_inventario,
                         'balance_available' => ($property_name === 'available') ? $inventario->available - $aux_descontar : $inventario->available,
                         'doc_type' => 'ORDEN DE COMPRA',
