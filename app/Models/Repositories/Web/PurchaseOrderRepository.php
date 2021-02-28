@@ -108,9 +108,10 @@ class PurchaseOrderRepository
                 
                 $property_name = $value->discount_from; # quarantine
                 $product = DB::table('product')->where('product_code',$value->product_code)->where('id_client_store', $oc->id_client_store)->first();
-               
+               Log::info('product', (array) $product);
                 do {
                     $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where($property_name,'>',0)->first();
+                    Log::info('inventario', (array) $inventario);
                     $descontar = $value->product_quantity; # 9 | 4
 
                     if ($descontar > $inventario->$property_name) {  # 9 > 5
