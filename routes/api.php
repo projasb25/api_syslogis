@@ -20,7 +20,7 @@ use Location\Distance\Vincenty;
 
 Route::post('test', function(Request $request){
     $inventario = DB::table('inventory')->where('id_product',124)->where('available','>',0)->first();
-    $property_name = '$shrinkage';
+    $property_name = 'shrinkage';
     dd($inventario->$property_name);
 });
 
