@@ -41,6 +41,8 @@ class BillLoadRequest extends FormRequest
             'data.*.column' => 'column',
             'data.*.shrinkage' => 'shrinkage',
             'data.*.quarantine' => 'quarantine',
+            'data.*.scrap' => 'scrap',
+            'data.*.demo' => 'demo',
         ];
     }
 
@@ -74,6 +76,8 @@ class BillLoadRequest extends FormRequest
             'data.*.column' => 'min:0|numeric',
             'data.*.shrinkage' => 'min:0|numeric',
             'data.*.quarantine' => 'min:0|numeric',
+            'data.*.scrap'  => 'min:0|numeric',
+            'data.*.demo'  => 'min:0|numeric',
         ];
     }
 
