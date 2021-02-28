@@ -106,27 +106,21 @@ class PurchaseOrderRepository
             $detalle = DB::table('purchase_order_detail')->where('id_purchase_order',$data['id_purchase_order'])->get();
             foreach ($detalle as $key => $value) {
                 
-                $property_name = $value->discount_from; # quarantine
+                $property_name = $value->discount_from;
                 $product = DB::table('product')->where('product_code',$value->product_code)->where('id_client_store', $oc->id_client_store)->first();
-                Log::info('property_name ->'. $property_name);
-               Log::info('product', (array) $product);
-               $descontar = $value->product_quantity; # 9 | 4
+                $descontar = $value->product_quantity;
                 do {
                     $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where($property_name,'>',0)->first();
-                    Log::info('inventario', (array) $inventario);
-                    Log::info('descontar ->'. $descontar);
 
-
-                    if ($descontar > $inventario->$property_name) {  # 9 > 5
-                        $total_inventario = $inventario->quantity - $inventario->$property_name;  # 20 - 5 = 15
-                        $aux_descontar = $inventario->$property_name; # 5
+                    if ($descontar > $inventario->$property_name) { 
+                        $total_inventario = $inventario->quantity - $inventario->$property_name; 
+                        $aux_descontar = $inventario->$property_name;
                     } else {
-                        $total_inventario = $inventario->quantity - $descontar; # 12 - 4 = 8
+                        $total_inventario = $inventario->quantity - $descontar;
                         $aux_descontar = $descontar;
                     }
 
-                    // $disponible = max($inventario->available - $aux_descontar, 0);  // 780 - 1000 = 0
-                    $descontar = $descontar - $aux_descontar; # 9 - 5 = 4  |  4 - 4 = 0;
+                    $descontar = $descontar - $aux_descontar;
 
                     DB::table('inventory')->where('id_inventory', $inventario->id_inventory)
                     ->update([
@@ -149,7 +143,6 @@ class PurchaseOrderRepository
                         'created_by' => $data['username'],
                         'description' => 'SALIDA'
                     ]);
-                    Log::info('descontar final ->'. $descontar);
                 } while ($descontar > 0);
 
                 $totales = DB::table('inventory')->select(DB::raw('SUM(quantity) as qty_tot,SUM(shrinkage) as s_tot,SUM(scrap) as scrap_tot,SUM(demo) as demo_tot,SUM(quarantine) as q_tot,SUM(available) as a_tot'))->where('id_product',$product->id_product)->first();
