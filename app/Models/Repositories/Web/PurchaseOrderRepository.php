@@ -63,7 +63,7 @@ class PurchaseOrderRepository
                 }
 
                 if ($value['product_quantity'] > $aux_quantity) {
-                    throw new CustomException(['no hay stock para descontar esta cantidad.', 2000], 400);
+                    throw new CustomException(["no hay stock disponible para descontar el codigo $value['product_code'] de $value['discount_from']", 2000], 400);
                 }
 
                 DB::table('purchase_order_detail')->insert([
