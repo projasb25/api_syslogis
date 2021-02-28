@@ -69,7 +69,9 @@ class BillLoadRepository
                     'level' => $value['level'] ?? null,
                     'column' => $value['column'] ?? null,
                     'shrinkage' => $value['shrinkage'] ?? null,
-                    'quarantine' => $value['quarantine'] ?? null
+                    'quarantine' => $value['quarantine'] ?? null,
+                    'scrap' => $value['scrap'] ?? null,
+                    'demo' => $value['demo'] ?? null
                 ]);
             }
             DB::commit();
