@@ -39,6 +39,7 @@ class PurchaseOrderLoadRequest extends FormRequest
             'data.*.product_code' => 'required|min:4|string',
             'data.*.product_description' => 'string|min:6',
             'data.*.product_quantity' => 'required|min:1|numeric',
+            'data.*.discount_from' => 'required|string',
         ];
     }
 

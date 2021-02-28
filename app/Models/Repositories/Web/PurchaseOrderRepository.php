@@ -46,6 +46,7 @@ class PurchaseOrderRepository
                     'product_code' => $value['product_code'] ?? null,
                     'product_description' => $value['product_description'] ?? null,
                     'product_quantity' => $value['product_quantity'] ?? null,
+                    'discount_from' => $value['discount_from'] ?? null,
                     'status' => 'PENDIENTE',
                     'created_by' => $data['username']
                 ]);
