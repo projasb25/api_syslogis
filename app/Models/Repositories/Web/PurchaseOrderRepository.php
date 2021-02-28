@@ -114,6 +114,8 @@ class PurchaseOrderRepository
                     $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where($property_name,'>',0)->first();
                     Log::info('inventario', (array) $inventario);
                     $descontar = $value->product_quantity; # 9 | 4
+                    Log::info('descontar ->'. $descontar);
+
 
                     if ($descontar > $inventario->$property_name) {  # 9 > 5
                         $total_inventario = $inventario->quantity - $inventario->$property_name;  # 20 - 5 = 15
@@ -147,7 +149,7 @@ class PurchaseOrderRepository
                         'created_by' => $data['username'],
                         'description' => 'SALIDA'
                     ]);
-                    Log::info('descontar ->'. $descontar);
+                    Log::info('descontar final ->'. $descontar);
                 } while ($descontar > 0);
 
                 $totales = DB::table('inventory')->select(DB::raw('SUM(quantity) as qty_tot,SUM(shrinkage) as s_tot,SUM(scrap) as scrap_tot,SUM(demo) as demo_tot,SUM(quarantine) as q_tot,SUM(available) as a_tot'))->where('id_product',$product->id_product)->first();
