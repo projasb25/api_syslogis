@@ -42,7 +42,7 @@ class PurchaseOrderRepository
                 }
 
                 // Validar cantidades de descuento
-                switch ($value->discount_from) {
+                switch ($value['discount_from']) {
                     case 'available':
                         $aux_quantity = $validate_product->product_available_total;
                         break;
