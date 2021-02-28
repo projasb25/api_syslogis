@@ -157,7 +157,7 @@ class BillLoadRepository
                     $shrinkage = $value->shrinkage;
                     $quarantine = $value->quarantine;
                     $balance = $value->product_quantity;
-                    $scarp = $value->scarp;
+                    $scrap = $value->scrap;
                     $demo = $value->demo;
                     $balance_available = $value->product_quantity - ($value->shrinkage + $value->quarantine + $value->demo + $value->scrap);
 
@@ -173,7 +173,7 @@ class BillLoadRepository
                         'quantity' => $value->product_quantity,
                         'shrinkage' => $shrinkage,
                         'quarantine' => $quarantine,
-                        'scarp' => $scarp,
+                        'scrap' => $scrap,
                         'demo' => $demo,
                         'available' =>  $balance_available,
                         'created_by' => $data['username']
@@ -182,7 +182,7 @@ class BillLoadRepository
                     $inventory_id = $check_inventory->id_inventory;
                     $shrinkage = $check_inventory->shrinkage + $value->shrinkage;
                     $quarantine = $check_inventory->quarantine + $value->quarantine;
-                    $scarp = $check_inventory->scarp +  $value->scarp;
+                    $scrap = $check_inventory->scrap +  $value->scrap;
                     $demo = $check_inventory->demo + $value->demo;
                     $balance = $check_inventory->quantity + $value->product_quantity;
                     $balance_available = $check_inventory->available + ($value->product_quantity - ($value->shrinkage + $value->quarantine + $value->demo + $value->scrap));
@@ -192,7 +192,7 @@ class BillLoadRepository
                         'quantity' => $check_inventory->quantity + $value->product_quantity,
                         'shrinkage' => $shrinkage,
                         'quarantine' => $quarantine,
-                        'scarp' => $scarp,
+                        'scrap' => $scrap,
                         'demo' => $demo,
                         'available' => $balance_available,
                         'modified_by' => $data['username']
@@ -208,7 +208,7 @@ class BillLoadRepository
                     'quantity' => $value->product_quantity,
                     'shrinkage' => $value->shrinkage,
                     'quarantine' => $value->quarantine,
-                    'scarp' => $value->scarp,
+                    'scrap' => $value->scrap,
                     'demo' => $value->demo,
                     'balance' => $balance,
                     'balance_available' => $balance_available,
@@ -224,7 +224,7 @@ class BillLoadRepository
                     'status' => 'PROCESADO', 'modified_by' => $data['username'],
                     'hallway' => $value->hallway, 'level' => $value->level,
                     'column' => $value->column, 'shrinkage' => $value->shrinkage,
-                    'scarp' => $value->scarp, 'demo' => $value->demo,
+                    'scrap' => $value->scrap, 'demo' => $value->demo,
                     'quarantine' => $value->quarantine
                 ]);
             }
