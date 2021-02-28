@@ -147,7 +147,7 @@ class PurchaseOrderRepository
                         'created_by' => $data['username'],
                         'description' => 'SALIDA'
                     ]);
-
+                    Log::info('descontar ->'. $descontar);
                 } while ($descontar > 0);
 
                 $totales = DB::table('inventory')->select(DB::raw('SUM(quantity) as qty_tot,SUM(shrinkage) as s_tot,SUM(scrap) as scrap_tot,SUM(demo) as demo_tot,SUM(quarantine) as q_tot,SUM(available) as a_tot'))->where('id_product',$product->id_product)->first();
