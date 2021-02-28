@@ -17,12 +17,12 @@ use Location\Distance\Vincenty;
 |
 */
 
-Route::post('test', function(){
+Route::post('test', function(Request $request){
     // $new = new \App\Models\Services\IntegracionService(new \App\Models\Repositories\IntegracionRepository());
     // $new->integracionRipley();
+    dd($request->all());
     $var = '{"id_client":14,"purchase_order_number":"123123","id_buyer":2,"id_client_store":20,"id_load_template":16,"id_provider":1,"id_vehicle":1,"document_type":"asdfas","document_number":"asdfasdf","driver_license":"licencia","data":[{"product_code":"PRODUCTO1","product_quantity":10,"discount_from":"available"},{"product_code":"PRODUCTO2","product_quantity":10,"discount_from":"available"},{"product_code":"PRODUCTO1","product_quantity":10,"discount_from":"shrinkage"}]}';
     $data = json_decode($var);
-    dd($data['data']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
