@@ -179,8 +179,59 @@ class PurchaseOrderRepository
             //     'modified_by' => $data['username'],
             //     'status' => 'PROCESADO'
             // ]);
+
             $kardex = DB::table('kardex')->where('id_document',$data['id_purchase_order'])->where('doc_type','ORDEN DE COMPRA')->get();
-        
+            foreach ($kardex as $key => $value) {
+                if($value->shrinkage > 0){
+                    $origen = "shrinkage";
+                } elseif($value->quarantine > 0){
+                    $origen = "quarantine";
+                }
+                elseif($value->scrap > 0){
+                    $origen = "scrap";
+                }
+                elseif($value->demo > 0){
+                    $origen = "demo";
+                }
+                else {
+                    $origen = "available";
+                }
+
+                $inventario = DB::table('inventory')->where('id_inventory',$value->id_inventory)->first();
+                DB::table('inventory')->where('id_inventory'->$inventario->id_inventory)->update([
+                    $origen => $value->quantity + $inventario->$origen
+                ]);
+
+                DB::table('kardex')->insert([
+                    'id_corporation' => $value->id_corporation,
+                    'id_organization' => $value->id_organization,
+                    'id_product' => $value->id_product,
+                    'id_inventory' => $value->id_inventory,
+                    'description' => 'ANULACION',
+                    'quantity' => $value->quantity,
+                    'shrinkage' => $value->shrinkage,
+                    'quarantine' => $value->quarantine,
+                    'scrap' => $value->scrap,
+                    'demo' => $value->demo,
+                    'balance_available' => ($origen === 'available') ? $inventario->available + $value->quantity : $inventario->available,
+                    'balance' => $inventario->quantity + $value->quantity,
+                    'doc_type' => $value->doc_type,
+                    'id_document' => $value->id_document,
+                    'created_by' => $data['username'],
+                ]);
+
+                $totales = DB::table('inventory')->select(DB::raw('SUM(quantity) as qty_tot,SUM(shrinkage) as s_tot,SUM(scrap) as scrap_tot,SUM(demo) as demo_tot,SUM(quarantine) as q_tot,SUM(available) as a_tot'))->where('id_product',$value->id_product)->first();
+                DB::table('product')->where('id_product', $value->id_product)
+                ->update([
+                    'product_quantity' => $totales->qty_tot,
+                    'product_quarantine_total' => $totales->q_tot,
+                    'product_shrinkage_total' => $totales->s_tot,
+                    'product_scrap_total' => $totales->scrap_tot,
+                    'product_demo_total' => $totales->demo_tot,
+                    'product_available_total' => $totales->a_tot
+                ]);
+            }
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

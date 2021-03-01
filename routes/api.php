@@ -51,7 +51,7 @@ Route::post('test', function(Request $request){
 
         echo '<br>';
 
-        echo 'UPDATE INVENTORY SET ' .$origen.' = '.$value->quantity.' + '.$inventario->$origen . 'where id_inventory = ' .$inventario->id_inventory;
+        echo 'UPDATE INVENTORY SET ' .$origen.' = '.$value->quantity.' + '.$inventario->$origen . ' where id_inventory = ' .$inventario->id_inventory;
     }
     dd($kardex);
 });
