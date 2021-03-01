@@ -201,7 +201,7 @@ class PurchaseOrderRepository
                 Log::info($inventario->$origen);
                 Log::info($value->quantity);
                 Log::info($origen);
-                DB::table('inventory')->where('id_inventory'->$inventario->id_inventory)->update([
+                DB::table('inventory')->where('id_inventory',$inventario->id_inventory)->update([
                     $origen => $value->quantity + $inventario->$origen
                 ]);
                 Log::info('aca2');
