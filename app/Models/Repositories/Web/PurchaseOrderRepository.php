@@ -41,6 +41,31 @@ class PurchaseOrderRepository
                     throw new CustomException(['producto invalido.', 2000], 401);
                 }
 
+                // Validar cantidades de descuento
+                switch ($value->discount_from) {
+                    case 'available':
+                        $aux_quantity = $validate_product->product_available_total;
+                        break;
+                    case 'shrinkage':
+                        $aux_quantity = $validate_product->product_shrinkage_total;
+                        break;
+                    case 'quarantine':
+                        $aux_quantity = $validate_product->product_quarantine_total;
+                        break;
+                    case 'scrap':
+                        $aux_quantity = $validate_product->product_scrap_total;
+                        break;
+                    case 'demo':
+                        $aux_quantity = $validate_product->product_demo_total;
+                        break;
+                    default:
+                        break;
+                }
+
+                if ($value['product_quantity'] > $aux_quantity) {
+                    throw new CustomException(['no hay stock para descontar esta cantidad.', 2000], 400);
+                }
+
                 DB::table('purchase_order_detail')->insert([
                     'id_purchase_order' =>  $id,
                     'product_code' => $value['product_code'] ?? null,
