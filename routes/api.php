@@ -19,10 +19,14 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(Request $request){
-    $inventario = DB::table('inventory')->where('id_product',124)->where('available','>',0)->first();
-    $property_name = 'column';
-    DB::table('inventory')->where('id_inventory',160)->update([$property_name => 20]);
-    dd($inventario->$property_name);
+    // $inventario = DB::table('inventory')->where('id_product',124)->where('available','>',0)->first();
+    // $property_name = 'column';
+    // DB::table('inventory')->where('id_inventory',160)->update([$property_name => 20]);
+    // dd($inventario->$property_name);
+    $data = $request->all();
+
+    $kardex = DB::table('kardex')->where('id_document',$data['id_purchase_order'])->where('doc_type','ORDEN DE COMPRA')->get();
+    dd($kardex);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -91,6 +95,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'purchase_order'], function() {
         Route::post('', 'PurchaseOrderController@index');
         Route::post('process', 'PurchaseOrderController@process');
+        Route::post('cancel', 'PurchaseOrderController@cancel');
     });
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'massive_load'], function() {
