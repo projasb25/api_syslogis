@@ -46,7 +46,7 @@ Route::post('test', function(Request $request){
         $inventario = DB::table('inventory')->where('id_inventory',$value->id_inventory)->first();
         echo '<pre>';
         echo $origen;
-        echo 'id_inventario -> '.$inventario->id_inventario;
+        echo 'id_inventario -> '.$inventario->id_inventory;
         echo '     inventario - '.$origen.' = '. $inventario->$origen;
     }
     dd($kardex);
