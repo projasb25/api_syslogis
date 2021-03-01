@@ -46,8 +46,12 @@ Route::post('test', function(Request $request){
         $inventario = DB::table('inventory')->where('id_inventory',$value->id_inventory)->first();
         echo '<pre>';
         echo $origen;
-        echo 'id_inventario -> '.$inventario->id_inventory;
+        echo ' id_inventario -> '.$inventario->id_inventory;
         echo '     inventario - '.$origen.' = '. $inventario->$origen;
+
+        echo '<br>';
+
+        echo 'UPDATE INVENTORY SET ' .$origen.' = '.$value->quantity.' + '.$inventario->$origen . 'where id_inventory = ' .$inventario->id_inventory;
     }
     dd($kardex);
 });
