@@ -196,12 +196,12 @@ class PurchaseOrderRepository
                 else {
                     $origen = "available";
                 }
-
+                Log::info('aca1');
                 $inventario = DB::table('inventory')->where('id_inventory',$value->id_inventory)->first();
                 DB::table('inventory')->where('id_inventory'->$inventario->id_inventory)->update([
                     $origen => $value->quantity + $inventario->$origen
                 ]);
-
+                Log::info('aca2');
                 DB::table('kardex')->insert([
                     'id_corporation' => $value->id_corporation,
                     'id_organization' => $value->id_organization,
@@ -219,7 +219,7 @@ class PurchaseOrderRepository
                     'id_document' => $value->id_document,
                     'created_by' => $data['username'],
                 ]);
-
+                Log::info('aca3');
                 $totales = DB::table('inventory')->select(DB::raw('SUM(quantity) as qty_tot,SUM(shrinkage) as s_tot,SUM(scrap) as scrap_tot,SUM(demo) as demo_tot,SUM(quarantine) as q_tot,SUM(available) as a_tot'))->where('id_product',$value->id_product)->first();
                 DB::table('product')->where('id_product', $value->id_product)
                 ->update([
@@ -230,6 +230,7 @@ class PurchaseOrderRepository
                     'product_demo_total' => $totales->demo_tot,
                     'product_available_total' => $totales->a_tot
                 ]);
+                Log::info('aca4');
             }
 
             DB::commit();
