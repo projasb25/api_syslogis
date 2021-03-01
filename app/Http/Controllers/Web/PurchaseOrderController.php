@@ -28,4 +28,9 @@ class PurchaseOrderController extends Controller
     {
         return $this->mainService->cancel($request);
     }
+
+    public function print_detail(Request $request)
+    {
+        return $this->mainService->print_detail($request);
+    }
 }

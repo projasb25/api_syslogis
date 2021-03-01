@@ -19,8 +19,15 @@ use Mumpo\FpdfBarcode\FpdfBarcode;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('pdf.orden_compra.detalle');
 })->name('index');
+
+Route::get('x', function(){
+    $pdf = PDF::loadView('pdf.orden_compra.detalle');
+    $pdf->setOption('margin-bottom', 0);
+    $pdf->setOption('margin-top',30);
+    return $pdf->stream('oc.pdf');
+});
 
 Route::get('pdf', function () {
     $pdf = new FpdfBarcode();

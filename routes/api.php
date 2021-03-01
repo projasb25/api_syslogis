@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -19,41 +20,22 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(Request $request){
-    // $inventario = DB::table('inventory')->where('id_product',124)->where('available','>',0)->first();
-    // $property_name = 'column';
-    // DB::table('inventory')->where('id_inventory',160)->update([$property_name => 20]);
-    // dd($inventario->$property_name);
-    $data = $request->all();
+    $pdf = App::make('snappy.pdf.wrapper');
+    $pdf->loadHTML('<h1>Test</h1>');
+    return $pdf->inline();
+});
+Route::get('pdf23', function(Request $request){
+    $pdf = PDF::loadView('pdf.orden_compra.detalle');
+    $pdf->setOptions([
+        'footer-right' => '[page]',
+        'margin-bottom' => 20
+    ]);
+    return $pdf->inline('invoice.pdf');
 
-    $kardex = DB::table('kardex')->where('id_document',$data['id_purchase_order'])->where('doc_type','ORDEN DE COMPRA')->get();
-    foreach ($kardex as $key => $value) {
-
-        if($value->shrinkage > 0){
-            $origen = "shrinkage";
-        } elseif($value->quarantine > 0){
-            $origen = "quarantine";
-        }
-        elseif($value->scrap > 0){
-            $origen = "scrap";
-        }
-        elseif($value->demo > 0){
-            $origen = "demo";
-        }
-        else {
-            $origen = "available";
-        }
-
-        $inventario = DB::table('inventory')->where('id_inventory',$value->id_inventory)->first();
-        echo '<pre>';
-        echo $origen;
-        echo ' id_inventario -> '.$inventario->id_inventory;
-        echo '     inventario - '.$origen.' = '. $inventario->$origen;
-
-        echo '<br>';
-
-        echo 'UPDATE INVENTORY SET ' .$origen.' = '.$value->quantity.' + '.$inventario->$origen . ' where id_inventory = ' .$inventario->id_inventory;
-    }
-    dd($kardex);
+    $pdf = App::make('snappy.pdf.wrapper');
+    $pdf->loadView('pdf.orden_compra.detalle');
+    $pdf->setOption('margin-top',20);
+    return $pdf->inline();
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -123,6 +105,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('', 'PurchaseOrderController@index');
         Route::post('process', 'PurchaseOrderController@process');
         Route::post('cancel', 'PurchaseOrderController@cancel');
+        Route::post('print/detail', 'PurchaseOrderController@print_detail');
     });
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'massive_load'], function() {
