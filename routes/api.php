@@ -26,6 +26,26 @@ Route::post('test', function(Request $request){
     $data = $request->all();
 
     $kardex = DB::table('kardex')->where('id_document',$data['id_purchase_order'])->where('doc_type','ORDEN DE COMPRA')->get();
+    foreach ($kardex as $key => $value) {
+
+        if($kardex->shrinkage > 0){
+            $origen = "shrinkage";
+        } elseif($kardex->quarantine > 0){
+            $origen = "quarantine";
+        }
+        elseif($kardex->scrap > 0){
+            $origen = "scrap";
+        }
+        elseif($kardex->demo > 0){
+            $origen = "demo";
+        }
+        else {
+            $origen = "available";
+        }
+
+        echo '<pre>';
+        echo $origen;
+    }
     dd($kardex);
 });
 
