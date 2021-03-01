@@ -202,7 +202,8 @@ class PurchaseOrderRepository
                 Log::info($value->quantity);
                 Log::info($origen);
                 DB::table('inventory')->where('id_inventory',$inventario->id_inventory)->update([
-                    $origen => $value->quantity + $inventario->$origen
+                    $origen => $value->quantity + $inventario->$origen,
+                    'quantity' => $inventario->quantity + $value->quantity
                 ]);
                 Log::info('aca2');
                 DB::table('kardex')->insert([
