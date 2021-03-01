@@ -28,15 +28,15 @@ Route::post('test', function(Request $request){
     $kardex = DB::table('kardex')->where('id_document',$data['id_purchase_order'])->where('doc_type','ORDEN DE COMPRA')->get();
     foreach ($kardex as $key => $value) {
 
-        if($kardex->shrinkage > 0){
+        if($value->shrinkage > 0){
             $origen = "shrinkage";
-        } elseif($kardex->quarantine > 0){
+        } elseif($value->quarantine > 0){
             $origen = "quarantine";
         }
-        elseif($kardex->scrap > 0){
+        elseif($value->scrap > 0){
             $origen = "scrap";
         }
-        elseif($kardex->demo > 0){
+        elseif($value->demo > 0){
             $origen = "demo";
         }
         else {
