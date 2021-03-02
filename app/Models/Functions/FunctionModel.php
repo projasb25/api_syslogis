@@ -73,7 +73,7 @@ class FunctionModel
             "params" => ['status', 'id_user']
         ],
         "SP_SEL_ORGANIZATIONS" => [
-            "query" => 'CALL SP_SEL_ORGANIZTIONS(:status, :corpid, :username)',
+            "query" => 'CALL SP_SEL_ORGANIZTIONS(:status, :corpid, :username, :id_corporation)',
             "params" => ['status', 'corpid', 'username', 'id_corporation']
         ],
         "SP_INS_PROVIDER" => [
