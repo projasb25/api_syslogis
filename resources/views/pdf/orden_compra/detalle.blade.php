@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
 </head>
 <style>
+    .body{
+        font-size: 13px;
+    }
     .cabecera {
         width: 100%;
     }
