@@ -30,7 +30,7 @@ Route::get('pdf23', function(Request $request){
         'footer-right' => '[page]',
         'margin-bottom' => 20
     ]);
-    return $pdf->download('invoice.pdf');
+    return $pdf->inline('invoice.pdf');
 
     $pdf = App::make('snappy.pdf.wrapper');
     $pdf->loadView('pdf.orden_compra.detalle');
