@@ -94,7 +94,6 @@
                 </thead>
                 <tbody>
                     @foreach ($purchase_order as $key => $item)
-                        
                     <tr>
                         <td>{{$key+1}}</td>
                         <td style="text-align:left;padding-left: 10px;">{{$item->product_code}}</td>
