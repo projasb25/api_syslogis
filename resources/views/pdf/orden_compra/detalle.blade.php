@@ -120,21 +120,5 @@
     </div>
 
     </div>
-    {{-- <table>
-        <thead><tr>
-            <th>No.</th>
-            <th>Product Code</th>
-            <th>Description</th>
-            <th>Ubicacion</th>
-        </tr></thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>asdf</td>
-                <td>asdf</td>
-                <td>1-1-1</td>
-            </tr>
-        </tbody>
-    </table> --}}
 </body>
 </html>
