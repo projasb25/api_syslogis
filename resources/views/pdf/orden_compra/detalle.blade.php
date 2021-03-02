@@ -94,11 +94,27 @@
                 </thead>
                 <tbody>
                     @foreach ($purchase_order as $key => $item)
+                    {{
+                        if($item->shrinkage > 0){
+                            $origen = "Merma";
+                        } elseif($item->quarantine > 0){
+                            $origen = "Cuarentena";
+                        }
+                        elseif($item->scrap > 0){
+                            $origen = "Scrap";
+                        }
+                        elseif($item->demo > 0){
+                            $origen = "Demo";
+                        }
+                        else {
+                            $origen = "Disponible";
+                        }
+                    }}
                     <tr>
                         <td>{{$key+1}}</td>
                         <td style="text-align:left;padding-left: 10px;">{{$item->product_code}}</td>
                         <td>{{$item->quantity}}</td>
-                        <td>Disponible</td>
+                        <td>{{$origen}}</td>
                         <td>{{$item->hallway . ' - ' . $item->level . ' - ' . $item->column}}</td>
                     </tr>
                     @endforeach
