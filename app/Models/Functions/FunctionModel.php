@@ -100,6 +100,10 @@ class FunctionModel
             "query" => 'CALL SP_ELIMINAR_CARGA(:type,:id_document)',
             "params" => ['type', 'id_document']
         ],
+        "SP_INS_PROPERTIES" => [
+            "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
+            "params" => ['id_properties', 'name', 'value', 'status']
+        ],
 
 
 
@@ -306,10 +310,6 @@ class FunctionModel
         "SP_SEL_PROPERTIES" => [
             "query" => 'CALL SP_SEL_PROPERTIES(:name, :status)',
             "params" => ['name', 'status']
-        ],
-        "SP_INS_PROPERTIES" => [
-            "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
-            "params" => ['id_properties', 'name', 'value', 'status']
         ],
         "SP_ELIMINAR_IMAGEN" => [
             "query" => 'CALL SP_ELIMINAR_IMAGEN(:url, :id_shipping_order)',
