@@ -57,7 +57,7 @@ class PurchaseOrderRepository
             ]);
 
             foreach ($data['data'] as $key => $value) {
-                $validate_product = DB::table('product')->where('product_code', $value['product_code'])->where('product_quantity','>',0)->first();
+                $validate_product = DB::table('product')->where('product_code', $value['product_code'])->where('id_client_store',$data['id_client_store'])->where('product_quantity','>',0)->first();
                 if (!$validate_product) {
                     throw new CustomException(['producto invalido.', 2000], 401);
                 }
