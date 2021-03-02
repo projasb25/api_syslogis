@@ -96,6 +96,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_CORPORATIONS(:status,:username)',
             "params" => ['status', 'username']
         ],
+        "SP_ELIMINAR_CARGA" => [
+            "query" => 'CALL SP_ELIMINAR_CARGA(:type,:id_document)',
+            "params" => ['type', 'id_document']
+        ],
 
 
 
