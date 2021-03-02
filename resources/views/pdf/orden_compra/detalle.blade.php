@@ -95,15 +95,15 @@
                 <tbody>
                     @foreach ($purchase_order as $key => $item)
                         @if ($item->shrinkage > 0)
-                            {{$origen = "Merma"}}
+                            $origen = "Merma"
                         @elseif ($item->quarantine > 0)
-                            {{$origen = "Cuarentena"}}
+                            $origen = "Cuarentena"
                         @elseif ($item->scrap > 0)
-                            {{$origen = "Scrap"}}
+                            $origen = "Scrap"
                         @elseif ($item->demo > 0)
-                            {{$origen = "Demo"}}
+                            $origen = "Demo"
                         @else
-                            {{$origen = "Disponible"}}
+                            $origen = "Disponible"
                         @endif
                     <tr>
                         <td>{{$key+1}}</td>
