@@ -89,7 +89,7 @@
                         <th class="cod_prod">Cod. Producto</th>
                         <th class="cantidad">Cant</th>
                         <th class="origen">Descontado</th>
-                        <th class="ubicacion">Ubicación (P - N - C)</th>
+                        <th class="ubicacion">Ubicación <br> (P - N - C)</th>
                     </tr>
                 </thead>
                 <tbody>
