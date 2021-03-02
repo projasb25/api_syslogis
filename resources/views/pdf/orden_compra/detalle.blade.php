@@ -46,7 +46,7 @@
 </style>
 <body>
     <div class="container">
-        <h4 class="text-center">Orden Compra Nº 20</h4>
+        <h4 class="text-center">Orden Compra Nº {{$id_purchase_order}}</h4>
         <br>
         <table class="cabecera">
             <thead>
@@ -57,23 +57,23 @@
             </thead>
             <tbody>
               <tr>
-                <td style="text-align: justify"><b>Razon Social:</b> COMPAÑIA MINERA CHUNGAR S.A.C.</td>
-                <td><b>Transportista:</b> SUPERCARGO</td>
+                <td style="text-align: justify"><b>Razon Social:</b> {{$purchase_order[0]->company_name}}</td>
+                <td><b>Transportista:</b> {{$purchase_order[0]->name}}</td>
               </tr>
               <tr>
-                <td style="text-align: justify"><b>Tipo Documento:</b> RUC</td>
-                <td><b>Vehiculo:</b> HYUNDAI - 81D-SDF</td>
+                <td style="text-align: justify"><b>Tipo Documento:</b> {{$purchase_order[0]->doc_type}}</td>
+                <td><b>Vehiculo:</b> {{$purchase_order[0]->model . ' - ' .$purchase_order[0]->plate_number}}</td>
               </tr>
               <tr>
-                <td style="text-align: justify"><b>Nro Documento:</b> 201324092503</td>
-                <td><b>Licencia de Conductor:</b> Q16165S9836</td>
+                <td style="text-align: justify"><b>Nro Documento:</b> {{$purchase_order[0]->doc_number}}</td>
+                <td><b>Licencia de Conductor:</b> {{$purchase_order[0]->driver_license}}</td>
               </tr>
               <tr>
-                <td style="text-align: justify"><b>Fecha de Emisión:</b> 01/03/2021</td>
+                <td style="text-align: justify"><b>Fecha de Emisión:</b> {{$purchase_order[0]->date_updated}}</td>
                 <td></td>
               </tr>
               <tr>
-                <td style="text-align: justify"><b>Nr O/Compra:</b> 516156165</td>
+                <td style="text-align: justify"><b>Nr O/Compra:</b> {{$purchase_order[0]->purchase_order_number}}</td>
                 <td></td>
               </tr>
             </tbody>
@@ -86,19 +86,19 @@
                         <th class="cod_prod">Cod. Producto</th>
                         <th class="cantidad">Cant</th>
                         <th class="origen">Descontado</th>
-                        <th class="ubicacion">Ubicación</th>
+                        <th class="ubicacion">Ubicación (P - N - C)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @for ($i = 0; $i < 20; $i++)
+                    @foreach ($purchase_order as $key => $item)
                     <tr>
-                        <td>{{$i+1}}</td>
-                        <td style="text-align:left;padding-left: 10px;">Lorem.</td>
-                        <td>{{$i*2}}</td>
+                        <td>{{$key+1}}</td>
+                        <td style="text-align:left;padding-left: 10px;">{{$item->product_code}}</td>
+                        <td>{{$item->quantity}}</td>
                         <td>Disponible</td>
-                        <td>1-1-1</td>
+                        <td>{{$item->hallway . ' - ' . $item->level . ' - ' . $item->column}}</td>
                     </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
           </table>
     </div>

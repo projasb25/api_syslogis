@@ -8,6 +8,7 @@ use App\Models\Repositories\Web\PurchaseOrderRepository;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class PurchaseOrderService
 {
@@ -122,23 +123,29 @@ class PurchaseOrderService
             $user = auth()->user();
             $data = array_merge($req, ['username' => $user->username]);
 
-            $purchase_order = $this->repo->getPurchaseOrder($req['id_purchase_order']);
-            if (!$purchase_order) {
-                throw new CustomException(['Orden de compra invalida', 2090], 400);
-            } elseif ($purchase_order->status !== 'PROCESADO') {
-                throw new CustomException(['La orden de compra ya fue anulada o cancelada.', 2091], 400);
-            }
-            $res = $this->repo->anularPurchaseOrder($data);
+            $view_data['purchase_order'] = $this->repo->getReporteDetail($req['id_purchase_order']);
+            $view_data['id_purchase_order'] = $req['id_purchase_order'];
+            $ruta = url('storage/reportes/');
+
+            $pdf = PDF::loadView('pdf.orden_compra.detalle', $view_data);
+            $pdf->setOptions([
+                'footer-right' => '[page]',
+                'margin-bottom' => 20
+            ]);
+            $fileName = date('YmdHis') . '_cc_' . 'orden_compra' . '_' . rand(1, 100) . '.pdf';
+            $pdf->save(storage_path('app/public/reportes/' . $fileName));
+            
+            Log::info('Purchase Order Imprimir Detalle', ['req' => $data, 'filename' => $fileName]);
         } catch (CustomException $e) {
-            Log::warning('Purchase Order Anular Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            Log::warning('Purchase Order Imprimir Detalle error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Purchase Order Anular Service Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            Log::warning('Purchase Order Imprimir Detalle Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Purchase Order Anular Service error', ['exception' => $e->getMessage(), 'request' => $req]);
+            Log::warning('Purchase Order Imprimir Detalle error', ['exception' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected error', 3000], 400);
         }
-        return Res::success('Ok');
+        return Res::success(['document' => $ruta .'/'. $fileName]);
     }
 }

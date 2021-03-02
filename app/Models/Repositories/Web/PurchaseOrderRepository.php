@@ -8,6 +8,27 @@ use Illuminate\Support\Facades\Log;
 
 class PurchaseOrderRepository
 {
+    public function getReporteDetail($id)
+    {
+        $query = DB::table('kardex as k')
+        ->select(
+            'p.product_code','k.quantity','k.shrinkage','k.quarantine','k.scrap','k.demo','i.hallway','i.column',
+            'i.level', 'b.company_name', 'b.doc_type', 'b.doc_number', 'po.date_updated', 'po.purchase_order_number', 'pv.name',
+            'v2.model', 'v2.plate_number', 'po.driver_license'
+        )
+        ->join('product as p','p.id_product','=','k.id_product')
+        ->join('inventory as i', 'i.id_inventory', '=', 'k.id_inventory')
+        ->join('purchase_order as po', 'po.id_purchase_order', '=', 'k.id_document')
+        ->join('buyer as b', 'b.id_buyer', '=', 'po.id_buyer')
+        ->join('provider as pv', 'pv.id_provider' ,'=', 'po.id_provider')
+        ->join('vehicle as v2', 'v2.id_vehicle', '=', 'po.id_vehicle')
+        ->where('k.doc_type', 'ORDEN DE COMPRA')
+        ->where('k.id_document', $id)
+        ->get();
+
+        return $query;
+    }
+
     public function getPurchaseOrder($id)
     {
         return DB::table('purchase_order')->where('id_purchase_order',$id)->first();
