@@ -110,10 +110,10 @@ class AuthController extends Controller
                 'description' =>  $rol->app_desc,
                 'tag' => $rol->tag,
                 "path" => $rol->path,
-                "insert" => $rol->insert,
-                "view" => $rol->view,
-                "update" => $rol->modify,
-                "delete" => $rol->delete
+                "insert" => ($user->id_user === 1 ) ? 1 : $rol->insert,
+                "view" => ($user->id_user === 1 ) ? 1 : $rol->view,
+                "update" => ($user->id_user === 1 ) ? 1 : $rol->modify,
+                "delete" => ($user->id_user === 1 ) ? 1 : $rol->delete
             ]);
         }
 
