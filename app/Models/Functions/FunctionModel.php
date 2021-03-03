@@ -72,9 +72,9 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ORGUSER(:status, :id_user)',
             "params" => ['status', 'id_user']
         ],
-        "SP_SEL_ORGANIZTIONS" => [
-            "query" => 'CALL SP_SEL_ORGANIZTIONS(:status, :corpid, :username)',
-            "params" => ['status', 'corpid', 'username']
+        "SP_SEL_ORGANIZATIONS" => [
+            "query" => 'CALL SP_SEL_ORGANIZTIONS(:status, :corpid, :username, :id_corporation)',
+            "params" => ['status', 'corpid', 'username', 'id_corporation']
         ],
         "SP_INS_PROVIDER" => [
             "query" => 'CALL SP_INS_PROVIDER(:id_provider,:name,:ruc,:responsible_name,:responsible_phone,:responsible_email,:description,:address,:status,:username, :id_corporation, :id_organization)',
@@ -95,6 +95,14 @@ class FunctionModel
         "SP_SEL_CORPORATIONS" => [
             "query" => 'CALL SP_SEL_CORPORATIONS(:status,:username)',
             "params" => ['status', 'username']
+        ],
+        "SP_ELIMINAR_CARGA" => [
+            "query" => 'CALL SP_ELIMINAR_CARGA(:type,:id_document)',
+            "params" => ['type', 'id_document']
+        ],
+        "SP_INS_PROPERTIES" => [
+            "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
+            "params" => ['id_properties', 'name', 'value', 'status']
         ],
 
 
@@ -197,10 +205,6 @@ class FunctionModel
         "SP_SEL_LOADS_DETAILS" => [
             "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
             "params" => ['id_massive_load']
-        ],
-        "SP_SEL_ORGANIZATIONS" => [
-            "query" => 'CALL SP_SEL_ORGANIZATIONS(:status, :id_corporation, :type, :username)',
-            "params" => ['status', 'id_corporation', 'type', 'username']
         ],
         "SP_SEL_GUIDES" => [
             "query" => 'CALL SP_SEL_GUIDES(:username)',
@@ -306,10 +310,6 @@ class FunctionModel
         "SP_SEL_PROPERTIES" => [
             "query" => 'CALL SP_SEL_PROPERTIES(:name, :status)',
             "params" => ['name', 'status']
-        ],
-        "SP_INS_PROPERTIES" => [
-            "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
-            "params" => ['id_properties', 'name', 'value', 'status']
         ],
         "SP_ELIMINAR_IMAGEN" => [
             "query" => 'CALL SP_ELIMINAR_IMAGEN(:url, :id_shipping_order)',
