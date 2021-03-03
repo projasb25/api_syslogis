@@ -65,8 +65,8 @@ class FunctionModel
             "params" => ['id_product', 'id_inventory', 'desde', 'hasta']
         ],
         "SP_INS_PRODUCTO" => [
-            "query" => 'CALL SP_INS_PRODUCTO(:id_product,:product_code,:product_alt_code1,:product_alt_code2,:product_description,:product_serie,:product_lots,:product_exp_date,:product_available,:product_color,:product_size,:product_package_number,:product_unitp_box,:product_cmtr_pbox,:product_cmtr_quantity,:product_quantity,:product_shrinkage_total,:product_quarantine_total,:product_available_total,:username)',
-            "params" => ['id_product','product_code','product_alt_code1','product_alt_code2','product_description','product_serie','product_lots','product_exp_date','product_available','product_color','product_size','product_package_number','product_unitp_box','product_cmtr_pbox','product_cmtr_quantity','product_quantity','product_shrinkage_total','product_quarantine_total','product_available_total','username']
+            "query" => 'CALL SP_INS_PRODUCTO(:id_product,:product_code,:product_alt_code1,:product_alt_code2,:product_description,:product_serie,:product_lots,:product_exp_date,:product_available,:product_color,:product_size,:product_package_number,:product_unitp_box,:product_cmtr_pbox,:product_cmtr_quantity,:username)',
+            "params" => ['id_product','product_code','product_alt_code1','product_alt_code2','product_description','product_serie','product_lots','product_exp_date','product_available','product_color','product_size','product_package_number','product_unitp_box','product_cmtr_pbox','product_cmtr_quantity','username']
         ],
         "SP_SEL_ORGUSER" => [
             "query" => 'CALL SP_SEL_ORGUSER(:status, :id_user)',
