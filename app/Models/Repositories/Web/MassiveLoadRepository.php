@@ -295,7 +295,8 @@ class MassiveLoadRepository
         $query = DB::select("select
             gd.guide_number, gd.client_barcode, gd.client_name, gd.client_phone1, gd.client_email, gd.client_dni,
             org.name, org.address as org_address, adr.district, adr.province, adr.address,
-            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created
+            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created,
+            gd.total_pieces, gd.total_weight
         from
             guide gd
         join massive_load ml on ml.id_massive_load = gd.id_massive_load
@@ -310,6 +311,8 @@ class MassiveLoadRepository
             gd.client_name,
             gd.client_phone1,
             gd.client_email,
+            gd.total_pieces,
+            gd.total_weight,
             org.name,
             org.address,
             adr.district,
