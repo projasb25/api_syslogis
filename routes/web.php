@@ -19,7 +19,7 @@ use Mumpo\FpdfBarcode\FpdfBarcode;
 */
 
 Route::get('/', function () {
-    return view('pdf.orden_compra.detalle');
+    return view('welcome');
 })->name('index');
 
 Route::get('x', function(){
