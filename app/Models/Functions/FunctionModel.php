@@ -13,8 +13,8 @@ class FunctionModel
             "params" => ['username']
         ],
         "SP_SEL_TEMPLATE" => [
-            "query" => 'CALL SP_SEL_TEMPLATE(:username, :status)',
-            "params" => ['username', 'status']
+            "query" => 'CALL SP_SEL_TEMPLATE(:username, :status, :type)',
+            "params" => ['username', 'status', 'type']
         ],
         "SP_INS_TEMPLATE" => [
             "query" => "CALL SP_INS_TEMPLATE(:id_load_template, :name,:description,:json_detail,:username, :status, :id_corporation, :id_organization)",
