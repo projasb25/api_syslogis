@@ -566,7 +566,9 @@ class MassiveLoadService
             $disk = Storage::disk('marathon');
             $ruta = url('storage/marathon/');
 
-            if (!$massive_load->ruta_marathon) {
+            $file_exists = (Storage::disk('cargo')->exists($massive_load->ruta_doc_cargo));
+
+            if (!$massive_load->ruta_marathon || !$file_exists) {
                 if ($massive_load->id_corporation === 4) {
                     $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
                 } else {
