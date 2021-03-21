@@ -20,7 +20,7 @@ class CollectController extends Controller
         return $this->service->load($request);
     }
 
-    public function process($request)
+    public function process(Request $request)
     {
         return $this->service->process($request);
     }
