@@ -21,8 +21,8 @@ class FunctionModel
             "params" => ['id_load_template', 'name', 'description', 'json_detail','status', 'username', 'id_corporation', 'id_organization', 'type']
         ],
         "SP_SEL_MASSIVE_LOADS" => [
-            "query" => 'CALL SP_SEL_MASSIVE_LOADS(:username)',
-            "params" => ['username']
+            "query" => 'CALL SP_SEL_MASSIVE_LOADS(:username, :type)',
+            "params" => ['username', 'type']
         ],
         "SP_SEL_LOADS_DETAILS" => [
             "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
