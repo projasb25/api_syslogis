@@ -311,7 +311,7 @@ class MassiveLoadService
                     $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
                     if ($guide->type === 'RECOLECCION') {
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'CONTACTO: ' .utf8_decode(strtolower($guide->collect_contact_name)),0,'J');
+                        $pdf->MultiCell(101,5,'CONTACTO: ' .utf8_decode(strtolower($guide->contact_name)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'HORARIO REC.: ' .utf8_decode(strtolower($guide->collect_time_range)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
