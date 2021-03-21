@@ -36,7 +36,7 @@ class ShippingController extends Controller
 
     public function getMotivos(Request $request)
     {
-        return $this->service->motivos();
+        return $this->service->motivos($request);
     }
 
     public function grabarImagen(grabarImagen $request)

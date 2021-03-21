@@ -35,9 +35,14 @@ class ShippingRepository
         return DB::select("CALL SP_INICIAR_RUTA(?)",[$id]);
     }
 
-    public function getMotivos()
+    public function getMotivos($tipo)
     {
-        return DB::table('motive')->where('status', 'ACTIVO')->where('estado', 'No entregado')->get();
+        if ($tipo === 'RECOLECCION') {
+            $query = DB::table('motive')->where('status', 'ACTIVO')->where('estado', 'No Recolectado')->get();
+        } else {
+            $query = DB::table('collect_motive')->where('status', 'ACTIVO')->where('estado', 'No entregado')->get();
+        }
+        return $query;
     }
 
     public function getShippingOrderDetail($id)
