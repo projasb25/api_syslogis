@@ -282,7 +282,7 @@ class MassiveLoadService
                     $pdf->SetXY($box_x+8, ($box_y + 66 + 2));
                     $pdf->MultiCell(45,4,'NRO. PIEZAS: '. $guide->total_pieces,0,'J');
                     $pdf->SetXY($box_x+8+45, ($box_y + 66 + 2));
-                    $pdf->MultiCell(45,4,'PESO SECO: '. $guide->total_weight,0,'J');
+                    $pdf->MultiCell(45,4,'PESO SECO: '. $guide->total_weight . ' KG',0,'J');
                     $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
                     
                     $pdf->SetX($box_x+8);
