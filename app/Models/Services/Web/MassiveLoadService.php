@@ -309,15 +309,21 @@ class MassiveLoadService
                     $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
                     $pdf->SetX($box_x + 92 + 7);
                     $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
-                    $pdf->SetX($box_x + 92 + 7);
-                    $pdf->MultiCell(101,5,'CONTACTO: ' .utf8_decode(strtolower($guide->collect_contact_name)),0,'J');
-                    $pdf->SetX($box_x + 92 + 7);
-                    $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
-                    $pdf->SetX($box_x + 92 + 7);
-                    $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($guide->client_date)),0,'J');
-                    $pdf->SetX($box_x + 92 + 7);
-                    $pdf->MultiCell(101,5,'HORARIO REC.: ' .utf8_decode(strtolower($guide->collect_time_range)),0,'J');
-                    $pdf->SetX($box_x + 92 + 7);
+                    if ($guide->type === 'RECOLECCION') {
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'CONTACTO: ' .utf8_decode(strtolower($guide->collect_contact_name)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($guide->client_date)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'HORARIO REC.: ' .utf8_decode(strtolower($guide->collect_time_range)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                    } else {
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'EMAIL.: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                    }
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->MultiCell(100,5,'DIRECCION: '. $direccion,0,'L');
                     $pdf->SetFont('Times', '', 11);
