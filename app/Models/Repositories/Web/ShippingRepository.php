@@ -38,9 +38,9 @@ class ShippingRepository
     public function getMotivos($tipo)
     {
         if ($tipo === 'recoleccion') {
-            $query = DB::table('motive')->where('status', 'ACTIVO')->where('estado', 'No Recolectado')->get();
-        } else {
             $query = DB::table('collect_motive')->where('status', 'ACTIVO')->where('estado', 'No entregado')->get();
+        } else {
+            $query = DB::table('motive')->where('status', 'ACTIVO')->where('estado', 'No Recolectado')->get();
         }
         return $query;
     }
