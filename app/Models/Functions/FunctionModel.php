@@ -181,6 +181,15 @@ class FunctionModel
             "query" => 'CALL SP_CAMBIAR_ESTADO(:id_guide,:status,:motive,:username)',
             "params" => ['id_guide', 'status', 'motive', 'username']
         ],
+        "SP_SEL_COLLECT_LOAD" => [
+            "query" => 'CALL SP_SEL_COLLECT_LOAD(:username)',
+            "params" => ['username']
+        ],
+        "SP_SEL_COLLECT_LOAD_DETAIL" => [
+            "query" => 'SELECT * FROM collect_load_detail WHERE id_collect_load = :id_collect_load;',
+            "params" => ['id_collect_load']
+        ],
+
         /**
          * Funciones para Paginacion
          **/

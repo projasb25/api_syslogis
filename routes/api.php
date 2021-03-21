@@ -91,6 +91,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('print/marathon', 'MassiveLoadController@print_marathon');
     });
 
+    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'collect'], function() {
+        Route::post('load', 'CollectController@index');
+        Route::post('process', 'CollectController@process');
+        // Route::post('print/cargo', 'MassiveLoadController@print_cargo');
+        // Route::post('print/marathon', 'MassiveLoadController@print_marathon');
+    });
+
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'shipping'], function() {
         Route::post('print/hoja_ruta', 'ShippingController@print_hoja_ruta');
         Route::post('/imagen', 'ShippingController@grabarImagen');
