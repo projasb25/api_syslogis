@@ -287,8 +287,10 @@ class MassiveLoadService
                     
                     $pdf->SetX($box_x+8);
                 // cuadro 1.2 DESTINATARIO
+                    $tamano = ($guide->type === 'RECOLECCION') ? 61 : 41;
+
                     //header
-                    $pdf->Rect($box_x + 93, $box_y + 0, 6, 41);
+                    $pdf->Rect($box_x + 93, $box_y + 0, 6, $tamano);
                     $pdf->SetFont('Times', 'B', 11);
                     $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 35, 'DESTINATARIO', 'U');
 
@@ -296,7 +298,8 @@ class MassiveLoadService
                     $nombre = utf8_decode(ucwords(strtolower($guide->client_name)));
                     $distrito = utf8_decode(ucwords(strtolower($guide->district)));
                     $direccion = utf8_decode(ucwords(strtolower($guide->address)));
-                    $pdf->Rect($box_x + 93 + 6, $box_y + 0, 101, 41);
+
+                    $pdf->Rect($box_x + 93 + 6, $box_y + 0, 101, $tamano);
                     $pdf->SetFont('Times', '', 11);
                     $pdf->SetXY($box_x + 92 + 7, $box_y + 1);
                     $pdf->MultiCell(101,5,'NOMBRE: '. $nombre,0,'L');
@@ -314,13 +317,15 @@ class MassiveLoadService
                     $pdf->SetFont('Times', '', 11);
 
                 // cuadro 2.2 CONTENIDO
+                    $tamano = ($guide->type === 'RECOLECCION') ? 16 : 36;
+
                     //header
-                    $pdf->Rect($box_x + 93, $box_y + 42, 6, 36);
+                    $pdf->Rect($box_x + 93, $box_y + 42, 6, $tamano);
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 70, 'CONTENIDO', 'U');
 
                     // body
-                    $pdf->Rect($box_x + 93 + 6, $box_y + 42, 101, 36);
+                    $pdf->Rect($box_x + 93 + 6, $box_y + 42, 101, $tamano);
                     $pdf->SetFont('Times', '', 9);
                     $pdf->SetXY($box_x + 93 + 6, $box_y + 44);
 
