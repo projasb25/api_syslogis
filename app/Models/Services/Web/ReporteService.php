@@ -30,7 +30,7 @@ class ReporteService
             $data = $request->all();
             // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
             $fileName = date('YmdHis') . '_reporte_control_' . rand(1, 100) . '.xlsx';
-            $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
+            // $handle = fopen('../storage/app/public/reportes/'.$fileName, 'w+');
             Excel::store(new ReporteControlExport($user->username, $data['desde'], $data['hasta']), $fileName, 'reportes');
 
             Log::info('Generar reporte control', ['request' => $request->all()]);
