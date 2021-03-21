@@ -313,11 +313,11 @@ class MassiveLoadService
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'CONTACTO: ' .utf8_decode(strtolower($guide->collect_contact_name)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
+                        $pdf->MultiCell(101,5,'HORARIO REC.: ' .utf8_decode(strtolower($guide->collect_time_range)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($guide->client_date)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'HORARIO REC.: ' .utf8_decode(strtolower($guide->collect_time_range)),0,'J');
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                     } else {
                         $pdf->SetX($box_x + 92 + 7);
