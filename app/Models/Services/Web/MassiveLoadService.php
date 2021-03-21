@@ -328,7 +328,7 @@ class MassiveLoadService
                     //header
                     $pdf->Rect($box_x + 93, $box_y + $tamano+1, 6, $tamano2);
                     $pdf->SetFont('Times', 'B', 10);
-                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 82, 'CONTENIDO', 'U');
+                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 75, 'CONTENIDO', 'U');
 
                     // body
                     $pdf->Rect($box_x + 93 + 6, $box_y + $tamano+1, 101, $tamano2);
