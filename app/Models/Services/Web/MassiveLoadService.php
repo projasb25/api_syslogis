@@ -287,7 +287,7 @@ class MassiveLoadService
                     
                     $pdf->SetX($box_x+8);
                 // cuadro 1.2 DESTINATARIO
-                    $tamano = ($guide->type === 'RECOLECCION') ? 61 : 41;
+                    $tamano = ($guide->type === 'RECOLECCION') ? 56 : 41;
 
                     //header
                     $pdf->Rect($box_x + 93, $box_y + 0, 6, $tamano);
