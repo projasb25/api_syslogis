@@ -203,7 +203,9 @@ class MassiveLoadRepository
                         'created_by' => $data['username'],
                         'delivery_type' => $value->delivery_type,
                         'contact_name' => $value->contact_name,
-                        'contact_phone' => $value->contact_phone
+                        'contact_phone' => $value->contact_phone,
+                        'collect_time_range' => $value->collect_time_range,
+                        'collect_contact_name' => $value->collect_contact_name
                     ]);
 
                     if ($value->status === 'PROCESADO') {
