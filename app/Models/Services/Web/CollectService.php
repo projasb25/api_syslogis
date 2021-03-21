@@ -76,15 +76,14 @@ class CollectService
             if ($propiedad && $propiedad->value === '1') {
                 $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
             }
-            
         } catch (CustomException $e) {
-            Log::warning('Massive Load Service procesar error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            Log::warning('Collect load procesar error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Massive Load Service procesar Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            Log::warning('Collect load procesar Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Massive Load Service procesar error', ['exception' => $e->getMessage(), 'request' => $req]);
+            Log::warning('Collect load procesar error', ['exception' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success('Exito');
