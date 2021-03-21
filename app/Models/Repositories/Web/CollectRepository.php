@@ -208,8 +208,8 @@ class CollectRepository
 
                     if ($value->status === 'PROCESADO') {
                         DB::table('guide_tracking')->insert([
-                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.'],
-                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.'],
+                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.', 'type' => 'RECOLECCION'],
+                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.', 'type' => 'RECOLECCION'],
                         ]);
                     } else {
                         DB::table('guide_tracking')->insert([
