@@ -287,7 +287,7 @@ class MassiveLoadService
                     
                     $pdf->SetX($box_x+8);
                 // cuadro 1.2 DESTINATARIO
-                    $tamano = ($guide->type === 'RECOLECCION') ? 51 : 41;
+                    $tamano = ($guide->type === 'RECOLECCION') ? 53 : 41;
 
                     //header
                     $pdf->Rect($box_x + 93, $box_y + 0, 6, $tamano);
@@ -323,15 +323,15 @@ class MassiveLoadService
                     $pdf->SetFont('Times', '', 11);
 
                 // cuadro 2.2 CONTENIDO
-                    $tamano = ($guide->type === 'RECOLECCION') ? 16 : 36;
+                    $tamano2 = ($guide->type === 'RECOLECCION') ? 16 : 36;
 
                     //header
-                    $pdf->Rect($box_x + 93, $box_y + 42, 6, $tamano);
+                    $pdf->Rect($box_x + 93, $box_y + $tamano+1, 6, $tamano2);
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 70, 'CONTENIDO', 'U');
 
                     // body
-                    $pdf->Rect($box_x + 93 + 6, $box_y + 42, 101, $tamano);
+                    $pdf->Rect($box_x + 93 + 6, $box_y + $tamano+1, 101, $tamano2);
                     $pdf->SetFont('Times', '', 9);
                     $pdf->SetXY($box_x + 93 + 6, $box_y + 44);
 
