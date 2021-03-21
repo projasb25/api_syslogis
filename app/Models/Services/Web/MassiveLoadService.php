@@ -304,7 +304,7 @@ class MassiveLoadService
                     $pdf->SetXY($box_x + 92 + 7, $box_y + 1);
                     $pdf->MultiCell(101,5,'NOMBRE: '. $nombre,0,'L');
                     $pdf->SetX($box_x + 92 + 7);
-                    $pdf->MultiCell(101,5,'DNI: '. $guide->client_dni,0,'L');
+                    $pdf->MultiCell(101,5,'RUC: '. $guide->client_dni,0,'L');
                     $pdf->SetX($box_x + 92 + 7);
                     $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
                     $pdf->SetX($box_x + 92 + 7);
