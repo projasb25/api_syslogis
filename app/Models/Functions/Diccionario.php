@@ -185,6 +185,9 @@ class Diccionario
             ],
             "attempt" => [
                 "column" => "gt.attempt"
+            ],
+            "type" => [
+                "column" => "sod.type"
             ]
         ]
     ];
