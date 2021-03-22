@@ -32,7 +32,8 @@ class MassiveLoadRepository
                 'status' => 'PENDIENTE',
                 'created_by' => $data['username'],
                 'id_corporation' => $data['id_corporation'],
-                'id_organization' => $data['id_organization']
+                'id_organization' => $data['id_organization'],
+                'type' => 'DISTRIBUCION'
             ]);
 
             foreach ($data['data'] as $key => &$value) {
@@ -205,19 +206,20 @@ class MassiveLoadRepository
                         'contact_name' => $value->contact_name,
                         'contact_phone' => $value->contact_phone,
                         'collect_time_range' => $value->collect_time_range,
-                        'collect_contact_name' => $value->collect_contact_name
+                        'collect_contact_name' => $value->collect_contact_name,
+                        'type' => 'DISTRIBUCION'
                     ]);
 
                     if ($value->status === 'PROCESADO') {
                         DB::table('guide_tracking')->insert([
-                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.'],
-                            ['id_guide' => $id_guide, 'status' => 'DESPACHADO', 'motive' => 'Registro Automático.'],
-                            ['id_guide' => $id_guide, 'status' => 'DESPACHO ACEPTADO', 'motive' => 'Registro Automático.'],
-                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.'],
+                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
+                            ['id_guide' => $id_guide, 'status' => 'DESPACHADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
+                            ['id_guide' => $id_guide, 'status' => 'DESPACHO ACEPTADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
+                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
                         ]);
                     } else {
                         DB::table('guide_tracking')->insert([
-                            ['id_guide' => $id_guide, 'status' => 'SIN FISICO', 'motive' => 'Registro Automático.'],
+                            ['id_guide' => $id_guide, 'status' => 'SIN FISICO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
                         ]);
                     }
                 }
