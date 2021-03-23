@@ -126,20 +126,20 @@ class FunctionModel
             "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
         ],
         "SP_REPORTE_CONTROL" => [
-            "query" => 'CALL SP_REPORTE_CONTROL(:desde, :hasta, :username)',
-            "params" => ['desde', 'hasta', 'username']
+            "query" => 'CALL SP_REPORTE_CONTROL(:desde, :hasta, :username, :type)',
+            "params" => ['desde', 'hasta', 'username', 'type']
         ],
         "SP_REPORTE_TORRE_CONTROL" => [
-            "query" => 'CALL SP_REPORTE_TORRE_CONTROL(:desde, :hasta, :username)',
-            "params" => ['desde', 'hasta', 'username']
+            "query" => 'CALL SP_REPORTE_TORRE_CONTROL(:desde, :hasta, :username, :type)',
+            "params" => ['desde', 'hasta', 'username', 'type']
         ],
         "SP_REPORTE_CONTROL_SKU" => [
-            "query" => 'CALL SP_REPORTE_CONTROL_SKU(:desde, :hasta, :username)',
-            "params" => ['desde', 'hasta', 'username']
+            "query" => 'CALL SP_REPORTE_CONTROL_SKU(:desde, :hasta, :username, :type)',
+            "params" => ['desde', 'hasta', 'username', 'type']
         ],
         "SP_REPORTE_ASIGNACION_POR_GUIA" => [
-            "query" => 'CALL SP_REPORTE_ASIGNACION_POR_GUIA(:desde, :hasta, :username)',
-            "params" => ['desde', 'hasta', 'username']
+            "query" => 'CALL SP_REPORTE_ASIGNACION_POR_GUIA(:desde, :hasta, :username, :type)',
+            "params" => ['desde', 'hasta', 'username', 'type']
         ],
         "SP_REASIGNAR_ENVIO" => [
             "query" => 'CALL SP_REASIGNAR_ENVIO(:id_shipping_order, :id_vehicle, :id_driver, :username)',
@@ -188,6 +188,10 @@ class FunctionModel
         "SP_SEL_COLLECT_LOAD_DETAIL" => [
             "query" => 'SELECT * FROM collect_load_detail WHERE id_collect_load = :id_collect_load;',
             "params" => ['id_collect_load']
+        ],
+        "SP_REPORTE_RECOLECCION" => [
+            "query" => 'CALL SP_REPORTE_RECOLECCION(:desde, :hasta, :username)',
+            "params" => ['desde', 'hasta', 'username']
         ],
 
         /**
