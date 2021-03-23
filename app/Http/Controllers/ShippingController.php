@@ -58,4 +58,9 @@ class ShippingController extends Controller
     {
         return $this->service->finalizarRuta($request);
     }
+
+    public function getMotivosDist(Request $request)
+    {
+        return $this->service->motivosDist($request);
+    }
 }
