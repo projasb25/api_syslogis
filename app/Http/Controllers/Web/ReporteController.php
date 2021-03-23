@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 class ReporteController extends Controller
 {
     protected $service;
-    
-    public function __construct(ReporteService $reporteService) {
+
+    public function __construct(ReporteService $reporteService)
+    {
         $this->service = $reporteService;
     }
 
@@ -37,5 +38,10 @@ class ReporteController extends Controller
     public function img_monitor(Request $request)
     {
         return $this->service->img_monitor($request);
+    }
+
+    public function reporte_recoleccion(Request $request)
+    {
+        return $this->service->reporte_recoleccion($request);
     }
 }

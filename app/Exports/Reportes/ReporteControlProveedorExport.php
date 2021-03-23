@@ -12,11 +12,13 @@ class ReporteControlProveedorExport implements FromCollection, WithMapping, With
     protected $username;
     protected $fechaInicio;
     protected $fechaFin;
+    protected $type;
 
-    public function __construct($username, $fechaInicio, $fechaFin) {
+    public function __construct($username, $fechaInicio, $fechaFin, $type) {
         $this->username = $username;
         $this->fechaInicio = $fechaInicio;
         $this->fechaFin = $fechaFin;
+        $this->type = $type;
     }
 
     public function headings(): array
@@ -35,7 +37,7 @@ class ReporteControlProveedorExport implements FromCollection, WithMapping, With
     */
     public function collection()
     {
-        return collect(DB::select("CALL SP_REPORTE_ASIGNACION_POR_GUIA(?,?,?)",[$this->fechaInicio, $this->fechaFin, $this->username]));
+        return collect(DB::select("CALL SP_REPORTE_ASIGNACION_POR_GUIA(?,?,?,?)",[$this->fechaInicio, $this->fechaFin, $this->username,$this->type]));
     }
 
     public function map($collection): array
