@@ -114,8 +114,8 @@ class FunctionModel
             "params" => ['id_guide']
         ],
         "SP_DASHBOARD_CLIENTE" => [
-            "query" => 'CALL SP_DASHBOARD_CLIENTE(:desde, :hasta, :id_corporation, :id_organization)',
-            "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
+            "query" => 'CALL SP_DASHBOARD_CLIENTE(:desde, :hasta, :id_corporation, :id_organization, :type)',
+            "params" => ['desde', 'hasta', 'id_corporation', 'id_organization', 'type']
         ],
         "SP_DASHBOARD_PROVEEDOR" => [
             "query" => 'CALL SP_DASHBOARD_PROVEEDOR(:desde, :hasta, :id_provider)',
