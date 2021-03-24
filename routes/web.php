@@ -19,8 +19,8 @@ use Mumpo\FpdfBarcode\FpdfBarcode;
 */
 
 Route::get('/', function () {
-    $pdf = PDF::loadView('pdf.invoice');
-    return $pdf->inline('invoice.pdf');
+    // $pdf = PDF::loadView('pdf.invoice');
+    // return $pdf->inline('invoice.pdf');
     return view('welcome');
 })->name('index');
 
