@@ -20,7 +20,8 @@ class IntegracionService
 {
     protected $repository;
 
-    public function __construct(IntegracionRepository $integracionRepository) {
+    public function __construct(IntegracionRepository $integracionRepository)
+    {
         $this->repository = $integracionRepository;
     }
 
@@ -45,11 +46,11 @@ class IntegracionService
                     "NombreReceptor" => $guide->NombreReceptor,
                     "IDReceptor" => $guide->IDReceptor,
                     "TrackNumber" => $guide->TrackNumber,
-                    "URL" => env('WEB_APP_URL') . 'guidestatus/'.$guide->id_guide
+                    "URL" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide
                 ];
 
                 $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
-                
+
                 try {
                     $req = $cliente->request('POST', 'sendStateCourierOnline', [
                         "headers" => [
@@ -60,8 +61,14 @@ class IntegracionService
                 } catch (\GuzzleHttp\Exception\RequestException $e) {
                     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                     Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
-                    $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'ERROR', $req_body, $response);
-                    $this->repository->updateReportado($guide->id_guide, 2);
+                    $buscar = strpos(strtoupper($response['message']), strtoupper("Already exists a record with CUD:'" . $guide->CUD . "', Estado:'" . $guide->Estado . "' and SubEstado:'".utf8_decode(utf8_decode($guide->SubEstado))."'"));
+                    if ($buscar === false ) {
+                        $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'ERROR', $req_body, $response);
+                        $this->repository->updateReportado($guide->id_guide, 2);
+                    } else {
+                        $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);        
+                        $this->repository->updateReportado($guide->id_guide, 1);
+                    }
                     continue;
                 }
 
@@ -69,12 +76,12 @@ class IntegracionService
                 $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);
                 $this->repository->updateReportado($guide->id_guide, 1);
             }
-            
+
             $res['success'] = true;
             Log::info('Proceso de integracion con ripley exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
             Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage()]);
-            $res['mensaje'] = $e->getMessage();    
+            $res['mensaje'] = $e->getMessage();
         }
         return $res;
     }
@@ -85,13 +92,13 @@ class IntegracionService
         try {
             $guides = $this->repository->getGuideOeschle();
             Log::info('Proceso de integracion con Oeschle', ['nro_registros' => count($guides)]);
-            
+
             foreach ($guides as $key => $guide) {
                 $g = '';
                 $items = [];
                 $g .= $guide->ids_guias . ',';
                 $productos = explode("|||", $guide->contenido);
-                foreach($productos as $producto) {    
+                foreach ($productos as $producto) {
                     $detalle = explode("///", $producto);
                     array_push($items, [
                         'skuCode' => $detalle[0],
@@ -109,7 +116,7 @@ class IntegracionService
 
                 if (env('OESCHLE_INTEGRACION_API_SEND')) {
                     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL')]);
-                        
+
                     try {
                         $req = $cliente->request('POST', 'provider/delivery', [
                             "headers" => [
@@ -124,9 +131,9 @@ class IntegracionService
                         $this->repository->updateReportadoOeschle($guias, 2);
                         continue;
                     }
-        
+
                     $response = json_decode($req->getBody()->getContents());
-                    $this->repository->updateReportadoOeschle($guias,1);
+                    $this->repository->updateReportadoOeschle($guias, 1);
                 } else {
                     $response = $guias;
                 }
@@ -136,7 +143,7 @@ class IntegracionService
             Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
             Log::error('Integracion Oechsle', ['cliente' => 'Oechsle', 'exception' => $e->getMessage()]);
-            $res['mensaje'] = $e->getMessage();    
+            $res['mensaje'] = $e->getMessage();
         }
         return $res;
     }
