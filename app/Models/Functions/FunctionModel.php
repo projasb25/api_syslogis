@@ -174,8 +174,8 @@ class FunctionModel
             "params" => ['url', 'id_shipping_order']
         ],
         "SP_SEL_MOTIVES" => [
-            "query" => 'CALL SP_SEL_MOTIVES()',
-            "params" => []
+            "query" => 'CALL SP_SEL_MOTIVES(:type)',
+            "params" => ['type']
         ],
         "SP_CAMBIAR_ESTADO" => [
             "query" => 'CALL SP_CAMBIAR_ESTADO(:id_guide,:status,:motive,:username)',
