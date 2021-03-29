@@ -15,7 +15,7 @@ class QueryHelper # implements ResponseInterface
         foreach ($filtros as $key => $filtro) {
 
             $column = $dic[$origin][$key]['column'];
-            $value = $filtro['value'];
+            $value = str_replace("'", "\'", $filtro['value']);
 
             if ($value !== '') {
                 switch ($filtro['operator']) {
