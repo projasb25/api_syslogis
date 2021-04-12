@@ -315,6 +315,7 @@ class MassiveLoadRepository
             gd.client_name,
             gd.client_phone1,
             gd.client_email,
+            gd.alt_code1,
             gd.total_pieces,
             gd.total_weight,
             org.name,
