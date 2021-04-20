@@ -43,12 +43,9 @@ class ShippingService
             $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide[0]->id_guide;
             # CHeck if folder exists before create one
             if (!file_exists($destination_path)) {
-                Log::info('no existe el path');
                 File::makeDirectory($destination_path, $mode = 0777, true, true);
                 File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
-                Log::info('creado el path');
             }
-            Log::info('desitantion path = '. $destination_path);
 
             $imagen = $request->file('imagen');
             $nombre_imagen = $guide[0]->id_guide . '_' . time() . '.jpg';
