@@ -48,6 +48,7 @@ class ShippingService
                 File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
                 Log::info('creado el path');
             }
+            Log::info('desitantion path = '. $destination_path);
 
             $imagen = $request->file('imagen');
             $nombre_imagen = $guide[0]->id_guide . '_' . time() . '.jpg';
