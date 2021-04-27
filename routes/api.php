@@ -61,8 +61,7 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
     //     Route::get('/agencias/{idcliente}', 'PedidoController@getAgencias')->where('idcliente', '[0-9]+');
 });
 
-/**
- *  || RUTAS PARA LA WEB ||
+/**AuthController
  */
 
 Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], function ($router) {
@@ -112,5 +111,17 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('control_proveedor', 'ReporteController@control_proveedor');
         Route::post('img_monitor', 'ReporteController@img_monitor');
         Route::post('reporte_recoleccion', 'ReporteController@reporte_recoleccion');
+    });
+});
+
+
+/**
+ *  Rutas para la integracion
+ */
+Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => 'Integration'], function ($router) {
+    Route::post('login', 'IntegrationAuthController@login');
+
+    Route::group(['middleware' => ['assign.guard:integration_users','jwt.auth'], 'prefix' => 'carga'], function() {
+        Route::post('procesar', 'IntegrationController@index');
     });
 });

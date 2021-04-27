@@ -55,6 +55,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
+        'integration_users' => [
+            'driver' => 'jwt',
+            'provider' => 'integration_users',
+        ],
     ],
 
     /*
@@ -82,6 +86,10 @@ return [
         'drivers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Entities\Driver::class,
+        ],
+        'integration_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Entities\IntegrationUser::class,
         ]
 
         // 'users' => [
