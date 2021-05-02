@@ -121,7 +121,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => 'Integration'], function ($router) {
     Route::post('login', 'IntegrationAuthController@login');
 
-    Route::group(['middleware' => ['assign.guard:integration_users','jwt.auth'], 'prefix' => 'carga'], function() {
+    Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {
         Route::post('procesar', 'IntegrationController@index');
     });
 });
