@@ -103,6 +103,7 @@ class MassiveLoadRepository
                     'contact_phone' => $value['contact_phone'] ?? null,
                     'payment_method' => $value['payment_method'] ?? null,
                     'amount' => $value['amount'] ?? null,
+                    'collect_time_range' => $value['collect_time_range'] ?? null,
                 ]);
             }
             DB::commit();
