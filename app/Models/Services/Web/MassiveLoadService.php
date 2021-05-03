@@ -321,7 +321,10 @@ class MassiveLoadService
                         $pdf->SetX($box_x + 92 + 7);
                     } else {
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
+                        $pdf->Cell(41,5,'TLF: '.$guide->client_phone1,0,0,'L');
+                        $pdf->Cell(60,5,'H/ENTREGA: '.$guide->collect_time_range,0,1,'L');
+
+                        // $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->Cell(60,5,'F/PAGO: '.$guide->payment_method,0,0,'L');
                         $pdf->Cell(41,5,'MONTO: '.$guide->amount,0,1,'L');
