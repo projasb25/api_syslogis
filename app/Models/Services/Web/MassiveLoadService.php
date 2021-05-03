@@ -321,7 +321,9 @@ class MassiveLoadService
                         $pdf->SetX($box_x + 92 + 7);
                     } else {
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'EMAIL.: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
+                        $pdf->Cell(60,5,'F/PAGO: '.$guide->payment_method,1,0,'L');
+                        $pdf->Cell(51,5,'MONTO: '.$guide->amount,1,1,'L');
+                        // $pdf->MultiCell(101,5,'EMAIL.: ' .utf8_decode(strtolower($guide->client_email)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                     }
                     $pdf->SetFont('Times', 'B', 10);

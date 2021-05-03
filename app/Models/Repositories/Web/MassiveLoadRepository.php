@@ -301,7 +301,8 @@ class MassiveLoadRepository
     public function get_datos_ruta_cargo_ripley($id)
     {
         $query = DB::select("select
-            gd.guide_number, gd.client_barcode, gd.client_name, gd.client_phone1, gd.client_email, gd.client_dni, gd.type, gd.collect_time_range, gd.contact_name, gd.client_date,
+            gd.guide_number, gd.client_barcode, gd.client_name, gd.client_phone1, gd.client_email, gd.client_dni, gd.type,
+            gd.collect_time_range, gd.contact_name, gd.client_date, gd.amount, gd.payment_method,
             org.name, org.address as org_address, adr.district, adr.province, adr.address, adr.address_refernce,
             GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created,
             gd.total_pieces, gd.total_weight
