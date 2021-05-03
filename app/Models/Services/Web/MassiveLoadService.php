@@ -322,8 +322,8 @@ class MassiveLoadService
                     } else {
                         $pdf->SetX($box_x + 92 + 7);
                         if ($guide->collect_time_range) {
-                            $pdf->Cell(31,5,'TLF: '.$guide->client_phone1,0,0,'L');
-                            $pdf->Cell(70,5,'H/ENTREGA: '.$guide->collect_time_range,0,1,'L');
+                            $pdf->Cell(38,5,'TLF: '.$guide->client_phone1,0,0,'L');
+                            $pdf->Cell(63,5,'H/ENTREGA: '.$guide->collect_time_range,0,1,'L');
                         } else {
                             $pdf->Cell(70,5,'TLF: '.$guide->client_phone1,0,1,'L');
                         }
