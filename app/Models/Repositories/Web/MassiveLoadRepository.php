@@ -209,7 +209,9 @@ class MassiveLoadRepository
                         'contact_phone' => $value->contact_phone,
                         'collect_time_range' => $value->collect_time_range,
                         'collect_contact_name' => $value->collect_contact_name,
-                        'type' => 'DISTRIBUCION'
+                        'type' => 'DISTRIBUCION',
+                        'payment_method' => $value->payment_method,
+                        'amount' => $value->amount,
                     ]);
 
                     if ($value->status === 'PROCESADO') {
