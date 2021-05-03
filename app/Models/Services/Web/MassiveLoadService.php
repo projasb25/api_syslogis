@@ -307,9 +307,9 @@ class MassiveLoadService
                     $pdf->MultiCell(101,5,'RUC: '. $guide->client_dni,0,'L');
                     $pdf->SetX($box_x + 92 + 7);
                     $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
-                    $pdf->SetX($box_x + 92 + 7);
-                    $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
                     if ($guide->type === 'RECOLECCION') {
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'CONTACTO: ' .utf8_decode(strtolower($guide->contact_name)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
@@ -320,6 +320,8 @@ class MassiveLoadService
                         $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                     } else {
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->Cell(60,5,'F/PAGO: '.$guide->payment_method,0,0,'L');
                         $pdf->Cell(41,5,'MONTO: '.$guide->amount,0,1,'L');
