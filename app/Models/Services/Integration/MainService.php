@@ -45,7 +45,7 @@ class MainService
                 $req_body = [
                     "Account"=> "1",
                     "GuideNumber"=> $insertar,
-                    "OrderNumber"=> $request_data['NumeroPedido'],
+                    "OrderNumber"=> $request_data['orderNumber'],
                     "SellerName"=> "QAYARIX",
                     "TrackingUrl"=> "urlseguimiento.com/web/WX334434"
                 ];
