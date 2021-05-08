@@ -5,6 +5,7 @@ namespace App\Models\Services\Web;
 use App\Exceptions\CustomException;
 use App\Exports\Reportes\ReporteControlExport;
 use App\Exports\Reportes\ReporteControlProveedorExport;
+use App\Exports\Reportes\ReporteEficienciaExport;
 use App\Exports\Reportes\ReporteImgMonitorExport;
 use App\Exports\Reportes\ReporteRecoleccionExport;
 use App\Helpers\QueryHelper;
@@ -201,6 +202,29 @@ class ReporteService
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Generar reporte recoleccion', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['reporte' => $ruta .'/'. $fileName]);
+    }
+
+    public function reporte_eficiencia($request)
+    {
+        try {
+            $user = auth()->user();
+            $ruta = url('storage/reportes/');
+            $data = $request->all();
+            $fileName = date('YmdHis') . '_reporte_eficiencia_' . rand(1, 100) . '.xlsx';
+            Excel::store(new ReporteEficienciaExport($user->username, $data['desde'], $data['hasta'], $data['id_corporation'], $data['id_organization']), $fileName, 'reportes');
+
+            Log::info('Generar reporte eficiencia', ['request' => $request->all()]);
+        } catch (CustomException $e) {
+            Log::warning('Generar reporte eficiencia', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Generar reporte eficiencia', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Generar reporte eficiencia', ['exception' => $e->getMessage(), 'request' => $request->all()]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success(['reporte' => $ruta .'/'. $fileName]);

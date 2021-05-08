@@ -18,3 +18,5 @@ Route::get('/', function () {
     // return $pdf->inline('invoice.pdf');
     return view('welcome');
 })->name('index');
+
+Route::get('export', 'Web\ReporteController@export');

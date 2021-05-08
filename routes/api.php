@@ -111,6 +111,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('control_proveedor', 'ReporteController@control_proveedor');
         Route::post('img_monitor', 'ReporteController@img_monitor');
         Route::post('reporte_recoleccion', 'ReporteController@reporte_recoleccion');
+        Route::post('reporte_eficiencia', 'ReporteController@reporte_eficiencia');
     });
 });
 

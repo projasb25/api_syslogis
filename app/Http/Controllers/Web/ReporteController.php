@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Exports\InvoicesExport;
+use App\Exports\Reportes\ReporteEficienciaExport;
+use App\Exports\UsersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Services\Web\ReporteService;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ReporteController extends Controller
 {
@@ -43,5 +47,16 @@ class ReporteController extends Controller
     public function reporte_recoleccion(Request $request)
     {
         return $this->service->reporte_recoleccion($request);
+    }
+
+    public function reporte_eficiencia(Request $request)
+    {
+        return $this->service->reporte_eficiencia($request);
+    }
+
+    public function export(Request $request)
+    {
+        return Excel::download(new ReporteEficienciaExport, 'users.xlsx');
+        // return (new InvoicesExport(2018))->download('invoices.xlsx');
     }
 }
