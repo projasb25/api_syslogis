@@ -35,7 +35,7 @@ class EficienciaDetalleSheet implements FromView, WithStyles, ShouldAutoSize, Wi
      */
     public function view(): View
     {
-        $detalle = DB::select("CALL ultima_milla.SP_REP_EFICIENCIA_DETALLE(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        $detalle = DB::select("CALL SP_REP_EFICIENCIA_DETALLE(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
         return view('exports.reporte_eficiencia_detalle', [
             'detalle' => $detalle,
         ]);
