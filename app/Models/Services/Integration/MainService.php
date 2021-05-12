@@ -26,8 +26,8 @@ class MainService
         try {
             $user = (object) [
                 'id_integration_user' => 1,
-                'id_corporation' => 1,
-                'id_organization' => 1,
+                'id_corporation' => 15,
+                'id_organization' => 53,
                 'integration_user' => 'inretail'
             ];
             $request_data = $request->all();
@@ -82,5 +82,30 @@ class MainService
             'mensaje'=> "Se creó la guía correctamente",
             "numeroDeGuia" => $insertar
         ]);
+    }
+
+    public function procesar($request)
+    {
+        try {
+            $integration_data = $this->repo->getIntegrationData();
+
+            $id = $this->repo->insertMassiveLoad($integration_data);
+            
+            
+            $res =[
+                'id_massive_load' => $id
+            ];
+            Log::info('Integracion Crear Cargaexito', ['id_carga' => $id]);
+        } catch (CustomException $e) {
+            Log::warning('Integracion Crear Carga error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Integracion Crear Carga Query', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Integracion Crear Carga error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success($res);
     }
 }

@@ -124,5 +124,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => '
 
     Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {
         Route::post('procesar', 'IntegrationController@index');
+        Route::post('test', 'IntegrationController@procesar');
     });
 });
