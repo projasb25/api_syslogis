@@ -163,10 +163,10 @@ class IntegracionService
                     ]);
                 }
 
-                if ($guide->Estado === 'CURSO') {
-                    $guide->Estado = 'En Transito';
-                    $guide->SubEstado = 'En Ruta hacia el Cliente';
-                }
+                // if ($guide->Estado === 'CURSO') {
+                //     $guide->Estado = 'En Transito';
+                //     $guide->SubEstado = 'En Ruta hacia el Cliente';
+                // }
 
                 if (env('INRETAIL.FAKE')) {
                     $response = json_decode('{
