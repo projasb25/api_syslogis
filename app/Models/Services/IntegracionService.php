@@ -164,7 +164,7 @@ class IntegracionService
                 }
 
                 $req_body = [
-                    "Account" => '1',
+                    "Account" => $guide->alt_code1,
                     "OrderNumber" => $guide->seg_code,
                     "SellerName" => $guide->sellerName,
                     "GuideNumber" => $guide->guide_number,
