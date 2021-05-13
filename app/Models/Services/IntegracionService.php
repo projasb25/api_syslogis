@@ -165,12 +165,12 @@ class IntegracionService
 
                 $req_body = [
                     "Account" => '1',
-                    "GuideNumber" => $guide->guide_number,
                     "OrderNumber" => $guide->seg_code,
                     "SellerName" => $guide->sellerName,
+                    "GuideNumber" => $guide->guide_number,
+                    "TrackingUrl" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide,
                     "Status" => $guide->status,
                     "StatusDescription" => $guide->motive,
-                    "TrackingUrl" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide,
                     "Evidences" => $evidences
                 ];
 
