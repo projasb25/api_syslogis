@@ -92,7 +92,8 @@ class MainRepository
                 'created_by' => 'integracion',
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
-                'type' => 'RECOLECCION'
+                'type' => 'RECOLECCION',
+                'proc_integracion' => 1
             ]);
 
             foreach ($data as $key => &$value) {
