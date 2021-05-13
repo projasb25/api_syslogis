@@ -163,6 +163,17 @@ class IntegracionService
                     ]);
                 }
 
+                $req_body = [
+                    "Account" => '1',
+                    "GuideNumber" => $guide->guide_number,
+                    "OrderNumber" => $guide->seg_code,
+                    "SellerName" => $guide->sellerName,
+                    "Status" => $guide->status,
+                    "StatusDescription" => $guide->motive,
+                    "TrackingUrl" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide,
+                    "Evidences" => $evidences
+                ];
+
                 if (env('INRETAIL.FAKE')) {
                     $response = json_decode('{
                         "Account": "1",
@@ -179,16 +190,6 @@ class IntegracionService
                             ]
                         }');
                 } else {
-                    $req_body = [
-                        "Account" => '1',
-                        "GuideNumber" => $guide->guide_number,
-                        "OrderNumber" => $guide->seg_code,
-                        "SellerName" => $guide->sellerName,
-                        "Status" => $guide->status,
-                        "StatusDescription" => $guide->motive,
-                        "TrackingUrl" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide,
-                        "Evidences" => $evidences
-                    ];
                     $cliente = new Client(['base_uri' => env('INRETAIL.URL')]);
                     try {
                         $req = $cliente->request('POST', 'guide/state', [
