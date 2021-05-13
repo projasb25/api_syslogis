@@ -61,12 +61,12 @@ class IntegracionService
                 } catch (\GuzzleHttp\Exception\RequestException $e) {
                     $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                     Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
-                    $buscar = strpos(strtoupper($response['message']), strtoupper("Already exists a record with CUD:'" . $guide->CUD . "', Estado:'" . $guide->Estado . "' and SubEstado:'".utf8_decode(utf8_decode($guide->SubEstado))."'"));
-                    if ($buscar === false ) {
+                    $buscar = strpos(strtoupper($response['message']), strtoupper("Already exists a record with CUD:'" . $guide->CUD . "', Estado:'" . $guide->Estado . "' and SubEstado:'" . utf8_decode(utf8_decode($guide->SubEstado)) . "'"));
+                    if ($buscar === false) {
                         $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'ERROR', $req_body, $response);
                         $this->repository->updateReportado($guide->id_guide, 2);
                     } else {
-                        $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);        
+                        $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);
                         $this->repository->updateReportado($guide->id_guide, 1);
                     }
                     continue;
@@ -143,6 +143,79 @@ class IntegracionService
             Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
             Log::error('Integracion Oechsle', ['cliente' => 'Oechsle', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function integracionInretail()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuides(1);
+            Log::info('Proceso de integracion con inRetail', ['nro_registros' => count($guides)]);
+            foreach ($guides as $key => $guide) {
+                $evidences = [];
+                $fotos = explode(",", $guide->imagenes);
+                foreach ($fotos as $foto) {
+                    array_push($evidences, [
+                        'evidence_url' => $foto
+                    ]);
+                }
+
+                if ($guide->Estado === 'CURSO') {
+                    $guide->Estado = 'En Transito';
+                    $guide->SubEstado = 'En Ruta hacia el Cliente';
+                }
+
+                if (env('INRETAIL.FAKE')) {
+                    $response = json_decode('{
+                        "Account": "1",
+                        "OrderNumber": "1234567-1",
+                        "SellerName": "PRUEBA S.A.C.",
+                        "GuideNumber": "WXSS2333",
+                        "TrackingUrl": "abc.com/seguimiento",
+                        "Status": "ENTREGADA",
+                        "StatusDescription": "Entregada a familiar directo",
+                        "Evidences": [
+                                {
+                                "evidence_url": "abc.com/evidencia1.jpg"
+                                }
+                            ]
+                        }');
+                } else {
+                    $req_body = [
+                        "Account" => '1',
+                        "GuideNumber" => $guide->guide_number,
+                        "OrderNumber" => $guide->seg_code,
+                        "SellerName" => $guide->sellerName,
+                        "Status" => $guide->status,
+                        "StatusDescription" => $guide->motive,
+                        "TrackingUrl" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide,
+                        "Evidences" => $evidences
+                    ];
+                    $cliente = new Client(['base_uri' => env('INRETAIL.URL')]);
+                    try {
+                        $req = $cliente->request('POST', 'guide/state', [
+                            "json" => $req_body
+                        ]);
+                    } catch (\GuzzleHttp\Exception\RequestException $e) {
+                        $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+                        Log::error('Reportar estado a InRetail, ', ['req' => $req_body, 'exception' => $response]);
+                        $this->repository->logInsertInRetail($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'ERROR', $req_body, $response);
+                        $this->repository->updateReportado($guide->id_guide, 2);
+                        continue;
+                    }
+                    $response = json_decode($req->getBody()->getContents());
+                }
+
+                $this->repository->logInsertInRetail($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);
+                $this->repository->updateReportado($guide->id_guide, 1);
+            }
+            $res['success'] = true;
+            Log::info('Proceso de integracion con inRetail exitoso', ['nro_registros' => count($guides)]);
+        } catch (Exception $e) {
+            Log::error('Integracion inRetail', ['cliente' => 'inRetail', 'exception' => $e->getMessage()]);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;

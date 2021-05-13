@@ -95,7 +95,7 @@ class MainService
             $res =[
                 'id_massive_load' => $id
             ];
-            Log::info('Integracion Crear Cargaexito', ['id_carga' => $id]);
+            Log::info('Integracion Crear Carga exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
             Log::warning('Integracion Crear Carga error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
             return Res::error($e->getData(), $e->getCode());
