@@ -152,7 +152,7 @@ class IntegracionService
     {
         $res['success'] = false;
         try {
-            $guides = $this->repository->getGuides(1);
+            $guides = $this->repository->getGuidesInRetail(1);
             Log::info('Proceso de integracion con inRetail', ['nro_registros' => count($guides)]);
             foreach ($guides as $key => $guide) {
                 $evidences = [];
