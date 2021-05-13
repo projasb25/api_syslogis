@@ -43,11 +43,11 @@ class MainService
                    }');
             } else {
                 $req_body = [
-                    "Account"=> "1",
+                    "Account"=> $request_data['marketplaceId'],
                     "GuideNumber"=> $insertar,
                     "OrderNumber"=> $request_data['orderNumber'],
-                    "SellerName"=> "QAYARIX",
-                    "TrackingUrl"=> "urlseguimiento.com/web/WX334434"
+                    "SellerName"=> "QAYARIX SAC",
+                    "TrackingUrl"=> ""
                 ];
 
                 $cliente = new Client(['base_uri' => env('INRETAIL.URL')]);

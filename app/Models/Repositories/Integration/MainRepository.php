@@ -44,6 +44,7 @@ class MainRepository
                         'seg_code' => $data['orderNumber'],
                         'guide_number' => $idOriginal,
                         'client_barcode' => $idOriginal,
+                        'alt_code1' => $data['marketplaceId'],
                         'sku_code' => $value['id'],
                         'sku_description' => $value['description'],
                         'sku_weight' => $value['weight'],
