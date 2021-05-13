@@ -114,9 +114,9 @@ class IntegracionRepository
         return DB::table('test_ripley')->get();
     }
 
-    public function getGuidesInRetail($corpId)
+    public function getGuidesInRetail()
     {
-        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_INRETAIL(?)", [$corpId]);
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_INRETAIL()");
         return $query;
     }
 }
