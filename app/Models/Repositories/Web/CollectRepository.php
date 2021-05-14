@@ -205,7 +205,8 @@ class CollectRepository
                         'contact_phone' => $value->contact_phone,
                         'type' => 'RECOLECCION',
                         'collect_time_range' => $value->collect_time_range,
-                        'collect_contact_name' => $value->collect_contact_name
+                        'collect_contact_name' => $value->collect_contact_name,
+                        'proc_integracion' => $data['proc_integracion'],
                     ]);
 
                     if ($value->status === 'PROCESADO') {
