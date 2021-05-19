@@ -81,7 +81,8 @@ class MainRepository
                         'delivery_client_name' => $data['clientFirstName'] . ' ' . $data['clientLastName'],
                         'delivery_client_phone1' => $data['clientPhone'],
                         'delivery_contact_name' => $data['clientFirstName'] . ' ' . $data['clientLastName'],
-                        'delivery_contact_email' => $data['clientEmail']
+                        'delivery_contact_email' => $data['clientEmail'],
+                        'seller_name' =>  $data['sellerCorporateName']
                     ]
                 );
             }
@@ -146,6 +147,7 @@ class MainRepository
                     // 'payment_method' => $value['payment_method'] ?? null,
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
+                    'seller_name' => $value->seller_name
                 ]);
 
                 DB::table('integration_data')->where('id_integration_data',$value->id_integration_data)->update(['status'=>'PROCESADO']);
@@ -211,6 +213,7 @@ class MainRepository
                     // 'payment_method' => $value['payment_method'] ?? null,
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
+                    'seller_name' => $value->seller_name
                 ]);
                 DB::table('guide')->where('id_guide',$value->id_guide)->update(['proc_integracion'=>2]);
             }

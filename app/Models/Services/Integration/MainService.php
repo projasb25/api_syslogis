@@ -46,7 +46,7 @@ class MainService
                     "Account"=> $request_data['marketplaceId'],
                     "GuideNumber"=> $insertar,
                     "OrderNumber"=> $request_data['orderNumber'],
-                    "SellerName"=> "QAYARIX SAC",
+                    "SellerName"=> $request_data['sellerCorporateName'],
                     "TrackingUrl"=> ""
                 ];
 
