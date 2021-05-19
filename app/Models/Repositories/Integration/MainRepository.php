@@ -20,7 +20,7 @@ class MainRepository
 
     public function getGuidesCollected()
     {
-        $query = DB::table('guide gd')
+        $query = DB::table('guide as gd')
             ->join('integration_data_detail as idd','idd.guide_number','=','gd.integration_data_detail')
             ->where('gd.type','RECOLECCION')
             ->whereIn('gd.status', ['RECOLECCION COMPLETA'])
