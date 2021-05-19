@@ -113,7 +113,6 @@ class MainService
     {
         try {
             $integration_data = $this->repo->getGuidesCollected();
-            dd($integration_data);
 
             $id = $this->repo->insertMassiveLoadDist($integration_data);
             
