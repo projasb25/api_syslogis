@@ -108,4 +108,30 @@ class MainService
         }
         return Res::success($res);
     }
+
+    public function procesar_distribucion($request)
+    {
+        try {
+            $integration_data = $this->repo->getGuidesCollected();
+            dd($integration_data);
+
+            $id = $this->repo->insertMassiveLoad($integration_data);
+            
+            
+            $res =[
+                'id_massive_load' => $id
+            ];
+            Log::info('Integracion procesar distribucion exito', ['id_carga' => $id]);
+        } catch (CustomException $e) {
+            Log::warning('Integracion procesar distribucion error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Integracion procesar distribucion Query', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Integracion procesar distribucion error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success($res);
+    }
 }

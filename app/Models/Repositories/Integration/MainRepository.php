@@ -18,6 +18,17 @@ class MainRepository
         return $query;
     }
 
+    public function getGuidesCollected()
+    {
+        $query = DB::table('guide gd')
+            ->join('integration_data_detail as idd','idd.guide_number','=','gd.integration_data_detail')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA'])
+            ->where('gd.proc_integracion',1)
+            ->get();
+        return $query;
+    }
+
     public function insertData($data, $user)
     {
         DB::beginTransaction();

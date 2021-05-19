@@ -124,6 +124,9 @@ Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => '
 
     Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {
         Route::post('procesar', 'IntegrationController@index');
+        // TODO: crear comando para procesar a recoleccion
         Route::post('test', 'IntegrationController@procesar');
+        // TODO: crear comando para procesar a distribucion
+        Route::post('test_dist', 'IntegrationController@procesar_distribucion');
     });
 });

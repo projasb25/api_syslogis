@@ -24,4 +24,9 @@ class IntegrationController extends Controller
     {
         return $this->mainService->procesar($request);
     }
+
+    public function procesar_distribucion(Request $request)
+    {
+        return $this->mainService->procesar_distribucion($request);
+    }
 }
