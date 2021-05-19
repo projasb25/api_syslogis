@@ -213,6 +213,7 @@ class MassiveLoadRepository
                         'type' => 'DISTRIBUCION',
                         'payment_method' => $value->payment_method,
                         'amount' => $value->amount,
+                        'seller_name' => $value->seller_name
                     ]);
 
                     if ($value->status === 'PROCESADO') {
