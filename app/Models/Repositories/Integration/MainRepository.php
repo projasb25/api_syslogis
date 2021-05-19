@@ -163,7 +163,7 @@ class MainRepository
         DB::beginTransaction();
         try {
             $id = DB::table('massive_load')->insertGetId([
-                'number_records' => $data['count'],
+                'number_records' => count($data),
                 'status' => 'PENDIENTE',
                 'created_by' => 'integracion',
                 'id_corporation' => $data[0]->id_corporation,
