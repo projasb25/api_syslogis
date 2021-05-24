@@ -53,6 +53,9 @@ class MainService
                 $cliente = new Client(['base_uri' => env('INRETAIL.URL')]);
 
                 $req = $cliente->request('POST', 'guide', [
+                    "headers" => [
+                        'client_id' => env('INRETAIL_API_CLIENT_ID'),
+                    ],
                     "json" => $req_body
                 ]);
 
