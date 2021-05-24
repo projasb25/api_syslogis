@@ -193,6 +193,9 @@ class IntegracionService
                     $cliente = new Client(['base_uri' => env('INRETAIL.URL')]);
                     try {
                         $req = $cliente->request('POST', 'guide/state', [
+                            "headers" => [
+                                'client_id' => env('INRETAIL_API_CLIENT_ID'),
+                            ],
                             "json" => $req_body
                         ]);
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
