@@ -84,7 +84,7 @@ class MainService
         ]);
     }
 
-    public function procesar($request)
+    public function procesar()
     {
         try {
             $integration_data = $this->repo->getIntegrationData();
@@ -97,13 +97,13 @@ class MainService
             ];
             Log::info('Integracion Crear Carga exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
-            Log::warning('Integracion Crear Carga error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            Log::warning('Integracion Crear Carga error', ['expcetion' => $e->getData()[0]]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Integracion Crear Carga Query', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            Log::warning('Integracion Crear Carga Query', ['expcetion' => $e->getMessage()]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Integracion Crear Carga error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            Log::warning('Integracion Crear Carga error', ['exception' => $e->getMessage()]);
             return Res::error(['Unxpected error', 3000], 400);
         }
         return Res::success($res);
