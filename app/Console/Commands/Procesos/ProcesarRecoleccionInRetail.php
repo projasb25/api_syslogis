@@ -50,7 +50,7 @@ class ProcesarRecoleccionInRetail extends Command
 
             $integracion = $this->mainService->procesar();
             if (!$integracion['success']) {
-                throw new Exception($integracion['error']['mensaje'], 500);
+                throw new Exception($integracion['mensaje'], 500);
             }
 
             $this->info('IN RETAIL PROCESADO CON EXITO - RECOLECCION');

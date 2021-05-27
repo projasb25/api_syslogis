@@ -89,27 +89,28 @@ class MainService
 
     public function procesar()
     {
+        $res['success'] = false;
         try {
             $integration_data = $this->repo->getIntegrationData();
 
             $id = $this->repo->insertMassiveLoad($integration_data);
-            
-            
             $res =[
                 'id_massive_load' => $id
             ];
+            
+            $res['success'] = true;
             Log::info('Integracion Crear Carga exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
             Log::warning('Integracion Crear Carga error', ['expcetion' => $e->getData()[0]]);
-            return Res::error($e->getData(), $e->getCode());
+            $res['mensaje'] = $e->getData()[0];
         } catch (QueryException $e) {
             Log::warning('Integracion Crear Carga Query', ['expcetion' => $e->getMessage()]);
-            return Res::error(['Unxpected DB error', 3000], 400);
+            $res['mensaje'] = $e->getMessage();
         } catch (Exception $e) {
             Log::warning('Integracion Crear Carga error', ['exception' => $e->getMessage()]);
-            return Res::error(['Unxpected error', 3000], 400);
+            $res['mensaje'] = $e->getMessage();
         }
-        return Res::success($res);
+        return $res;
     }
 
     public function procesar_distribucion($request)
