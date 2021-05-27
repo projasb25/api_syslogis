@@ -163,6 +163,23 @@ class IntegracionService
                     ]);
                 }
 
+                switch ($guide->status) {
+                    case 'CURSO':
+                        $guide->status = 'EN RUTA';
+                        $guide->SubEstado = '';
+                        break;
+                    case 'RECOLECCION COMPLETA':
+                        $guide->status = 'RECOLECTADO';
+                        $guide->SubEstado = '';
+                        break;
+                    default:
+                        break;
+                }
+                // if ($guide->status === 'CURSO') {
+                //     $guide->status = 'EN RUTA';
+                //     $guide->SubEstado = '';
+                // }
+
                 $req_body = [
                     "Account" => $guide->alt_code1,
                     "OrderNumber" => $guide->seg_code,
