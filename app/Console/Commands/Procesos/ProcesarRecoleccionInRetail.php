@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class Inretail extends Command
+class ProcesarRecoleccionInRetail extends Command
 {
     protected $mainService;
     /**
