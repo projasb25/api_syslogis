@@ -76,7 +76,7 @@ class MainRepository
                         'delivery_district' => $ubigeo_dist->district,
                         'delivery_province' => $ubigeo_dist->province,
                         'delivery_address_reference' => $data['clientAddressReference'],
-                        'delivery_address' => $data['clientAddressStreet'],
+                        'delivery_address' => $data['clientAddressStreet'] . ' ' . $data['clientAddressNumber'] . ' ' . $data['clientAddressComplement'],
                         'delivery_client_dni' => $data['clientDocument'],
                         'delivery_client_name' => $data['clientFirstName'] . ' ' . $data['clientLastName'],
                         'delivery_client_phone1' => $data['clientPhone'],
