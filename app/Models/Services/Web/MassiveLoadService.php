@@ -338,6 +338,8 @@ class MassiveLoadService
                             $pdf->Cell(41,5,'MONTO: '.$guide->amount,0,1,'L');
                         }
                         $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
                     }
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->MultiCell(100,5,'DIRECCION: '. $direccion,0,'L');
