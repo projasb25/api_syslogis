@@ -113,8 +113,9 @@ class MainService
         return $res;
     }
 
-    public function procesar_distribucion($request)
+    public function procesar_distribucion()
     {
+        $res['success'] = false;
         try {
             $integration_data = $this->repo->getGuidesCollected();
 
@@ -124,17 +125,18 @@ class MainService
             $res =[
                 'id_massive_load' => $id
             ];
+            $res['success'] = true;
             Log::info('Integracion procesar distribucion exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
-            Log::warning('Integracion procesar distribucion error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
-            return Res::error($e->getData(), $e->getCode());
+            Log::warning('Integracion procesar distribucion error', ['expcetion' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
         } catch (QueryException $e) {
-            Log::warning('Integracion procesar distribucion Query', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
-            return Res::error(['Unxpected DB error', 3000], 400);
+            Log::warning('Integracion procesar distribucion Query', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
         } catch (Exception $e) {
-            Log::warning('Integracion procesar distribucion error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
-            return Res::error(['Unxpected error', 3000], 400);
+            Log::warning('Integracion procesar distribucion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
         }
-        return Res::success($res);
+        return $res;
     }
 }
