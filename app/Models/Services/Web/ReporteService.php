@@ -238,7 +238,7 @@ class ReporteService
             $ruta = url('storage/reportes/');
             $data = $request->all();
             $fileName = date('YmdHis') . '_reporte_data_carga_' . rand(1, 100) . '.xlsx';
-            Excel::store(new ReporteCargaExport($user->username, $data['desde'], $data['hasta'], $data['id_corporation'], $data['id_organization']), $fileName, 'reportes');
+            Excel::store(new ReporteCargaExport($data['desde'], $data['hasta'], $data['id_corporation'], $data['id_organization']), $fileName, 'reportes');
 
             Log::info('Generar reporte data carga', ['request' => $request->all()]);
         } catch (CustomException $e) {
