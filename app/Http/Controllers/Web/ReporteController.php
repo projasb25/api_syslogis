@@ -54,6 +54,11 @@ class ReporteController extends Controller
         return $this->service->reporte_eficiencia($request);
     }
 
+    public function reporte_data_carga(Request $request)
+    {
+        return $this->service->reporte_data_carga($request);
+    }
+
     public function export(Request $request)
     {
         return Excel::download(new ReporteEficienciaExport, 'users.xlsx');

@@ -112,6 +112,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('img_monitor', 'ReporteController@img_monitor');
         Route::post('reporte_recoleccion', 'ReporteController@reporte_recoleccion');
         Route::post('reporte_eficiencia', 'ReporteController@reporte_eficiencia');
+        Route::post('reporte_data_carga', 'ReporteController@reporte_data_carga');
     });
 });
 
