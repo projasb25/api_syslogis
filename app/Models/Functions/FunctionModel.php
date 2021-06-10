@@ -193,6 +193,10 @@ class FunctionModel
             "query" => 'CALL SP_REPORTE_RECOLECCION(:desde, :hasta, :username)',
             "params" => ['desde', 'hasta', 'username']
         ],
+        "SP_REPORTE_DATA_CARGA" => [
+            "query" => 'CALL SP_REPORTE_DATA_CARGA(:desde, :hasta, :id_corporation, :id_organization)',
+            "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
+        ],
 
         /**
          * Funciones para Paginacion
