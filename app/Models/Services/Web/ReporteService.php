@@ -31,11 +31,13 @@ class ReporteService
             $origen = 'reporte_inventario';
             $daterange = $request->get('daterange');
             $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
-
+            
             $user = auth()->user();
             $user_data= json_encode($user->getIdentifierData());
             $req = $request->all();
-
+            
+            Log::info('where => '.$where);
+            Log::info('userData => '.$user_data);
             $ruta = url('storage/reportes/');
             // $data_reporte = $this->repository->sp_reporte_control($data['desde'], $data['hasta'], $user->username);
             $fileName = date('YmdHis') . '_reporte_inventario_' . rand(1, 100) . '.xlsx';
