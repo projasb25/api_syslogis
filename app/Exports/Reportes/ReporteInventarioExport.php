@@ -46,6 +46,7 @@ class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadin
         return [
             $collection->client_name,
             $collection->store_name,
+            $collection->product_code,
             $collection->hallway,
             $collection->column,
             $collection->level,
@@ -55,7 +56,6 @@ class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadin
             $collection->scrap,
             $collection->available,
             $collection->quantity,
-            $collection->product_code,
             $collection->product_description,
             $collection->product_serie,
             $collection->product_lots,
