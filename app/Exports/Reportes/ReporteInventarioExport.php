@@ -20,8 +20,9 @@ class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadin
     public function headings(): array
     {
         return [
-            'CLIENT_NAME','STORE_NAME','HALLWAY','COLUMN','LEVEL','QUANTITY','QUARANTINE','SHRINKAGE',
-            'AVAILABLE', 'PRODUCT_CODE', 'PRODUCT_DESCRIPTION', 'PRODUCT_SERIE', 'PRODUCT_LOTS',
+            'CLIENT_NAME','STORE_NAME','PRODUCT_CODE', 'HALLWAY','COLUMN','LEVEL',
+            'QUARANTINE','SHRINKAGE','DEMO','SCRAP','AVAILABLE', 'QUANTITY',
+            'PRODUCT_DESCRIPTION', 'PRODUCT_SERIE', 'PRODUCT_LOTS',
             'PRODUCT_EXP_DATE', 'PRODUCT_AVAILABLE', 'PRODUCT_COLOR', 'PRODUCT_SIZE',
             'PRODUCT_PACKAGE_NUMBER','PRODUCT_UNITP_BOX','PRODUCT_CMTR_PBOX',
             'PRODUCT_CMTR_QUANTITY'
@@ -48,10 +49,12 @@ class ReporteInventarioExport implements FromCollection, WithMapping, WithHeadin
             $collection->hallway,
             $collection->column,
             $collection->level,
-            $collection->quantity,
             $collection->quarantine,
             $collection->shrinkage,
+            $collection->demo,
+            $collection->scrap,
             $collection->available,
+            $collection->quantity,
             $collection->product_code,
             $collection->product_description,
             $collection->product_serie,
