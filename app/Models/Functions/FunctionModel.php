@@ -13,8 +13,8 @@ class FunctionModel
             "params" => ['status']
         ],
         "SP_INS_ROLE" => [
-            "query" => 'CALL SP_INS_ROLE(:id_role,:id_corporation,:description,:status,:username)',
-            "params" => ['id_role','id_corporation','description','status','username']
+            "query" => 'CALL SP_INS_ROLE(:id_role,:id_corporation,:id_organization,:description,:status,:username)',
+            "params" => ['id_role','id_corporation','id_organization','description','status','username']
         ],
         "SP_SEL_DOMAIN" => [
             "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
