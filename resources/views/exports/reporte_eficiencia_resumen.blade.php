@@ -26,13 +26,25 @@
             $total_entregado = 0; $total_no_entregado = 0; $total_suma = 0; $grand_total=0;
         @endphp
         @foreach($detalle as $item)
+            @php $item_eficiencia = null; @endphp
             <tr>
                 <td>{{$item->fecha}}</td>
                 <td>{{$item->total_entregado}}</td>
                 <td>{{$item->total_no_entregado}}</td>
                 <td>{{$item->total_suma}}</td>
                 <td style='text-align: right;'>{{number_format($item->efectividad,2)}}%</td>
-                <td style='text-align: right;'>{{number_format($item->eficiencia,2)}}%</td>
+                <td style='text-align: right;'>
+                @php
+                    foreach ($detalle_eficiencia as $key => $val) {
+                        if ($val['fecha'] === $item->fecha) {
+                            $item_eficiencia = $val['eficiencia'];
+                            break
+                        }
+                    }
+                @endphp
+                    {{-- {{number_format($item->eficiencia,2)}}% --}}
+                    {{number_format($item_eficiencia,2)}}%
+                </td>
             </tr>
             @php
                 $total_entregado += $item->total_entregado; 

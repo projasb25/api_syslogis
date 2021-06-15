@@ -35,8 +35,10 @@ class EficienciaResumenSheet implements FromView, WithStyles, ShouldAutoSize, Wi
     public function view(): View
     {
         $detalle = DB::select("CALL SP_REP_EFICIENCIA_RESUMEN(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        $detalle_eficiencia = DB::select("CALL SP_REP_EFICIENCIA_V2(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
         $motivos = DB::select("CALL SP_REP_EFICIENCIA_MOTIVOS(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
         return view('exports.reporte_eficiencia_resumen', [
+            'detalle_eficiencia' => $detalle_eficiencia,
             'detalle' => $detalle,
             'motivos' => $motivos
         ]);
