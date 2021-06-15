@@ -38,7 +38,7 @@
                     foreach ($detalle_eficiencia as $key => $val) {
                         if ($val['fecha'] === $item->fecha) {
                             $item_eficiencia = $val['eficiencia'];
-                            break
+                            break;
                         }
                     }
                 @endphp
