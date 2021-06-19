@@ -243,6 +243,7 @@ class IntegracionService
         try {
             $guides = $this->repository->getGuidesCoolbox();
             Log::info('Proceso de integracion con coolbox', ['nro_registros' => count($guides)]);
+            $accessToken = $this->prepare_access_token();
             foreach ($guides as $key => $guide) {
                 $evidences = [];
                 $fotos = explode(",", $guide->imagenes);
@@ -286,7 +287,6 @@ class IntegracionService
                         }');
                 } else {
                     $cliente = new Client(['base_uri' => env('COOLBOX.URL')]);
-                    $accessToken = $this->prepare_access_token();
                     try {
                         $req = $cliente->request('POST', 'ActualizarEstadoPedidoporNumPedido', [
                             "headers" => [
