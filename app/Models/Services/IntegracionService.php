@@ -309,7 +309,7 @@ class IntegracionService
                     }
                     $response = json_decode($req->getBody()->getContents());
 
-                    Log::info('response', ['res' => $response]);
+                    Log::info('response', ['res' => $response->actualizado]);
                 }
 
                 $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'SUCCESS', $req_body, $response);
