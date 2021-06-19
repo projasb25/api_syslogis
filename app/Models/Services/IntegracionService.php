@@ -245,6 +245,7 @@ class IntegracionService
             Log::info('Proceso de integracion con coolbox', ['nro_registros' => count($guides)]);
 
             if (!count($guides)) {
+                Log::info('Nada que reportar Coolbox');
                 $res['success'] = true;
                 return $res;
             }
