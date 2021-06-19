@@ -35,7 +35,7 @@ class MassiveLoadService
             $data['data'] = $req['data'];
             $data['id_corporation'] = $req['id_corporation'];
             $data['id_organization'] = $req['id_organization'];
-            $data['date_loaded'] = $req['date_loaded'];
+            $data['date_loaded'] = date('Y-m-d H:i:s');
 
             $id = $this->repo->insertMassiveLoad($data);
             
