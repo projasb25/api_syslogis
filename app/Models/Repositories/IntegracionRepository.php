@@ -62,7 +62,7 @@ class IntegracionRepository
 
     public function logInsertCoolbox($seg_code, $guide_number, $id_guide, $estado, $subestado, $result, $request, $response)
     {
-        DB::table('log_integration_inretail')->insert(
+        DB::table('log_integration_coolbox')->insert(
             [
                 'id_guide' => $id_guide,
                 'seg_code' => $seg_code,
