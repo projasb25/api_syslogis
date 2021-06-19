@@ -247,7 +247,9 @@ class IntegracionService
             if (env('COOLBOX.FAKE')) {
                 $accessToken = $this->prepare_access_token();
             } else { $accessToken = 'token prueba'; }
-            
+
+            Log::info('token ', ['token' => $accessToken]);
+
             foreach ($guides as $key => $guide) {
                 $evidences = [];
                 $fotos = explode(",", $guide->imagenes);
