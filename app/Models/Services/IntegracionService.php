@@ -243,6 +243,11 @@ class IntegracionService
         try {
             $guides = $this->repository->getGuidesCoolbox();
             Log::info('Proceso de integracion con coolbox', ['nro_registros' => count($guides)]);
+
+            if (!count($guides)) {
+                $res['success'] = true;
+                return $res;
+            }
             
             if (!env('COOLBOX.FAKE')) {
                 $accessToken = $this->prepare_access_token();
