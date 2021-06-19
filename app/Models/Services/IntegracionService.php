@@ -236,4 +236,99 @@ class IntegracionService
         }
         return $res;
     }
+
+    public function integracionCoolbox()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuidesCoolbox();
+            Log::info('Proceso de integracion con coolbox', ['nro_registros' => count($guides)]);
+            foreach ($guides as $key => $guide) {
+                $evidences = [];
+                $fotos = explode(",", $guide->imagenes);
+                // foreach ($fotos as $foto) {
+                //     array_push($evidences, [
+                //         'evidence_url' => $foto
+                //     ]);
+                // }
+
+                switch ($guide->status) {
+                    case 'CURSO':
+                        $estado = 7;
+                        break;
+                    case 'ENTREGADO':
+                        $estado = 8;
+                        break;
+                    case 'NO ENTREGADO':
+                        $estado = 18;
+                        break;
+                    default:
+                        break;
+                }
+                // if ($guide->status === 'CURSO') {
+                //     $guide->status = 'EN RUTA';
+                //     $guide->SubEstado = '';
+                // }
+
+                $req_body = [
+                    "pedido" => 0,
+                    "numPedido" => $guide->seg_code,
+                    "estado" =>  $estado,
+                    "ubicacion" => 0,
+                    "guia" => 0,
+                    "archivo" => ($estado == 8) ? $fotos[0] : ""
+                ];
+
+                if (env('COOLBOX.FAKE')) {
+                    $response = json_decode('{
+                        "actualizado": true,
+                        "mensaje": "Estado actualizado de forma correcta."
+                        }');
+                } else {
+                    $cliente = new Client(['base_uri' => env('COOLBOX.URL')]);
+                    $accessToken = $this->prepare_access_token();
+                    try {
+                        $req = $cliente->request('POST', 'ActualizarEstadoPedidoporNumPedido', [
+                            "headers" => [
+                                'Authorization' => 'Bearer ' . $accessToken['token'],
+                            ],
+                            "json" => $req_body
+                        ]);
+                    } catch (\GuzzleHttp\Exception\RequestException $e) {
+                        $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+                        Log::error('Reportar estado a Coolbox, ', ['req' => $req_body, 'exception' => $response]);
+                        $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
+                        $this->repository->updateReportado($guide->id_guide, 2);
+                        continue;
+                    }
+                    $response = json_decode($req->getBody()->getContents());
+                }
+
+                $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'SUCCESS', $req_body, $response);
+                $this->repository->updateReportado($guide->id_guide, 1);
+            }
+            $res['success'] = true;
+            Log::info('Proceso de integracion con Coolbox exitoso', ['nro_registros' => count($guides)]);
+        } catch (Exception $e) {
+            Log::error('Integracion Coolbox', ['cliente' => 'Coolbox', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function prepare_access_token()
+    {
+        $http = new Client(['base_uri' => env('COOLBOX.OAUTH_API_URL')]);
+
+        $response = $http->request('POST', 'login', array(
+            'json' => [
+                'Username' => env('COOLBOX.USUARIO'),
+                'Password' => env('COOLBOX.PASSWORD')
+            ]
+        ));
+
+        $responseBody = $response->getBody(true);
+        $responseArr = json_decode($responseBody, true);
+        return $responseArr;
+    }
 }

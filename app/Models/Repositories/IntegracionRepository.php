@@ -59,6 +59,22 @@ class IntegracionRepository
             ]
             );
     }
+
+    public function logInsertCoolbox($seg_code, $guide_number, $id_guide, $estado, $subestado, $result, $request, $response)
+    {
+        DB::table('log_integration_inretail')->insert(
+            [
+                'id_guide' => $id_guide,
+                'seg_code' => $seg_code,
+                'guide_number' => $guide_number,
+                'estado' => $estado,
+                'subestado' => $subestado,
+                'result' => $result,
+                'response' => json_encode($response),
+                'request' => json_encode($request)
+            ]
+            );
+    }
     
     public function updateReportado($id_guide, $report)
     {
@@ -117,6 +133,12 @@ class IntegracionRepository
     public function getGuidesInRetail()
     {
         $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_INRETAIL()");
+        return $query;
+    }
+
+    public function getGuidesCoolbox()
+    {
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_COOLBOX()");
         return $query;
     }
 }
