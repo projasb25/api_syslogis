@@ -104,6 +104,7 @@ class MassiveLoadRepository
                     'payment_method' => $value['payment_method'] ?? null,
                     'amount' => $value['amount'] ?? null,
                     'collect_time_range' => $value['collect_time_range'] ?? null,
+                    'date_loaded' => $data['date_loaded']
                 ]);
             }
             DB::commit();
@@ -213,15 +214,16 @@ class MassiveLoadRepository
                         'type' => 'DISTRIBUCION',
                         'payment_method' => $value->payment_method,
                         'amount' => $value->amount,
-                        'seller_name' => $value->seller_name
+                        'seller_name' => $value->seller_name,
+                        'date_loaded' => $value->date_loaded
                     ]);
 
                     if ($value->status === 'PROCESADO') {
                         DB::table('guide_tracking')->insert([
-                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
-                            ['id_guide' => $id_guide, 'status' => 'DESPACHADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
-                            ['id_guide' => $id_guide, 'status' => 'DESPACHO ACEPTADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
-                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION'],
+                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION', 'date_created' => $value->date_loaded],
+                            ['id_guide' => $id_guide, 'status' => 'DESPACHADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION', 'date_created' => $value->date_loaded],
+                            ['id_guide' => $id_guide, 'status' => 'DESPACHO ACEPTADO', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION', 'date_created' => $value->date_loaded],
+                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.', 'type' => 'DISTRIBUCION', 'date_created' => $value->date_loaded],
                         ]);
                     } else {
                         DB::table('guide_tracking')->insert([
