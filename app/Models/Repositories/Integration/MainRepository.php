@@ -29,6 +29,26 @@ class MainRepository
         return $query;
     }
 
+    public function getDataToReport()
+    {
+        $query = DB::table('integration_data as id')
+            ->select('id.id_integration_data','id.request_data','id.reportado','idd.guide_number','idd.alt_code1', 'idd.seg_code', 'idd.seller_name')
+            ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
+            ->where('id.reportado',0)
+            ->groupBy('id.id_integration_data')
+            ->groupBy('idd.alt_code1')
+            ->groupBy('idd.guide_number')
+            ->groupBy('idd.seg_code')
+            ->groupBy('idd.seller_name')
+            ->get();
+        return $query;
+    }
+
+    public function updateReportado($id_carga, $report)
+    {
+        DB::table('integration_data')->where('id_integration_data', $id_carga)->update(['reportado' => $report]);
+    }
+
     public function insertData($data, $user)
     {
         DB::beginTransaction();
