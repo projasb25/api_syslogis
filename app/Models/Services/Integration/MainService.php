@@ -67,7 +67,7 @@ class MainService
             Log::error('Integracion carga error', ['exception' => $e->getResponse()->getBody(true), 'req_body' => $req_body, 'req' => $request->all()]);
             return response()->json([
                 'codigo' => '3000',
-                "tipoError" => "Connection Error",
+                "tipoError" => "Connection Error API",
                 'mensaje'=> "Error en el proceso",
             ]);
         } catch (Exception $e) {
