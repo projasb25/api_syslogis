@@ -147,7 +147,8 @@ class MainRepository
                     // 'payment_method' => $value['payment_method'] ?? null,
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
-                    'seller_name' => $value->seller_name
+                    'seller_name' => $value->seller_name,
+                    'date_loaded' => date('Y-m-d H:i:s')
                 ]);
 
                 DB::table('integration_data')->where('id_integration_data',$value->id_integration_data)->update(['status'=>'PROCESADO']);
@@ -213,7 +214,8 @@ class MainRepository
                     // 'payment_method' => $value['payment_method'] ?? null,
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
-                    'seller_name' => $value->seller_name
+                    'seller_name' => $value->seller_name,
+                    'date_loaded' => date('Y-m-d H:i:s')
                 ]);
                 DB::table('guide')->where('id_guide',$value->id_guide)->update(['proc_integracion'=>2]);
             }
