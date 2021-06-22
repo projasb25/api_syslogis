@@ -98,7 +98,8 @@ class CollectRepository
                     'contact_name' => $value['contact_name'] ?? null,
                     'contact_phone' => $value['contact_phone'] ?? null,
                     'collect_time_range' => $value['collect_time_range'] ?? null,
-                    'collect_contact_name' => $value['collect_contact_name'] ?? null
+                    'collect_contact_name' => $value['collect_contact_name'] ?? null,
+                    'date_loaded' => $data['date_loaded']
                 ]);
             }
             DB::commit();
@@ -207,13 +208,14 @@ class CollectRepository
                         'collect_time_range' => $value->collect_time_range,
                         'collect_contact_name' => $value->collect_contact_name,
                         'proc_integracion' => $data['proc_integracion'],
-                        'seller_name' => $value->seller_name
+                        'seller_name' => $value->seller_name,
+                        'date_loaded' => $value->date_loaded
                     ]);
 
                     if ($value->status === 'PROCESADO') {
                         DB::table('guide_tracking')->insert([
-                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.', 'type' => 'RECOLECCION'],
-                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.', 'type' => 'RECOLECCION'],
+                            ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.', 'type' => 'RECOLECCION', 'date_created' => $value->date_loaded],
+                            ['id_guide' => $id_guide, 'status' => 'PENDIENTE', 'motive' => 'Registro Automático.', 'type' => 'RECOLECCION', 'date_created' => $value->date_loaded],
                         ]);
                     } else {
                         DB::table('guide_tracking')->insert([
