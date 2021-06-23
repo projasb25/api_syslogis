@@ -175,13 +175,13 @@ class MainService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar carga a InRetail error, ', ['req' => $req_body, 'exception' => $response]);
-                        $this->repository->updateReportado($load->id_integration_data, 0);
+                        $this->repo->updateReportado($load->id_integration_data, 0);
                         continue;
                     }
                     $response = json_decode($req->getBody()->getContents());
                     Log::info('Reportado con exito ',['req' => $req_body, 'resp' => $response]);
                 }
-                $this->repository->updateReportado($load->id_integration_data, 1);
+                $this->repo->updateReportado($load->id_integration_data, 1);
             }
             $res['success'] = true;
             Log::info('Proceso reportar carga a inRetail', ['nro_registros' => count($integration_data)]);
