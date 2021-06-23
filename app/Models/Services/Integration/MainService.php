@@ -145,6 +145,11 @@ class MainService
         $res['success'] = false;
         try {
             $integration_data = $this->repo->getDataToReport();
+            if (!count($integration_data)) {
+                $res['success'] = true;
+                Log::info('Proceso reportar carga a inRetail - Nada que reportar');
+                return $res;
+            }
 
             foreach ($integration_data as $key => $load) {
                 $req_body = [
