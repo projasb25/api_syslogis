@@ -285,8 +285,8 @@ class IntegracionService
                     "pedido" => 0,
                     "numPedido" => $guide->seg_code,
                     "estado" =>  $estado,
-                    "ubicacion" => 0,
-                    "guia" => 0,
+                    "ubicacion" => "",
+                    "guia" => "",
                     "archivo" => ($estado == 8) ? $fotos[0] : ""
                 ];
 
