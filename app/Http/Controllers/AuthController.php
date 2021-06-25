@@ -85,7 +85,7 @@ class AuthController extends Controller
             $data = request()->get('data');
             $data['password'] = Hash::make($data['password']);
             $query = DB::select("CALL SP_INS_USER(?,?,?,?,?,?,?,?,?,?,?,?)", [
-                $data['id_user'],
+                0,
                 $data['username'],
                 $data['first_name'],
                 $data['last_name'],
