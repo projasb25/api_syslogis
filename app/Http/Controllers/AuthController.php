@@ -99,25 +99,7 @@ class AuthController extends Controller
                 'APP',
             ]);
 
-            // if (!$query) {
-            //     throw new CustomException(['Usuario no existe.', 2000], 401);
-            // }
-            // if (!Hash::check($data['password'], $query[0]->password)) {
-            //     throw new CustomException(['Credenciales incorrectas.', 2001], 401);
-            // }
             $user = User::where('id_user', $query[0]->id_user)->first();
-
-            // if ($user->id_user === 1) {
-            //     $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, null]);
-            //     $organizaciones = DB::select('CALL SP_SEL_ORGANIZATIONS(?,?)', [null, $query[0]->current_corp]);
-            // } else {
-            //     $organizaciones = DB::select('CALL SP_SEL_ORGUSER(?,?)', [null, $user->id_user]);
-            //     $corporaciones = null;
-            // }
-
-            // $token = auth()->claims(
-            //         ['current_org' => $query[0]->current_org, 'current_corp' => $query[0]->current_corp]
-            //     )->login($user);
             $token = auth()->login($user);
 
             return Res::success([
