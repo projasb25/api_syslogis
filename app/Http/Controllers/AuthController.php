@@ -35,6 +35,7 @@ class AuthController extends Controller
 
             $data = request()->get('data');
             $query = DB::select("CALL SP_AUTHENTICATE(?)", [$data['usr']]);
+            dd($query);
 
             if (!$query) {
                 throw new CustomException(['Usuario no existe.', 2000], 401);
