@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomException;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-use App\Models\Entities\Driver;
 use App\Models\Repositories\ConductorRepository;
 use App\User;
 use Illuminate\Support\Facades\Config;
@@ -13,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Helpers\ResponseHelper as Res;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
