@@ -91,6 +91,7 @@ class AuthController extends Controller
                 $data['doc_type'],
                 $data['doc_number'],
                 $data['user_email'],
+                $data['phone'],
                 $data['password'],
                 $data['status'],
                 $data['type'],
