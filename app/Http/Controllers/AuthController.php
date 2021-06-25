@@ -12,6 +12,7 @@ use App\Helpers\ResponseHelper as Res;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 
 class AuthController extends Controller
 {
