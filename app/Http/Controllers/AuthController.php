@@ -132,6 +132,13 @@ class AuthController extends Controller
         } catch (CustomException $e) {
             Log::warning('Iniciar Session error', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
             return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            if ((int) $e->getCode() >= 60000) {
+                Log::warning('Iniciar Session error', ['exception' => $e->errorInfo[2], 'request' => request()->all()]);
+                return Res::error([$e->errorInfo[2], (int) $e->getCode()], 400);
+            }
+            Log::warning('Iniciar Session error', ['exception' => $e->getMessage(), 'request' => request()->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Iniciar Session error', ['exception' => $e->getMessage(), 'request' => request()->all()]);
             return Res::error(['Unxpected error', 3000], 400);
