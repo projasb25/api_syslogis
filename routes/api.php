@@ -33,11 +33,6 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('me', 'AuthController@me');
 });
 
-// Route::group(['middleware' => 'auth:api', 'prefix' => 'conductor'], function () {
-//     Route::get('/ofertas', 'ConductorController@listarOfertas');
-//     Route::post('/actualizarEstado', 'ConductorController@actualizarEstado');
-// });
-
 Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'conductor'], function () {
     Route::get('/ofertas', 'DriverController@listarOfertas');
     Route::post('/actualizarEstado', 'DriverController@actualizarEstado');
