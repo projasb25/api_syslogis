@@ -26,19 +26,7 @@ class PedidoService
     public function grabarImagen($request)
     {
         try {
-            // $guide = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
-            // if (!count($guide)) {
-            //     throw new CustomException(['Detalle no encontrado.', 2010], 400);
-            // } 
-            // elseif ($guide[0]->status !== 'CURSO') {
-            //     throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
-            // }
             $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix();
-            # CHeck if folder exists before create one
-            // if (!file_exists($destination_path)) {
-            //     File::makeDirectory($destination_path, $mode = 0777, true, true);
-                // File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
-            // }
 
             $imagen = $request->file('imagen');
             $nombre_imagen = 'ipm_' . time() . '.jpg';
@@ -56,9 +44,6 @@ class PedidoService
             })->save($destination_path . '/' . $nombre_imagen);
 
             $ruta = url('storage/imagenes/' . $nombre_imagen);
-            // foreach ($guide as $key => $gd) {
-            //     $this->repository->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
-            // }
 
             Log::info('Peido grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
         } catch (CustomException $e) {
