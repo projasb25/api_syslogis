@@ -13,8 +13,8 @@ class FunctionModel
             "params" => ['username']
         ],
         "SP_UBIGEO" => [
-            "query" => 'CALL SP_UBIGEO(:serch,:filter)',
-            "params" => ['serch','filter']
+            "query" => 'CALL SP_UBIGEO(:search,:filter)',
+            "params" => ['search','filter']
         ]
     ];
 
