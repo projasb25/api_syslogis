@@ -22,7 +22,6 @@ class PedidoController extends Controller
     {
         $rules = [
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20048',
-            'idpedido_detalle' => 'required|numeric',
             'tipo_imagen' => 'required',
             'descripcion' => 'required|string'
         ];
@@ -30,8 +29,6 @@ class PedidoController extends Controller
         $messages = [
             'imagen.required' => 'La imagen es requerida.',
             'imagen.mimes'  => 'Extension invalida.',
-            'idpedido_detalle.required' => 'Falta idpedido_detalle',
-            'idpedido_detalle.numeric' => 'pedido invalido',
             'tipo_imagen.*' => 'Tipo imagen inválido.',
             'descripcion.required' => 'Descripcion requerida.',
             'descripcion.*' => 'Descripción inválida.'
@@ -52,52 +49,52 @@ class PedidoController extends Controller
         return $this->pedidoServi->grabarImagen($request);
     }
 
-    public function getImagen(Request $request, $idpedido_detalle)
-    {
-        return $this->pedidoServi->getImagen($idpedido_detalle);
-    }
+    // public function getImagen(Request $request, $idpedido_detalle)
+    // {
+    //     return $this->pedidoServi->getImagen($idpedido_detalle);
+    // }
 
-    public function actualizar(Request $request)
-    {
-        $rules = [
-            'idpedido_detalle' => 'required|numeric',
-            'estado' => 'required|string',
-            'observacion' => 'string|nullable',
-            'latitud' => 'string|numeric',
-            'longitud' => 'string|numeric'
-        ];
+    // public function actualizar(Request $request)
+    // {
+    //     $rules = [
+    //         'idpedido_detalle' => 'required|numeric',
+    //         'estado' => 'required|string',
+    //         'observacion' => 'string|nullable',
+    //         'latitud' => 'string|numeric',
+    //         'longitud' => 'string|numeric'
+    //     ];
 
-        $messages = [
-            'idpedido_detalle.required' => 'Falta idpedido_detalle',
-            'idpedido_detalle.numeric' => 'pedido invalido',
-            'estado.*' => 'estado inválido.',
-            'observacion.*' => 'Observación inválida.',
-            'latitud.*' => 'Latitud Inválida',
-            'longitud.*' => 'Longitud Inválida.'
-        ];
+    //     $messages = [
+    //         'idpedido_detalle.required' => 'Falta idpedido_detalle',
+    //         'idpedido_detalle.numeric' => 'pedido invalido',
+    //         'estado.*' => 'estado inválido.',
+    //         'observacion.*' => 'Observación inválida.',
+    //         'latitud.*' => 'Latitud Inválida',
+    //         'longitud.*' => 'Longitud Inválida.'
+    //     ];
 
-        $validator = Validator::make($request->all(), $rules, $messages);
+    //     $validator = Validator::make($request->all(), $rules, $messages);
 
-        if ($validator->fails()) {
-            $errors = $validator->getMessageBag()->messages();
-            return response()->json([
-                'success' => false,
-                'error' => [
-                    'message' => $errors[array_key_first($errors)][0],
-                ]
-            ], 400);
-        }
+    //     if ($validator->fails()) {
+    //         $errors = $validator->getMessageBag()->messages();
+    //         return response()->json([
+    //             'success' => false,
+    //             'error' => [
+    //                 'message' => $errors[array_key_first($errors)][0],
+    //             ]
+    //         ], 400);
+    //     }
 
-        return $this->pedidoServi->actualizarPedido($request);
-    }
+    //     return $this->pedidoServi->actualizarPedido($request);
+    // }
 
-    public function getMotivos(Request $request, $idcliente)
-    {
-        return $this->pedidoServi->getMotivos($idcliente);
-    }
+    // public function getMotivos(Request $request, $idcliente)
+    // {
+    //     return $this->pedidoServi->getMotivos($idcliente);
+    // }
 
-    public function getAgencias(Request $request, $idcliente)
-    {
-        return $this->pedidoServi->getAgencias($idcliente);
-    }
+    // public function getAgencias(Request $request, $idcliente)
+    // {
+    //     return $this->pedidoServi->getAgencias($idcliente);
+    // }
 }

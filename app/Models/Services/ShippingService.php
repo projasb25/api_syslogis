@@ -174,15 +174,15 @@ class ShippingService
             // elseif ($guide[0]->status !== 'CURSO') {
             //     throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
             // }
-            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide[0]->id_guide;
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix();
             # CHeck if folder exists before create one
-            if (!file_exists($destination_path)) {
-                File::makeDirectory($destination_path, $mode = 0777, true, true);
-                File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
-            }
+            // if (!file_exists($destination_path)) {
+            //     File::makeDirectory($destination_path, $mode = 0777, true, true);
+                // File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
+            // }
 
             $imagen = $request->file('imagen');
-            $nombre_imagen = $guide[0]->id_guide . '_' . time() . '.jpg';
+            $nombre_imagen = 'ipm_' . time() . '.jpg';
             $thumbnail = Image::make($imagen->getRealPath());
 
             # Guardamos el thumnail primero
@@ -196,10 +196,10 @@ class ShippingService
                 $constraint->aspectRatio();
             })->save($destination_path . '/' . $nombre_imagen);
 
-            $ruta = url('storage/imagenes/' . $guide[0]->id_guide . '/' . $nombre_imagen);
-            foreach ($guide as $key => $gd) {
-                $this->repository->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
-            }
+            $ruta = url('storage/imagenes/' . $nombre_imagen);
+            // foreach ($guide as $key => $gd) {
+            //     $this->repository->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
+            // }
 
             Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
         } catch (CustomException $e) {
@@ -212,7 +212,7 @@ class ShippingService
             Log::warning('Grabar imagen', ['exception' => $e->getMessage(), 'request' => $request->except('imagen')]);
             return Res::error(['Unxpected error', 3000], 400);
         }
-        return Res::success(['mensaje' => 'Imagen guardada con exito']);
+        return Res::success(['url' => $ruta]);
     }
 
     public function getImagen($request)
