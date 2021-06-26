@@ -63,6 +63,10 @@ class AuthController extends Controller
                 'last_name' => $user->last_name,
                 'type' => $user->type,
                 'token' => $token,
+                'phone' => $user->phone,
+                'user_email' => $user->user_email,
+                'doc_type' => $user->doc_type,
+                'doc_number' => $user->doc_number,
                 // 'rol_name' => $query[0]->role_name,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
@@ -105,6 +109,10 @@ class AuthController extends Controller
             return Res::success([
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
+                'phone' => $user->phone,
+                'user_email' => $user->user_email,
+                'doc_type' => $user->doc_type,
+                'doc_number' => $user->doc_number,
                 'type' => $user->type,
                 'token' => $token,
                 // 'rol_name' => $query[0]->role_name,
