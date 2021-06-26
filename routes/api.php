@@ -40,7 +40,7 @@ Route::group(['middleware' => ['assign.guard:users'], 'prefix' => 'pedido'], fun
 
 Route::group(['middleware' => ['assign.guard:users'], 'prefix' => 'main'], function() {
     Route::post('', 'Web/MainController@index');
-    Route::post('/simpleTransaction', 'Web/MainController@simpleTransaction');
+    Route::post('/simpleTransaction', '/Web/MainController@simpleTransaction');
     // Route::post('paginated', 'Web/MainController@paginated');
 });
 
