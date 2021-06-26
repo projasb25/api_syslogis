@@ -85,7 +85,7 @@ class AuthController extends Controller
                 $data['user_email'],
                 $data['phone'],
                 $data['password'],
-                $data['status'],
+                'ACTIVO',
                 $data['type'],
                 'APP',
             ]);
