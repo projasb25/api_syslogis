@@ -47,7 +47,7 @@ class PedidoService
             # Guardamos el thumnail primero
             $thumbnail->resize(250, 250, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($destination_path . '/thumbnail/' . $nombre_imagen);
+            })->save($destination_path . 'thumbnail/' . $nombre_imagen);
 
             # Redimesionamos la imagen a 720x720
             $resize = Image::make($imagen->getRealPath());
