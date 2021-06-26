@@ -44,18 +44,6 @@ class AuthController extends Controller
                 throw new CustomException(['Credenciales incorrectas.', 2001], 401);
             }
             $user = User::where('id_user', $query[0]->id_user)->first();
-
-            // if ($user->id_user === 1) {
-            //     $corporaciones = DB::select('CALL SP_SEL_CORPORATIONS(?,?)', [null, null]);
-            //     $organizaciones = DB::select('CALL SP_SEL_ORGANIZATIONS(?,?)', [null, $query[0]->current_corp]);
-            // } else {
-            //     $organizaciones = DB::select('CALL SP_SEL_ORGUSER(?,?)', [null, $user->id_user]);
-            //     $corporaciones = null;
-            // }
-
-            // $token = auth()->claims(
-            //         ['current_org' => $query[0]->current_org, 'current_corp' => $query[0]->current_corp]
-            //     )->login($user);
             $token = auth()->login($user);
 
             return Res::success([
@@ -67,7 +55,6 @@ class AuthController extends Controller
                 'user_email' => $user->user_email,
                 'doc_type' => $user->doc_type,
                 'doc_number' => $user->doc_number,
-                // 'rol_name' => $query[0]->role_name,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
