@@ -70,6 +70,7 @@ class User extends Authenticatable implements JWTSubject
     {
         $payload = JWTAuth::parseToken()->getPayload();
         return [
+            'id_user' => $this->id_user,
             'username' => $this->username,
         ];
     }
