@@ -15,7 +15,16 @@ class FunctionModel
         "SP_UBIGEO" => [
             "query" => 'CALL SP_UBIGEO(:search,:filter)',
             "params" => ['search','filter']
-        ]
+        ],
+
+        /**
+         * Funciones para Transaccions
+         **/
+        "SP_INS_ORDER" => [
+            'query' => 'CALL SP_INS_ORDER(:header, :details, :username)',
+            'headers_params' => ['order_pickup_address', 'order_pickup_reference', 'order_pickup_ubigeo', 'order_pickup_contact_name', 'order_pickup_contact_phone', 'order_delivery_address', 'order_delivery_reference', 'order_delivery_ubigeo', 'order_delivery_contact_name', 'order_delivery_contact_phone'],
+            'details_params' => ['product_name', 'product_quantity', 'product_images']
+        ],
     ];
 
     public function getFunctions()
