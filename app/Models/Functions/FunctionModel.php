@@ -33,7 +33,7 @@ class FunctionModel
         /**
          * Funciones para Paginacion
          **/
-        "SP_SEL_CLIENT_ORDER" => [
+        "SP_SEL_CLIENT_ORDER_P" => [
             "query" => 'CALL SP_SEL_CLIENT_ORDER_P(?,?,?,?)',
             "params" => []
         ],
