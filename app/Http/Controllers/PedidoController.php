@@ -22,16 +22,11 @@ class PedidoController extends Controller
     {
         $rules = [
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20048',
-            'tipo_imagen' => 'required',
-            'descripcion' => 'required|string'
         ];
 
         $messages = [
             'imagen.required' => 'La imagen es requerida.',
             'imagen.mimes'  => 'Extension invalida.',
-            'tipo_imagen.*' => 'Tipo imagen inválido.',
-            'descripcion.required' => 'Descripcion requerida.',
-            'descripcion.*' => 'Descripción inválida.'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
