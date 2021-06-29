@@ -24,6 +24,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ORDER_DETAIL(:id_order,:id_user)',
             "params" => ['id_order','id_user']
         ],
+        "SP_SEL_ORDER_TRACKING" => [
+            "query" => 'CALL SP_SEL_ORDER_TRACKING(:id_order,:id_user)',
+            "params" => ['id_order','id_user']
+        ],
         
         /**
          * Funciones para Transaccions
