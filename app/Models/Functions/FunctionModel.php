@@ -20,6 +20,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_CLIENT_ORDER(:status,:id_user)',
             "params" => ['status','id_user']
         ],
+        "SP_SEL_ORDER_DETAIL" => [
+            "query" => 'CALL SP_SEL_ORDER_DETAIL(:id_order,:id_user)',
+            "params" => ['id_order','id_user']
+        ],
         
         /**
          * Funciones para Transaccions
