@@ -41,7 +41,7 @@ Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'pe
 Route::group(['middleware' => ['assign.guard:users'], 'prefix' => 'main'], function() {
     Route::post('', 'Web\MainController@index');
     Route::post('/simpleTransaction', 'Web\MainController@simpleTransaction');
-    // Route::post('paginated', 'Web/MainController@paginated');
+    Route::post('paginated', 'Web\MainController@paginated');
 });
 
 // Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'conductor'], function () {

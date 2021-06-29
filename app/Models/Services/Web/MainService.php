@@ -152,6 +152,7 @@ class MainService
             $where = QueryHelper::generarFiltro($filtros, $origen, $daterange);
 
             $user = auth()->user();
+            $user_data= json_encode($user->getIdentifierData());
             $req = $request->all();
             // $req['data'] = array_merge($req['data'], $user->getIdentifierData());
             $fun = $this->functions->getFunctions();
@@ -162,8 +163,8 @@ class MainService
             $query_collection = $fun[$req['methodcollection']]['query'];
             $query_count = $fun[$req['methodcount']]['query'];
 
-            $data['collection'] = $this->repository->execute_store($query_collection, [$where, $take, $skip]);
-            $data['count'] = $this->repository->execute_store($query_count, [$where, $take, $skip])[0]->count;
+            $data['collection'] = $this->repository->execute_store($query_collection, [$where, $take, $skip,$user_data]);
+            $data['count'] = $this->repository->execute_store($query_count, [$where,$user_data])[0]->count;
         } catch (CustomException $e) {
             Log::warning('Main Service paginated error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
             return Res::error($e->getData(), $e->getCode());
