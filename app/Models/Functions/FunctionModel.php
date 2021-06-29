@@ -16,7 +16,11 @@ class FunctionModel
             "query" => 'CALL SP_UBIGEO(:search,:filter)',
             "params" => ['search','filter']
         ],
-
+        "SP_SEL_CLIENT_ORDER" => [
+            "query" => 'CALL SP_SEL_CLIENT_ORDER(:status,:id_user)',
+            "params" => ['status','id_user']
+        ],
+        
         /**
          * Funciones para Transaccions
          **/
