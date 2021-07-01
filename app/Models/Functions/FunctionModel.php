@@ -17,8 +17,8 @@ class FunctionModel
             "params" => ['search','filter']
         ],
         "SP_SEL_CLIENT_ORDER" => [
-            "query" => 'CALL SP_SEL_CLIENT_ORDER(:status,:id_user)',
-            "params" => ['status','id_user']
+            "query" => 'CALL SP_SEL_CLIENT_ORDER(:status,:id_user, :type)',
+            "params" => ['status','id_user', 'type']
         ],
         "SP_SEL_ORDER_DETAIL" => [
             "query" => 'CALL SP_SEL_ORDER_DETAIL(:id_order,:id_user)',
