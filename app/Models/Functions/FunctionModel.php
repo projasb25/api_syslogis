@@ -34,16 +34,16 @@ class FunctionModel
             "params" => []
         ],
         "SP_ASIG_ORDER" => [
-            "query" => 'CALL SP_ASIG_ORDER(:id_order, :id_driver)',
-            "params" => ['id_order', 'id_driver']
+            "query" => 'CALL SP_ASIG_ORDER(:id_order, :id_user)',
+            "params" => ['id_order', 'id_user']
         ],
         "SP_CHANGE_ORDER_STATUS" => [
             "query" => 'CALL SP_CHANGE_ORDER_STATUS(:id_order, :status)',
             "params" => ['id_order', 'status']
         ],
         "SP_LIS_DRIVER_ORDER" => [
-            "query" => 'CALL SP_LIS_DRIVER_ORDER(:id_driver)',
-            "params" => ['id_driver']
+            "query" => 'CALL SP_LIS_DRIVER_ORDER(:id_user)',
+            "params" => ['id_user']
         ],
         /**
          * Funciones para Transaccions
