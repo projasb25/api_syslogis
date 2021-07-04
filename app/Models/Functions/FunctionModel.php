@@ -60,6 +60,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
             "params" => ['domain_name', 'status']
         ],
+        "SP_INS_PROPERTIES" => [
+            "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
+            "params" => ['id_properties', 'name', 'value', 'status']
+        ],
         /**
          * Funciones para Transaccions
          **/
@@ -67,6 +71,11 @@ class FunctionModel
             'query' => 'CALL SP_INS_ORDER(:header, :details, :username)',
             'headers_params' => ['order_pickup_address', 'order_pickup_reference', 'order_pickup_ubigeo', 'order_pickup_contact_name', 'order_pickup_contact_phone', 'order_delivery_address', 'order_delivery_reference', 'order_delivery_ubigeo', 'order_delivery_contact_name', 'order_delivery_contact_phone'],
             'details_params' => ['product_name', 'product_quantity', 'product_images']
+        ],
+        "SP_INS_DOMAIN" => [
+            'query' => 'CALL SP_INS_DOMAIN(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => []
         ],
 
         /**
