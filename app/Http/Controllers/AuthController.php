@@ -131,24 +131,29 @@ class AuthController extends Controller
      */
     public function me()
     {
-        $res = [];
-        $user = auth()->user();
-        $query = DB::select("CALL SP_AUTHENTICATE(?,?)", [$user->username,'WEB']);
-        if (!$query) {
-            throw new CustomException(['Token invalido.', 2000], 401);
-        }
-        $roles = DB::select("CALL SP_SEL_ROLEAPPLICATION(?)", [$query[0]->id_role]);
-        foreach ($roles as $rol) {
-            array_push($res, [
-                "application" => $rol->name,
-                'description' =>  $rol->app_desc,
-                'tag' => $rol->tag,
-                "path" => $rol->path,
-                "insert" => ($user->id_user === 1 ) ? 1 : $rol->insert,
-                "view" => ($user->id_user === 1 ) ? 1 : $rol->view,
-                "update" => ($user->id_user === 1 ) ? 1 : $rol->modify,
-                "delete" => ($user->id_user === 1 ) ? 1 : $rol->delete
-            ]);
+        try {
+            $res = [];
+            $user = auth()->user();
+            $query = DB::select("CALL SP_AUTHENTICATE(?,?)", [$user->username,'WEB']);
+            if (!$query) {
+                throw new CustomException(['Token invalido.', 2000], 401);
+            }
+            $roles = DB::select("CALL SP_SEL_ROLEAPPLICATION(?)", [$query[0]->id_role]);
+            foreach ($roles as $rol) {
+                array_push($res, [
+                    "application" => $rol->name,
+                    'description' =>  $rol->app_desc,
+                    'tag' => $rol->tag,
+                    "path" => $rol->path,
+                    "insert" => ($user->id_user === 1 ) ? 1 : $rol->insert,
+                    "view" => ($user->id_user === 1 ) ? 1 : $rol->view,
+                    "update" => ($user->id_user === 1 ) ? 1 : $rol->modify,
+                    "delete" => ($user->id_user === 1 ) ? 1 : $rol->delete
+                ]);
+            }
+        } catch (CustomException $e) {
+            Log::warning('Validate token', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
+            return Res::error($e->getData(), $e->getCode());
         }
 
         return Res::success([
