@@ -131,7 +131,29 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        $res = [];
+        $user = auth()->user();
+        $query = DB::select("CALL SP_AUTHENTICATE(?,?)", [$user->username,'WEB']);
+        $roles = DB::select("CALL SP_SEL_ROLEAPPLICATION(?,?)", [$query[0]->id_role]);
+        foreach ($roles as $rol) {
+            array_push($res, [
+                "application" => $rol->name,
+                'description' =>  $rol->app_desc,
+                'tag' => $rol->tag,
+                "path" => $rol->path,
+                "insert" => ($user->id_user === 1 ) ? 1 : $rol->insert,
+                "view" => ($user->id_user === 1 ) ? 1 : $rol->view,
+                "update" => ($user->id_user === 1 ) ? 1 : $rol->modify,
+                "delete" => ($user->id_user === 1 ) ? 1 : $rol->delete
+            ]);
+        }
+
+        return Res::success([
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'rol_name' => $query[0]->role_name,
+            'menu' => $res,
+        ]);
     }
 
     /**
