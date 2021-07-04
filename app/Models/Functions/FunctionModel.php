@@ -67,6 +67,11 @@ class FunctionModel
         /**
          * Funciones para Transaccions
          **/
+        "SP_INS_ROLEAPPLICATION" => [
+            'query' => 'CALL SP_INS_ROLEAPPLICATION(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => ['id_roleapplication','id_role','id_application','view','modify','insert','delete']
+        ],
         "SP_INS_ORDER" => [
             'query' => 'CALL SP_INS_ORDER(:header, :details, :username)',
             'headers_params' => ['order_pickup_address', 'order_pickup_reference', 'order_pickup_ubigeo', 'order_pickup_contact_name', 'order_pickup_contact_phone', 'order_delivery_address', 'order_delivery_reference', 'order_delivery_ubigeo', 'order_delivery_contact_name', 'order_delivery_contact_phone'],
