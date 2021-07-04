@@ -209,4 +209,12 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+    public function properties()
+    {
+        $query = DB::table('properties')->whereIn('name', ['sys_company_name', 'sys_company_img', 'sys_company_color_primary', 'sys_company_color_secondary'])->get();
+        return Res::success([
+            $query
+        ]);
+    }
 }

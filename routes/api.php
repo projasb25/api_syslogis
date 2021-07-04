@@ -44,6 +44,10 @@ Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'ma
     Route::post('paginated', 'Web\MainController@paginated');
 });
 
+Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'web'], function() {
+    Route::get('properties', 'AuthController@properties');
+});
+
 // Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'conductor'], function () {
 //     Route::get('/ofertas', 'DriverController@listarOfertas');
 //     Route::post('/actualizarEstado', 'DriverController@actualizarEstado');
