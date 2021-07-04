@@ -134,6 +134,9 @@ class AuthController extends Controller
         $res = [];
         $user = auth()->user();
         $query = DB::select("CALL SP_AUTHENTICATE(?,?)", [$user->username,'WEB']);
+        if (!$query) {
+            throw new CustomException(['Token invalido.', 2000], 401);
+        }
         $roles = DB::select("CALL SP_SEL_ROLEAPPLICATION(?)", [$query[0]->id_role]);
         foreach ($roles as $rol) {
             array_push($res, [
