@@ -35,7 +35,7 @@ class AuthController extends Controller
             Config::set('auth.providers.users.model', \App\User::class);
 
             $data = request()->get('data');
-            $query = DB::select("CALL SP_AUTHENTICATE(?)", [$data['usr']]);
+            $query = DB::select("CALL SP_AUTHENTICATE(?,?)", [$data['usr'],$data['origin']]);
 
             if (!$query) {
                 throw new CustomException(['Usuario no existe.', 2000], 401);
@@ -55,6 +55,7 @@ class AuthController extends Controller
                 'user_email' => $user->user_email,
                 'doc_type' => $user->doc_type,
                 'doc_number' => $user->doc_number,
+                'rol_name' => $query[0]->role_name,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
