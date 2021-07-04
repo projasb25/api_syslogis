@@ -28,7 +28,6 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ORDER_TRACKING(:id_order,:id_user)',
             "params" => ['id_order','id_user']
         ],
-        
         "SP_SEL_ORDER_STATUS" => [
             "query" => 'CALL SP_SEL_ORDER_STATUS()',
             "params" => []
@@ -45,20 +44,21 @@ class FunctionModel
             "query" => 'CALL SP_LIS_DRIVER_ORDER(:id_user)',
             "params" => ['id_user']
         ],
-
         "SP_SEL_ROLES" => [
             "query" => 'CALL SP_SEL_ROLES(:status)',
             "params" => ['status']
         ],
-
         "SP_SEL_ROLEAPPLICATION" => [
             "query" => 'CALL SP_SEL_ROLEAPPLICATION(:id_role)',
             "params" => ['id_role']
         ],
-
         "SP_INS_ROLE" => [
             "query" => 'CALL SP_INS_ROLE(:id_role, :description, :status, :username)',
             "params" => ['id_role', 'description', 'status', 'username']
+        ],
+        "SP_SEL_DOMAIN" => [
+            "query" => 'CALL SP_SEL_DOMAIN(:domain_name, :status)',
+            "params" => ['domain_name', 'status']
         ],
         /**
          * Funciones para Transaccions
