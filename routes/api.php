@@ -19,7 +19,7 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(){
-    $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+    $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
     dd($cuadro_detalle);
     // $new = new \App\Models\Services\IntegracionService(new \App\Models\Repositories\IntegracionRepository());
     // $new->integracionRipley();
