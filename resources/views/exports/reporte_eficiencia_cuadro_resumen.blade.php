@@ -13,7 +13,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($cuadro_resumen as $data)
+        @foreach ($cuadro_general as $data)
         <tr>
             @foreach ($fechas as $item)
                 <td>{{$item->fecha}}</td>
