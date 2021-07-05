@@ -1,4 +1,7 @@
-<table>
+@php
+            var_dump($cuadro_detalle);
+@endphp
+{{-- <table>
     <thead>
         <tr>
             <th>Etiquetas de fila</th>
@@ -13,4 +16,4 @@
     <tbody>
         {{-- {{dd($cuadro_detalle)}} --}}
     </tbody>
-</table>
+</table> --}}
