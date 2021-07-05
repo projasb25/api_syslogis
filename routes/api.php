@@ -23,12 +23,8 @@ Route::post('test', function(){
     $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
     $tempArr = array_unique(array_column($cuadro_detalle, 'fecha_entrega'));
     print_r(array_intersect_key($cuadro_detalle, $tempArr));
-    $sroted = usort($tempArr, function($a1, $a2) {
-        $v1 = strtotime($a1);
-        $v2 = strtotime($a2);
-        return $v1 - $v2; // $v2 - $v1 to reverse direction
-    });
-    dd($sroted);
+    sort($tempArr);
+    dd($tempArr);
     // foreach ($cuadro_detalle as $key => $value) {
     //     echo $value->fecha_entrega.'</br>';
     //     if(!array_search($value->fecha_entrega, $fechas)) {
