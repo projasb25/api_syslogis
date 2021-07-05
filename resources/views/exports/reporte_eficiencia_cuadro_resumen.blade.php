@@ -5,10 +5,11 @@
 <table>
     <thead>
         <tr>
-            <th>Etiquetas de fila</th>
+            <th style="color:white;background-color:#bf000b;border: 1px solid black;">Etiquetas de fila</th>
             @foreach ($fechas as $item)
                 <th style="color:white;background-color:#bf000b;border: 1px solid black;">{{$item}}</th>
             @endforeach
+            <th style="color:white;background-color:#bf000b;border: 1px solid black;">Total General</th>
         </tr>
     </thead>
     <tbody>
