@@ -1,6 +1,8 @@
-@php
-            var_dump($cuadro_detalle);
-@endphp
+<pre>
+    @php
+                var_dump($cuadro_detalle);
+    @endphp
+</pre>
 {{-- <table>
     <thead>
         <tr>

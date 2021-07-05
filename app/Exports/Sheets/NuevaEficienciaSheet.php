@@ -38,7 +38,6 @@ class NuevaEficienciaSheet implements FromView, WithStyles, ShouldAutoSize, With
     {
         $cuadro_general = DB::select("CALL SP_REP_EFICIENCIA_V2_PT1(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
         $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
-        dd($cuadro_detalle);
         Log::info('detalle', ['detalle' => json_encode((array) $cuadro_detalle)]);
         return view('exports.reporte_eficiencia_cuadro_resumen', [
             'cuadro_general' => $cuadro_general,
