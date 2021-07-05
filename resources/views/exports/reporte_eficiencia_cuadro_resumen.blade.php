@@ -24,7 +24,7 @@
             <td>{{$data->total_suma}}</td>
         </tr>
         <tr>
-            <td style="margin-left:5px">Entregado</td>
+            <td style="margin-left:5px"><span style="width: 20px">.</span>Entregado</td>
         </tr>
         @endforeach
     </tbody>
