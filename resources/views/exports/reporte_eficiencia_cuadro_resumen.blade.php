@@ -1,7 +1,3 @@
-@php
-    var_dump($cuadro_detalle)
-@endphp
-
 <table>
     <thead>
         <tr>
@@ -15,6 +11,6 @@
         </tr>
     </thead>
     <tbody>
-
+        {{$cuadro_detalle}}
     </tbody>
 </table>
