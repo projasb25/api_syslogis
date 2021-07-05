@@ -5,7 +5,7 @@
 <table>
     <thead>
         <tr>
-            <th style="color:white;background-color:#F2DCDB;border: 1px solid black;">Etiquetas de fila</th>
+            <th style="color:white;background-color:#bf000b;border: 1px solid black;">Etiquetas de fila</th>
             @foreach ($fechas as $item)
                 <th style="color:white;background-color:#bf000b;border: 1px solid black;">{{$item}}</th>
             @endforeach
@@ -15,13 +15,13 @@
     <tbody>
         @foreach ($cuadro_general as $data)
         <tr>
-            <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{$data->fecha}}</td>
+            <td style="color:black;background-color:#F2DCDB;">{{$data->fecha}}</td>
             @foreach ($fechas as $item)
-                <td>
+                <td style="color:black;background-color:#F2DCDB;">
                     {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_suma') }}
                 </td>
             @endforeach
-            <td>{{$data->total_suma}}</td>
+            <td style="color:black;background-color:#F2DCDB;">{{$data->total_suma}}</td>
             <td style='text-align: right;'>{{number_format($data->eficiencia,2)}}%</td>
         </tr>
         @if ($data->total_entregado > 0)
