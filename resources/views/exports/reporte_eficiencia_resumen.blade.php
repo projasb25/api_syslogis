@@ -32,17 +32,6 @@
                 <td>{{$item->total_no_entregado}}</td>
                 <td>{{$item->total_suma}}</td>
                 <td style='text-align: right;'>{{number_format($item->efectividad,2)}}%</td>
-                {{-- <td style='text-align: right;'>
-                @php
-                    foreach ($detalle_eficiencia as $key => $val) {
-                        if ($val->fecha === $item->fecha) {
-                            $item_eficiencia = $val->eficiencia;
-                            break;
-                        }
-                    }
-                @endphp
-                    {{number_format($item_eficiencia,2)}}%
-                </td> --}}
             </tr>
             @php
                 $total_entregado += $item->total_entregado; 
@@ -56,7 +45,6 @@
             <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{$total_no_entregado}}</td>
             <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{$total_suma}}</td>
             <td style="color:white;background-color:#bf000b;border: 1px solid black;"></td>
-            {{-- <td style="color:white;background-color:#bf000b;border: 1px solid black;"></td> --}}
         </tr>
         
     </tbody>
