@@ -1,10 +1,6 @@
 @php
     $fechas = array_unique(array_column($cuadro_detalle, 'fecha_entrega'));
     sort($fechas);
-
-    function test() {
-        return 'hola';
-    }
 @endphp
 <table>
     <thead>
@@ -26,6 +22,9 @@
                 </td>
             @endforeach
             <td>{{$data->total_suma}}</td>
+        </tr>
+        <tr>
+            <td>{{ENTREGADO}}</td>
         </tr>
         @endforeach
     </tbody>
