@@ -5,7 +5,7 @@
 <table>
     <thead>
         <tr>
-            <th style="color:white;background-color:#bf000b;border: 1px solid black;">Etiquetas de fila</th>
+            <th style="color:white;background-color:#F2DCDB;border: 1px solid black;">Etiquetas de fila</th>
             @foreach ($fechas as $item)
                 <th style="color:white;background-color:#bf000b;border: 1px solid black;">{{$item}}</th>
             @endforeach
@@ -15,7 +15,7 @@
     <tbody>
         @foreach ($cuadro_general as $data)
         <tr>
-            <td>{{$data->fecha}}</td>
+            <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{$data->fecha}}</td>
             @foreach ($fechas as $item)
                 <td>
                     {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_suma') }}
