@@ -22,7 +22,7 @@ Route::post('test', function(){
     $fechas = [];
     $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
     foreach ($cuadro_detalle as $key => $value) {
-        echo $value->fecha_entrega;
+        echo $value->fecha_entrega.'</br>';
         if(!array_search($value->fecha_entrega, $fechas)) {
             array_push($fechas, $value->fecha_entrega);
         }
