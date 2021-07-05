@@ -14,9 +14,11 @@
     </thead>
     <tbody>
         @foreach ($cuadro_resumen as $data)
+        <tr>
             @foreach ($fechas as $item)
                 <td>{{$item->fecha}}</td>
             @endforeach
+        </tr>
         @endforeach
     </tbody>
 </table>
