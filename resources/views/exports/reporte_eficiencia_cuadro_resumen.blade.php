@@ -18,7 +18,7 @@
             <td>{{$data->fecha}}</td>
             @foreach ($fechas as $item)
                 <td>
-                    {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item) }}
+                    {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_suma') }}
                 </td>
             @endforeach
             <td>{{$data->total_suma}}</td>
@@ -28,7 +28,7 @@
                 <td style="margin-left:5px"><span style="width: 20px">.</span>Entregado</td>
                 @foreach ($fechas as $item)
                     <td>
-                        test
+                        {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_entregado') }}
                     </td>
                 @endforeach
                 <td>{{$data->total_entregado}}</td>
