@@ -9,7 +9,7 @@
         <td></td>
     </tr>
     <tr>
-        <td colspan="6" style="color:white;background-color:#bf000b;border: 1px solid black;">Count of ESTADO GN7 QAYARIX</td>
+        <td colspan="5" style="color:white;background-color:#bf000b;border: 1px solid black;">Count of ESTADO GN7 QAYARIX</td>
     </tr>
     <thead>
         <tr>
@@ -18,7 +18,6 @@
             <th style="color:white;background-color:#bf000b;border: 1px solid black;">NO ENTREGADO</th>
             <th style="color:white;background-color:#bf000b;border: 1px solid black;">Suma total</th>
             <th style="color:white;background-color:#bf000b;border: 1px solid black;">Efectividad</th>
-            <th style="color:white;background-color:#bf000b;border: 1px solid black;">Eficiencia</th>
         </tr>
         </thead>
         <tbody>
@@ -33,7 +32,7 @@
                 <td>{{$item->total_no_entregado}}</td>
                 <td>{{$item->total_suma}}</td>
                 <td style='text-align: right;'>{{number_format($item->efectividad,2)}}%</td>
-                <td style='text-align: right;'>
+                {{-- <td style='text-align: right;'>
                 @php
                     foreach ($detalle_eficiencia as $key => $val) {
                         if ($val->fecha === $item->fecha) {
@@ -42,9 +41,8 @@
                         }
                     }
                 @endphp
-                    {{-- {{number_format($item->eficiencia,2)}}% --}}
                     {{number_format($item_eficiencia,2)}}%
-                </td>
+                </td> --}}
             </tr>
             @php
                 $total_entregado += $item->total_entregado; 
@@ -58,7 +56,7 @@
             <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{$total_no_entregado}}</td>
             <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{$total_suma}}</td>
             <td style="color:white;background-color:#bf000b;border: 1px solid black;"></td>
-            <td style="color:white;background-color:#bf000b;border: 1px solid black;"></td>
+            {{-- <td style="color:white;background-color:#bf000b;border: 1px solid black;"></td> --}}
         </tr>
         
     </tbody>
