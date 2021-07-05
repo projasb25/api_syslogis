@@ -17,7 +17,17 @@
         <tr>
             <td>{{$data->fecha}}</td>
             @foreach ($fechas as $item)
-                <td>{{$item}}</td>
+                <td>
+                    @php
+                        foreach ($cuadro_detalle as $key => $val) {
+                            if ($val['fecha_promesa'] === $data->fecha && $val['fecha_entrega'] === $item) {
+                                echo $val['total_suma'];
+                            } else {
+                                echo 'nada';
+                            }
+                        }
+                    @endphp
+                </td>
             @endforeach
         </tr>
         @endforeach
