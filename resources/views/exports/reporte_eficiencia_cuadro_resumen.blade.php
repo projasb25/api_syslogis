@@ -11,6 +11,6 @@
         </tr>
     </thead>
     <tbody>
-        {{dd($cuadro_detalle)}}
+        {{-- {{dd($cuadro_detalle)}} --}}
     </tbody>
 </table>
