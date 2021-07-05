@@ -51,7 +51,7 @@
             @foreach ($fechas as $item)
                 <td style="color:white;background-color:#bf000b;border: 1px solid black;">0</td>
             @endforeach
-            <td style="color:white;background-color:#bf000b;border: 1px solid black;">0</td>
+            <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{array_sum(array_column($cuadro_general, 'total_suma'))}}</td>
         </tr>
     </tbody>
 </table>
