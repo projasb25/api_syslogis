@@ -46,5 +46,12 @@
             </tr>
         @endif
         @endforeach
+        <tr>
+            <td style="color:white;background-color:#bf000b;border: 1px solid black;">Total general</td>
+            @foreach ($fechas as $item)
+                <td style="color:white;background-color:#bf000b;border: 1px solid black;">0</td>
+            @endforeach
+            <td style="color:white;background-color:#bf000b;border: 1px solid black;">0</td>
+        </tr>
     </tbody>
 </table>
