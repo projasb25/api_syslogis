@@ -49,7 +49,7 @@ class NuevaEficienciaSheet implements FromView, WithStyles, ShouldAutoSize, With
      */
     public function title(): string
     {
-        return 'Detalle';
+        return 'Eficiencia';
     }
 
     public function styles(Worksheet $sheet)
