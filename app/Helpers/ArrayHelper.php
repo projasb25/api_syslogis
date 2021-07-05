@@ -17,5 +17,14 @@ class ArrayHelper
         }
     }
 
-
+    public static function sum_total_by_key($array, $key1, $val1, $key_sum)
+    {
+        $sum = 0;
+        foreach ($array as $key => $value) {
+            if ($value->$key1 === $val1) {
+                $sum += $value->$key_sum;
+            }
+        }
+        return $sum;
+    }
 }
