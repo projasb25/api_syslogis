@@ -26,7 +26,7 @@
         </tr>
         @if ($data->total_entregado > 0)
             <tr>
-                <td style="margin-left:5px"><span style="width: 20px">.</span>Entregado</td>
+                <td style="margin-left:5px"><span style="white-space:pre;">    Entregado</span></td>
                 @foreach ($fechas as $item)
                     <td>
                         {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_entregado') }}
