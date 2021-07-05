@@ -22,7 +22,7 @@
                 </td>
             @endforeach
             <td>{{$data->total_suma}}</td>
-            <td>{{number_format($data->eficiencia,2)}}%</td>
+            <td style='text-align: right;'>{{number_format($data->eficiencia,2)}}%</td>
         </tr>
         @if ($data->total_entregado > 0)
             <tr>
