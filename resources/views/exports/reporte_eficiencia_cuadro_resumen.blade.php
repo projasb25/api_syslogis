@@ -17,11 +17,11 @@
         <tr>
             <td style="color:black;background-color:#F2DCDB;font-weight: bold;"><span>{{$data->fecha}}</span></td>
             @foreach ($fechas as $item)
-                <td style="color:black;background-color:#F2DCDB;">
+                <td style="color:black;background-color:#F2DCDB;font-weight: bold;">
                     {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_suma') }}
                 </td>
             @endforeach
-            <td style="color:black;background-color:#F2DCDB;">{{$data->total_suma}}</td>
+            <td style="color:black;background-color:#F2DCDB;font-weight: bold;">{{$data->total_suma}}</td>
             <td style='text-align: right;'>{{number_format($data->eficiencia,2)}}%</td>
         </tr>
         @if ($data->total_entregado > 0)
