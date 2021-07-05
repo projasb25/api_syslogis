@@ -21,7 +21,7 @@
         <tr>
             <td>{{$data->fecha}}</td>
             @foreach ($fechas as $item)
-                {{test()}}
+                {!! test() !!}
                 {{-- @foreach ($cuadro_detalle as $val)
                     <td>
                         @if ($val->fecha_promesa === $data->fecha && $val->fecha_entrega === $item)
