@@ -15,7 +15,7 @@
     <tbody>
         @foreach ($cuadro_general as $data)
         <tr>
-            <td style="color:black;background-color:#F2DCDB;font-weight: bold;"><span style="font-weight: bold;">{{$data->fecha}}</span></td>
+            <td style="color:black;background-color:#F2DCDB;font-weight: bold;"><span>{{$data->fecha}}</span></td>
             @foreach ($fechas as $item)
                 <td style="color:black;background-color:#F2DCDB;">
                     {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_suma') }}
