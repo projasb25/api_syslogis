@@ -3,6 +3,15 @@
     sort($fechas);
 @endphp
 <table>
+    <tr>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan="6">RESULTADOS QAYARIX HOME DELIVERY</td>
+    </tr>
+    <tr>
+        <td></td>
+    </tr>
     <thead>
         <tr>
             <th style="color:white;background-color:#bf000b;border: 1px solid black;">Etiquetas de fila</th>
@@ -48,13 +57,13 @@
         @endif
         @endforeach
         <tr>
-            <td style="color:white;background-color:#bf000b;border: 1px solid black;">Total general</td>
+            <td style="color:white;background-color:#bf000b;border: 1px solid black;font-weight: bold;">Total general</td>
             @foreach ($fechas as $item)
-                <td style="color:white;background-color:#bf000b;border: 1px solid black;">
+                <td style="color:white;background-color:#bf000b;border: 1px solid black;font-weight: bold;">
                     {{(new \App\Helpers\ArrayHelper)->sum_total_by_key($cuadro_detalle, 'fecha_entrega', $item, 'total_suma')}}
                 </td>
             @endforeach
-            <td style="color:white;background-color:#bf000b;border: 1px solid black;">{{array_sum(array_column($cuadro_general, 'total_suma'))}}</td>
+            <td style="color:white;background-color:#bf000b;border: 1px solid black;font-weight: bold;">{{array_sum(array_column($cuadro_general, 'total_suma'))}}</td>
         </tr>
     </tbody>
 </table>
