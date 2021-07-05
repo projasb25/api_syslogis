@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Location\Coordinate;
@@ -18,7 +19,8 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(){
-    dd('hola');
+    $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+    dd($cuadro_detalle);
     // $new = new \App\Models\Services\IntegracionService(new \App\Models\Repositories\IntegracionRepository());
     // $new->integracionRipley();
 });
