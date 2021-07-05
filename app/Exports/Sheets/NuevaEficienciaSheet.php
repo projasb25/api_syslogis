@@ -55,7 +55,8 @@ class NuevaEficienciaSheet implements FromView, WithStyles, ShouldAutoSize, With
     public function styles(Worksheet $sheet)
     {
         return [
-            1    => ['font' => ['bold' => true]],
+            2    => ['font' => ['bold' => true]],
+            4    => ['font' => ['bold' => true]],
         ];
     }
 }
