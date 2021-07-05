@@ -22,7 +22,7 @@
             <td>{{$data->fecha}}</td>
             @foreach ($fechas as $item)
                 <td>
-                    {{ (new \App\Helpers\ArrayHelper)->test() }}
+                    {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item) }}
                 </td>
                 {{-- @foreach ($cuadro_detalle as $val)
                     <td>
