@@ -15,6 +15,7 @@
     <tbody>
         @foreach ($cuadro_general as $data)
         <tr>
+            <td>{{$data->fecha}}</td>
             @foreach ($fechas as $item)
                 <td>{{$item}}</td>
             @endforeach
