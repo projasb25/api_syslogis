@@ -18,8 +18,9 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(){
-    $new = new \App\Models\Services\IntegracionService(new \App\Models\Repositories\IntegracionRepository());
-    $new->integracionRipley();
+    dd('hola');
+    // $new = new \App\Models\Services\IntegracionService(new \App\Models\Repositories\IntegracionRepository());
+    // $new->integracionRipley();
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
