@@ -16,7 +16,7 @@
         @foreach ($cuadro_general as $data)
         <tr>
             @foreach ($fechas as $item)
-                <td>{{$item->fecha}}</td>
+                <td>{{$item}}</td>
             @endforeach
         </tr>
         @endforeach
