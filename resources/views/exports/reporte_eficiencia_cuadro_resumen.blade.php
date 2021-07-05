@@ -34,6 +34,17 @@
                 <td>{{$data->total_entregado}}</td>
             </tr>
         @endif
+        @if ($data->total_no_entregado > 0)
+            <tr>
+                <td style="margin-left:5px"><span style="width: 20px">.</span>No Entregado</td>
+                @foreach ($fechas as $item)
+                    <td>
+                        {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_no_entregado') }}
+                    </td>
+                @endforeach
+                <td>{{$data->total_no_entregado}}</td>
+            </tr>
+        @endif
         @endforeach
     </tbody>
 </table>
