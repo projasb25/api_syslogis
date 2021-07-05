@@ -19,10 +19,8 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(){
-    $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
-    $fechas = array_unique(array_column($cuadro_detalle, 'fecha_entrega'));
-    sort($fechas);
-    dd($fechas);
+    $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT1(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
+    dd($cuadro_resumen);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
