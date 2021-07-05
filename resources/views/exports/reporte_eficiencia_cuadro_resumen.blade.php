@@ -13,6 +13,8 @@
         </tr>
     </thead>
     <tbody>
-
+        @foreach ($cuadro_resumen as $item)
+            
+        @endforeach
     </tbody>
 </table>

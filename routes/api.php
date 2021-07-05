@@ -20,7 +20,8 @@ use Location\Distance\Vincenty;
 
 Route::post('test', function(){
     $cuadro_resumen = DB::select("CALL SP_REP_EFICIENCIA_V2_PT1(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
-    dd($cuadro_resumen);
+    $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
+    dd($cuadro_detalle);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
