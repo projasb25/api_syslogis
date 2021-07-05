@@ -21,7 +21,8 @@ use Location\Distance\Vincenty;
 Route::post('test', function(){
     $fechas = [];
     $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
-    print_r(array_unique($cuadro_detalle, SORT_REGULAR));
+    $tempArr = array_unique(array_column($cuadro_detalle, 'fecha_entrega'));
+    print_r(array_intersect_key($cuadro_detalle, $tempArr));
     // foreach ($cuadro_detalle as $key => $value) {
     //     echo $value->fecha_entrega.'</br>';
     //     if(!array_search($value->fecha_entrega, $fechas)) {
