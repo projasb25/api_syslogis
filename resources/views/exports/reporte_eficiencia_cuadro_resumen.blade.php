@@ -1,6 +1,10 @@
 @php
     $fechas = array_unique(array_column($cuadro_detalle, 'fecha_entrega'));
     sort($fechas);
+
+    function test() {
+        return 'hola';
+    }
 @endphp
 <table>
     <thead>
@@ -17,7 +21,10 @@
         <tr>
             <td>{{$data->fecha}}</td>
             @foreach ($fechas as $item)
-                @foreach ($cuadro_detalle as $val)
+                @php
+                    echo test();
+                @endphp
+                {{-- @foreach ($cuadro_detalle as $val)
                     <td>
                         @if ($val->fecha_promesa === $data->fecha && $val->fecha_entrega === $item)
                             {{$val->total_suma}}
@@ -25,7 +32,7 @@
                             0
                         @endif
                     </td>
-                @endforeach
+                @endforeach --}}
             @endforeach
         </tr>
         @endforeach
