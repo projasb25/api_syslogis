@@ -4,6 +4,7 @@ namespace App\Exports\Reportes;
 
 use App\Exports\Sheets\EficienciaDetalleSheet;
 use App\Exports\Sheets\EficienciaResumenSheet;
+use App\Exports\Sheets\NuevaEficienciaSheet;
 use App\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\Exportable;
@@ -42,6 +43,7 @@ class ReporteEficienciaExport implements WithMultipleSheets
 
         array_push($sheets, new EficienciaResumenSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId));
         array_push($sheets, new EficienciaDetalleSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId));
+        array_push($sheets, new NuevaEficienciaSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId));
 
         return $sheets;
     }
