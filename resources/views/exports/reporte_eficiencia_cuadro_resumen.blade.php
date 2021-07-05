@@ -20,7 +20,7 @@
                 <td>
                     @php
                         foreach ($cuadro_detalle as $key => $val) {
-                            if ($val['fecha_promesa'] === $data->fecha && $val['fecha_entrega'] === $item) {
+                            if ($val->fecha_promesa === $data->fecha && $val->fecha_entrega === $item) {
                                 echo $val['total_suma'];
                             } else {
                                 echo 'nada';
