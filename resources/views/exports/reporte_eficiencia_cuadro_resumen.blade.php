@@ -23,9 +23,17 @@
             @endforeach
             <td>{{$data->total_suma}}</td>
         </tr>
-        <tr>
-            <td style="margin-left:5px"><span style="width: 20px">.</span>Entregado</td>
-        </tr>
+        @if ($data->total_entregado > 0)
+            <tr>
+                <td style="margin-left:5px"><span style="width: 20px">.</span>Entregado</td>
+                @foreach ($fechas as $item)
+                    <td>
+                        test
+                    </td>
+                @endforeach
+                <td>{{$data->total_entregado}}</td>
+            </tr>
+        @endif
         @endforeach
     </tbody>
 </table>
