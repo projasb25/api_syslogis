@@ -21,7 +21,7 @@ class AuthController extends Controller
     public function __construct(ConductorRepository $conductorRepository)
     {
         $this->conductorRepo = $conductorRepository;
-        $this->middleware('auth:api', ['except' => ['login','register']]);
+        $this->middleware('auth:api', ['except' => ['login','register','properties']]);
     }
 
     /**
