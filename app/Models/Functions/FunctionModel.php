@@ -64,6 +64,10 @@ class FunctionModel
             "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
             "params" => ['id_properties', 'name', 'value', 'status']
         ],
+        "SP_SEL_USER" => [
+            "query" => 'CALL SP_SEL_USER(:status)',
+            "params" => ['status']
+        ],
         /**
          * Funciones para Transaccions
          **/
