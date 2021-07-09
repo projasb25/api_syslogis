@@ -40,6 +40,11 @@ class MainService
             $params = $fun[$req['method']]['params'];
             $bindings = [];
 
+             // Si existe password se hashea
+             if (array_key_exists('password', $req['data']) && !empty($req['data']['password'])) {
+                $req['data']['password'] = Hash::make($req['data']['password']);
+            }
+
             if (count($params)) {
                 foreach ($params as $key => $value) {
                     if (array_key_exists($value, $req['data'])) {
