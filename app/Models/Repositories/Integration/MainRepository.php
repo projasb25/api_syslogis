@@ -18,6 +18,16 @@ class MainRepository
         return $query;
     }
 
+    public function getIntegrationDataExpress()
+    {
+        $query = DB::table('integration_data as id')
+            ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
+            ->where('id.status', 'PENDIENTE')
+            ->where('type','Delivery Express')
+            ->get();
+        return $query;
+    }
+
     public function getGuidesCollected()
     {
         $query = DB::table('guide as gd')
@@ -57,7 +67,8 @@ class MainRepository
                 [
                     'id_integration_user' => $user->id_integration_user, 'id_corporation' => $user->id_corporation,
                     'id_organization' => $user->id_organization, 'request_data' => json_encode($data), 'status' => 'PENDIENTE',
-                    'created_by' => $user->integration_user, 'number_records' => count($data['items'])
+                    'created_by' => $user->integration_user, 'number_records' => count($data['items']),
+                    'type' => $data['selectedSla']
                 ]
             );
 

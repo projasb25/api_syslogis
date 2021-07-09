@@ -33,6 +33,11 @@ class MainService
             $request_data = $request->all();
             
             $insertar = $this->repo->insertData($request_data, $user);
+            if (strtolower($request_data['selectedSla']) === strtolower('Delivery Express')) {
+                $integration_data = $this->repo->getIntegrationDataExpress();
+                $id = $this->repo->insertMassiveLoad($integration_data);
+                Log::info('Integracion carga - Carga masiva generada, delivery express', ['id_carga' => $id]);
+            }
             // if (env('INRETAIL.FAKE')) {
             //     $response = json_decode('{
             //         "Account": "1",
