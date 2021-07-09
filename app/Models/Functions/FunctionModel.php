@@ -73,8 +73,8 @@ class FunctionModel
             "params" => ['id_user', 'username', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type', 'createdby']
         ],
         "SP_INS_USER" => [
-            "query" => 'CALL SP_INS_USER(:id_user, :id_role, :username, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :password, :status, :type, :createdby)',
-            "params" => ['id_user', 'id_role', 'username', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type', 'createdby']
+            "query" => 'CALL SP_INS_USER(:id_user, :id_role, :username, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :password, :status, :type)',
+            "params" => ['id_user', 'id_role', 'username', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type']
         ],
         /**
          * Funciones para Transaccions
