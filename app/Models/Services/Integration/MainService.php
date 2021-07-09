@@ -32,6 +32,7 @@ class MainService
             ];
             $request_data = $request->all();
             
+            $request_data['selectedSla'] = "Envío a domicilio";
             $insertar = $this->repo->insertData($request_data, $user);
             if (strtolower($request_data['selectedSla']) === strtolower('Delivery Express')) {
                 $integration_data = $this->repo->getIntegrationDataExpress();
