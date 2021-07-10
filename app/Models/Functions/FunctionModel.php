@@ -113,6 +113,14 @@ class FunctionModel
         "SP_SEL_CLIENT_ORDER_COUNT" => [
             "query" => 'CALL SP_SEL_CLIENT_ORDER_COUNT(?,?)',
             "params" => []
+        ],
+        "SP_SEL_ORDER_USER" => [
+            "query" => 'CALL SP_SEL_ORDER_USER(?,?,?,?)',
+            "params" => []
+        ],
+        "SP_SEL_ORDER_USER_COUNT" => [
+            "query" => 'CALL SP_SEL_ORDER_USER_COUNT(?,?)',
+            "params" => []
         ]
         
     ];
