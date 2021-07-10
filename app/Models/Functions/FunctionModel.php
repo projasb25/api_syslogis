@@ -81,8 +81,8 @@ class FunctionModel
             "params" => ['type', 'status']
         ],
         "SP_INS_DRIVER" => [
-            "query" => 'CALL SP_INS_DRIVER(:id_driver, :id_user, :license, :license_expire_date, :plate_number, :soat, :matpel_number, :matpel_exp_date, :type, :status, :created_by)',
-            "params" => ['id_driver', 'id_user', 'license', 'license_expire_date', 'plate_number', 'soat', 'matpel_number', 'matpel_exp_date', 'type', 'status', 'created_by']
+            "query" => 'CALL SP_INS_DRIVER(:id_driver, :id_user, :license, :license_expire_date, :plate_number, :soat, :matpel_number, :matpel_exp_date, :type, :status)',
+            "params" => ['id_driver', 'id_user', 'license', 'license_expire_date', 'plate_number', 'soat', 'matpel_number', 'matpel_exp_date', 'type', 'status']
         ],
         /**
          * Funciones para Transaccions
