@@ -15,7 +15,7 @@ class Diccionario
                 "type" => "string"
             ]
         ],
-        "SP_SEL_CLIENT_ORDER" => [
+        "SP_SEL_ORDER_USER" => [
             "id_order" => [
                 "column" => "o.id_order",
                 "type" => "string"
