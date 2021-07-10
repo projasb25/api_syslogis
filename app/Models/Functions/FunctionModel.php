@@ -77,8 +77,8 @@ class FunctionModel
             "params" => ['id', 'id_role', 'user', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type']
         ],
         "SP_SEL_DRIVER" => [
-            "query" => 'CALL SP_SEL_DRIVER(:id_driver)',
-            "params" => ['id_driver']
+            "query" => 'CALL SP_SEL_DRIVER(:type, :status)',
+            "params" => ['type', 'status']
         ],
         "SP_INS_DRIVER" => [
             "query" => 'CALL SP_INS_DRIVER(:id_driver, :id_user, :license, :license_expire_date, :plate_number, :soat, :matpel_number, :matpel_exp_date, :type, :status, :created_by)',
