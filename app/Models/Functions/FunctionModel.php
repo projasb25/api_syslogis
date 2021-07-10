@@ -37,8 +37,8 @@ class FunctionModel
             "params" => ['id_order', 'id_user']
         ],
         "SP_ASSIGN_ORDER_WEB" => [
-            "query" => 'CALL SP_ASIG_ORDER(:id_order, :id_user_assign)',
-            "params" => ['id_order', 'id_user_assign']
+            "query" => 'CALL SP_ASIG_ORDER(:id_order, :id_driver, :username)',
+            "params" => ['id_order', 'id_driver', 'username']
         ],
         "SP_CHANGE_ORDER_STATUS" => [
             "query" => 'CALL SP_CHANGE_ORDER_STATUS(:id_order, :status)',
