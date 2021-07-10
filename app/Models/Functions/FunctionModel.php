@@ -81,8 +81,8 @@ class FunctionModel
             "params" => ['type', 'status']
         ],
         "SP_INS_DRIVER" => [
-            "query" => 'CALL SP_INS_DRIVER(:role, :id_new_user, :new_username, :password, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :type, :status, :license, :license_expire_date, :plate_number, :soat, :matpel_number, :matpel_exp_date, :id_user, :username)',
-            "params" => ['role', 'id_new_user', 'new_username', 'password', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'type', 'status', 'license', 'license_expire_date', 'plate_number', 'soat', 'matpel_number', 'matpel_exp_date', 'id_user', 'username']
+            "query" => 'CALL SP_INS_DRIVER(:id_new_user, :new_username, :password, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :type, :status, :license, :license_expire_date, :plate_number, :soat, :id_user, :username)',
+            "params" => ['id_new_user', 'new_username', 'password', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'type', 'status', 'license', 'license_expire_date', 'plate_number', 'soat', 'id_user', 'username']
         ],
         /**
          * Funciones para Transaccions
