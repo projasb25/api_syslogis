@@ -73,6 +73,28 @@ class Diccionario
                 "type" => "string"
             ]
         ],
+        "SP_SEL_ORDER_USER" => [
+            'id_massive_load' => [
+                'column' => "ml.id_massive_load",
+                'type' => "string"
+            ],
+            'number_records' => [
+                'column' => "ml.number_records",
+                'type' => "string"
+            ],
+            'status' => [
+                'column' => "ml.status",
+                'type' => "string"
+            ],
+            'created_by' => [
+                'column' => "ml.created_by",
+                'type' => "string"
+            ],
+            "fechafilter" => [
+                "column" => "DATE_FORMAT(ml.date_created, '%Y-%m-%d')",
+                "type" => "string"
+            ]
+        ],
     ];
 
     public function getDiccionario()

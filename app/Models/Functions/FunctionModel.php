@@ -125,6 +125,14 @@ class FunctionModel
         "SP_SEL_ORDER_USER_COUNT" => [
             "query" => 'CALL SP_SEL_ORDER_USER_COUNT(?,?)',
             "params" => []
+        ],
+        "SP_SEL_MASSIVE_LOAD" => [
+            "query" => 'CALL SP_SEL_MASSIVE_LOAD(?,?,?,?)',
+            "params" => []
+        ],
+        "SP_SEL_MASSIVE_LOAD_COUNT" => [
+            "query" => 'CALL SP_SEL_MASSIVE_LOAD_COUNT(?,?)',
+            "params" => []
         ]
         
     ];
