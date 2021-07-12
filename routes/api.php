@@ -44,6 +44,10 @@ Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'ma
     Route::post('paginated', 'Web\MainController@paginated');
 });
 
+Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'order'], function() {
+    Route::post('massive_load', 'OrderController@massive_load');
+});
+
 Route::group(['middleware' => [], 'prefix' => 'public'], function() {
     Route::get('properties', 'AuthController@properties');
 });
