@@ -28,7 +28,7 @@ class OrderService
             $data['data'] = $req['data'];
 
             $id = $this->repository->insertMassiveLoad($data);
-            $carga = $this->repository->process($id, $user->username);
+            $carga = $this->repository->process($id, $user->username, $user->id_user);
             $res = ['id_massive_load' => $id];
         } catch (CustomException $e) {
             Log::warning('Order Service Massive load error', ['expcetion' => $e->getData()[0], 'request' => $req]);

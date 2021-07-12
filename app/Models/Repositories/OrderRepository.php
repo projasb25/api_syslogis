@@ -92,7 +92,7 @@ class OrderRepository
         return $id;
     }
 
-    public function process($id_massive_load, $username)
+    public function process($id_massive_load, $username, $id_user)
     {
         $prev_val = '';
         DB::beginTransaction();
@@ -145,7 +145,7 @@ class OrderRepository
 
                     /* Insertamos en la tabla guia solo si las columnas claves son unicas */
                     $id_order = DB::table('order')->insertGetId([
-                        'id_user' => 15,
+                        'id_user' => $id_user,
                         'id_massive_load' => $id_massive_load,
                         'guide_number' => $value->guide_number,
                         'seg_code' => $value->seg_code,
