@@ -24,13 +24,18 @@ class MainService
     public function index($request)
     {
         try {
+            $request_data = $request->all();
+            if (strtolower($request_data['selectedSla']) === strtolower('Delivery Express')) {
+                $organizacion = 58;
+            } else {
+                $organizacion = 53;
+            }
             $user = (object) [
                 'id_integration_user' => 1,
                 'id_corporation' => 15,
-                'id_organization' => 53,
+                'id_organization' => $organizacion,
                 'integration_user' => 'inretail'
             ];
-            $request_data = $request->all();
             
             // $request_data['selectedSla'] = "Envío a domicilio";
             $insertar = $this->repo->insertData($request_data, $user);
