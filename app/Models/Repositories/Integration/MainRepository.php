@@ -23,7 +23,7 @@ class MainRepository
         $query = DB::table('integration_data as id')
             ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
             ->where('id.status', 'PENDIENTE')
-            ->where('type','Delivery Express')
+            ->where('id.type','Delivery Express')
             ->get();
         return $query;
     }
