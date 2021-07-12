@@ -88,6 +88,10 @@ class FunctionModel
             "query" => 'CALL SP_INS_DRIVER(:id_new_user, :new_username, :password, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :type, :status, :license, :license_expire_date, :plate_number, :soat, :id_user, :username)',
             "params" => ['id_new_user', 'new_username', 'password', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'type', 'status', 'license', 'license_expire_date', 'plate_number', 'soat', 'id_user', 'username']
         ],
+        "SP_MASSIVE_LOAD_DETAILS" => [
+            "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
+            "params" => ['id_massive_load']
+        ],
         /**
          * Funciones para Transaccions
          **/
