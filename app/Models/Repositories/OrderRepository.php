@@ -82,7 +82,6 @@ class OrderRepository
                     'product_quantity' => $value['product_quantity'] ?? null,
                     'status' => $value['status'],
                     'created_by' => $value['created_by'],
-
                 ]);
             }
             DB::commit();
