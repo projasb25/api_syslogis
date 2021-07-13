@@ -95,10 +95,6 @@ class OrderRepository
     public function process($id_massive_load, $username)
     {
         $prev_val = '';
-        $prev_nguia = '';
-        $prev_barcode = '';
-        $total_weight = 0;
-        $total_pieces = 0;
         DB::beginTransaction();
         try {
             /* ACTUALIZAR MASIVE_LOAD */
@@ -150,6 +146,7 @@ class OrderRepository
                     /* Insertamos en la tabla guia solo si las columnas claves son unicas */
                     $id_order = DB::table('order')->insertGetId([
                         'id_user' => 15,
+                        'id_massive_load' => $id_massive_load,
                         'guide_number' => $value->guide_number,
                         'seg_code' => $value->seg_code,
                         'pickup_contact_name' => $value->pickup_contact_name,
@@ -226,7 +223,7 @@ class OrderRepository
 
         if (!$check_add) {
             $address_id = DB::table('address')->insertGetId([
-                'ubigeo' => $ubgieo,
+                'ubigeo' => trim($ubgieo->ubigeo),
                 'address' => $address,
                 'address_refernce' => $address_reference,
                 'department' => $department,
