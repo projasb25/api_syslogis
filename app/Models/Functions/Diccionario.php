@@ -73,7 +73,7 @@ class Diccionario
                 "type" => "string"
             ]
         ],
-        "SP_SEL_ORDER_USER" => [
+        "SP_SEL_MASSIVE_LOAD" => [
             'id_massive_load' => [
                 'column' => "ml.id_massive_load",
                 'type' => "string"
