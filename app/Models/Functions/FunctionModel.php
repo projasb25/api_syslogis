@@ -77,8 +77,8 @@ class FunctionModel
             "params" => ['id_user', 'username', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type', 'createdby']
         ],
         "SP_INS_USER" => [
-            "query" => 'CALL SP_INS_USER(:id, :user, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :password, :status, :type)',
-            "params" => ['id', 'user', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type']
+            "query" => 'CALL SP_INS_USER(:id, :user, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :password, :status, :type, :origin)',
+            "params" => ['id', 'user', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type', 'origin']
         ],
         "SP_SEL_DRIVER" => [
             "query" => 'CALL SP_SEL_DRIVER(:type, :status)',
