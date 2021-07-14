@@ -170,4 +170,20 @@ class PedidoDetalleRepository
     {
         return DB::select("CALL sp_list_pedidos_oferta(?)",[$id]);
     }
+
+    public function getShippingOrder($id)
+    {
+        $query = DB::table('shipping_order')->where('id_order', $id)->first();
+        return $query;
+    }
+
+    public function insertarImagenOrden($id, $id_shipping, $url, $desc, $type)
+    {
+        DB::table('order_image')->insert(
+            [
+                'id_order' => $id, 'id_shipping_order' => $id_shipping,
+                'url' => $url, 'description' => $desc, 'type' => $type
+            ]
+            );
+    }
 }

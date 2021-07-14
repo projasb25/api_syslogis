@@ -144,4 +144,54 @@ class PedidoService
         }
         return Res::success($data);
     }
+
+    public function grabarImagenPedido($request)
+    {
+        try {
+            $order = $this->pedidoDetalleRepo->getShippingOrder($request->get('id_order'));
+            if (!$order) {
+                throw new CustomException(['Orden no encontrada.', 2010], 400);
+            } 
+            elseif ($order->status !== 'CURSO') {
+                throw new CustomException(['La orden no se encuentra en Curso.', 2011], 400);
+            }
+
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $order->id_order;
+            # CHeck if folder exists before create one
+            if (!file_exists($destination_path)) {
+                File::makeDirectory($destination_path, $mode = 0777, true, true);
+                File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
+            }
+
+            $imagen = $request->file('imagen');
+            $nombre_imagen = $order->id_order . '_' . time() . '.jpg';
+            $thumbnail = Image::make($imagen->getRealPath());
+
+            # Guardamos el thumnail primero
+            $thumbnail->resize(250, 250, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination_path . '/thumbnail/' . $nombre_imagen);
+
+            # Redimesionamos la imagen a 720x720
+            $resize = Image::make($imagen->getRealPath());
+            $resize->resize(720, 720, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destination_path . '/' . $nombre_imagen);
+
+            $ruta = url('storage/imagenes/' . $order->id_order . '/' . $nombre_imagen);
+            $this->pedidoDetalleRepo->insertarImagenOrden($order->id_order, $order->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
+
+            Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
+        } catch (CustomException $e) {
+            Log::warning('Grabar imagen', ['expcetion' => $e->getData()[0], 'request' => $request->except('imagen')]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Grabar imagen', ['expcetion' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Grabar imagen', ['exception' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['url' => $ruta]);
+    }
 }

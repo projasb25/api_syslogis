@@ -36,6 +36,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 
 Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'pedido'], function() {
     Route::post('/imagen', 'PedidoController@grabarImagen');
+    Route::post('/imagenchofer', 'PedidoController@grabarImagenPedido');
 });
 
 Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'main'], function() {

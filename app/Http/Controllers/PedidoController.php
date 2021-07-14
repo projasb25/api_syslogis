@@ -44,6 +44,12 @@ class PedidoController extends Controller
         return $this->pedidoServi->grabarImagen($request);
     }
 
+    public function grabarImagenPedido(grabarImagen $request)
+    {
+        return $this->pedidoServi->grabarImagenPedido($request);
+    }
+    
+
     // public function getImagen(Request $request, $idpedido_detalle)
     // {
     //     return $this->pedidoServi->getImagen($idpedido_detalle);
