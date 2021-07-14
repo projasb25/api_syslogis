@@ -152,9 +152,6 @@ class PedidoService
             if (!$order) {
                 throw new CustomException(['Orden no encontrada.', 2010], 400);
             } 
-            elseif ($order->status !== 'CURSO') {
-                throw new CustomException(['La orden no se encuentra en Curso.', 2011], 400);
-            }
 
             $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $order->id_order;
             # CHeck if folder exists before create one
