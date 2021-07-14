@@ -176,7 +176,7 @@ class PedidoService
             })->save($destination_path . '/' . $nombre_imagen);
 
             $ruta = url('storage/imagenes/' . $order->id_order . '/' . $nombre_imagen);
-            $this->pedidoDetalleRepo->insertarImagenOrden($order->id_order, $order->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
+            $this->pedidoDetalleRepo->insertarImagenOrden($order->id_order, $order->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('type'));
 
             Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
         } catch (CustomException $e) {

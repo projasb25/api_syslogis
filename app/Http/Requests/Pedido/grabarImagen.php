@@ -22,7 +22,7 @@ class grabarImagen extends FormRequest
             'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20048',
             'id_order' => 'required|numeric',
             // 'id_shipping_order_detail' => 'required|numeric',
-            'tipo_imagen' => 'required',
+            'type' => 'required',
             'descripcion' => 'required|string'
         ];
     }
@@ -36,7 +36,7 @@ class grabarImagen extends FormRequest
             'id_order.numeric' => 'pedido invalido',
             // 'id_shipping_order_detail.required' => 'Falta id_shipping_order_detail',
             // 'id_shipping_order_detail.numeric' => 'pedido invalido',
-            'tipo_imagen.*' => 'Tipo imagen inválido.',
+            'type.*' => 'Tipo imagen inválido.',
             'descripcion.required' => 'Descripcion requerida.',
             'descripcion.*' => 'Descripción inválida.'
         ];
