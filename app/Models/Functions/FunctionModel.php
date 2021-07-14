@@ -92,6 +92,10 @@ class FunctionModel
             "query" => 'SELECT * FROM massive_load_details WHERE id_massive_load = :id_massive_load;',
             "params" => ['id_massive_load']
         ],
+        "SP_SEL_ORDER_IMAGE" => [
+            "query" => 'CALL SP_SEL_ORDER_IMAGE(:id_order)',
+            "params" => ['id_order']
+        ],
         /**
          * Funciones para Transaccions
          **/
