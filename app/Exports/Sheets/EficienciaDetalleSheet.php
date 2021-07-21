@@ -20,14 +20,16 @@ class EficienciaDetalleSheet implements FromView, WithStyles, ShouldAutoSize, Wi
     protected $fechaFin;
     protected $corpId;
     protected $orgId;
+    protected $type;
 
-    public function __construct($username, $fechaInicio, $fechaFin, $corpid, $orgid)
+    public function __construct($username, $fechaInicio, $fechaFin, $corpid, $orgid, $type)
     {
         $this->username = $username;
         $this->fechaInicio = $fechaInicio;
         $this->fechaFin = $fechaFin;
         $this->orgId = $orgid;
         $this->corpId = $corpid;
+        $this->type = $type;
     }
 
     /**
@@ -35,7 +37,12 @@ class EficienciaDetalleSheet implements FromView, WithStyles, ShouldAutoSize, Wi
      */
     public function view(): View
     {
-        $detalle = DB::select("CALL SP_REP_EFICIENCIA_DETALLE(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        if ($this->type == 'RECOLECCION') {
+            $detalle = DB::select("CALL SP_REP_EFICIENCIA_DETALLE_RECOLECCION(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        } else {
+            $detalle = DB::select("CALL SP_REP_EFICIENCIA_DETALLE(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        }
+
         return view('exports.reporte_eficiencia_detalle', [
             'detalle' => $detalle,
         ]);

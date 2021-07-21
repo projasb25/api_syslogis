@@ -19,14 +19,16 @@ class EficienciaResumenSheet implements FromView, WithStyles, ShouldAutoSize, Wi
     protected $fechaFin;
     protected $corpId;
     protected $orgId;
+    protected $type;
 
-    public function __construct($username, $fechaInicio, $fechaFin, $corpid, $orgid)
+    public function __construct($username, $fechaInicio, $fechaFin, $corpid, $orgid, $type)
     {
         $this->username = $username;
         $this->fechaInicio = $fechaInicio;
         $this->fechaFin = $fechaFin;
         $this->orgId = $orgid;
         $this->corpId = $corpid;
+        $this->type = $type;
     }
 
     /**
@@ -34,13 +36,17 @@ class EficienciaResumenSheet implements FromView, WithStyles, ShouldAutoSize, Wi
      */
     public function view(): View
     {
-        $detalle = DB::select("CALL SP_REP_EFICIENCIA_RESUMEN(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
-        $detalle_eficiencia = DB::select("CALL SP_REP_EFICIENCIA_V2(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
-        $motivos = DB::select("CALL SP_REP_EFICIENCIA_MOTIVOS(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        if ($this->type == 'RECOLECCION') {
+            $detalle = DB::select("CALL SP_REP_EFICIENCIA_RESUMEN_RECOLECCION(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+            $motivos = DB::select("CALL SP_REP_EFICIENCIA_MOTIVOS_RECOLECCION(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        } else {
+            $detalle = DB::select("CALL SP_REP_EFICIENCIA_RESUMEN(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+            $motivos = DB::select("CALL SP_REP_EFICIENCIA_MOTIVOS(?,?,?,?,?,'RECOLECCION')",[$this->corpId, $this->orgId, $this->fechaInicio, $this->fechaFin, $this->username]);
+        }
         return view('exports.reporte_eficiencia_resumen', [
-            'detalle_eficiencia' => $detalle_eficiencia,
             'detalle' => $detalle,
-            'motivos' => $motivos
+            'motivos' => $motivos,
+            'type' => $this->type
         ]);
     }
 

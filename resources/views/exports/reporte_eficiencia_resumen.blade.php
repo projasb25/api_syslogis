@@ -14,8 +14,8 @@
     <thead>
         <tr>
             <th style="color:white;background-color:#bf000b;border: 1px solid black;">FECHA RECEPCION DATA</th>
-            <th style="color:white;background-color:#bf000b;border: 1px solid black;">ENTREGADO</th>
-            <th style="color:white;background-color:#bf000b;border: 1px solid black;">NO ENTREGADO</th>
+            <th style="color:white;background-color:#bf000b;border: 1px solid black;">{{($type=='RECOLECCION')?'RECOLECCION COMPLETA':'ENTREGADO'}}</th>
+            <th style="color:white;background-color:#bf000b;border: 1px solid black;">{{($type=='RECOLECCION')?'NO RECOLECTADO':'NO ENTREGADO'}}</th>
             <th style="color:white;background-color:#bf000b;border: 1px solid black;">Suma total</th>
             <th style="color:white;background-color:#bf000b;border: 1px solid black;">Efectividad</th>
         </tr>

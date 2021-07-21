@@ -35,7 +35,7 @@
         </tr>
         @if ($data->total_entregado > 0)
             <tr>
-                <td style="margin-left:5px"><span style="white-space:pre;">&nbsp;&nbsp;&nbsp;&nbsp;ENTREGADO</span></td>
+                <td style="margin-left:5px"><span style="white-space:pre;">&nbsp;&nbsp;&nbsp;&nbsp;{{($type=='RECOLECCION')?'RECOLECCION COMPLETA':'ENTREGADO'}}</span></td>
                 @foreach ($fechas as $item)
                     <td>
                         {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_entregado') }}
@@ -46,7 +46,7 @@
         @endif
         @if ($data->total_no_entregado > 0)
             <tr>
-                <td style="margin-left:5px"><span style="white-space:pre;">&nbsp;&nbsp;&nbsp;&nbsp;NO ENTREGADO</span></td>
+                <td style="margin-left:5px"><span style="white-space:pre;">&nbsp;&nbsp;&nbsp;&nbsp;{{($type=='RECOLECCION')?'NO RECOLECTADO':'NO ENTREGADO'}}</span></td>
                 @foreach ($fechas as $item)
                     <td>
                         {{ (new \App\Helpers\ArrayHelper)->search_by_two_keys($cuadro_detalle, 'fecha_promesa', 'fecha_entrega', $data->fecha, $item, 'total_no_entregado') ?: '' }}

@@ -19,14 +19,16 @@ class ReporteEficienciaExport implements WithMultipleSheets
     protected $fechaFin;
     protected $corpId;
     protected $orgId;
+    protected $type;
 
-    public function __construct($username, $fechaInicio, $fechaFin, $corpid, $orgid)
+    public function __construct($username, $fechaInicio, $fechaFin, $corpid, $orgid, $type)
     {
         $this->username = $username;
         $this->fechaInicio = $fechaInicio;
         $this->fechaFin = $fechaFin;
         $this->orgId = $orgid;
         $this->corpId = $corpid;
+        $this->type = $type;
     }
 
     /**
@@ -41,9 +43,9 @@ class ReporteEficienciaExport implements WithMultipleSheets
     {
         $sheets = [];
 
-        array_push($sheets, new EficienciaResumenSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId));
-        array_push($sheets, new EficienciaDetalleSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId));
-        array_push($sheets, new NuevaEficienciaSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId));
+        array_push($sheets, new EficienciaResumenSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId, $this->type));
+        array_push($sheets, new EficienciaDetalleSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId, $this->type));
+        array_push($sheets, new NuevaEficienciaSheet($this->username, $this->fechaInicio, $this->fechaFin, $this->corpId, $this->orgId, $this->type));
 
         return $sheets;
     }

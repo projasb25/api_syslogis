@@ -215,7 +215,7 @@ class ReporteService
             $ruta = url('storage/reportes/');
             $data = $request->all();
             $fileName = date('YmdHis') . '_reporte_eficiencia_' . rand(1, 100) . '.xlsx';
-            Excel::store(new ReporteEficienciaExport($user->username, $data['desde'], $data['hasta'], $data['id_corporation'], $data['id_organization']), $fileName, 'reportes');
+            Excel::store(new ReporteEficienciaExport($user->username, $data['desde'], $data['hasta'], $data['id_corporation'], $data['id_organization'], $data['type']), $fileName, 'reportes');
 
             Log::info('Generar reporte eficiencia', ['request' => $request->all()]);
         } catch (CustomException $e) {
