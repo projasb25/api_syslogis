@@ -61,6 +61,9 @@ class MassiveLoadRepository
                 if (isset($value['client_date2']) && !is_string($value['client_date2'])) {
                     $value['client_date2'] = date('Y-m-d H:i:s', (($value['client_date2'] - (25567 + 1)) * 86400));
                 }
+                if (!isset($value['client_date'])) {
+                    $value['client_date'] = date('Y-m-d H:i:s', time() + 86400);
+                }
 
                 $value['id_massive_load'] = $id;
                 $value['status'] = 'PENDIENTE';
