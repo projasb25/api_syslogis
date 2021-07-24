@@ -193,13 +193,10 @@ class MassiveLoadService
         $ruta = url('storage/cargo/');
 
         $file_exists = (Storage::disk('cargo')->exists($massive_load->ruta_doc_cargo));
-        Log::info('masive load', ['massive_load' => (array) $massive_load]);
         if (!$massive_load->ruta_doc_cargo || !$file_exists) {
             if ($massive_load->id_corporation === 4) {
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
-                Log::info('data', ['data' => $data]);
                 $motivos = $this->repo->get_motivos();
-                Log::info('motivos', ['motivos' => $motivos]);
                 $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
             } else {
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
@@ -400,16 +397,13 @@ class MassiveLoadService
 
             $box_x = 5;
             $box_y = 5;
-            Log::info('aca bien');
             foreach ($data as $i => $guide) {
-                Log::info('aca bien por 2');
                 if ($i  % 2 == 0 && $i != 0) {
                     $pdf->AddPage();
                     $box_y = 5;
                 }
                 // cuadro principal
                 $pdf->Rect($box_x, $box_y, 200, 119);
-                Log::info('aca bien por 3');
                 // cuadro 1.1 REMITENTE
                     //header
                     $pdf->Rect($box_x + 0, $box_y + 0, 6, 37);
@@ -431,14 +425,12 @@ class MassiveLoadService
                     $pdf->SetFont('Times', '', 11);
                     $pdf->SetX($box_x+6);
                     $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
-                    Log::info('aca bien por 4');
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
                         $cod_barra = $guide->client_barcode;
                     } else {
                         $cod_barra = $guide->guide_number;
                     }
-                    Log::info('aca bien por 5',['$cod_barra'=>$cod_barra]);
 
                     $pdf->code128($box_x + 23, ($box_y + 38 + 2), $cod_barra , 50, 12, false);
                     Log::info('aca bien por 8');
@@ -448,7 +440,6 @@ class MassiveLoadService
                     $pdf->Ln(2);
                     Log::info('aca bien por 6');
 
-                Log::info('cuadro 1.1 REMITENTE');
                 // cuadro 2.1 DATOS
                     //header
                     $pdf->Rect($box_x + 0, ($box_y + 59 + 2), 6, 17);
@@ -465,7 +456,6 @@ class MassiveLoadService
                     $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
                     
                     $pdf->SetX($box_x+8);
-                Log::info('cuadro 2.1 DATOS');
                 // cuadro 1.2 DESTINATARIO
                     //header
                     $pdf->Rect($box_x + 93, $box_y + 0, 6, 41);
@@ -586,7 +576,6 @@ class MassiveLoadService
 
                 $box_y = 119+ $box_y + 3;
             }
-            Log::info('aca bien tambien');
 
             $disk = Storage::disk('cargo');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
