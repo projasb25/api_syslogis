@@ -402,6 +402,7 @@ class MassiveLoadService
             $box_y = 5;
             Log::info('aca bien');
             foreach ($data as $i => $guide) {
+                Log::info('aca bien por 2');
                 if ($i  % 2 == 0 && $i != 0) {
                     $pdf->AddPage();
                     $box_y = 5;
