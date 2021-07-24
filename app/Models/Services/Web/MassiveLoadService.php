@@ -443,7 +443,8 @@ class MassiveLoadService
                     $pdf->SetFont('Times', 'B', 16);
                     $pdf->MultiCell(96,4,$cod_barra, 0,'C');
                     $pdf->Ln(2);
-                
+
+                Log::info('cuadro 1.1 REMITENTE');
                 // cuadro 2.1 DATOS
                     //header
                     $pdf->Rect($box_x + 0, ($box_y + 59 + 2), 6, 17);
@@ -460,6 +461,7 @@ class MassiveLoadService
                     $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
                     
                     $pdf->SetX($box_x+8);
+                Log::info('cuadro 2.1 DATOS');
                 // cuadro 1.2 DESTINATARIO
                     //header
                     $pdf->Rect($box_x + 93, $box_y + 0, 6, 41);
