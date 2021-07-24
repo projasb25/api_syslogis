@@ -400,7 +400,7 @@ class MassiveLoadService
 
             $box_x = 5;
             $box_y = 5;
-
+            Log::info('aca bien');
             foreach ($data as $i => $guide) {
                 if ($i  % 2 == 0 && $i != 0) {
                     $pdf->AddPage();
@@ -580,6 +580,7 @@ class MassiveLoadService
 
                 $box_y = 119+ $box_y + 3;
             }
+            Log::info('aca bien tambien');
 
             $disk = Storage::disk('cargo');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
