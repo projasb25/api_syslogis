@@ -441,6 +441,7 @@ class MassiveLoadService
                     Log::info('aca bien por 5');
 
                     $pdf->code128($box_x + 23, ($box_y + 38 + 2), $cod_barra , 50, 12, false);
+                    Log::info('aca bien por 8');
                     $pdf->SetXY($box_x+1, ($box_y + 52 + 2));
                     $pdf->SetFont('Times', 'B', 16);
                     $pdf->MultiCell(96,4,$cod_barra, 0,'C');
