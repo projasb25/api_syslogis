@@ -438,7 +438,7 @@ class MassiveLoadService
                     } else {
                         $cod_barra = $guide->guide_number;
                     }
-                    Log::info('aca bien por 5');
+                    Log::info('aca bien por 5',['$cod_barra'=>$cod_barra]);
 
                     $pdf->code128($box_x + 23, ($box_y + 38 + 2), $cod_barra , 50, 12, false);
                     Log::info('aca bien por 8');
