@@ -197,7 +197,9 @@ class MassiveLoadService
         if (!$massive_load->ruta_doc_cargo || !$file_exists) {
             if ($massive_load->id_corporation === 4) {
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
+                Log::info('data', ['data' => $data]);
                 $motivos = $this->repo->get_motivos();
+                Log::info('motivos', ['motivos' => $motivos]);
                 $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
             } else {
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
