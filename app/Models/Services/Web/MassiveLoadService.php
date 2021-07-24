@@ -438,12 +438,14 @@ class MassiveLoadService
                     } else {
                         $cod_barra = $guide->guide_number;
                     }
+                    Log::info('aca bien por 5');
 
                     $pdf->code128($box_x + 23, ($box_y + 38 + 2), $cod_barra , 50, 12, false);
                     $pdf->SetXY($box_x+1, ($box_y + 52 + 2));
                     $pdf->SetFont('Times', 'B', 16);
                     $pdf->MultiCell(96,4,$cod_barra, 0,'C');
                     $pdf->Ln(2);
+                    Log::info('aca bien por 6');
 
                 Log::info('cuadro 1.1 REMITENTE');
                 // cuadro 2.1 DATOS
