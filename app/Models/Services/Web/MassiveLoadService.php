@@ -193,7 +193,7 @@ class MassiveLoadService
         $ruta = url('storage/cargo/');
 
         $file_exists = (Storage::disk('cargo')->exists($massive_load->ruta_doc_cargo));
-
+        Log::info('masive load', ['massive_load' => (array) $massive_load]);
         if (!$massive_load->ruta_doc_cargo || !$file_exists) {
             if ($massive_load->id_corporation === 4) {
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
