@@ -196,7 +196,7 @@ class ShippingService
                 $constraint->aspectRatio();
             })->save($destination_path . '/' . $nombre_imagen);
 
-            $ruta = url('storage/imagenes/' . $guide[0]->id_guide . '/' . $nombre_imagen);
+            $ruta = url('storage/imagenes2/' . $guide[0]->id_guide . '/' . $nombre_imagen);
             foreach ($guide as $key => $gd) {
                 $this->repository->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
             }
@@ -223,12 +223,13 @@ class ShippingService
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
             }
 
-            $imagenes = $this->repository->obtenerImagenes($guide[0]->id_guide, $guide[0]->id_shipping_order);
+            $imagenes = $this->repository->obtenerIm1qqagenes($guide[0]->id_guide, $guide[0]->id_shipping_order);
             $data = [];
 
             foreach ($imagenes as $key => $img) {
-                $segmentos = explode('/', $img->url);
-                array_push($data, url('storage/imagenes/' . $img->id_guide . '/thumbnail/' . end($segmentos)));
+                $index = strrpos($img->url,"/");
+                $thumb = substr($img->url,0,$index) . '/thumbnail' . substr($img->url, $index);
+                array_push($data, $thumb);
             }
             Log::info("Obtener imagen exitoso", [
                 'id_shipping_order' => $request->id_shipping_order,
