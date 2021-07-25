@@ -223,7 +223,7 @@ class ShippingService
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
             }
 
-            $imagenes = $this->repository->obtenerIm1qqagenes($guide[0]->id_guide, $guide[0]->id_shipping_order);
+            $imagenes = $this->repository->obtenerImagenes($guide[0]->id_guide, $guide[0]->id_shipping_order);
             $data = [];
 
             foreach ($imagenes as $key => $img) {
