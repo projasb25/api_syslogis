@@ -50,10 +50,11 @@ class MassiveLoadRepository
                             ->first();
                         break;
                     case 69:
-                        $check_ubigeo = DB::table('ubigeo')
-                            ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
-                            ->orWhereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('CALLAO'))])
-                            ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
+                        $value['department'] = '';
+                        $value['province'] = '';
+                        $value['district'] = $value['client_address'];
+                        $check_ubigeo = DB::table('tambo_address')
+                            ->whereRaw('LOWER(TRIM(tambo_name)) = ? ', [trim(strtolower($value['client_address']))])
                             ->first();
                         break;
                     default:
