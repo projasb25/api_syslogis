@@ -7,6 +7,10 @@
             <th style="background: black;color:white;text-align:center">NV Emision</th>
             <th style="background: black;color:white;text-align:center">Nro. LPN</th>
             <th style="background: black;color:white;text-align:center">Producto</th>
+            <th style="background: black;color:white;text-align:center">NOMBRE CLIENTE</th>
+            <th style="background: black;color:white;text-align:center">DEPARTAMENTO</th>
+            <th style="background: black;color:white;text-align:center">PROVINCIA</th>
+            <th style="background: black;color:white;text-align:center">DISTRITO</th>
             <th style="background: #bf000b;color:white;text-align:center">ESTADO GN7 QAYARIX</th>
             <th style="background: #bf000b;color:white;text-align:center">MOTIVO</th>
             <th style="background: #bf000b;color:white;text-align:center">FECHA ENTREGA</th>
@@ -21,6 +25,10 @@
             <td>{{$item->seg_code}}</td>
             <td>{{$item->client_barcode}}</td>
             <td>{{$item->sku_code}}</td>
+            <td>{{$item->client_name}}</td>
+            <td>{{$item->department}}</td>
+            <td>{{$item->province}}</td>
+            <td>{{$item->district}}</td>
             <td>{{$item->status}}</td>
             <td>{{$item->motive}}</td>
             <td>{{$item->fecha_entrega}}</td>
