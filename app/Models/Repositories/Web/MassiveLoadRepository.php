@@ -37,12 +37,29 @@ class MassiveLoadRepository
             ]);
 
             foreach ($data['data'] as $key => &$value) {
+                switch ($data['id_load_template']) {
+                    case 68:
+                        $check_ubigeo = DB::table('ubigeo')
+                            ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
+                            ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
+                            ->first();
+                        break;
+                    case 69:
+                        $check_ubigeo = DB::table('ubigeo')
+                            ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
+                            ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
+                            ->first();
+                        break;
+                    
+                    default:
+                        $check_ubigeo = DB::table('ubigeo')
+                            ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower($value['department']))])
+                            ->whereRaw('LOWER(TRIM(province)) = ? ', [trim(strtolower($value['province']))])
+                            ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
+                            ->first();
+                        break;
+                }
 
-                $check_ubigeo = DB::table('ubigeo')
-                    ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower($value['department']))])
-                    ->whereRaw('LOWER(TRIM(province)) = ? ', [trim(strtolower($value['province']))])
-                    ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
-                    ->first();
                 if (!$check_ubigeo) {
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
                     throw new CustomException(['Error en el departamento, provincia y distrito. (Linea: '.($key+2).' )', 2121], 400);
@@ -89,9 +106,9 @@ class MassiveLoadRepository
                     'coord_latitude' => $value['coord_latitude'] ?? null,
                     'coord_longitude' => $value['coord_longitude'] ?? null,
                     'ubigeo' => $check_ubigeo->ubigeo,
-                    'department' => $value['department'] ?? null,
-                    'district' => $value['district'] ?? null,
-                    'province' => $value['province'] ?? null,
+                    'department' => $check_ubigeo->department,
+                    'district' => $check_ubigeo->district,
+                    'province' => $check_ubigeo->province,
                     'sku_code' => $value['sku_code'] ?? null,
                     'sku_description' => $value['sku_description'] ?? null,
                     'sku_weight' => $value['sku_weight'] ?? null,
