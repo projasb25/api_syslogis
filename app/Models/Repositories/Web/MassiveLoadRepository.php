@@ -36,13 +36,11 @@ class MassiveLoadRepository
                 'type' => 'DISTRIBUCION'
             ]);
 
-            Log::info('entra aca?',['validar'=>$data['id_load_template']]);
             foreach ($data['data'] as $key => &$value) {
                 switch ($data['id_load_template']) {
                     case 68:
                         $value['department'] = 'LIMA';
                         $value['province'] = '';
-                        Log::info('entra aca');
                         $check_ubigeo = DB::table('ubigeo')
                             ->where(function ($query) {
                                 $query->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
@@ -56,8 +54,7 @@ class MassiveLoadRepository
                             ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
                             ->orWhereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('CALLAO'))])
                             ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
-                            ->toSql();
-                        Log::info($check_ubigeo);
+                            ->first();
                         break;
                     default:
                         $check_ubigeo = DB::table('ubigeo')
