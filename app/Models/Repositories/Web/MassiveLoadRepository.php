@@ -44,8 +44,10 @@ class MassiveLoadRepository
                         $value['province'] = '';
                         Log::info('entra aca');
                         $check_ubigeo = DB::table('ubigeo')
-                            ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
-                            ->orWhereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('CALLAO'))])
+                            ->where(function ($query) {
+                                $query->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
+                                    ->orWhereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('CALLAO'))]);
+                            })
                             ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
                             ->toSql();
                         Log::info($check_ubigeo);
