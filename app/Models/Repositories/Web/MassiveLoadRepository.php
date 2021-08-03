@@ -40,6 +40,8 @@ class MassiveLoadRepository
             foreach ($data['data'] as $key => &$value) {
                 switch ($data['id_load_template']) {
                     case 68:
+                        $value['department'] = 'LIMA';
+                        $value['province'] = '';
                         Log::info('entra aca');
                         $check_ubigeo = DB::table('ubigeo')
                             ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
