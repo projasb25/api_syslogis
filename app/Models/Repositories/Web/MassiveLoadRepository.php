@@ -53,7 +53,8 @@ class MassiveLoadRepository
                             ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('LIMA'))])
                             ->orWhereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower('CALLAO'))])
                             ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
-                            ->first();
+                            ->toSql();
+                        Log::info($check_ubigeo);
                         break;
                     default:
                         $check_ubigeo = DB::table('ubigeo')
