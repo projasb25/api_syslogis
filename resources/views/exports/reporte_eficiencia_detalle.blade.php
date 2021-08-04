@@ -12,6 +12,7 @@
             <th style="background: black;color:white;text-align:center">NRO GUIA</th>
             <th style="background: black;color:white;text-align:center">CANTIDAD SKU</th>
             <th style="background: black;color:white;text-align:center">FECHA CLIENTE 2</th>
+            <th style="background: black;color:white;text-align:center">TELEFONO CLIENTE</th>
             <th style="background: black;color:white;text-align:center">DEPARTAMENTO</th>
             <th style="background: black;color:white;text-align:center">PROVINCIA</th>
             <th style="background: black;color:white;text-align:center">DISTRITO</th>
