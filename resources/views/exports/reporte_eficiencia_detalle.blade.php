@@ -34,6 +34,7 @@
             <td>{{$item->guide_number}}</td>
             <td>{{$item->total_pieces}}</td>
             <td>{{$item->client_date2}}</td>
+            <td>{{$item->client_phone1}}</td>
             <td>{{$item->department}}</td>
             <td>{{$item->province}}</td>
             <td>{{$item->district}}</td>
