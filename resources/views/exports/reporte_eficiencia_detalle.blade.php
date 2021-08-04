@@ -30,10 +30,10 @@
             <td>{{$item->client_barcode}}</td>
             <td>{{$item->sku_code}}</td>
             <td>{{$item->client_name}}</td>
-            <td>{{$item->client_dni}}</td>,
-            <td>{{$item->guide_number}}</td>,
-            <td>{{$item->total_pieces}}</td>,
-            <td>{{$item->client_date2}}</td>,
+            <td>{{$item->client_dni}}</td>
+            <td>{{$item->guide_number}}</td>
+            <td>{{$item->total_pieces}}</td>
+            <td>{{$item->client_date2}}</td>
             <td>{{$item->department}}</td>
             <td>{{$item->province}}</td>
             <td>{{$item->district}}</td>
