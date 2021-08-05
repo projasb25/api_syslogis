@@ -11,8 +11,10 @@
             <th style="background: black;color:white;text-align:center">DNI CLIENTE</th>
             <th style="background: black;color:white;text-align:center">NRO GUIA</th>
             <th style="background: black;color:white;text-align:center">CANTIDAD SKU</th>
+            <th style="background: black;color:white;text-align:center">PESO</th>
             <th style="background: black;color:white;text-align:center">FECHA CLIENTE 2</th>
             <th style="background: black;color:white;text-align:center">TELEFONO CLIENTE</th>
+            <th style="background: black;color:white;text-align:center">MONTO</th>
             <th style="background: black;color:white;text-align:center">DEPARTAMENTO</th>
             <th style="background: black;color:white;text-align:center">PROVINCIA</th>
             <th style="background: black;color:white;text-align:center">DISTRITO</th>
@@ -34,8 +36,10 @@
             <td>{{$item->client_dni}}</td>
             <td>{{$item->guide_number}}</td>
             <td>{{$item->total_pieces}}</td>
+            <td>{{$item->total_weight}}</td>
             <td>{{$item->client_date2}}</td>
             <td>{{$item->client_phone1}}</td>
+            <td>{{$item->amount}}</td>
             <td>{{$item->department}}</td>
             <td>{{$item->province}}</td>
             <td>{{$item->district}}</td>
