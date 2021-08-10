@@ -53,7 +53,7 @@ class MassiveLoadRepository
                         $client_name = DB::table('tambo_address')
                             ->whereRaw('LOWER(TRIM(address)) = ? ', [trim(strtolower($value['client_address']))])
                             ->first();
-                        $value['client_name'] = $client_name->name;
+                        $value['client_name'] = $client_name->tambo_name;
                         break;
                     case 71:
                         $value['department'] = '';
