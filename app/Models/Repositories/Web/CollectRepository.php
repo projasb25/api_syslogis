@@ -71,6 +71,10 @@ class CollectRepository
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
                     throw new CustomException(['Error en el departamento, provincia y distrito. (Linea: '.($key+2).' )', 2121], 400);
                 }
+
+                if ($data['id_load_template'] == 69) {
+                    $value['client_address'] = $check_ubigeo->address;
+                }
                 
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
                 //     $value['client_barcode'] = Str::random(40);
