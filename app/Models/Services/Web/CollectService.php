@@ -32,6 +32,7 @@ class CollectService
             $data['id_corporation'] = $req['id_corporation'];
             $data['id_organization'] = $req['id_organization'];
             $data['date_loaded'] = $req['date_loaded'];
+            $data['id_load_template'] =  $req['id_load_template'];
 
             $id = $this->repo->insertCollectLoad($data);
 
