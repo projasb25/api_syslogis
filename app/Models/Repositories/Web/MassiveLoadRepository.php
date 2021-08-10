@@ -49,7 +49,7 @@ class MassiveLoadRepository
                             ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
                             ->first();
                         break;
-                    case 69:
+                    case 71:
                         $value['department'] = '';
                         $value['province'] = '';
                         $value['district'] = $value['client_address'];
@@ -69,6 +69,10 @@ class MassiveLoadRepository
                 if (!$check_ubigeo) {
                     Log::error('Ubigeo no encontrado', ['distrito' => $value['district'], 'provincia' => $value['province'], 'departamento' => $value['department'] ]);
                     throw new CustomException(['Error en el departamento, provincia y distrito. (Linea: '.($key+2).' )', 2121], 400);
+                }
+
+                if ($data['id_load_template'] == 71) {
+                    $value['client_address'] = $check_ubigeo->address;
                 }
                 
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
