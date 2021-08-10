@@ -39,6 +39,7 @@ class MassiveLoadRepository
             foreach ($data['data'] as $key => &$value) {
                 switch ($data['id_load_template']) {
                     case 68:
+                    case 72:
                         $value['department'] = 'LIMA';
                         $value['province'] = '';
                         $check_ubigeo = DB::table('ubigeo')
@@ -48,6 +49,11 @@ class MassiveLoadRepository
                             })
                             ->whereRaw('LOWER(TRIM(district)) = ? ', [trim(strtolower($value['district']))])
                             ->first();
+
+                        $client_name = DB::table('tambo_address')
+                            ->whereRaw('LOWER(TRIM(address)) = ? ', [trim(strtolower($value['client_address']))])
+                            ->first();
+                        $value['client_name'] = $client_name->name;
                         break;
                     case 71:
                         $value['department'] = '';
