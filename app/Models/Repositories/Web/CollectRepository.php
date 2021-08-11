@@ -29,6 +29,7 @@ class CollectRepository
                 'created_by' => $data['username'],
                 'id_corporation' => $data['id_corporation'],
                 'id_organization' => $data['id_organization'],
+                'id_load_template' => $data['id_load_template'],
                 'type' => 'RECOLECCION'
             ]);
 
