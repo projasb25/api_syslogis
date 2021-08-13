@@ -75,8 +75,6 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof ValidationException) {
-            Log::info('debugasdfasdfasdf');
-            Log::error('exception',['error' => $exception->errors()]);
             $errors = $exception->errors();
             $first_error = array_key_first($errors);
             return response()->json([
