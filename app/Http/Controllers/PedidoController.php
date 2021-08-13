@@ -27,6 +27,7 @@ class PedidoController extends Controller
         $messages = [
             'imagen.required' => 'La imagen es requerida.',
             'imagen.mimes'  => 'Extension invalida.',
+            'imagen.max' => 'Tamaño de Imagen invalido'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
