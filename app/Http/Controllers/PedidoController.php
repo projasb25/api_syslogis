@@ -21,13 +21,12 @@ class PedidoController extends Controller
     public function grabarImagen(Request $request)
     {
         $rules = [
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:60048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ];
 
         $messages = [
             'imagen.required' => 'La imagen es requerida.',
             'imagen.mimes'  => 'Extension invalida.',
-            'imagen.max' => 'Tamaño de Imagen invalido'
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
