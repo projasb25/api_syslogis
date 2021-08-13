@@ -21,7 +21,7 @@ class PedidoController extends Controller
     public function grabarImagen(Request $request)
     {
         $rules = [
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:20048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:60048',
         ];
 
         $messages = [
