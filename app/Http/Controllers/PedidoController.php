@@ -32,7 +32,7 @@ class PedidoController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            dd($validator);
+            dd($validator->getMessageBag());
             $errors = $validator->getMessageBag()->messages();
             return response()->json([
                 'success' => false,
