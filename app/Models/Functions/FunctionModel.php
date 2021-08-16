@@ -96,6 +96,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_ORDER_IMAGE(:id_order)',
             "params" => ['id_order']
         ],
+        "SP_SEL_MOTIVES" => [
+            "query" => 'CALL SP_SEL_MOTIVES(:type)',
+            "params" => ['type']
+        ],
         /**
          * Funciones para Transaccions
          **/
