@@ -13,6 +13,7 @@ class MainRepository
     {
         $query = DB::table('integration_data as id')
             ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
+            ->where('type','Envío a domicilio')
             ->where('id.status', 'PENDIENTE')
             ->get();
         return $query;
