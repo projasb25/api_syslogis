@@ -69,8 +69,8 @@ class OrderService
             $header['order_delivery_lng'] = $delivery_geo['data']['longitude'];
             $header['order_delivery_district'] = $delivery_geo['data']['distrito'];
 
-            $data['header'] = json_encode($header);
-            $data['details'] = json_encode($detail);
+            $header = json_encode($header);
+            $detail = json_encode($detail);
             $user_data = json_encode($user->getIdentifierData());
             dd($header);
             $id = $this->repository->createOrder($header, $detail, $user_data);
