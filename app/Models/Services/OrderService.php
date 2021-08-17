@@ -75,7 +75,7 @@ class OrderService
             $id = $this->repository->createOrder($header, $detail, $user_data);
         } catch (CustomException $e) {
             Log::warning('Insert order error', ['expcetion' => $e->getData()[0], 'request' => $data]);
-            dd($e->getData());
+            dd($e->getData()[0]);
             return Res::error( $e->getData()[0], $e->getCode());
         } catch (QueryException $e) {
             Log::warning('Insert order query error', ['expcetion' => $e->getMessage(), 'request' => $data]);
