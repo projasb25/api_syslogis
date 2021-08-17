@@ -131,7 +131,7 @@ class OrderService
                 'longitude' => $geometry->location->lng
             ];
         } catch (CustomException $e) {
-            $res['error'] = $e->getData()[0];
+            $res['error'] = $e->getData();
         } catch (Exception $e) {
             $res['error'] = $e->getMessage();
         }
