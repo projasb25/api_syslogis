@@ -68,6 +68,10 @@ class Diccionario
                 "column" => "d2.plate_number",
                 "type" => "string"
             ],
+            "client_name" => [
+                "column" => "CONCAT(created_user.last_name, ' ',created_user.first_name)",
+                "type" => "string"
+            ],
             "fechafilter" => [
                 "column" => "DATE_FORMAT(o.date_created, '%Y-%m-%d')",
                 "type" => "string"
