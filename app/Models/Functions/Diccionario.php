@@ -61,7 +61,8 @@ class Diccionario
                 "type" => "string"
             ],
             "driver_name" => [
-                "column" => "CONCAT(usr.first_name,' ',usr.last_name)",
+                // "column" => "CONCAT(usr.first_name,' ',usr.last_name)",
+                "column" => "usr.first_name",
                 "type" => "string"
             ],
             "plate_number" => [
