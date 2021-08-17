@@ -22,11 +22,6 @@ class OrderController extends Controller
 
     public function insert(Request $request)
     {
-        return response()->json([
-            'succes' => true,
-            'data' => 'Exito'
-        ]);
-
         return $this->orderServi->insert($request->all());
     }
 }

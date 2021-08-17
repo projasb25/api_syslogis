@@ -47,7 +47,9 @@ class OrderService
     public function insert($data)
     {
         try {
-            
+            $header = $data['header']['data'];
+            dd($header);
+            $id = $this->repository->createOrder($data);
 
         } catch (CustomException $e) {
             Log::warning('Insert order error', ['expcetion' => $e->getData()[0], 'request' => $data]);

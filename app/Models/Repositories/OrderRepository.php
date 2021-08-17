@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Log;
 
 class OrderRepository
 {
+    public function createOrder($header, $details, $user_data)
+    {
+        return DB::select('CALL SP_INS_ORDER(:header, :details, :username)',[$header, $details, $user_data]);
+    }
+
     public function getMassiveLoad($id)
     {
         return DB::table('massive_load')->where('id_massive_load', $id)->first();
