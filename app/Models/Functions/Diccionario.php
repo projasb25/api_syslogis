@@ -61,8 +61,7 @@ class Diccionario
                 "type" => "string"
             ],
             "driver_name" => [
-                // "column" => "CONCAT(usr.first_name,' ',usr.last_name)",
-                "column" => "usr.first_name",
+                "column" => "CONCAT(usr.first_name,' ',usr.last_name)",
                 "type" => "string"
             ],
             "plate_number" => [
@@ -70,8 +69,7 @@ class Diccionario
                 "type" => "string"
             ],
             "client_name" => [
-                // "column" => "CONCAT(created_user.last_name, ' ',created_user.first_name)",
-                "column" => "created_user.last_name",
+                "column" => "CONCAT(created_user.last_name, ' ',created_user.first_name)",
                 "type" => "string"
             ],
             "fechafilter" => [
