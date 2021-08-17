@@ -130,6 +130,7 @@ class OrderService
                 'latitude' => $geometry->location->lat,
                 'longitude' => $geometry->location->lng
             ];
+            $res['success'] = true;
         } catch (CustomException $e) {
             dd($e);
             $res['error'] = $e->getData();
