@@ -72,7 +72,6 @@ class OrderService
             $header = json_encode($header);
             $detail = json_encode($detail);
             $user_data = json_encode($user->getIdentifierData());
-            dd($header);
             $id = $this->repository->createOrder($header, $detail, $user_data);
         } catch (CustomException $e) {
             Log::warning('Insert order error', ['expcetion' => $e->getData()[0], 'request' => $data]);
@@ -84,6 +83,7 @@ class OrderService
             Log::warning('Insert order error', ['exception' => $e->getMessage(), 'request' => $data]);
             return Res::error(['Unxpected error', 3000], 400);
         }
+        return Res::success('Ok');
     }
 
     public function getGeocode($place_id)
