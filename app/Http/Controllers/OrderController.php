@@ -19,4 +19,14 @@ class OrderController extends Controller
     {
         return $this->orderServi->massive_load($request);
     }
+
+    public function insert(Request $request)
+    {
+        return response()->json([
+            'succes' => true,
+            'data' => 'Exito'
+        ]);
+
+        return $this->orderServi->insert($request->all());
+    }
 }

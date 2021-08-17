@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,7 @@ Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'ma
 });
 
 Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'order'], function() {
+    Route::post('/', [OrderController::class, 'insert']);
     Route::post('massive_load', 'OrderController@massive_load');
 });
 
