@@ -47,9 +47,21 @@ class OrderService
     public function insert($data)
     {
         try {
+            $user = auth()->user();
             $header = $data['header']['data'];
+            $detail = $data['details']['data'];
+            $user_data = json_encode($user->getIdentifierData());
+
+            $pickup_geo = $this->getGeocode($header['order_pickup_place_id']);
+            $delivery_geo = $this->getGeocode($header['order_delivery_place_id']);
+            dd($pickup_geo);
             dd($header);
-            $id = $this->repository->createOrder($data);
+
+
+
+            $data['header'] = json_encode($header);
+            $data['details'] = json_encode($detail);
+            $id = $this->repository->createOrder($header, $detail, $user_data);
 
         } catch (CustomException $e) {
             Log::warning('Insert order error', ['expcetion' => $e->getData()[0], 'request' => $data]);
@@ -78,32 +90,35 @@ class OrderService
             }
 
             $components = $resp->result->address_components;
-            $administrative_area_level_1 = array_filter($components, function($e) {
-                if (in_array('administrative_area_level_1', $e->types)) {
-                    return $e;
-                }
-            });
+            $geometry = $resp->result->geometry;
+            // $administrative_area_level_1 = array_filter($components, function($e) {
+            //     if (in_array('administrative_area_level_1', $e->types)) {
+            //         return $e;
+            //     }
+            // });
 
-            $administrative_area_level_2 = array_filter($components, function($e) {
-                if (in_array('administrative_area_level_2', $e->types)) {
-                    return $e;
-                }   
-            });
+            // $administrative_area_level_2 = array_filter($components, function($e) {
+            //     if (in_array('administrative_area_level_2', $e->types)) {
+            //         return $e;
+            //     }   
+            // });
 
             $locality = array_filter($components, function($e){
                 if (in_array('locality', $e->types)) {
                     return $e;
-                }   
+                }
             });
 
-            $departamento = ($administrative_area_level_1) ? array_values($administrative_area_level_1)[0]->long_name: '';
-            $provincia = ($administrative_area_level_2) ? array_values($administrative_area_level_2)[0]->long_name: '';
+
+
+            // $departamento = ($administrative_area_level_1) ? array_values($administrative_area_level_1)[0]->long_name: '';
+            // $provincia = ($administrative_area_level_2) ? array_values($administrative_area_level_2)[0]->long_name: '';
             $distrito = ($locality) ? array_values($locality)[0]->long_name: '';
 
             $res['data'] = [
-                'departamento' => $departamento,
-                'provincia' => $provincia,
-                'distrito' => $distrito
+                'distrito' => $distrito,
+                'latitude' => $geometry->location->lat,
+                'longitude' => $geometry->location->lng
             ];
         } catch (CustomException $e) {
             $res['error'] = $e->getData()[0];
