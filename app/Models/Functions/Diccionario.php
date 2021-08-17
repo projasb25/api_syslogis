@@ -72,6 +72,14 @@ class Diccionario
                 "column" => "CONCAT(created_user.last_name, ' ',created_user.first_name)",
                 "type" => "string"
             ],
+            "pickup_ubigeo" => [
+                "column" => "a1.district",
+                "type" => "string"
+            ],
+            "delivery_ubigeo" => [
+                "column" => "a2.district",
+                "type" => "string"
+            ],
             "fechafilter" => [
                 "column" => "DATE_FORMAT(o.date_created, '%Y-%m-%d')",
                 "type" => "string"
