@@ -69,7 +69,8 @@ class Diccionario
                 "type" => "string"
             ],
             "client_name" => [
-                "column" => "CONCAT(created_user.last_name, ' ',created_user.first_name)",
+                // "column" => "CONCAT(created_user.last_name, ' ',created_user.first_name)",
+                "column" => "created_user.last_name",
                 "type" => "string"
             ],
             "fechafilter" => [
