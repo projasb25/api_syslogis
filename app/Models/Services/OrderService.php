@@ -63,11 +63,11 @@ class OrderService
 
             $header['order_pickup_lat'] = $pickup_geo['data']['latitude'];
             $header['order_pickup_lng'] = $pickup_geo['data']['longitude'];
-            $header['order_pickup_district'] = $pickup_geo['data']['distrito'];
+            $header['order_pickup_district'] = strtoupper($pickup_geo['data']['distrito']);
 
             $header['order_delivery_lat'] = $delivery_geo['data']['latitude'];
             $header['order_delivery_lng'] = $delivery_geo['data']['longitude'];
-            $header['order_delivery_district'] = $delivery_geo['data']['distrito'];
+            $header['order_delivery_district'] = strtoupper($delivery_geo['data']['distrito']);
 
             $header = json_encode($header);
             $detail = json_encode($detail);
