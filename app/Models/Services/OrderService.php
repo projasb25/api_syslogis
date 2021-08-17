@@ -132,7 +132,7 @@ class OrderService
             ];
             $res['success'] = true;
         } catch (CustomException $e) {
-            dd($e);
+            dd($e->getData());
             $res['error'] = $e->getData();
         } catch (Exception $e) {
             $res['error'] = $e->getMessage();
