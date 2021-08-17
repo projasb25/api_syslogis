@@ -50,19 +50,29 @@ class OrderService
             $user = auth()->user();
             $header = $data['header']['data'];
             $detail = $data['details']['data'];
-            $user_data = json_encode($user->getIdentifierData());
 
             $pickup_geo = $this->getGeocode($header['order_pickup_place_id']);
+            if (!$pickup_geo['success']) {
+                throw new CustomException([$pickup_geo['error'] ,400]);
+            }
+
             $delivery_geo = $this->getGeocode($header['order_delivery_place_id']);
-            dd($pickup_geo);
-            dd($header);
+            if (!$delivery_geo['success']) {
+                throw new CustomException([$delivery_geo['error'] ,400]);
+            }
 
+            $header['order_pickup_lat'] = $pickup_geo['data']['latitude'];
+            $header['order_pickup_lng'] = $pickup_geo['data']['longitude'];
+            $header['order_pickup_district'] = $pickup_geo['data']['distrito'];
 
+            $header['order_delivery_lat'] = $delivery_geo['data']['latitude'];
+            $header['order_delivery_lng'] = $delivery_geo['data']['longitude'];
+            $header['order_delivery_district'] = $delivery_geo['data']['distrito'];
 
             $data['header'] = json_encode($header);
             $data['details'] = json_encode($detail);
+            $user_data = json_encode($user->getIdentifierData());
             $id = $this->repository->createOrder($header, $detail, $user_data);
-
         } catch (CustomException $e) {
             Log::warning('Insert order error', ['expcetion' => $e->getData()[0], 'request' => $data]);
             return Res::error($e->getData(), $e->getCode());
