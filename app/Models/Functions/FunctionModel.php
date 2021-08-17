@@ -101,8 +101,8 @@ class FunctionModel
             "params" => ['type']
         ],
         "SP_REASIGN_ORDER" => [
-            "query" => 'CALL SP_REASIGN_ORDER(:id_shipping_order,:id_driver,:username)',
-            "params" => ['id_shipping_order','id_driver','username']
+            "query" => 'CALL SP_REASIGN_ORDER(:id_order,:id_driver,:username)',
+            "params" => ['id_order','id_driver','username']
         ],
         "SP_SEL_CLIENT" => [
             "query" => 'CALL SP_SEL_CLIENT(:status)',
