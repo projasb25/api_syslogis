@@ -72,6 +72,7 @@ class OrderService
             $data['header'] = json_encode($header);
             $data['details'] = json_encode($detail);
             $user_data = json_encode($user->getIdentifierData());
+            dd($header);
             $id = $this->repository->createOrder($header, $detail, $user_data);
         } catch (CustomException $e) {
             Log::warning('Insert order error', ['expcetion' => $e->getData()[0], 'request' => $data]);
