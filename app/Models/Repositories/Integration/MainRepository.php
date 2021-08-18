@@ -15,6 +15,18 @@ class MainRepository
             ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
             ->where('id.type','Envío a domicilio')
             ->where('id.status', 'PENDIENTE')
+            ->whereIn('idd.collect_department',['LIMA','CALLAO'])
+            ->get();
+        return $query;
+    }
+
+    public function getIntegrationDataProvincia()
+    {
+        $query = DB::table('integration_data as id')
+            ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
+            ->where('id.type','Envío a domicilio')
+            ->where('id.status', 'PENDIENTE')
+            ->whereNotIn('idd.collect_department',['LIMA','CALLAO'])
             ->get();
         return $query;
     }
@@ -36,6 +48,19 @@ class MainRepository
             ->where('gd.type','RECOLECCION')
             ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
             ->where('gd.proc_integracion',1)
+            ->where('gd.id_organization', 53)
+            ->get();
+        return $query;
+    }
+
+    public function getGuidesCollectedProvince()
+    {
+        $query = DB::table('guide as gd')
+            ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.proc_integracion',1)
+            ->where('gd.id_organization', 65)
             ->get();
         return $query;
     }

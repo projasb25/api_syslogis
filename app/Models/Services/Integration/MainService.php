@@ -124,11 +124,67 @@ class MainService
         return $res;
     }
 
+    public function procesar_recoleccion_provincia()
+    {
+        $res['success'] = false;
+        try {
+            $integration_data = $this->repo->getIntegrationDataProvincia();
+
+            $integration_data[0]->id_corporation = 15;
+            $integration_data[0]->id_organization = 65;
+
+            $id = $this->repo->insertMassiveLoad($integration_data);
+            $res =[
+                'id_massive_load' => $id
+            ];
+            
+            $res['success'] = true;
+            Log::info('Integracion Crear Carga Provincia exito', ['id_carga' => $id]);
+        } catch (CustomException $e) {
+            Log::warning('Integracion Crear Carga Provincia error', ['expcetion' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('Integracion Crear Carga Provincia Query', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::warning('Integracion Crear Carga Provincia error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
     public function procesar_distribucion()
     {
         $res['success'] = false;
         try {
             $integration_data = $this->repo->getGuidesCollected();
+
+            $id = $this->repo->insertMassiveLoadDist($integration_data);
+            
+            
+            $res =[
+                'id_massive_load' => $id
+            ];
+            $res['success'] = true;
+            Log::info('Integracion procesar distribucion exito', ['id_carga' => $id]);
+        } catch (CustomException $e) {
+            Log::warning('Integracion procesar distribucion error', ['expcetion' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('Integracion procesar distribucion Query', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::warning('Integracion procesar distribucion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function procesar_distribucion_provincia()
+    {
+        $res['success'] = false;
+        try {
+            $integration_data = $this->repo->getGuidesCollectedProvince();
 
             $id = $this->repo->insertMassiveLoadDist($integration_data);
             
