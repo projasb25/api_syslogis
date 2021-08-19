@@ -25,7 +25,7 @@ class MainService
     {
         try {
             $request_data = $request->all();
-            if (strtolower($request_data['selectedSla']) === strtolower('Delivery Express')) {
+            if (strtolower($request_data['selectedSla']) === strtolower('Envío express')) {
                 $organizacion = 58;
             } else {
                 $organizacion = 53;
