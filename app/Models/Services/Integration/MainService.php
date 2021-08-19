@@ -186,6 +186,8 @@ class MainService
         try {
             $integration_data = $this->repo->getGuidesCollectedProvince();
 
+            $integration_data[0]->id_corporation = 15;
+            $integration_data[0]->id_organization = 65;
             $id = $this->repo->insertMassiveLoadDist($integration_data);
             
             

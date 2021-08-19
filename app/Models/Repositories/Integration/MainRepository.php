@@ -48,7 +48,7 @@ class MainRepository
             ->where('gd.type','RECOLECCION')
             ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
             ->where('gd.proc_integracion',1)
-            ->where('gd.id_organization', 53)
+            ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
             ->get();
         return $query;
     }
@@ -60,7 +60,7 @@ class MainRepository
             ->where('gd.type','RECOLECCION')
             ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
             ->where('gd.proc_integracion',1)
-            ->where('gd.id_organization', 65)
+            ->whereNotIn('idd.delivery_department',['LIMA','CALLAO'])
             ->get();
         return $query;
     }
