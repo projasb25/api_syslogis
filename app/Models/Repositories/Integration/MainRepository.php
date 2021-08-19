@@ -53,6 +53,18 @@ class MainRepository
         return $query;
     }
 
+    public function getGuidesCollectedExpress()
+    {
+        $query = DB::table('guide as gd')
+            ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.proc_integracion',1)
+            ->where('gd.id_organization',58)
+            ->get();
+        return $query;
+    }
+
     public function getGuidesCollectedProvince()
     {
         $query = DB::table('guide as gd')
