@@ -15,7 +15,7 @@ class MainRepository
             ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
             ->where('id.type','Envío a domicilio')
             ->where('id.status', 'PENDIENTE')
-            ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
+            // ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
             ->get();
         return $query;
     }
