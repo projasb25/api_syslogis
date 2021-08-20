@@ -304,6 +304,8 @@ class MassiveLoadService
                     $nombre = utf8_decode(ucwords(strtolower($guide->client_name)));
                     $distrito = utf8_decode(ucwords(strtolower($guide->district)));
                     $direccion = utf8_decode(ucwords(strtolower($guide->address)));
+                    $provincia = utf8_decode(ucwords(strtolower($guide->province)));
+                    $departamento = utf8_decode(ucwords(strtolower($guide->department)));
 
                     $pdf->Rect($box_x + 93 + 6, $box_y + 0, 101, $tamano);
                     $pdf->SetFont('Times', '', 11);
@@ -311,8 +313,18 @@ class MassiveLoadService
                     $pdf->MultiCell(101,5,'NOMBRE: '. $nombre,0,'L');
                     $pdf->SetX($box_x + 92 + 7);
                     $pdf->MultiCell(101,5,'RUC: '. $guide->client_dni,0,'L');
+
                     $pdf->SetX($box_x + 92 + 7);
-                    $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
+                    if ($guide->id_organization == 65) {
+                        $pdf->Cell(50,5,'DIST.: ' . $distrito,0,0,'L');
+                        $pdf->Cell(50,5,'PROV: '. $provincia,0,1,'L');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->Cell(101,5,'DEP.: ' . $departamento,0,1,'L');
+                    } else {
+                        $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
+                    }
+                    // $pdf->SetX($box_x + 92 + 7);
+                    // $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
                     if ($guide->type === 'RECOLECCION') {
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
