@@ -218,6 +218,14 @@ class FunctionModel
             "query" => 'CALL SP_SEL_IMG_MONITOR_COUNT(?,?,?)',
             "params" => ['id_massive_load', 'username']
         ],
+        "SP_SEL_MONITORING_GUIDES" => [
+            "query" => 'CALL SP_SEL_MONITORING_GUIDES(?,?,?)',
+            "params" => ['id_massive_load', 'username']
+        ],
+        "SP_SEL_MONITORING_GUIDES_COUNT" => [
+            "query" => 'CALL SP_SEL_MONITORING_GUIDES_COUNT(?,?,?)',
+            "params" => ['id_massive_load', 'username']
+        ],
 
         /**
          * Funciones para Transaccions
