@@ -255,7 +255,7 @@ class MassiveLoadService
                         $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
                     }
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_created)->format('Y-m-d'),0,'J');
+                    $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+6);
                     $pdf->SetFont('Times', 'B', 11);
                     $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
