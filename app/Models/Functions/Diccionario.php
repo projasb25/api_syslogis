@@ -189,6 +189,100 @@ class Diccionario
             "type" => [
                 "column" => "sod.type"
             ]
+        ],
+        "SP_SEL_MONITORING_GUIDES" => [
+            "id_guide" => [
+                "column" => "gd.id_guide",
+                "type" => "string"
+            ],
+            "guide_number" => [
+                "column" => "gd.guide_number",
+                "type" => "string"
+            ],
+            "seg_code" => [
+                "column" => "gd.seg_code",
+                "type" => "string"
+            ],
+            "seg_code" => [
+                "column" => "gd.seg_code",
+                "type" => "string"
+            ],
+            "alt_code1" => [
+                "column" => "gd.alt_code1",
+                "type" => "string"
+            ],
+            "alt_code2" => [
+                "column" => "gd.alt_code2",
+                "type" => "string"
+            ],
+            "client_date" => [
+                "column" => "gd.client_date",
+                "type" => "string"
+            ],
+            "client_date2" => [
+                "column" => "gd.client_date2",
+                "type" => "string"
+            ],
+            "client_barcode" => [
+                "column" => "gd.client_barcode",
+                "type" => "string"
+            ],
+            "client_dni" => [
+                "column" => "gd.client_dni",
+                "type" => "string"
+            ],
+            "client_name" => [
+                "column" => "gd.client_name",
+                "type" => "string"
+            ],
+            "client_phone1" => [
+                "column" => "gd.client_phone1",
+                "type" => "string"
+            ],
+            "client_email" => [
+                "column" => "gd.client_email",
+                "type" => "string"
+            ],
+            "status" => [
+                "column" => "gd.status",
+                "type" => "string"
+            ],
+            "attempt" => [
+                "column" => "gd.attempt",
+                "type" => "string"
+            ],
+            "created_by" => [
+                "column" => "gd.created_by",
+                "type" => "string"
+            ],
+            "date_loaded" => [
+                "column" => "date(gd.date_loaded)",
+                "type" => "string"
+            ],
+            "org_name" => [
+                "column" => "org.org_name",
+                "type" => "string"
+            ],
+            "address" => [
+                "column" => "adr.address",
+                "type" => "string"
+            ],
+            "department" => [
+                "column" => "adr.department",
+                "type" => "string"
+            ],
+            "province" => [
+                "column" => "adr.province",
+                "type" => "string"
+            ],
+            "district" => [
+                "column" => "adr.district",
+                "type" => "string"
+            ],
+            "fechafilter" => [
+                "column" => "DATE_FORMAT(gd.date_loaded, '%Y-%m-%d')",
+                "type" => "string"
+            ]
         ]
     ];
 
