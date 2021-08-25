@@ -279,6 +279,10 @@ class Diccionario
                 "column" => "adr.district",
                 "type" => "string"
             ],
+            "type" => [
+                "column" => "gd.type",
+                "type" => "string"
+            ],
             "fechafilter" => [
                 "column" => "DATE_FORMAT(gd.date_loaded, '%Y-%m-%d')",
                 "type" => "string"
