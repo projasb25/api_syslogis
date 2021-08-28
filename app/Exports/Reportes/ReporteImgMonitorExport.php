@@ -42,7 +42,8 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
             $collection->date_created,
             $collection->plate_number,
             $collection->name,
-            $collection->images_count
+            $collection->images_count,
+            $collection->imagenes,
         ];
     }
 }
