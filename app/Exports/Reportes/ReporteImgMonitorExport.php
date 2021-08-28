@@ -20,7 +20,7 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
     public function headings(): array
     {
         return [
-            'NRO ENVIO', 'ESTADO', 'NRO GUIA', 'FECHA ENVIO', 'NRO PLACA', 'PROVEEDOR', 'NRO IMAGENES'
+            'CLIENTE', 'NRO ENVIO', 'ESTADO', 'NRO GUIA', 'COD BARRA', 'FECHA ENVIO', 'NRO PLACA', 'PROVEEDOR', 'NRO IMAGENES'
         ];
     }
     /**
@@ -34,12 +34,14 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
     public function map($collection): array
     {
         return [
+            $collection->name,
             $collection->id_shipping_order,
             $collection->status,
             $collection->guide_number,
+            $collection->client_barcode,
             $collection->date_created,
             $collection->plate_number,
-            $collection->name,
+            $collection->pv_name,
             $collection->images_count
         ];
     }
