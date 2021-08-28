@@ -34,14 +34,14 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
     public function map($collection): array
     {
         return [
-            $collection->name,
+            $collection->client_name,
             $collection->id_shipping_order,
             $collection->status,
             $collection->guide_number,
             $collection->client_barcode,
             $collection->date_created,
             $collection->plate_number,
-            $collection->pv_name,
+            $collection->name,
             $collection->images_count
         ];
     }
