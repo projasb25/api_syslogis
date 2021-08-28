@@ -20,7 +20,7 @@ class ReporteImgMonitorExport implements FromCollection, WithMapping, WithHeadin
     public function headings(): array
     {
         return [
-            'CLIENTE', 'NRO ENVIO', 'ESTADO', 'NRO GUIA', 'COD BARRA', 'FECHA ENVIO', 'NRO PLACA', 'PROVEEDOR', 'NRO IMAGENES'
+            'CLIENTE', 'NRO ENVIO', 'ESTADO', 'NRO GUIA', 'COD BARRA', 'FECHA ENVIO', 'NRO PLACA', 'PROVEEDOR', 'NRO IMAGENES' ,'URL'
         ];
     }
     /**
