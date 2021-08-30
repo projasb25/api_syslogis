@@ -46,7 +46,7 @@ class AuthController extends Controller
             $user = User::where('id_user', $query[0]->id_user)->first();
             $token = auth()->login($user);
 
-            return Res::success([
+            $data = [
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'type' => $user->type,
@@ -58,7 +58,13 @@ class AuthController extends Controller
                 'rol_name' => $query[0]->role_name,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60
-            ]);
+            ];
+
+            if ($user->type == 'DRIVER') {
+                array_push($data,['plate_number' => $query[0]->plate_number]);
+            };
+
+            return Res::success($data);
 
         } catch (CustomException $e) {
             Log::warning('Iniciar Session error', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
