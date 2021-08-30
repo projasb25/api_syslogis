@@ -47,6 +47,7 @@ class AuthController extends Controller
             $token = auth()->login($user);
 
             $data = [
+                'id_user' => $user->id_user,
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'type' => $user->type,
