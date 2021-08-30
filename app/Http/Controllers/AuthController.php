@@ -44,6 +44,10 @@ class AuthController extends Controller
                 throw new CustomException(['Credenciales incorrectas.', 2001], 401);
             }
             $user = User::where('id_user', $query[0]->id_user)->first();
+
+            // Update notify token FIREBASE
+            DB::select("CALL SP_INS_NOTIFY_TOKEN(?,?)", [$user->id_user,$data['token']]);
+
             $token = auth()->login($user);
 
             $data = [
