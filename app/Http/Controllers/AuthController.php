@@ -46,7 +46,7 @@ class AuthController extends Controller
             $user = User::where('id_user', $query[0]->id_user)->first();
 
             // Update notify token FIREBASE
-            if ($data['token']) {
+            if (isset($data['token'])) {
                 DB::select("CALL SP_INS_NOTIFY_TOKEN(?,?)", [$user->id_user,$data['token']]);
             }
 
