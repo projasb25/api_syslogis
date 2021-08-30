@@ -61,7 +61,7 @@ class AuthController extends Controller
             ];
 
             if ($user->type == 'DRIVER') {
-                array_push($data,['plate_number' => $query[0]->plate_number]);
+                $data['plate_number'] = $query[0]->plate_number;
             };
 
             return Res::success($data);
