@@ -59,9 +59,9 @@ class FCMHelper
             curl_close($ch);
         
             // FCM response
-            dd(json_decode($result));
-            if ($result) {
-                # code...
+            // dd(json_decode($result));
+            if (json_decode($result)->failure = 1) {
+                dd('error');
             }
         } catch (Exception $th) {
             Log::error('Send Notificacion FCM', ['result' => $result, 'msg' => $message, 'to' => $to]);
