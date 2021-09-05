@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Helpers\ArrayHelper;
+use App\Helpers\FCMHelper;
 use App\Helpers\QueryHelper;
 use App\Helpers\Response\ResponseHelper;
 use Illuminate\Support\ServiceProvider;
@@ -28,6 +29,11 @@ class HelperServiceProvider extends ServiceProvider
         // Array Helper
         $this->app->bind('ArrayHelper', function () {
             return new ArrayHelper;
+        });
+
+        // FCM Helper
+        $this->app->bind('FCMHelper', function () {
+            return new FCMHelper;
         });
     }
 
