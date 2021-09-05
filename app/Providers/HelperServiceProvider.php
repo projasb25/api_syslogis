@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Helpers\ArrayHelper;
 use App\Helpers\FCMHelper;
 use App\Helpers\QueryHelper;
-use App\Helpers\Response\ResponseHelper;
+use App\Helpers\ResponseHelper;
 use Illuminate\Support\ServiceProvider;
 
 class HelperServiceProvider extends ServiceProvider
