@@ -57,7 +57,7 @@ Route::group(['middleware' => [], 'prefix' => 'public'], function() {
     Route::get('test', function(){
         $message['title'] = 'prueba';
         $message['body'] = 'saludos';
-        FCMHelper::send_notification('PRUEBA','e0_n4FaWSgmVX83z1caKoM:APA91bEdgdmcY1s2zN1d4gBm0Z6XTr2gwgbSKx7a8sDtrXNUJxg63cWIwSyk82MzReGhEgaUPNdDMF41V4N-uBKc_nI19yEYNffJJH6G2V2RkwANKpONjz-vcCWlOLkgMlJAeLKhm8ao');
+        FCMHelper::send_notification($message,'e0_n4FaWSgmVX83z1caKoM:APA91bEdgdmcY1s2zN1d4gBm0Z6XTr2gwgbSKx7a8sDtrXNUJxg63cWIwSyk82MzReGhEgaUPNdDMF41V4N-uBKc_nI19yEYNffJJH6G2V2RkwANKpONjz-vcCWlOLkgMlJAeLKhm8ao');
     });
 });
 
