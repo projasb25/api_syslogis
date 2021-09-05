@@ -59,7 +59,7 @@ class FCMHelper
             curl_close($ch);
         
             // FCM response
-            dd($result);
+            dd($result['failure']);
         } catch (Exception $th) {
             Log::error('Send Notificacion FCM', ['result' => $result, 'msg' => $message, 'to' => $to]);
             $res['error'] = 'error enviando notificacion';
