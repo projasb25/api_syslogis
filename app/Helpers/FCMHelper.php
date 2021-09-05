@@ -59,7 +59,6 @@ class FCMHelper
             curl_close($ch);
         
             // FCM response
-            // dd(json_decode($result));
             if (json_decode($result)->failure = 1) {
                 throw new Exception(json_decode($result)->results[0]->error, 1);
             }
