@@ -39,7 +39,7 @@ class MassiveLoadService
             $data['id_load_template'] =  $req['id_load_template'];
 
             $id = $this->repo->insertMassiveLoad($data);
-            
+
             $res =[
                 'id_massive_load' => $id
             ];
@@ -82,7 +82,7 @@ class MassiveLoadService
             if ($propiedad && $propiedad->value === '1') {
                 $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
             }
-            
+
         } catch (CustomException $e) {
             Log::warning('Massive Load Service procesar error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
@@ -174,7 +174,7 @@ class MassiveLoadService
             ]);
         } catch (Exception $e) {
             Log::warning('Obtener coordenadas error', ['exception' => $e->getMessage()]);
-            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
+            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.';
         }
 
         return $res;
@@ -199,6 +199,9 @@ class MassiveLoadService
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
                 $motivos = $this->repo->get_motivos();
                 $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
+            } elseif ($massive_load->id_organization === 66) {
+                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $doc = $this->generar_doc_cargo_tipo3($data);
             } else {
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
                 $doc = $this->generar_doc_cargo_tipo1($data);
@@ -275,13 +278,13 @@ class MassiveLoadService
                     $pdf->SetFont('Times', 'B', 16);
                     $pdf->MultiCell(96,4,$cod_barra, 0,'C');
                     $pdf->Ln(2);
-                
+
                 // cuadro 2.1 DATOS
                     //header
                     $pdf->Rect($box_x + 0, ($box_y + 59 + 2), 6, 17);
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->TextWithDirection($box_x + 5, $box_y + 76, 'DATOS', 'U');
-                    
+
                     // body
                     $pdf->Rect($box_x + 6, ($box_y + 59 + 2), 85, 17);
                     $pdf->SetFont('Times', 'B', 12);
@@ -290,7 +293,7 @@ class MassiveLoadService
                     $pdf->SetXY($box_x+8+45, ($box_y + 66 + 2));
                     $pdf->MultiCell(45,4,'PESO: '. $guide->total_weight . ' KG',0,'J');
                     $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
-                    
+
                     $pdf->SetX($box_x+8);
                 // cuadro 1.2 DESTINATARIO
                     $tamano = ($guide->type === 'RECOLECCION') ? 53 : 41;
@@ -378,7 +381,7 @@ class MassiveLoadService
                     }
                 $box_y = 78+ $box_y + 4;
             }
-            
+
             $disk = Storage::disk('cargo');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
             $save = $disk->put($fileName, $pdf->Output('S', '', true));
@@ -388,7 +391,7 @@ class MassiveLoadService
             $res['file_name'] = $fileName;
         } catch (Exception $e) {
             Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
-            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
+            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.';
         }
         return $res;
     }
@@ -456,7 +459,7 @@ class MassiveLoadService
                     $pdf->Rect($box_x + 0, ($box_y + 59 + 2), 6, 17);
                     $pdf->SetFont('Times', 'B', 10);
                     $pdf->TextWithDirection($box_x + 5, $box_y + 76, 'DATOS', 'U');
-                    
+
                     // body
                     $pdf->Rect($box_x + 6, ($box_y + 59 + 2), 85, 17);
                     $pdf->SetFont('Times', 'B', 12);
@@ -465,7 +468,7 @@ class MassiveLoadService
                     $pdf->SetXY($box_x+8+45, ($box_y + 66 + 2));
                     $pdf->MultiCell(45,4,'PESO SECO: '. 0,0,'J');
                     $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
-                    
+
                     $pdf->SetX($box_x+8);
                 // cuadro 1.2 DESTINATARIO
                     //header
@@ -558,7 +561,7 @@ class MassiveLoadService
 
                     $pdf->SetX($box_x + 86 + 7);
                     $pdf->Cell(56,5,'OBSERVACIONES',1,1,'C');
-                    
+
                     $pdf->SetX($box_x + 86 + 7);
                     if (is_null($guide->observaciones)) {
                         $pdf->Cell(56,16,'',1,1,'C');
@@ -597,7 +600,7 @@ class MassiveLoadService
             $res['file_name'] = $fileName;
         } catch (Exception $e) {
             Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
-            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.'; 
+            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.';
         }
         return $res;
     }
@@ -693,7 +696,7 @@ class MassiveLoadService
                     $pdf->MultiCell(65,3,utf8_decode($guide->address),0,'C');
                     $pdf->Ln(2);
 
-                    
+
 
                 $box_x = 65 + $box_x + 2;
             }
@@ -710,5 +713,10 @@ class MassiveLoadService
             throw $e;
         }
         return $res;
+    }
+
+    public function generar_doc_cargo_tipo3($data)
+    {
+        # code...
     }
 }
