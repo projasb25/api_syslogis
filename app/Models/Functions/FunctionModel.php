@@ -197,6 +197,10 @@ class FunctionModel
             "query" => 'CALL SP_REPORTE_DATA_CARGA(:desde, :hasta, :id_corporation, :id_organization)',
             "params" => ['desde', 'hasta', 'id_corporation', 'id_organization']
         ],
+        "SP_SEL_GUIDE_FULL" => [
+            "query" => 'CALL SP_SEL_GUIDE_FULL(:search)',
+            "params" => ['search']
+        ],
 
         /**
          * Funciones para Paginacion
