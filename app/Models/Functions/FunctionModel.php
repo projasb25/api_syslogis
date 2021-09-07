@@ -201,6 +201,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_GUIDE_FULL(:search)',
             "params" => ['search']
         ],
+        "SP_SEL_RIPLEY_SELLER" => [
+            "query" => 'CALL SP_SEL_RIPLEY_SELLER(:name, :status)',
+            "params" => ['name','status']
+        ],
 
         /**
          * Funciones para Paginacion
@@ -259,7 +263,12 @@ class FunctionModel
             'query' => 'CALL SP_UPDATE_SHIPPING_ORDER(:header, :details, :username)',
             'headers_params' => [],
             'details_params' => ["id_shipping_order", "id_shipping_order_detail", "id_guide", "operation"]
-        ]
+        ],
+        "SP_INS_UNIT_LOAD" => [
+            'query' => 'CALL SP_INS_UNIT_LOAD(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => ['guide_number', 'seg_code', 'client_barcode', 'guide_number', 'sku_description', 'sku_pieces', 'id_ripley_seller']
+        ],
     ];
 
     public function getFunctions()
