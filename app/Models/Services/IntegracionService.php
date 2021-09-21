@@ -122,7 +122,7 @@ class IntegracionService
                             "headers" => [
                                 'client_id' => env('OESCHLE_INTEGRACION_API_KEY'),
                             ],
-                            "json" => $req_body
+                            "json" => [$req_body]
                         ]);
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
@@ -249,7 +249,7 @@ class IntegracionService
                 $res['success'] = true;
                 return $res;
             }
-            
+
             if (!env('COOLBOX.FAKE')) {
                 $accessToken = $this->prepare_access_token();
             } else { $accessToken = 'token prueba'; }

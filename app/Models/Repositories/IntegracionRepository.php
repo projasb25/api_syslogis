@@ -13,9 +13,9 @@ class IntegracionRepository
     {
         $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES(?)", [$corpId]);
         return $query;
-        // return DB::select("select 
-        //         gd.id_guide, gd.seg_code as CUD, gd.status, 
-        //         gt.status as Estado, gt.motive as SubEstado, 
+        // return DB::select("select
+        //         gd.id_guide, gd.seg_code as CUD, gd.status,
+        //         gt.status as Estado, gt.motive as SubEstado,
         //         vh.plate_number as Placa, 'Qayarix' as Courier,
         //         date_sub(gt.date_created, INTERVAL 5 hour) as Fecha, gd.date_updated, gd.client_name as NombreReceptor,
         //         gd.client_dni as IDReceptor, gd.client_barcode as TrackNumber
@@ -28,7 +28,7 @@ class IntegracionRepository
         // );
     }
     // gt.date_created as Fecha, gd.date_updated, gd.client_name as NombreReceptor,
-    
+
     public function LogInsert($cud, $id_guide, $estado, $subestado, $result, $request, $response)
     {
         DB::table('log_integration_ripley')->insert(
@@ -75,7 +75,7 @@ class IntegracionRepository
             ]
             );
     }
-    
+
     public function updateReportado($id_guide, $report)
     {
         DB::table('guide')->where('id_guide', $id_guide)->update(['reportado_integracion' => $report]);
