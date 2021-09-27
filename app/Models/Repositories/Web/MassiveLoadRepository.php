@@ -23,6 +23,11 @@ class MassiveLoadRepository
         return DB::table('properties')->where('name', $name)->first();
     }
 
+    public function execute_store($sp_name, $data_bidnings)
+    {
+        return DB::select($sp_name,$data_bidnings);
+    }
+
     public function insertMassiveLoad($data)
     {
         DB::beginTransaction();
@@ -81,7 +86,7 @@ class MassiveLoadRepository
                 if ($data['id_load_template'] == 71) {
                     $value['client_address'] = $check_ubigeo->address;
                 }
-                
+
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
                 //     $value['client_barcode'] = Str::random(40);
                 // }
@@ -168,7 +173,7 @@ class MassiveLoadRepository
                     'status' => 'PROCESADO',
                     'modified_by' => $data['username']
                 ]);
-            
+
             /* ACTUALIZAR MASIVE_LOAD_DETAILS */
             DB::table('massive_load_details')
                 ->where('id_massive_load', $data['id_massive_load'])
@@ -192,7 +197,7 @@ class MassiveLoadRepository
                         // ->orderBy('alt_code2')
                         ->orderBy('client_barcode')
                         ->get();
-            
+
             foreach ($detalles as $value) {
                 $current_val = join(',',[$value->seg_code, $value->alt_code1, $value->alt_code2, $value->client_barcode]);
                 if ($current_val !== $prev_val) {
@@ -218,7 +223,7 @@ class MassiveLoadRepository
                             'status' => 'ACTIVO',
                             'created_by' => $data['username']
                         ]);
-                    } else { 
+                    } else {
                         $address_id = $check_add->id_address;
                     }
 
@@ -293,7 +298,7 @@ class MassiveLoadRepository
                     'status' => $value->status,
                     'created_by' => $data['username']
                     ]);
-                    
+
                 if (is_null($value->sku_code)) {
                     $v_sku_code =  'SKU' . str_pad($id_sku, 7, "0", STR_PAD_LEFT);
                     DB::table('sku_product')->where('id_sku_product', $id_sku)->update(['sku_code' => $v_sku_code]);

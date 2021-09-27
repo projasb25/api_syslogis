@@ -88,7 +88,7 @@ class MassiveLoadService
             $data['details'] = json_encode($data);
             $data['username'] = json_encode($user->getIdentifierData());
 
-            $data = $this->repository->execute_store($query, $data);
+            $data = $this->repo->execute_store($query, $data);
         } catch (CustomException $e) {
             Log::warning('Massive Load Unitaria error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
