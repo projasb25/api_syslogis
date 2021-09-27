@@ -56,6 +56,52 @@ class MassiveLoadService
         return Res::success($res);
     }
 
+    public function unitaria(Request $request)
+    {
+        try {
+            $user = auth()->user();
+            $req = $request->all();
+
+            $data = [];
+            foreach ($req['details']['data'] as $key => $value) {
+                $client_info = [
+                    'org_name' => $value['org_name'] ?? null,
+                    'client_name' => $value['client_name'] ?? null,
+                    'client_dni' => $value['client_dni'] ?? null,
+                    'address' => $value['address'] ?? null,
+                    'client_phone1' => $value['client_phone1'] ?? null,
+                    'district' => $value['district'] ?? null,
+                    'province' => $value['province'] ?? null,
+                    'department' => $value['department'] ?? null,
+                ];
+                $aux['guide_number'] = $value['guide_number'] ?? null;
+                $aux['seg_code'] = $value['seg_code'] ?? null;
+                $aux['client_barcode'] = $value['client_barcode'] ?? null;
+                $aux['sku_description'] = $value['sku_description'] ?? null;
+                $aux['sku_pieces'] = $value['sku_pieces'] ?? null;
+                $aux['client_info'] = json_encode($client_info);
+                array_push($data, $aux);
+            }
+
+            $query = 'SP_INS_UNIT_LOAD';
+            $data['header'] = json_encode([]);
+            $data['details'] = json_encode($data);
+            $data['username'] = json_encode($user->getIdentifierData());
+
+            $data = $this->repository->execute_store($query, $data);
+        } catch (CustomException $e) {
+            Log::warning('Massive Load Unitaria error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Massive Load Unitaria Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Massive Load Unitaria error', ['exception' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success('Exito');
+    }
+
     public function process(Request $request)
     {
         try {

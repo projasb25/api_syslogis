@@ -42,4 +42,9 @@ class MassiveLoadController extends Controller
     {
         return $this->mainService->publicoInsertarCarga($request);
     }
+
+    public function unitaria(Request $request)
+    {
+        return $this->mainService->unitaria($request);
+    }
 }
