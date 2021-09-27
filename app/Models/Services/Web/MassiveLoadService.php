@@ -79,6 +79,7 @@ class MassiveLoadService
                 $aux['client_barcode'] = $value['client_barcode'] ?? null;
                 $aux['sku_description'] = $value['sku_description'] ?? null;
                 $aux['sku_pieces'] = $value['sku_pieces'] ?? null;
+                $aux['seller_name'] = $value['seller_name'] ?? null;
                 $aux['client_info'] = json_encode($client_info);
                 array_push($param, $aux);
             }
