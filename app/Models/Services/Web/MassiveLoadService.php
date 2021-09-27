@@ -93,7 +93,11 @@ class MassiveLoadService
             Log::warning('Massive Load Unitaria error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Massive Load Unitaria Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            if ((int) $e->getCode() >= 60000) {
+                Log::warning('Massive Load Unitaria error', ['expcetion' => $e->errorInfo[2], 'request' => $req]);
+                return Res::error([$e->errorInfo[2], (int) $e->getCode()], 400);
+            }
+            Log::warning('Massive Load Unitaria error', ['expcetion' => $e->getMessage(), 'request' => $req]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Massive Load Unitaria error', ['exception' => $e->getMessage(), 'request' => $req]);
