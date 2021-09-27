@@ -84,7 +84,6 @@ class MassiveLoadService
                 array_push($param, $aux);
             }
 
-            dd($param);
             $query = 'CALL SP_INS_UNIT_LOAD(:header, :details, :username)';
             $data['header'] = json_encode([]);
             $data['details'] = json_encode($param);
