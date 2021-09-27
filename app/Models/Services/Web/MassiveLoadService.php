@@ -62,7 +62,7 @@ class MassiveLoadService
             $user = auth()->user();
             $req = $request->all();
 
-            $data = [];
+            $param = [];
             foreach ($req['details']['data'] as $key => $value) {
                 $client_info = [
                     'org_name' => $value['org_name'] ?? null,
@@ -80,12 +80,12 @@ class MassiveLoadService
                 $aux['sku_description'] = $value['sku_description'] ?? null;
                 $aux['sku_pieces'] = $value['sku_pieces'] ?? null;
                 $aux['client_info'] = json_encode($client_info);
-                array_push($data, $aux);
+                array_push($param, $aux);
             }
 
-            $query = 'SP_INS_UNIT_LOAD';
+            $query = 'CALL SP_INS_UNIT_LOAD(:header, :details, :username)';
             $data['header'] = json_encode([]);
-            $data['details'] = json_encode($data);
+            $data['details'] = json_encode($param);
             $data['username'] = json_encode($user->getIdentifierData());
 
             $data = $this->repo->execute_store($query, $data);
