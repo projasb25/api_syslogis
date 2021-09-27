@@ -91,7 +91,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('process', 'MassiveLoadController@process');
         Route::post('print/cargo', 'MassiveLoadController@print_cargo');
         Route::post('print/marathon', 'MassiveLoadController@print_marathon');
-        Route::post('unitaria' , 'MassiveLoadController@unitaria')
+        Route::post('unitaria' , 'MassiveLoadController@unitaria');
     });
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'collect'], function() {
