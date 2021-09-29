@@ -205,6 +205,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_RIPLEY_SELLER(:name, :status)',
             "params" => ['name','status']
         ],
+        "SP_INS_SELLER" => [
+            "query" => 'CALL SP_INS_SELLER(:id_ripley_seller, :seller_name, :client_dni, :client_name, :client_phone1, :client_email, :client_address, :client_address_reference, :ubigeo, :department, :district, :province, :contact_name, :contact_phone, :status, :username)',
+            "params" => ['id_ripley_seller', 'seller_name', 'client_dni', 'client_name', 'client_phone1', 'client_email', 'client_address', 'client_address_reference', 'ubigeo', 'department', 'district', 'province', 'contact_name', 'contact_phone', 'status', 'username']
+        ],
 
         /**
          * Funciones para Paginacion
