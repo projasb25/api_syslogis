@@ -789,8 +789,8 @@ class MassiveLoadService
             $fila = 0;
             $columna = 0;
             $client_info_json = '{"address": "direccion prueba", "district": "LIMA", "province": "LIMA", "client_dni": "99999", "department": "LIMA", "client_name": "cliente prueba", "client_phone1": "0239239", "id_organization": 10, "id_ripley_seller": 1}';
-            // foreach ($data as $i => $item) {
-            for ($i=0; $i < 7; $i++) {
+            foreach ($data as $i => $item) {
+            // for ($i=0; $i < 7; $i++) {
                 $client_info = json_decode($client_info_json);
                 if ($columna % 2 == 0 && $columna != 0) {
                     $columna = 0;
