@@ -790,7 +790,6 @@ class MassiveLoadService
             $columna = 0;
             $client_info_json = '{"address": "direccion prueba", "district": "LIMA", "province": "LIMA", "client_dni": "99999", "department": "LIMA", "client_name": "cliente prueba", "client_phone1": "0239239", "id_organization": 10, "id_ripley_seller": 1}';
             foreach ($data as $i => $item) {
-            // for ($i=0; $i < 7; $i++) {
                 $client_info = json_decode($client_info_json);
                 if ($columna % 2 == 0 && $columna != 0) {
                     $columna = 0;
@@ -825,7 +824,7 @@ class MassiveLoadService
                 $pdf->Cell(95, 15, '','TLR',1,'C');
                 $pdf->code128($x + 25, ($y + 50), 'asdfasdf' , 50, 12, false);
                 $pdf->SetX($x);
-                $pdf->Cell(95, 7, $item->barcode,'LRB',1,'C');
+                $pdf->Cell(95, 7, $item->client_barcode,'LRB',1,'C');
                 $pdf->SetX($x);
                 $pdf->Cell(95, 8, 'CUD: '.$item->seg_code,1,1,'C');
                 $pdf->SetX($x);
