@@ -808,7 +808,7 @@ class MassiveLoadService
                 $pdf->Cell(95, 8, 'Datos de Destinatario',1,1,'C');
                 $pdf->SetFont('Times', '', 10);
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, $item->seller_name,1,1);
+                $pdf->Cell(95, 8, 'Seller: ' . $item->seller_name,1,1);
                 $pdf->SetX($x);
                 $pdf->MultiCell(95, 8, 'Direccion: ' .$item->address,1);
                 $pdf->SetX($x);
