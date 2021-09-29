@@ -251,7 +251,7 @@ class MassiveLoadService
                 $motivos = $this->repo->get_motivos();
                 $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
             } elseif ($massive_load->id_organization === 66) {
-                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $data = $this->repo->get_datos_ripley_reversa($massive_load->id_massive_load);
                 $doc = $this->generar_doc_cargo_tipo3($data);
             } else {
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
@@ -768,7 +768,7 @@ class MassiveLoadService
 
     public function generar_doc_cargo_tipo3($data)
     {
-        $data = $this->repo->get_datos_ripley_reversa(13840);
+        // $data = $this->repo->get_datos_ripley_reversa(13840);
         // dd($data);
         try {
             $pdf = new CustomPDF();
@@ -790,7 +790,7 @@ class MassiveLoadService
             $columna = 0;
             $client_info_json = '{"address": "direccion prueba", "district": "LIMA", "province": "LIMA", "client_dni": "99999", "department": "LIMA", "client_name": "cliente prueba", "client_phone1": "0239239", "id_organization": 10, "id_ripley_seller": 1}';
             foreach ($data as $i => $item) {
-                $client_info = json_decode($client_info_json);
+                $client_info = json_decode($item->client_info);
                 if ($columna % 2 == 0 && $columna != 0) {
                     $columna = 0;
                     $fila++;
@@ -841,15 +841,14 @@ class MassiveLoadService
                 $columna++;
             }
 
-            $pdf->Output();
-            dd('hola');
-            // $disk = Storage::disk('marathon');
-            // $fileName = date('YmdHis') . '_cc_' . $cod_barra . '_' . rand(1, 100) . '.pdf';
-            // $save = $disk->put($fileName, $pdf->Output('S', '', true));
-            // if (!$save) {
-            //     throw new Exception('No se pudo grabar la hoja marathon');
-            // }
-            // $res['file_name'] = $fileName;
+            // $pdf->Output();
+            $disk = Storage::disk('cargo');
+            $fileName = date('YmdHis') . '_cc_' . 'reporte_inversa' . '_' . rand(1, 100) . '.pdf';
+            $save = $disk->put($fileName, $pdf->Output('S', '', true));
+            if (!$save) {
+                throw new Exception('No se pudo grabar la hoja de ruta');
+            }
+            $res['file_name'] = $fileName;
         } catch (Exception $e) {
             Log::warning('Generar Documento Marathon', ['exception' => $e->getMessage()]);
             throw $e;
