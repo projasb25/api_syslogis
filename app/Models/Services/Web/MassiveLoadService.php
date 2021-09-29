@@ -809,13 +809,13 @@ class MassiveLoadService
                 $pdf->Cell(95, 8, 'Datos de Destinatario',1,1,'C');
                 $pdf->SetFont('Times', '', 10);
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, '$item->seller_name',1,1);
+                $pdf->Cell(95, 8, $item->seller_name,1,1);
                 $pdf->SetX($x);
-                $pdf->MultiCell(95, 8, 'Direccion: ' .'$item->address',1);
+                $pdf->MultiCell(95, 8, 'Direccion: ' .$item->address,1);
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, 'Telefono: '.'$item->client_phone1',1,1);
+                $pdf->Cell(95, 8, 'Telefono: '.$item->client_phone1,1,1);
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, 'Contacto: '.'$item->client_name',1,1);
+                $pdf->Cell(95, 8, 'Contacto: '.$item->client_name,1,1);
 
                 $pdf->SetFont('Times', 'B', 10);
                 $pdf->SetX($x);
@@ -825,15 +825,15 @@ class MassiveLoadService
                 $pdf->Cell(95, 15, '','TLR',1,'C');
                 $pdf->code128($x + 25, ($y + 50), 'asdfasdf' , 50, 12, false);
                 $pdf->SetX($x);
-                $pdf->Cell(95, 7, '$item->barcode','LRB',1,'C');
+                $pdf->Cell(95, 7, $item->barcode,'LRB',1,'C');
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, 'CUD: '.'$item->seg_code',1,1,'C');
+                $pdf->Cell(95, 8, 'CUD: '.$item->seg_code,1,1,'C');
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, 'Guia: '.'$item->guide_number',1,1,'C');
+                $pdf->Cell(95, 8, 'Guia: '.$item->guide_number,1,1,'C');
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, '$item->sku_description',1,1,'');
+                $pdf->Cell(95, 8, $item->sku_description,1,1,'');
                 $pdf->SetX($x);
-                $pdf->Cell(95, 8, 'Cantidad: $item->sku_pieces',1,1,'');
+                $pdf->Cell(95, 8, 'Cantidad: ' . $item->sku_pieces,1,1,'');
                 $pdf->SetX($x);
                 $pdf->Cell(95, 8, 'Cliente: '.$client_info->client_name,1,1,'');
                 $pdf->SetX($x);
