@@ -525,12 +525,12 @@ class MassiveLoadRepository
             gd.client_barcode,
             gd.seg_code,
             gd.guide_number,
-            sp.sku_description,
-            sp.sku_pieces,
+            GROUP_CONCAT(sp.sku_description) as sku_description,
+            GROUP_CONCAT(sp.sku_pieces) as sku_pieces,
             gd.client_info
         from guide gd
         join address adr on adr.id_address = gd.id_address
-        join sku_product sp ON sp.id_sku_product = (select max(id_sku_product) from sku_product sp2 where id_guide = gd.id_guide)
+        join sku_product sp on sp.id_guide = gd.id_guide
         where
             gd.id_massive_load = ?
         order by adr.district", [$id_massive_load]);
