@@ -768,7 +768,7 @@ class MassiveLoadService
 
     public function generar_doc_cargo_tipo3($data)
     {
-        $data = $this->repo->get_datos_ripley_reversa(13865);
+        $data = $this->repo->get_datos_ripley_reversa(13840);
         // dd($data);
         try {
             $pdf = new CustomPDF();

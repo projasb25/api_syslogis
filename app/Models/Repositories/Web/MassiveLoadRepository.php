@@ -257,7 +257,8 @@ class MassiveLoadRepository
                         'payment_method' => $value->payment_method,
                         'amount' => $value->amount,
                         'seller_name' => $value->seller_name,
-                        'date_loaded' => $value->date_loaded
+                        'date_loaded' => $value->date_loaded,
+                        'client_info' => $value->client_info
                     ]);
 
                     if ($value->status === 'PROCESADO') {
