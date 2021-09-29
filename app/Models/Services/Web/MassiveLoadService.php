@@ -822,7 +822,7 @@ class MassiveLoadService
                 $pdf->SetFont('Times', '', 10);
                 $pdf->SetX($x);
                 $pdf->Cell(95, 15, '','TLR',1,'C');
-                $pdf->code128($x + 25, ($y + 50), 'asdfasdf' , 50, 12, false);
+                $pdf->code128($x + 25, ($y + 50), $item->client_barcode , 50, 12, false);
                 $pdf->SetX($x);
                 $pdf->Cell(95, 7, $item->client_barcode,'LRB',1,'C');
                 $pdf->SetX($x);
