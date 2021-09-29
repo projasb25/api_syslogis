@@ -768,6 +768,93 @@ class MassiveLoadService
 
     public function generar_doc_cargo_tipo3($data)
     {
-        # code...
+        $data = $this->repo->get_datos_ripley_reversa(13865);
+        // dd($data);
+        try {
+            $pdf = new CustomPDF();
+            $cellMargin = 2 * 1.000125;
+            $lmargin = 5;
+            $rmargin = 5;
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->SetMargins($lmargin, $rmargin);
+            $pdf->Ln(0);
+
+            $x = $pdf->GetX();
+            $pdf->SetAutoPageBreak(false);
+
+            $y = 10;
+            $x = 5;
+
+            $fila = 0;
+            $columna = 0;
+            $client_info_json = '{"address": "direccion prueba", "district": "LIMA", "province": "LIMA", "client_dni": "99999", "department": "LIMA", "client_name": "cliente prueba", "client_phone1": "0239239", "id_organization": 10, "id_ripley_seller": 1}';
+            // foreach ($data as $i => $item) {
+            for ($i=0; $i < 7; $i++) {
+                $client_info = json_decode($client_info_json);
+                if ($columna % 2 == 0 && $columna != 0) {
+                    $columna = 0;
+                    $fila++;
+                }
+                if ($fila % 2 == 0 && $fila != 0) {
+                    $fila = 0;
+                    $pdf->AddPage();
+                }
+
+                $x = 8 + (100 * $columna);
+                $y = 10 + (130 * $fila);
+
+                $pdf->SetFont('Times', 'B', 10);
+                $pdf->SetXY($x,$y);
+                $pdf->Cell(95, 8, 'Datos de Destinatario',1,1,'C');
+                $pdf->SetFont('Times', '', 10);
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, '$item->seller_name',1,1);
+                $pdf->SetX($x);
+                $pdf->MultiCell(95, 8, 'Direccion: ' .'$item->address',1);
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'Telefono: '.'$item->client_phone1',1,1);
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'Contacto: '.'$item->client_name',1,1);
+
+                $pdf->SetFont('Times', 'B', 10);
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'Datos de Producto',1,1,'C');
+                $pdf->SetFont('Times', '', 10);
+                $pdf->SetX($x);
+                $pdf->Cell(95, 15, '','TLR',1,'C');
+                $pdf->code128($x + 25, ($y + 50), 'asdfasdf' , 50, 12, false);
+                $pdf->SetX($x);
+                $pdf->Cell(95, 7, '$item->barcode','LRB',1,'C');
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'CUD: '.'$item->seg_code',1,1,'C');
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'Guia: '.'$item->guide_number',1,1,'C');
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, '$item->sku_description',1,1,'');
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'Cantidad: $item->sku_pieces',1,1,'');
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'Cliente: '.$client_info->client_name,1,1,'');
+                $pdf->SetX($x);
+                $pdf->Cell(95, 8, 'DNI: '.$client_info->client_dni,1,1,'');
+
+                $columna++;
+            }
+
+            $pdf->Output();
+            dd('hola');
+            // $disk = Storage::disk('marathon');
+            // $fileName = date('YmdHis') . '_cc_' . $cod_barra . '_' . rand(1, 100) . '.pdf';
+            // $save = $disk->put($fileName, $pdf->Output('S', '', true));
+            // if (!$save) {
+            //     throw new Exception('No se pudo grabar la hoja marathon');
+            // }
+            // $res['file_name'] = $fileName;
+        } catch (Exception $e) {
+            Log::warning('Generar Documento Marathon', ['exception' => $e->getMessage()]);
+            throw $e;
+        }
+        return $res;
     }
 }

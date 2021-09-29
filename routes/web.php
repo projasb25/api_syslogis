@@ -20,3 +20,5 @@ Route::get('/', function () {
 })->name('index');
 
 Route::get('export', 'Web\ReporteController@export');
+
+Route::get('prueba', 'Web\MassiveLoadController@prueba_pdf');

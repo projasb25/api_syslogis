@@ -509,4 +509,30 @@ class MassiveLoadRepository
         }
         return $id;
     }
+
+    public function get_datos_ripley_reversa($id_massive_load)
+    {
+        $query = DB::select("select
+            gd.seller_name,
+            adr.address,
+            adr.address_refernce,
+            adr.district,
+            adr.department,
+            adr.province,
+            gd.client_phone1,
+            gd.client_name,
+            gd.client_barcode,
+            gd.seg_code,
+            gd.guide_number,
+            sp.sku_description,
+            sp.sku_pieces,
+            gd.client_info
+        from guide gd
+        join address adr on adr.id_address = gd.id_address
+        join sku_product sp ON sp.id_sku_product = (select max(id_sku_product) from sku_product sp2 where id_guide = gd.id_guide)
+        where
+            gd.id_massive_load = ?
+        order by adr.district", [$id_massive_load]);
+        return $query;
+    }
 }

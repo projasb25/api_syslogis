@@ -47,4 +47,9 @@ class MassiveLoadController extends Controller
     {
         return $this->mainService->unitaria($request);
     }
+
+    public function prueba_pdf(Request $request)
+    {
+        return $this->mainService->generar_doc_cargo_tipo3($request);
+    }
 }
