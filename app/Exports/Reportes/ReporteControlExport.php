@@ -26,7 +26,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
         return [
             'CLIENTE', 'CODIGO BARRA', 'CODIGO SEGUIMIENTO', 'NRO GUIA', 'FECHA PROMESA', 'ESTADO PEDIDO',
             'FECHA PEDIDO', 'HORA PEDIDO', 'FECHA ENVIO', 'PROVEEDOR',
-            'ULTIMO ESTADO', 'NOMBRE CLIENTE', 'TELEFONO 1', 'TELEFONO 2', 'DIRECCION', 'DEPARTAMENTO', 'DISTRITO',
+            'NOMBRE CLIENTE', 'TELEFONO 1', 'TELEFONO 2', 'DIRECCION', 'DEPARTAMENTO', 'DISTRITO',
             'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ESTADO DE DESCARGA', 'OBSERVACIONES',
             'FECHA VISITA1', 'RESULTADO 1', 'FECHA VISITA2', 'RESULTADO 2', 'FECHA VISITA3', 'RESULTADO 3',
             'CANTIDAD VISITAS', 'NRO IMAGENES'
@@ -53,7 +53,6 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             $collection->hora_pedido,
             $collection->fecha_envio,
             $collection->proveedor,
-            $collection->ultimo_estado,
             $collection->nombre_cliente,
             $collection->telefono_1,
             $collection->telefono_2,
