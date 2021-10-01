@@ -271,7 +271,7 @@ class FunctionModel
         "SP_INS_UNIT_LOAD" => [
             'query' => 'CALL SP_INS_UNIT_LOAD(:header, :details, :username)',
             'headers_params' => [],
-            'details_params' => ['guide_number', 'seg_code', 'client_barcode', 'sku_description', 'sku_pieces', 'id_ripley_seller', 'client_info']
+            'details_params' => ['guide_number', 'seg_code', 'client_barcode', 'sku_description', 'sku_pieces', 'seller_name', 'client_info']
         ],
     ];
 

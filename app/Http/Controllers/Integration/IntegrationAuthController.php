@@ -45,7 +45,7 @@ class IntegrationAuthController extends Controller
             if (!Hash::check($data['clave'], $user->integration_password)) {
                 throw new CustomException(['Credenciales incorrectas.', 2001], 401);
             }
-            
+
             $token = auth()->login($user);
 
             return response()->json([
