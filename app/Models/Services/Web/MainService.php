@@ -47,7 +47,7 @@ class MainService
             }
 
             // Si existe un id_user en params, no usar el de la sesion
-            if (in_array('id_user', $params) && array_key_exists('id_user', $fields)) {
+            if (in_array('id_user', $params) && in_array('id_user', $fields)) {
                 $fields['id_user'] = $req['data']['id_user'];
             }
 
