@@ -111,7 +111,7 @@ class OrderService
             // $administrative_area_level_2 = array_filter($components, function($e) {
             //     if (in_array('administrative_area_level_2', $e->types)) {
             //         return $e;
-            //     }   
+            //     }
             // });
 
             $locality = array_filter($components, function($e){

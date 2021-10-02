@@ -17,8 +17,6 @@ class FCMHelper
             $msg =[
                 'body'  => $message['body'],
                 'title' => $message['title'],
-                // 'receiver' => 'erw',
-                // 'icon'  => "https://image.flaticon.com/icons/png/512/270/270014.png",/*Default Icon*/
             ];
         
             $fields = [
