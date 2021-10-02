@@ -74,7 +74,7 @@ class FunctionModel
         ],
         "SP_INS_CLIENT" => [
             "query" => 'CALL SP_INS_CLIENT(:id_user, :username, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :password, :status, :type, :createdby)',
-            "params" => ['id_user', 'username', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type', 'createdby']
+            "params" => ['username', 'id_user', 'username', 'first_name', 'last_name', 'doc_type', 'doc_number', 'user_email', 'phone', 'password', 'status', 'type', 'createdby']
         ],
         "SP_INS_USER" => [
             "query" => 'CALL SP_INS_USER(:id, :user, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :password, :status, :type, :username, :id_role)',
