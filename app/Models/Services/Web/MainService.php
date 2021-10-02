@@ -46,6 +46,7 @@ class MainService
                 $fields['password'] = Hash::make($fields['password']);
             }
 
+            dd($fields);
             // Si existe un id_user en params, no usar el de la sesion
             if (in_array('id_user', $params) && in_array('id_user', $fields)) {
                 $fields['id_user'] = $req['data']['id_user'];
