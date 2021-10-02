@@ -51,7 +51,6 @@ class MainService
                 $fields['id_user'] = $req['data']['id_user'];
             }
 
-            dd($fields);
             if (count($params)) {
                 foreach ($params as $key => $value) {
                     if (array_key_exists($value, $fields)) {
