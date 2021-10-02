@@ -30,7 +30,8 @@ class MainService
         try {
             $user = auth()->user();
             $req = $request->all();
-            $req['data'] = array_merge($req['data'], $user->getIdentifierData());
+            // $req['data'] = array_merge($req['data'], $user->getIdentifierData());
+            $fields = array_merge($req['data'], $user->getIdentifierData());
             $fun = $this->functions->getFunctions();
             if (!array_key_exists($req['method'], $fun)) {
                 throw new CustomException(['metodo no existe.', 2100], 400);
@@ -41,14 +42,20 @@ class MainService
             $bindings = [];
 
              // Si existe password se hashea
-             if (array_key_exists('password', $req['data']) && !empty($req['data']['password'])) {
-                $req['data']['password'] = Hash::make($req['data']['password']);
+             if (array_key_exists('password', $fields) && !empty($fields['password'])) {
+                $fields['password'] = Hash::make($fields['password']);
+            }
+
+            dd($fields);
+            // Si existe un id_user en params, no usar el de la sesion
+            if (array_key_exists('id_user', $params)) {
+                $fields['id_user'] = $req['data']['id_user'];
             }
 
             if (count($params)) {
                 foreach ($params as $key => $value) {
-                    if (array_key_exists($value, $req['data'])) {
-                        $bindings[$value] = $req['data'][$value];
+                    if (array_key_exists($value, $fields)) {
+                        $bindings[$value] = $fields[$value];
                     }
                 }
                 if (!count($bindings) || (count($bindings) < count($params))) {
