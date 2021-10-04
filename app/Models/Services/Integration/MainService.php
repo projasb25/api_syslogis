@@ -332,7 +332,6 @@ class MainService
         try {
             $campos = $request->all();
             $user = auth()->user();
-            dd(Hash::make('env1am3qa2021'));
 
             $insertar = $this->repo->insertIntegrationData($campos, $user);
 
