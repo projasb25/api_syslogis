@@ -36,7 +36,7 @@ class MainService
                 'id_organization' => $organizacion,
                 'integration_user' => 'inretail'
             ];
-            
+
             // $request_data['selectedSla'] = "Envío a domicilio";
             $insertar = $this->repo->insertData($request_data, $user);
             // if (strtolower($request_data['selectedSla']) === strtolower('Delivery Express')) {
@@ -89,7 +89,7 @@ class MainService
                 'mensaje'=> "Error en el proceso",
             ]);
         }
-        
+
         return response()->json([
             'codigo' => '1',
             "tipoError" => "",
@@ -108,7 +108,7 @@ class MainService
             $res =[
                 'id_massive_load' => $id
             ];
-            
+
             $res['success'] = true;
             Log::info('Integracion Crear Carga exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
@@ -137,7 +137,7 @@ class MainService
             $res =[
                 'id_massive_load' => $id
             ];
-            
+
             $res['success'] = true;
             Log::info('Integracion Crear Carga Provincia exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
@@ -163,7 +163,7 @@ class MainService
             $res =[
                 'id_massive_load' => $id
             ];
-            
+
             $res['success'] = true;
             Log::info('Integracion Crear Carga Express exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
@@ -186,8 +186,8 @@ class MainService
             $integration_data = $this->repo->getGuidesCollected();
 
             $id = $this->repo->insertMassiveLoadDist($integration_data);
-            
-            
+
+
             $res =[
                 'id_massive_load' => $id
             ];
@@ -213,7 +213,7 @@ class MainService
             $integration_data = $this->repo->getGuidesCollectedExpress();
 
             $id = $this->repo->insertMassiveLoadDist($integration_data);
-            
+
             $res =[
                 'id_massive_load' => $id
             ];
@@ -241,8 +241,8 @@ class MainService
             $integration_data[0]->id_corporation = 15;
             $integration_data[0]->id_organization = 65;
             $id = $this->repo->insertMassiveLoadDist($integration_data);
-            
-            
+
+
             $res =[
                 'id_massive_load' => $id
             ];
@@ -322,5 +322,79 @@ class MainService
             $res['mensaje'] = $e->getMessage();
         }
         return $res;
+    }
+
+    public function registrar($request)
+    {
+        $user = auth()->user();
+        dd($user);
+        // try {
+
+        //     $user = (object) [
+        //         'id_integration_user' => 1,
+        //         'id_corporation' => 15,
+        //         'id_organization' => $organizacion,
+        //         'integration_user' => 'inretail'
+        //     ];
+
+        //     // $request_data['selectedSla'] = "Envío a domicilio";
+        //     $insertar = $this->repo->insertData($request_data, $user);
+        //     // if (strtolower($request_data['selectedSla']) === strtolower('Delivery Express')) {
+        //     //     $integration_data = $this->repo->getIntegrationDataExpress();
+        //     //     $id = $this->repo->insertMassiveLoad($integration_data);
+        //     //     Log::info('Integracion carga - Carga masiva generada, delivery express', ['id_carga' => $id]);
+        //     // }
+        //     // if (env('INRETAIL.FAKE')) {
+        //     //     $response = json_decode('{
+        //     //         "Account": "1",
+        //     //         "OrderNumber": "12234-1",
+        //     //         "SellerName": "QAYARIX",
+        //     //         "GuideNumber": "WX334434",
+        //     //         "TrackingUrl": "urlseguimiento.com/web/WX334434"
+        //     //        }');
+        //     // } else {
+        //     //     $req_body = [
+        //     //         "Account"=> $request_data['marketplaceId'],
+        //     //         "GuideNumber"=> $insertar,
+        //     //         "OrderNumber"=> $request_data['orderNumber'],
+        //     //         "SellerName"=> $request_data['sellerCorporateName'],
+        //     //         "TrackingUrl"=> ""
+        //     //     ];
+
+        //     //     $cliente = new Client(['base_uri' => env('INRETAIL.URL')]);
+
+        //     //     $req = $cliente->request('POST', 'guide/create', [
+        //     //         "headers" => [
+        //     //             'client_id' => env('INRETAIL_API_CLIENT_ID'),
+        //     //         ],
+        //     //         "json" => $req_body
+        //     //     ]);
+
+        //     //     $response = json_decode($req->getBody()->getContents());
+        //     // }
+
+        //     Log::info('Integracion carga exito', ['id_carga' => $insertar, 'req' => $request->all()]);
+        // // } catch (\GuzzleHttp\Exception\RequestException $e) {
+        // //     Log::error('Integracion carga error', ['exception' => $e->getResponse()->getBody(true), 'req_body' => $req_body, 'req' => $request->all()]);
+        // //     return response()->json([
+        // //         'codigo' => '3000',
+        // //         "tipoError" => "Connection Error API",
+        // //         'mensaje'=> "Error en el proceso",
+        // //     ]);
+        // } catch (Exception $e) {
+        //     Log::error('Integracion carga error', ['exception' => $e->getMessage(), 'req' => $request->all()]);
+        //     return response()->json([
+        //         'codigo' => '3000',
+        //         "tipoError" => "Connection Error",
+        //         'mensaje'=> "Error en el proceso",
+        //     ]);
+        // }
+
+        // return response()->json([
+        //     'codigo' => '1',
+        //     "tipoError" => "",
+        //     'mensaje'=> "Se creó la guía correctamente",
+        //     "numeroDeGuia" => $insertar
+        // ]);
     }
 }

@@ -126,6 +126,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => 'Integration'], function ($router) {
     Route::post('login', 'IntegrationAuthController@login');
 
+    Route::group(['middleware' => ['assign.guard:integration_users','jwt.auth']], function(){
+        Route::post('registrar', 'IntegrationController@registrar');
+    });
+
     Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {
         Route::post('procesar', 'IntegrationController@index');
         // TODO: crear comando para procesar a recoleccion
