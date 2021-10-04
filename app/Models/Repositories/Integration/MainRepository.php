@@ -298,4 +298,70 @@ class MainRepository
         }
         return $id;
     }
+
+    public function insertIntegrationData($data, $user)
+    {
+        DB::beginTransaction();
+        try {
+            $id = DB::table('load_integration')->insertGetId(
+                [
+                    'id_integration_user' => $user->id_integration_user, 'id_corporation' => $user->id_corporation,
+                    'id_organization' => $user->id_organization, 'request_data' => json_encode($data), 'status' => 'PENDIENTE',
+                    'created_by' => $user->integration_username, 'number_records' => count($data['items']),
+                    'type' => null
+                ]
+            );
+
+            $idOriginal = 'RP' . Carbon::now()->format('Ymd') . str_pad($id, 6, "0", STR_PAD_LEFT);
+
+            foreach ($data['items'] as $value) {
+                $ubigeo_recoleccion = DB::table('ubigeo')->where('ubigeo', $data['sellerUbigeo'])->first();
+                $ubigeo_dist = DB::table('ubigeo')->where('ubigeo', $data['clientUbigeo'])->first();
+
+                DB::table('load_integration_detail')->insert(
+                    [
+                        'id_load_integration' => $id,
+                        'status' => 'PENDIENTE',
+                        'created_by' => $user->integration_username,
+                        'seg_code' => $data['segCode'],
+                        'guide_number' => $idOriginal,
+                        'client_barcode' => $data['barcode'] ?? $idOriginal,
+                        'alt_code1' => $data['altCode1'] ?? null,
+                        'sku_code' => $value['id'],
+                        'sku_description' => $value['description'],
+                        'sku_weight' => $value['weight'],
+                        'sku_pieces' => $value['quantity'],
+                        'collect_ubigeo' => $data['sellerUbigeo'],
+                        'collect_department' => $ubigeo_recoleccion->department,
+                        'collect_district' => $ubigeo_recoleccion->district,
+                        'collect_province' => $ubigeo_recoleccion->province,
+                        'collect_address_reference' => $data['sellerAddressReference'],
+                        'collect_address' => $data['sellerAddress'],
+                        'collect_client_dni' => $data['sellerDocument'],
+                        'collect_client_name' => $data['sellerCorporateName'],
+                        'collect_client_phone1' => $data['sellerPhone1'],
+                        'collect_client_phone2' => $data['sellerPhone2'],
+                        'collect_contact_name' => $data['sellerContactName'],
+                        'collect_client_email' => $data['sellerContactEmail'],
+                        'delivery_ubigeo' => $data['clientUbigeo'],
+                        'delivery_department' => $ubigeo_dist->department,
+                        'delivery_district' => $ubigeo_dist->district,
+                        'delivery_province' => $ubigeo_dist->province,
+                        'delivery_address_reference' => $data['clientAddressReference'],
+                        'delivery_address' => $data['clientAddress'],
+                        'delivery_client_dni' => $data['clientDocument'],
+                        'delivery_client_name' => $data['clientName'],
+                        'delivery_client_phone1' => $data['clientPhone1'],
+                        'delivery_client_phone2' => $data['clientPhone2'],
+                        'delivery_contact_email' => $data['clientEmail'],
+                    ]
+                );
+            }
+        } catch (\Exception $e) {
+            Log::warning("insertar data integracion nueva " . $e->getMessage());
+            DB::rollback();
+        }
+        DB::commit();
+        return $idOriginal;
+    }
 }
