@@ -343,7 +343,7 @@ class MainService
             return Res::error(['Unxpected error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Integracion registrar error', ['exception' => $e->getMessage(), 'request' => $campos]);
-            return Res::error(['Unxpected error', 3000], 400);
+            return Res::error(['Unxpected error', 3000], 500);
         }
         return Res::success([
             'mensaje' => 'Pedido registrado correctamente',
