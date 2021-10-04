@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use function PHPSTORM_META\map;
 
@@ -331,6 +332,7 @@ class MainService
         try {
             $campos = $request->all();
             $user = auth()->user();
+            dd(Hash::make('#enviam3$gs&2021#'));
 
             $insertar = $this->repo->insertIntegrationData($campos, $user);
 
