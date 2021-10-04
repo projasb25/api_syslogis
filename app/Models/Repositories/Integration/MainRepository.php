@@ -3,6 +3,7 @@
 namespace App\Models\Repositories\Integration;
 
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -318,6 +319,10 @@ class MainRepository
                 $ubigeo_recoleccion = DB::table('ubigeo')->where('ubigeo', $data['sellerUbigeo'])->first();
                 $ubigeo_dist = DB::table('ubigeo')->where('ubigeo', $data['clientUbigeo'])->first();
 
+                if (!$ubigeo_recoleccion && !$ubigeo_dist) {
+                    throw new Exception("Ubigeo inválido", 1);
+                }
+
                 DB::table('load_integration_detail')->insert(
                     [
                         'id_load_integration' => $id,
@@ -329,31 +334,31 @@ class MainRepository
                         'alt_code1' => $data['altCode1'] ?? null,
                         'sku_code' => $value['id'],
                         'sku_description' => $value['description'],
-                        'sku_weight' => $value['weight'],
+                        'sku_weight' => $value['weight'] ?? null,
                         'sku_pieces' => $value['quantity'],
                         'collect_ubigeo' => $data['sellerUbigeo'],
                         'collect_department' => $ubigeo_recoleccion->department,
                         'collect_district' => $ubigeo_recoleccion->district,
                         'collect_province' => $ubigeo_recoleccion->province,
-                        'collect_address_reference' => $data['sellerAddressReference'],
+                        'collect_address_reference' => $data['sellerAddressReference'] ?? null,
                         'collect_address' => $data['sellerAddress'],
                         'collect_client_dni' => $data['sellerDocument'],
                         'collect_client_name' => $data['sellerCorporateName'],
-                        'collect_client_phone1' => $data['sellerPhone1'],
-                        'collect_client_phone2' => $data['sellerPhone2'],
-                        'collect_contact_name' => $data['sellerContactName'],
-                        'collect_client_email' => $data['sellerContactEmail'],
+                        'collect_client_phone1' => $data['sellerPhone1'] ?? null,
+                        'collect_client_phone2' => $data['sellerPhone2'] ?? null,
+                        'collect_contact_name' => $data['sellerContactName'] ?? null,
+                        'collect_client_email' => $data['sellerContactEmail'] ?? null,
                         'delivery_ubigeo' => $data['clientUbigeo'],
                         'delivery_department' => $ubigeo_dist->department,
                         'delivery_district' => $ubigeo_dist->district,
                         'delivery_province' => $ubigeo_dist->province,
-                        'delivery_address_reference' => $data['clientAddressReference'],
+                        'delivery_address_reference' => $data['clientAddressReference'] ?? null,
                         'delivery_address' => $data['clientAddress'],
                         'delivery_client_dni' => $data['clientDocument'],
                         'delivery_client_name' => $data['clientName'],
-                        'delivery_client_phone1' => $data['clientPhone1'],
-                        'delivery_client_phone2' => $data['clientPhone2'],
-                        'delivery_contact_email' => $data['clientEmail'],
+                        'delivery_client_phone1' => $data['clientPhone1'] ?? null,
+                        'delivery_client_phone2' => $data['clientPhone2'] ?? null,
+                        'delivery_contact_email' => $data['clientEmail'] ?? null,
                     ]
                 );
             }

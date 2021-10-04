@@ -12,6 +12,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Http\Request;
 
+use function PHPSTORM_META\map;
+
 class MainService
 {
     private $repo;
@@ -338,19 +340,15 @@ class MainService
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
             Log::warning('Integracion registrar Query', ['expcetion' => $e->getMessage(), 'request' => $campos]);
-            return Res::error(['Unxpected DB error', 3000], 400);
+            return Res::error(['Unxpected error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Integracion registrar error', ['exception' => $e->getMessage(), 'request' => $campos]);
             return Res::error(['Unxpected error', 3000], 400);
         }
-        return Res::success('Ok');
-
-
-        // return response()->json([
-        //     'codigo' => '1',
-        //     "tipoError" => "",
-        //     'mensaje'=> "Se creó la guía correctamente",
-        //     "numeroDeGuia" => $insertar
-        // ]);
+        return Res::success([
+            'mensaje' => 'Pedido registrado correctamente',
+            'codigo_original' => $campos['segCode'],
+            'codigo_segumiento' => $insertar
+        ]);
     }
 }
