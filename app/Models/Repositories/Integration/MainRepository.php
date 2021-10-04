@@ -360,6 +360,7 @@ class MainRepository
         } catch (\Exception $e) {
             Log::warning("insertar data integracion nueva " . $e->getMessage());
             DB::rollback();
+            throw $e;
         }
         DB::commit();
         return $idOriginal;
