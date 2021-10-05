@@ -356,7 +356,7 @@ class MainService
     public function consultar($request)
     {
         try {
-            dd($request->all());
+            dd($request->guide_number);
         } catch (CustomException $e) {
             Log::warning('Integracion registrar error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
             return Res::error($e->getData(), $e->getCode());
