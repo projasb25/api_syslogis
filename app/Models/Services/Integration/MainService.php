@@ -358,8 +358,35 @@ class MainService
         try {
             $user = auth()->user();
             $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
+            $res = [];
+            $items = [];
 
-            dd(count($guide));
+            if (!count($guide)) {
+                $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
+                if (!count($integration_data)) {
+                    throw new CustomException(["Codigo de segumiento no encontrado", 400]);
+                }
+                $data = $integration_data;
+                $status  = 'REGISTRADO';
+            } else {
+                $data = $guide;
+                $status = $guide[0]->status;
+            }
+
+            foreach ($data as $key => $value) {
+                array_push($items, [
+                    'id' => $value->sku_code,
+                    'description' => $value->sku_description,
+                    'quantity' => $value->sku_pieces
+                ]);
+            }
+
+            $res = [
+                'codigo_original' => $data[0]->seg_code,
+                'codigo_segumiento' => $data[0]->guide_number,
+                'estado' => $status,
+                'items' => $items
+            ];
         } catch (CustomException $e) {
             Log::warning('Integracion registrar error', ['expcetion' => $e->getData()[0], 'request' => $request->seg_code]);
             return Res::error($e->getData(), $e->getCode());
@@ -371,7 +398,7 @@ class MainService
             return Res::error(['Unxpected error', 3000], 500);
         }
         return Res::success([
-            'ok'
+            $res
         ]);
     }
 }

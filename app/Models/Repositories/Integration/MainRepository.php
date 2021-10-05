@@ -14,7 +14,18 @@ class MainRepository
     {
         $query = DB::table('guide as gd')
             ->where('gd.guide_number', $guide_number)
+            ->join('sku_product as sp', 'sp.id_guide','=','gd.id_guide')
             // ->where('gd.id_organization', $user->id_organization)
+            ->get();
+        return $query;
+    }
+
+    public function getLoadDataByGuide($guide_number, $user)
+    {
+        $query = DB::table('load_integration_detail as lid')
+            ->join('load_integration as li','lid.id_load_integration', '=', 'li.id_load_integration')
+            ->where('lid.guide_number', $guide_number)
+            ->where('li.id_organization', $user->id_organization)
             ->get();
         return $query;
     }
