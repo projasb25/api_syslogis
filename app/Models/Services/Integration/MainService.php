@@ -357,13 +357,13 @@ class MainService
     {
         try {
             $user = auth()->user();
-            $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
             $res = [];
             $items = [];
             $track_info = [];
 
+            $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
+            $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
             if (!count($guide)) {
-                $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
                 if (!count($integration_data)) {
                     throw new CustomException(["Codigo de segumiento no encontrado", 404]);
                 }
