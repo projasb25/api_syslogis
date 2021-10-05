@@ -360,6 +360,7 @@ class MainService
             $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
             $res = [];
             $items = [];
+            $track_info = [];
 
             if (!count($guide)) {
                 $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
@@ -368,10 +369,27 @@ class MainService
                 }
                 $data = $integration_data;
                 $status  = 'REGISTRADO';
+                $track_guide = [];
             } else {
                 $data = $guide;
                 $status = $guide[0]->status;
+                $track_guide = $this->repo->getTrackingInfo($guide[0]->id_guide);
             }
+
+            $track_info = [
+                ['estado' => $status, 'subEstado' => 'Registrado.', 'fecha' => $integration_data[0]->date_created]
+            ];
+
+            if (count($track_guide)) {
+                foreach ($track_guide as $item) {
+                    array_push($track_info, [
+                        'estado' => $item->status,
+                        'subEstado' => $item->motive,
+                        'fecha' => $item->date_created
+                    ]);
+                }
+            }
+
 
             foreach ($data as $key => $value) {
                 array_push($items, [
@@ -385,7 +403,8 @@ class MainService
                 'codigo_original' => $data[0]->seg_code,
                 'codigo_segumiento' => $data[0]->guide_number,
                 'estado' => $status,
-                'items' => $items
+                'items' => $items,
+                'track_info' => $track_info
             ];
         } catch (CustomException $e) {
             Log::warning('Integracion registrar error', ['expcetion' => $e->getData()[0], 'request' => $request->seg_code]);

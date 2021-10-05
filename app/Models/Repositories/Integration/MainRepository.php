@@ -20,6 +20,17 @@ class MainRepository
         return $query;
     }
 
+    public function getTrackingInfo($id_guide)
+    {
+        $query = DB::table('guide_tracking as gt')
+            ->where('gt.id_guide', $id_guide)
+            ->whereIn('gt.status',['PENDIENTE', 'ASIGNADO', 'CURSO', 'RECOLECCION COMPLETA', 'ENTREGADO', 'NO ENTREGADO', 'NO RECOLECTADO'])
+            ->where('gt.attempt','>=',0)
+            ->orderBy('gt.id_guide_tracking')
+            ->get();
+        return $query;
+    }
+
     public function getLoadDataByGuide($guide_number, $user)
     {
         $query = DB::table('load_integration_detail as lid')
