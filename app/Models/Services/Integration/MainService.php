@@ -371,6 +371,7 @@ class MainService
                 $seg_code = $integration_data[0]->seg_code;
                 $guide_number = $integration_data[0]->guide_number;
                 $status  = 'REGISTRADO';
+                $servicio = 'RECOLECCION';
                 $track_guide = [];
             } else {
                 $data = $this->repo->getProductInfo($guide->id_guide);
@@ -378,6 +379,7 @@ class MainService
                 $seg_code = $guide->seg_code;
                 $guide_number = $guide->guide_number;
                 $track_guide = $this->repo->getTrackingInfo($guide->id_guide);
+                $servicio = $guide->type;
             }
 
             $track_info = [
@@ -407,6 +409,7 @@ class MainService
                 'codigo_original' => $seg_code,
                 'codigo_segumiento' => $guide_number,
                 'estado' => $status,
+                'servicio' => $servicio,
                 'items' => $items,
                 'track_info' => $track_info
             ];
