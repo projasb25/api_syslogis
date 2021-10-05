@@ -14,7 +14,7 @@ class MainRepository
     {
         $query = DB::table('guide as gd')
             ->where('gd.guide_number', $guide_number)
-            // ->where('gd.id_organization', $user->id_organization)
+            ->where('gd.id_organization', $user->id_organization)
             ->orderBy('gd.id_guide','desc')
             ->first();
         return $query;
