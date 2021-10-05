@@ -356,15 +356,15 @@ class MainService
     public function consultar($request)
     {
         try {
-            dd($request->guide_number);
+            dd($request->seg_code);
         } catch (CustomException $e) {
-            Log::warning('Integracion registrar error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            Log::warning('Integracion registrar error', ['expcetion' => $e->getData()[0], 'request' => $request->seg_code]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
-            Log::warning('Integracion registrar Query', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            Log::warning('Integracion registrar Query', ['expcetion' => $e->getMessage(), 'request' => $request->seg_code]);
             return Res::error(['Unxpected error', 3000], 400);
         } catch (Exception $e) {
-            Log::warning('Integracion registrar error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            Log::warning('Integracion registrar error', ['exception' => $e->getMessage(), 'request' => $request->seg_code]);
             return Res::error(['Unxpected error', 3000], 500);
         }
         return Res::success([
