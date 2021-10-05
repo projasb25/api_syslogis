@@ -381,7 +381,7 @@ class MainService
             }
 
             $track_info = [
-                ['estado' => $status, 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
+                ['estado' => 'REGISTRADO', 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
             ];
 
             if (count($track_guide)) {
