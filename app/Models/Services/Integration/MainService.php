@@ -352,4 +352,23 @@ class MainService
             'codigo_segumiento' => $insertar
         ]);
     }
+
+    public function consultar($request)
+    {
+        try {
+            dd($request->all());
+        } catch (CustomException $e) {
+            Log::warning('Integracion registrar error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Integracion registrar Query', ['expcetion' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Integracion registrar error', ['exception' => $e->getMessage(), 'request' => $request->all()]);
+            return Res::error(['Unxpected error', 3000], 500);
+        }
+        return Res::success([
+            'ok'
+        ]);
+    }
 }

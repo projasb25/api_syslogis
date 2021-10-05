@@ -34,4 +34,9 @@ class IntegrationController extends Controller
     {
         return $this->mainService->registrar($request);
     }
+
+    public function consultar(Request $request)
+    {
+        return $this->mainService->consultar($request);
+    }
 }
