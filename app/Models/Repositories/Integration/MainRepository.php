@@ -15,7 +15,7 @@ class MainRepository
         $query = DB::table('guide as gd')
             ->where('gd.guide_number', $guide_number)
             ->join('sku_product as sp', 'sp.id_guide','=','gd.id_guide')
-            // ->where('gd.id_organization', $user->id_organization)
+            ->where('gd.id_organization', $user->id_organization)
             ->get();
         return $query;
     }
