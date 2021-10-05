@@ -364,7 +364,7 @@ class MainService
             if (!count($guide)) {
                 $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
                 if (!count($integration_data)) {
-                    throw new CustomException(["Codigo de segumiento no encontrado", 400]);
+                    throw new CustomException(["Codigo de segumiento no encontrado", 404]);
                 }
                 $data = $integration_data;
                 $status  = 'REGISTRADO';
