@@ -363,21 +363,25 @@ class MainService
 
             $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
             $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
-            if (!count($guide)) {
+            if (!$guide) {
                 if (!count($integration_data)) {
                     throw new CustomException(["Codigo de segumiento no encontrado", 404]);
                 }
                 $data = $integration_data;
+                $seg_code = $integration_data[0]->seg_code;
+                $guide_number = $integration_data[0]->guide_number;
                 $status  = 'REGISTRADO';
                 $track_guide = [];
             } else {
-                $data = $guide;
-                $status = $guide[0]->status;
-                $track_guide = $this->repo->getTrackingInfo($guide[0]->id_guide);
+                $data = $this->repo->getProductInfo($guide->id_guide);
+                $status = $guide->status;
+                $seg_code = $guide->seg_code;
+                $guide_number = $guide->guide_number;
+                $track_guide = $this->repo->getTrackingInfo($guide->id_guide);
             }
 
             $track_info = [
-                ['estado' => $status, 'subEstado' => 'Registrado.', 'fecha' => $integration_data[0]->date_created]
+                ['estado' => $status, 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
             ];
 
             if (count($track_guide)) {
@@ -400,8 +404,8 @@ class MainService
             }
 
             $res = [
-                'codigo_original' => $data[0]->seg_code,
-                'codigo_segumiento' => $data[0]->guide_number,
+                'codigo_original' => $seg_code,
+                'codigo_segumiento' => $guide_number,
                 'estado' => $status,
                 'items' => $items,
                 'track_info' => $track_info

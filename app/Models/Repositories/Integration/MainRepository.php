@@ -14,8 +14,16 @@ class MainRepository
     {
         $query = DB::table('guide as gd')
             ->where('gd.guide_number', $guide_number)
-            ->join('sku_product as sp', 'sp.id_guide','=','gd.id_guide')
             // ->where('gd.id_organization', $user->id_organization)
+            ->orderBy('gd.id_guide','desc')
+            ->first();
+        return $query;
+    }
+
+    public function getProductInfo($id_guide)
+    {
+        $query = DB::table('sku_product as sp')
+            ->where('sp.id_guide',$id_guide)
             ->get();
         return $query;
     }
