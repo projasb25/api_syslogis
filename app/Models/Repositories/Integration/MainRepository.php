@@ -16,6 +16,7 @@ class MainRepository
             ->where('gd.guide_number', $guide_number)
             // ->where('gd.id_organization', $user->id_organization)
             ->get();
+        return $query;
     }
 
     public function getIntegrationData()
