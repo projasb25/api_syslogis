@@ -356,7 +356,9 @@ class MainService
     public function consultar($request)
     {
         try {
-            dd($request->seg_code);
+            $user = auth()->user();
+            $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
+            dd($guide);
         } catch (CustomException $e) {
             Log::warning('Integracion registrar error', ['expcetion' => $e->getData()[0], 'request' => $request->seg_code]);
             return Res::error($e->getData(), $e->getCode());

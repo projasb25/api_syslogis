@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Log;
 
 class MainRepository
 {
+    public function getGuideFromIntegration($guide_number, $user)
+    {
+        $query = DB::table('guide as gd')
+            ->where('gd.guide_number', $guide_number)
+            // ->where('gd.id_organization', $user->id_organization)
+            ->get();
+    }
+
     public function getIntegrationData()
     {
         $query = DB::table('integration_data as id')
