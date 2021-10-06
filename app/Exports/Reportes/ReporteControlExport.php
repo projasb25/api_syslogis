@@ -24,7 +24,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
     public function headings(): array
     {
         return [
-            'CLIENTE', 'CODIGO BARRA', 'CODIGO SEGUIMIENTO', 'NRO GUIA', 'FECHA PROMESA', 'TAMAÑO', 'ESTADO PEDIDO',
+            'CLIENTE', 'CODIGO BARRA', 'CODIGO SEGUIMIENTO', 'NRO GUIA', 'FECHA PROMESA', 'ESTADO PEDIDO',
             'FECHA PEDIDO', 'HORA PEDIDO', 'FECHA ENVIO', 'NOMBRE CONDUCTOR', 'TIPO VEHICULO', 'NRO PLACA', 'PROVEEDOR',
             'ULTIMO ESTADO', 'NOMBRE CLIENTE', 'TELEFONO 1', 'TELEFONO 2', 'DIRECCION', 'DEPARTAMENTO', 'DISTRITO',
             'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ESTADO DE DESCARGA', 'OBSERVACIONES',
@@ -47,7 +47,6 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             $collection->codigo_barra,
             $collection->codigo_seguimiento,
             $collection->nro_guia,
-            $collection->sku_size,
             $collection->fecha_promesa,
             $collection->estado_pedido,
             $collection->fecha_pedido,
