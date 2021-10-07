@@ -170,7 +170,7 @@ class ShippingService
             $guide = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
             if (!count($guide)) {
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
-            } 
+            }
             // elseif ($guide[0]->status !== 'CURSO') {
             //     throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
             // }
@@ -272,7 +272,7 @@ class ShippingService
             } elseif ($pedido[0]->status !== 'CURSO') {
                 throw new CustomException(['El pedido no se encuentra en Curso.', 2013], 400);
             }
-            
+
             foreach ($pedido as $key => $pd) {
                 array_push($guias, [
                     'id_shipping_order_detail' => $pd->id_shipping_order_detail,
