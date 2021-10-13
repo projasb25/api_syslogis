@@ -69,8 +69,8 @@ class FunctionModel
             "params" => ['id_properties', 'name', 'value', 'status']
         ],
         "SP_SEL_USER" => [
-            "query" => 'CALL SP_SEL_USER(, :status)',
-            "params" => ['status']
+            "query" => 'CALL SP_SEL_USER(:type, :status)',
+            "params" => ['type', 'status']
         ],
         "SP_INS_CLIENT" => [
             "query" => 'CALL SP_INS_CLIENT(:id_user, :username, :first_name, :last_name, :doc_type, :doc_number, :user_email, :phone, :password, :status, :type, :createdby)',
