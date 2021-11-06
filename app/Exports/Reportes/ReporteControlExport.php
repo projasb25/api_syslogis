@@ -74,7 +74,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             $collection->resultado_3,
             $collection->cantidad_visitas,
             $collection->nro_imagenes,
-            $this->type
+            $collection->delivery_type
         ];
     }
 }
