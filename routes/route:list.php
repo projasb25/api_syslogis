@@ -1,0 +1,54 @@
++--------+----------+------------------------------------------------------+-------+------------------------------------------------------------------------------+-----------------------------------+
+| Domain | Method   | URI                                                  | Name  | Action                                                                       | Middleware                        |
++--------+----------+------------------------------------------------------+-------+------------------------------------------------------------------------------+-----------------------------------+
+|        | GET|HEAD | /                                                    | index | Closure                                                                      | web                               |
+|        | POST     | api/auth/login                                       |       | App\Http\Controllers\AuthController@login                                    | api                               |
+|        | GET|HEAD | api/auth/logout                                      |       | App\Http\Controllers\AuthController@logout                                   | api,auth:api                      |
+|        | POST     | api/auth/me                                          |       | App\Http\Controllers\AuthController@me                                       | api,auth:api                      |
+|        | POST     | api/auth/refresh                                     |       | App\Http\Controllers\AuthController@refresh                                  | api,auth:api                      |
+|        | POST     | api/conductor/actualizarEstado                       |       | App\Http\Controllers\DriverController@actualizarEstado                       | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/conductor/ofertas                                |       | App\Http\Controllers\DriverController@listarOfertas                          | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/envio/aceptar/{idofertaenvio}                    |       | App\Http\Controllers\ShippingController@aceptar                              | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/envio/finalizar/{id_shipping_order}              |       | App\Http\Controllers\ShippingController@finalizar                            | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/envio/iniciar/{idofertaenvio}                    |       | App\Http\Controllers\ShippingController@iniciar                              | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/envio/rechazar/{idofertaenvio}                   |       | App\Http\Controllers\ShippingController@rechazar                             | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/envio/rutas/{idofertaenvio}                      |       | App\Http\Controllers\ShippingController@listarRutas                          | api,assign.guard:drivers,jwt.auth |
+|        | POST     | api/integracion/carga/procesar                       |       | App\Http\Controllers\Integration\IntegrationController@index                 | api                               |
+|        | POST     | api/integracion/carga/test                           |       | App\Http\Controllers\Integration\IntegrationController@procesar              | api                               |
+|        | POST     | api/integracion/carga/test_dist                      |       | App\Http\Controllers\Integration\IntegrationController@procesar_distribucion | api                               |
+|        | POST     | api/integracion/login                                |       | App\Http\Controllers\Integration\IntegrationAuthController@login             | api                               |
+|        | POST     | api/pedido/actualizar                                |       | App\Http\Controllers\ShippingController@actualizar                           | api,assign.guard:drivers,jwt.auth |
+|        | POST     | api/pedido/imagen                                    |       | App\Http\Controllers\ShippingController@grabarImagen                         | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/pedido/imagen/{id_shipping_order}/{guide_number} |       | App\Http\Controllers\ShippingController@getImagen                            | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/pedido/motivos                                   |       | App\Http\Controllers\ShippingController@getMotivosDist                       | api,assign.guard:drivers,jwt.auth |
+|        | GET|HEAD | api/pedido/motivos/{tipo}                            |       | App\Http\Controllers\ShippingController@getMotivos                           | api,assign.guard:drivers,jwt.auth |
+|        | POST     | api/test                                             |       | Closure                                                                      | api                               |
+|        | GET|HEAD | api/user                                             |       | Closure                                                                      | api,auth:api                      |
+|        | POST     | api/web/change                                       |       | App\Http\Controllers\Web\AuthController@change                               | api,auth:api                      |
+|        | POST     | api/web/collect/load                                 |       | App\Http\Controllers\Web\CollectController@load                              | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/collect/process                              |       | App\Http\Controllers\Web\CollectController@process                           | api,assign.guard:users,jwt.auth   |
+|        | GET|HEAD | api/web/guide/status/{id_guide}                      |       | App\Http\Controllers\Web\PublicoController@guide_status                      | api                               |
+|        | POST     | api/web/login                                        |       | App\Http\Controllers\Web\AuthController@login                                | api                               |
+|        | GET|HEAD | api/web/logout                                       |       | App\Http\Controllers\Web\AuthController@logout                               | api,auth:api                      |
+|        | POST     | api/web/main                                         |       | App\Http\Controllers\Web\MainController@index                                | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/main/paginated                               |       | App\Http\Controllers\Web\MainController@paginated                            | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/main/simpleTransaction                       |       | App\Http\Controllers\Web\MainController@simpleTransaction                    | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/massive_load                                 |       | App\Http\Controllers\Web\MassiveLoadController@index                         | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/massive_load/print/cargo                     |       | App\Http\Controllers\Web\MassiveLoadController@print_cargo                   | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/massive_load/print/marathon                  |       | App\Http\Controllers\Web\MassiveLoadController@print_marathon                | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/massive_load/process                         |       | App\Http\Controllers\Web\MassiveLoadController@process                       | api,assign.guard:users,jwt.auth   |
+|        | GET|HEAD | api/web/properties                                   |       | App\Http\Controllers\Web\AuthController@properties                           | api                               |
+|        | POST     | api/web/refresh                                      |       | App\Http\Controllers\Web\AuthController@refresh                              | api,auth:api                      |
+|        | POST     | api/web/reportes/control                             |       | App\Http\Controllers\Web\ReporteController@reporte_control                   | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/reportes/control_proveedor                   |       | App\Http\Controllers\Web\ReporteController@control_proveedor                 | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/reportes/control_sku                         |       | App\Http\Controllers\Web\ReporteController@reporte_control_sku               | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/reportes/img_monitor                         |       | App\Http\Controllers\Web\ReporteController@img_monitor                       | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/reportes/reporte_data_carga                  |       | App\Http\Controllers\Web\ReporteController@reporte_data_carga                | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/reportes/reporte_eficiencia                  |       | App\Http\Controllers\Web\ReporteController@reporte_eficiencia                | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/reportes/reporte_recoleccion                 |       | App\Http\Controllers\Web\ReporteController@reporte_recoleccion               | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/reportes/torre_control                       |       | App\Http\Controllers\Web\ReporteController@reporte_torre_control             | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/shipping/imagen                              |       | App\Http\Controllers\Web\ShippingController@grabarImagen                     | api,assign.guard:users,jwt.auth   |
+|        | POST     | api/web/shipping/print/hoja_ruta                     |       | App\Http\Controllers\Web\ShippingController@print_hoja_ruta                  | api,assign.guard:users,jwt.auth   |
+|        | GET|HEAD | api/web/validateToken                                |       | App\Http\Controllers\Web\AuthController@me                                   | api,auth:api                      |
+|        | GET|HEAD | export                                               |       | App\Http\Controllers\Web\ReporteController@export                            | web                               |
++--------+----------+------------------------------------------------------+-------+------------------------------------------------------------------------------+-----------------------------------+
