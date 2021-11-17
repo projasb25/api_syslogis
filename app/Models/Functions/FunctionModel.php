@@ -209,6 +209,10 @@ class FunctionModel
             "query" => 'CALL SP_INS_SELLER(:id_ripley_seller, :seller_name, :client_dni, :client_name, :client_phone1, :client_email, :client_address, :client_address_reference, :ubigeo, :department, :district, :province, :contact_name, :contact_phone, :status, :username)',
             "params" => ['id_ripley_seller', 'seller_name', 'client_dni', 'client_name', 'client_phone1', 'client_email', 'client_address', 'client_address_reference', 'ubigeo', 'department', 'district', 'province', 'contact_name', 'contact_phone', 'status', 'username']
         ],
+        "SP_ACTUALIZAR_NOVEDAD_GUIA" => [
+            "query" => 'CALL SP_ACTUALIZAR_NOVEDAD_GUIA(:p_novedad, :p_guideId)',
+            "params" => ['p_novedad', 'p_guideId']
+        ],
 
         /**
          * Funciones para Paginacion
