@@ -242,11 +242,7 @@ class FunctionModel
             "query" => 'CALL SP_SEL_MONITORING_GUIDES_COUNT(?,?,?)',
             "params" => ['id_massive_load', 'username']
         ],
-        "SP_ACTUALIZAR_NOVEDAD_GUIA" => [
-            "query" => 'CALL SP_ACTUALIZAR_NOVEDAD_GUIA(?,?)',
-            "params" => ['p_novedad', 'p_guideId']
-        ],
-
+        
         /**
          * Funciones para Transaccions
          **/
