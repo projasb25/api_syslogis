@@ -184,7 +184,7 @@ class ShippingService
             $pdf->Ln(2);
     
             $pdf->SetDrawColor(150, 153, 141);
-            $pdf->Line(10, 39, 195, 39);
+            $pdf->Line(10, 45, 195, 45);
             $pdf->Ln(14);
             $y = $pdf->GetY();
     
