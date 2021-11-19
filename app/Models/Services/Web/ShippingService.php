@@ -88,7 +88,7 @@ class ShippingService
         $hoja_ruta = $this->repo->get_hoja_ruta($data['id_shipping_order']);
         $disk = Storage::disk('hoja_ruta');
         $ruta = url('storage/hoja_ruta/');
-        dd('prueba');
+        return 'hola';
         $file_exists = (Storage::disk('hoja_ruta')->exists($hoja_ruta->hoja_ruta_doc));
 
         if (!$hoja_ruta->hoja_ruta_doc || !$file_exists) {
