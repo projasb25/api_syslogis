@@ -169,8 +169,8 @@ class ShippingService
             $pdf->MultiCell(33, 5, '_________________', 0, 'L');
             $y = $pdf->GetY();
 
-            $pdf->MultiCell(29, 5, 'Hora de Asignacion:', 0, 'L');
-            $pdf->SetXY($lmargin + 29, $y);
+            $pdf->MultiCell(32, 5, 'Hora Asignacion:', 0, 'L');
+            $pdf->SetXY($lmargin + 32, $y);
             // $pdf->MultiCell(48, 5, Carbon::createFromFormat('H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
             $pdf->MultiCell(48, 5, Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
