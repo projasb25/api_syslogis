@@ -185,7 +185,7 @@ class ShippingService
     
             $pdf->SetDrawColor(150, 153, 141);
             $pdf->Line(10, 45, 195, 45);
-            $pdf->Ln(9);
+            $pdf->Ln(4);
             $y = $pdf->GetY();
     
             // total largo pagina 210
