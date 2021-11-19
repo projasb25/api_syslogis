@@ -229,6 +229,10 @@ class FunctionModel
             "query" => 'CALL SP_INS_PESO(:orgData, :sesionData)',
             "params" => ['orgData', 'sesionData']
         ],
+        "SP_INSERTAR_NOVEDAD_GUIDE_SKU" => [
+            "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIDE_SKU(:p_id_guide, :p_novedad, :p_username)',
+            "params" => ['p_id_guide', 'p_novedad', 'p_username']
+        ],
 
         /**
          * Funciones para Paginacion
