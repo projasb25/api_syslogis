@@ -169,15 +169,16 @@ class ShippingService
             $pdf->MultiCell(33, 5, '_________________', 0, 'L');
             $y = $pdf->GetY();
 
-            // $pdf->MultiCell(29, 5, 'Hora de Asignacion:', 0, 'L');
-            // $pdf->SetXY($lmargin + 29, $y);
+            $pdf->MultiCell(29, 5, 'Hora de Asignacion:', 0, 'L');
+            $pdf->SetXY($lmargin + 29, $y);
             // $pdf->MultiCell(48, 5, Carbon::createFromFormat('H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
-            // $pdf->SetXY($lmargin + 77, $y);
-            // $pdf->MultiCell(30, 5, utf8_decode('Total de direcciones:'), 0, 'L');
-            // $pdf->SetXY($lmargin + 107, $y);
+            $pdf->MultiCell(48, 5, Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
+            $pdf->SetXY($lmargin + 77, $y);
+            $pdf->MultiCell(30, 5, utf8_decode('Total de direcciones:'), 0, 'L');
+            $pdf->SetXY($lmargin + 107, $y);
             // $uniqueAddress = count(array_unique(array_column($data, 'address')));
             // $pdf->MultiCell(33, 5, $uniqueAddress, 0, 'L');
-            // $y = $pdf->GetY();
+            $y = $pdf->GetY();
 
             $pdf->code128(150, 13, str_pad($data[0]->id_shipping_order, 7, "0", STR_PAD_LEFT) , 50, 20, false);
             $pdf->Ln(2);
