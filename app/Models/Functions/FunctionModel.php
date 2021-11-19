@@ -225,10 +225,6 @@ class FunctionModel
             "query" => 'CALL SP_ACTUALIZAR_PESO(:p_sku_code, :p_peso)',
             "params" => ['p_sku_code', 'p_peso']
         ],
-        "SP_INS_PESO" => [
-            "query" => 'CALL SP_INS_PESO(:orgData, :sesionData)',
-            "params" => ['orgData', 'sesionData']
-        ],
         "SP_INSERTAR_NOVEDAD_GUIDE_SKU" => [
             "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIDE_SKU(:p_id_guide, :p_novedad, :username)',
             "params" => ['p_id_guide', 'p_novedad', 'username']
@@ -296,6 +292,11 @@ class FunctionModel
             'query' => 'CALL SP_INS_UNIT_LOAD(:header, :details, :username)',
             'headers_params' => [],
             'details_params' => ['guide_number', 'seg_code', 'client_barcode', 'sku_description', 'sku_pieces', 'seller_name', 'client_info']
+        ],
+        "SP_INS_PESO" => [
+            "query" => 'CALL SP_INS_PESO(:header, :details, :username)',
+            'headers_params' => [],
+            'details_params' => ["sku_code", "peso"]
         ],
     ];
 
