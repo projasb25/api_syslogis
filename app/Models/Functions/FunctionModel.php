@@ -213,6 +213,22 @@ class FunctionModel
             "query" => 'CALL SP_ACTUALIZAR_NOVEDAD_GUIA(:p_guideId, :p_novedad)',
             "params" => ['p_guideId', 'p_novedad']
         ],
+        "SP_INSERTAR_NOVEDAD_GUIA" => [
+            "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIA(:p_guideId, :p_novedad, :p_username)',
+            "params" => ['p_guideId', 'p_novedad', 'p_username']
+        ],
+        "SP_LISTA_NOVEDAD_GUIA" => [
+            "query" => 'CALL SP_LISTA_NOVEDAD_GUIA(:p_guideId)',
+            "params" => ['p_guideId']
+        ],
+        "SP_ACTUALIZAR_PESO" => [
+            "query" => 'CALL SP_ACTUALIZAR_PESO(:p_sku_code, :p_peso)',
+            "params" => ['p_sku_code', 'p_peso']
+        ],
+        "SP_INS_PESO" => [
+            "query" => 'CALL SP_INS_PESO(:orgData, :sesionData)',
+            "params" => ['orgData', 'sesionData']
+        ],
 
         /**
          * Funciones para Paginacion
