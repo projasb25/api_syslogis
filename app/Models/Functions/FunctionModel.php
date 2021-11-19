@@ -214,8 +214,8 @@ class FunctionModel
             "params" => ['p_guideId', 'p_novedad']
         ],
         "SP_INSERTAR_NOVEDAD_GUIA" => [
-            "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIA(:p_guideId, :p_novedad, :p_username)',
-            "params" => ['p_guideId', 'p_novedad', 'p_username']
+            "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIA(:p_guideId, :p_novedad, :username)',
+            "params" => ['p_guideId', 'p_novedad', 'username']
         ],
         "SP_LISTA_NOVEDAD_GUIA" => [
             "query" => 'CALL SP_LISTA_NOVEDAD_GUIA(:p_guideId)',
@@ -230,8 +230,8 @@ class FunctionModel
             "params" => ['orgData', 'sesionData']
         ],
         "SP_INSERTAR_NOVEDAD_GUIDE_SKU" => [
-            "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIDE_SKU(:p_id_guide, :p_novedad, :p_username)',
-            "params" => ['p_id_guide', 'p_novedad', 'p_username']
+            "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIDE_SKU(:p_id_guide, :p_novedad, :username)',
+            "params" => ['p_id_guide', 'p_novedad', 'username']
         ],
 
         /**
