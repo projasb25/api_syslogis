@@ -63,4 +63,9 @@ class ShippingController extends Controller
     {
         return $this->service->motivosDist($request);
     }
+    
+    public function novedad_insertar(Request $request)
+    {
+        return $this->service->novedad_insertar($request);
+    }
 }

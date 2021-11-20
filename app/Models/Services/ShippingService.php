@@ -327,4 +327,34 @@ class ShippingService
 
         return Res::success(['mensaje' => 'Envio finalizado correctamente.']);
     }
+
+    public function novedad_insertar($request)
+    {
+        try {
+            $user = auth()->user();
+            $guias = [];
+            $data = $request->all();
+            $pedido = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
+            if (!count($pedido)) {
+                throw new CustomException(['Pedido no encontrado.', 2012], 400);
+            }
+
+            $this->repository->novedad_insertar($request->get('id_shipping_order'), $request->get('guide_number'), $request->get('novedad'), $user->username);
+
+            Log::info('Insertar novedad exitoso', ['request' => $data]);
+        } catch (CustomException $e) {
+            Log::warning('Insertar novedad', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request['id_shipping_order_detail']]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Insertar novedad', ['expcetion' => $e->getMessage(), 'id_shipping_order_detail' => $request['id_shipping_order_detail']]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Insertar novedad', ['exception' => $e->getMessage(), 'id_shipping_order_detail' => $request['id_shipping_order_detail']]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success([
+            'mensaje' => 'Pedido actualizado con éxito',
+            'finalizado' => false
+        ]);
+    }
 }

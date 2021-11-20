@@ -65,6 +65,11 @@ class ShippingRepository
         return DB::select("CALL SP_ACTUALIZAR_PEDIDO(?)",[json_encode($data)]);
     }
 
+    public function novedad_insertar($shipping_order, $guide_number, $novedad, $username)
+    {
+        return DB::select("CALL SP_INSERTAR_NOVEDAD_GUIA(?,?,?,?)",[$shipping_order, $guide_number, $novedad, $username]);
+    }
+
     public function finalizarRuta($id)
     {
         return DB::select("CALL SP_FINALIZAR_RUTA(?)",[$id]);
