@@ -341,7 +341,7 @@ class ShippingService
 
             $this->repository->novedad_insertar($request->get('id_shipping_order'), $request->get('guide_number'), $request->get('novedad'), $user->username);
 
-            Log::info('Insertar novedad exitoso', ['request' => $data]);
+            Log::info('Insertar novedad exitoso', ['request' => $data, 'user' => $user->username]);
         } catch (CustomException $e) {
             Log::warning('Insertar novedad', ['expcetion' => $e->getData()[0], 'id_shipping_order_detail' => $request['id_shipping_order_detail']]);
             return Res::error($e->getData(), $e->getCode());
