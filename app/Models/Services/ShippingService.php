@@ -339,7 +339,7 @@ class ShippingService
                 throw new CustomException(['Pedido no encontrado.', 2012], 400);
             }
 
-            $this->repository->novedad_insertar($request->get('id_shipping_order'), $request->get('guide_number'), $request->get('novedad'), $user->username);
+            $this->repository->novedad_insertar($request->get('id_shipping_order'), $request->get('guide_number'), $request->get('novedad'), $user->email);
 
             Log::info('Insertar novedad exitoso', ['request' => $data, 'user' => $user->username]);
         } catch (CustomException $e) {
