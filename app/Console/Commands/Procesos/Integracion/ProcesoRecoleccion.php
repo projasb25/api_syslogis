@@ -42,21 +42,21 @@ class ProcesoRecoleccion extends Command
      */
     public function handle()
     {
-        // try {
-        //     $this->line("PROCESAR CARGA INTEGRACION - RECOLECCION");
-        //     $this->line("=============================================");
-        //     $this->line('');
+        try {
+            $this->line("PROCESAR CARGA INTEGRACION - RECOLECCION");
+            $this->line("=============================================");
+            $this->line('');
 
-        //     $integracion = $this->mainService->procesar_recoleccion();
-        //     if (!$integracion['success']) {
-        //         throw new Exception($integracion['mensaje'], 500);
-        //     }
+            $integracion = $this->mainService->procesar_recoleccion();
+            if (!$integracion['success']) {
+                throw new Exception($integracion['mensaje'], 500);
+            }
 
-        //     $this->info('IN RETAIL PROCESADO CON EXITO - RECOLECCION');
-        //     $this->info('');
+            $this->info('IN RETAIL PROCESADO CON EXITO - RECOLECCION');
+            $this->info('');
 
-        // } catch (Exception $exc) {
-        //     $this->error($exc->getMessage());
-        // }
+        } catch (Exception $exc) {
+            $this->error($exc->getMessage());
+        }
     }
 }

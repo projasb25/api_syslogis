@@ -127,6 +127,32 @@ class MainService
         return $res;
     }
 
+    public function procesar_recoleccion()
+    {
+        $res['success'] = false;
+        try {
+            $integration_data = $this->repo->getLoadIntegration();
+
+            $id = $this->repo->insertMassiveLoadIntegration($integration_data);
+            $res =[
+                'id_massive_load' => $id
+            ];
+
+            $res['success'] = true;
+            Log::info('Integracion Crear Carga exito', ['id_carga' => $id]);
+        } catch (CustomException $e) {
+            Log::warning('Integracion Crear Carga error', ['expcetion' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('Integracion Crear Carga Query', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::warning('Integracion Crear Carga error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
     public function procesar_recoleccion_provincia()
     {
         $res['success'] = false;
