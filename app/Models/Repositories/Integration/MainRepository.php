@@ -64,7 +64,7 @@ class MainRepository
     {
         $query = DB::table('load_integration as li')
             ->join('load_integration_detail as lid','lid.id_load_integration','=','li.id_load_integration')
-            ->where('id.status', 'PENDIENTE')
+            ->where('li.status', 'PENDIENTE')
             // ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
             ->get();
         return $query;
