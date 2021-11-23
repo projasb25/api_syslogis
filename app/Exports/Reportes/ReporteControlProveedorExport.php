@@ -28,7 +28,7 @@ class ReporteControlProveedorExport implements FromCollection, WithMapping, With
             'HORA PEDIDO', 'FECHA ENVIO', 'NOMBRE CONDUCTOR', 'TIPO VEHICULO', 'NRO PLACA', 'PROVEEDOR',
             'ULTIMO ESTADO', 'NOMBRE CLIENTE', 'TELEFONO 1', 'TELEFONO 2', 'DIRECCION', 'DEPARTAMENTO',
             'DISTRITO', 'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ESTADO DESCARGA', 'OBSERVACIONES',
-            'VISITA', 'NRO IMAGENES'
+            'VISITA', 'NRO IMAGENES', 'PESO'
         ];
     }
 
@@ -68,7 +68,8 @@ class ReporteControlProveedorExport implements FromCollection, WithMapping, With
             $collection->estado_descarga,
             $collection->observaciones,
             $collection->visita,
-            $collection->nro_imagenes
+            $collection->nro_imagenes,
+            $collection->peso
         ];
     }
 }
