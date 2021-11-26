@@ -221,9 +221,9 @@ class FunctionModel
             "query" => 'CALL SP_LISTA_NOVEDAD_GUIA(:p_guideId)',
             "params" => ['p_guideId']
         ],
-        "SP_ACTUALIZAR_PESO" => [
-            "query" => 'CALL SP_ACTUALIZAR_PESO(:p_sku_code, :p_peso)',
-            "params" => ['p_sku_code', 'p_peso']
+        "SP_ACTUALIZAR_GUIDE_PESO" => [
+            "query" => 'CALL SP_ACTUALIZAR_GUIDE_PESO(:p_guide_id, :p_peso)',
+            "params" => ['p_guide_id', 'p_peso']
         ],
         "SP_INSERTAR_NOVEDAD_GUIDE_SKU" => [
             "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIDE_SKU(:p_id_guide, :p_novedad, :username)',
@@ -293,10 +293,10 @@ class FunctionModel
             'headers_params' => [],
             'details_params' => ['guide_number', 'seg_code', 'client_barcode', 'sku_description', 'sku_pieces', 'seller_name', 'client_info']
         ],
-        "SP_INS_PESO" => [
-            "query" => 'CALL SP_INS_PESO(:header, :details, :username)',
+        "SP_INS_GUIDE_PESO" => [
+            "query" => 'CALL SP_INS_GUIDE_PESO(:header, :details, :username)',
             'headers_params' => [],
-            'details_params' => ["sku_code", "peso"]
+            'details_params' => ["p_guide_id", "p_peso"]
         ],
     ];
 
