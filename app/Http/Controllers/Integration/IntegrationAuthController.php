@@ -48,6 +48,8 @@ class IntegrationAuthController extends Controller
 
             $token = auth()->login($user);
 
+            config()->set('jwt.ttl', null);
+
             return response()->json([
                 'token' => $token,
                 'token_type' => 'Bearer',
