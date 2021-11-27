@@ -46,14 +46,14 @@ class IntegrationAuthController extends Controller
                 throw new CustomException(['Credenciales incorrectas.', 2001], 401);
             }
 
+            auth()->factory()->setTTL(10);
             $token = auth()->login($user);
-
             config()->set('jwt.ttl', null);
 
             return response()->json([
                 'token' => $token,
                 'token_type' => 'Bearer',
-                'expires_in' => auth()->factory()->setTTL(null)
+                'expires_in' => auth()->factory()->setTTL(20)
             ]);
         } catch (CustomException $e) {
             Log::warning('Iniciar Session error', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
