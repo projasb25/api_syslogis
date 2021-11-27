@@ -48,12 +48,10 @@ class IntegrationAuthController extends Controller
 
             auth()->factory()->setTTL(null);
             $token = auth()->login($user);
-            config()->set('jwt.ttl', null);
 
             return response()->json([
                 'token' => $token,
-                'token_type' => 'Bearer',
-                'expires_in' => auth()->factory()->setTTL(20)
+                'token_type' => 'Bearer'
             ]);
         } catch (CustomException $e) {
             Log::warning('Iniciar Session error', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
