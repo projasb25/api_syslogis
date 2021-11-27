@@ -51,7 +51,7 @@ class IntegrationAuthController extends Controller
             return response()->json([
                 'token' => $token,
                 'token_type' => 'Bearer',
-                'expires_in' => auth()->factory()->getTTL() * 60
+                // 'expires_in' => auth()->factory()->getTTL() * 60
             ]);
         } catch (CustomException $e) {
             Log::warning('Iniciar Session error', ['expcetion' => $e->getData()[0], 'request' => request()->all()]);
