@@ -46,7 +46,7 @@ class IntegrationAuthController extends Controller
                 throw new CustomException(['Credenciales incorrectas.', 2001], 401);
             }
 
-            auth()->factory()->setTTL(10);
+            auth()->factory()->setTTL(null);
             $token = auth()->login($user);
             config()->set('jwt.ttl', null);
 
