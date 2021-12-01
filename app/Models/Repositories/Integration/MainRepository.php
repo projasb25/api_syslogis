@@ -337,7 +337,7 @@ class MainRepository
                     'date_loaded' => date('Y-m-d H:i:s')
                 ]);
 
-                DB::table('integration_data')->where('id_integration_data',$value->id_load_integration)->update(['status'=>'PROCESADO']);
+                DB::table('load_integration')->where('id_integration_data',$value->id_load_integration)->update(['status'=>'PROCESADO']);
             }
             DB::commit();
         } catch (\Exception $e) {
