@@ -69,6 +69,11 @@ class MassiveLoadRepository
                             ->whereRaw('LOWER(TRIM(tambo_name)) = ? ', [trim(strtolower($value['client_address']))])
                             ->first();
                         break;
+                    case 82:
+                        $check_ubigeo = DB::table('master_ripley')
+                            ->whereRaw('LOWER(TRIM(ripley_name)) = ? ', [trim(strtolower($value['client_name']))])
+                            ->first();
+                        break;
                     default:
                         $check_ubigeo = DB::table('ubigeo')
                             ->whereRaw('LOWER(TRIM(department)) = ? ', [trim(strtolower($value['department']))])
@@ -85,6 +90,15 @@ class MassiveLoadRepository
 
                 if ($data['id_load_template'] == 71) {
                     $value['client_address'] = $check_ubigeo->address;
+                }
+
+                if ($data['id_load_template'] == 82) {
+                    $value['client_address'] = $check_ubigeo->ripley_address;
+                    $value['client_dni'] = $check_ubigeo->document;
+                    $value['client_email'] = $check_ubigeo->email;
+                    $value['client_phone1'] = $check_ubigeo->phone;
+                    $value['contact_name'] = $check_ubigeo->contact_name;
+                    $value['collect_time_range'] = $check_ubigeo->collect_date;
                 }
 
                 // if (!array_key_exists('client_barcode', $value) || !isset($value['client_barcode'])) {
