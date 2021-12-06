@@ -76,6 +76,7 @@ class MassiveLoadRepository
                         $check_ubigeo = DB::table('master_ripley')
                             ->whereRaw('LOWER(TRIM(ripley_name)) = ? ', [trim(strtolower($value['client_name']))])
                             ->first();
+                        Log::info('data => ', ['check_ubigeo' => (array) $check_ubigeo]);
                         break;
                     default:
                         $check_ubigeo = DB::table('ubigeo')
