@@ -70,6 +70,9 @@ class MassiveLoadRepository
                             ->first();
                         break;
                     case 82:
+                        $value['department'] = '';
+                        $value['province'] = '';
+                        $value['district'] = '';
                         $check_ubigeo = DB::table('master_ripley')
                             ->whereRaw('LOWER(TRIM(ripley_name)) = ? ', [trim(strtolower($value['client_name']))])
                             ->first();
