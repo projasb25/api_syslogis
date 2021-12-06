@@ -88,7 +88,7 @@ class CollectRepository
                 }
 
                 if ($data['id_load_template'] == 82) {
-                    $value['client_address'] = $check_ubigeo->ripley_address;
+                    $value['client_address'] = $check_ubigeo->address;
                     $value['client_dni'] = $check_ubigeo->document;
                     $value['client_email'] = $check_ubigeo->email;
                     $value['client_phone1'] = $check_ubigeo->phone;
