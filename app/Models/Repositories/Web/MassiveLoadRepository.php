@@ -70,12 +70,13 @@ class MassiveLoadRepository
                             ->first();
                         break;
                     case 82:
+                        Log::info('aca');
                         $value['department'] = '';
                         $value['province'] = '';
                         $value['district'] = '';
                         $check_ubigeo = DB::table('master_ripley')
-                            ->whereRaw('LOWER(TRIM(ripley_name)) = ? ', [trim(strtolower($value['client_name']))])
-                            ->first();
+                        ->whereRaw('LOWER(TRIM(ripley_name)) = ? ', [trim(strtolower($value['client_name']))])
+                        ->first();
                         Log::info('data => ', ['check_ubigeo' => (array) $check_ubigeo]);
                         break;
                     default:
