@@ -57,7 +57,7 @@ class ShippingRepository
 
     public function insertarImagen($id, $id_shipping, $url, $desc, $type)
     {
-        DB::table('guide_images')->insert(['id_guide' => $id, 'id_shipping_order' => $id_shipping ,'url' => $url, 'description' => $desc, 'type' => $type]);
+        DB::table('guide_images')->insert(['guideid' => $id, 'shippingorderid' => $id_shipping ,'url' => $url, 'description' => $desc, 'type' => $type]);
     }
 
     public function actualizarPedido($data)
