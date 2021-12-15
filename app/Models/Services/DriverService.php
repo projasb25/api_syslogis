@@ -27,7 +27,6 @@ class DriverService
     {
         try {
             $driver = auth()->user();
-            dd($driver);
             $ordenes = $this->repository->getShippingOrders($driver->id_driver);
             if ($ordenes->count()) {
     
