@@ -39,8 +39,8 @@ class DriverService
                     if (!count($aceptadas)) {
                         $disabled = false;
                     } else {
-                        $fecha_aceptada = Carbon::createFromTimeString($aceptadas[0]->date_created)->format('Y-m-d');
-                        $fecha_orden = Carbon::createFromTimeString($orden->date_created)->format('Y-m-d');
+                        $fecha_aceptada = Carbon::createFromTimeString($aceptadas[0]->createdate)->format('Y-m-d');
+                        $fecha_orden = Carbon::createFromTimeString($orden->createdate)->format('Y-m-d');
 
                         $disabled = (Carbon::parse($fecha_aceptada)->diffInDays($fecha_orden) !== 0);
                     }
