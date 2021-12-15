@@ -12,7 +12,7 @@ class Driver extends Authenticatable implements JWTSubject
     use Notifiable;
 
     protected $table = 'driver';
-    protected $primaryKey = 'id_driver';
+    protected $primaryKey = 'driverid';
     public $incrementing = true;
     public $timestamps = false;
     protected $fillable = [];
