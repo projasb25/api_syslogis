@@ -14,7 +14,8 @@ class DriverRepository
             ->select("shippingorderid as id_shipping_order","driverid as id_driver","number_guides as paradas","descrption","status","type","createdate")
             ->where('driverid', $id_driver)
             ->whereNotIn('status', ['FINALIZADO', 'RECHAZADO', 'ELIMINADO'])
-            ->get();
+            // ->get();
+            ->toSql();
     }
 
     public function actualizarEstado($estado, $id)
