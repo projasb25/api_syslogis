@@ -28,6 +28,7 @@ class DriverService
         try {
             $driver = auth()->user();
             $ordenes = $this->repository->getShippingOrders($driver->id_driver);
+            dd($ordenes);
             if ($ordenes->count()) {
     
                 /* Si no hay ofertas aceptadas, disabled = false */
