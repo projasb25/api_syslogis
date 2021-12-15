@@ -72,7 +72,7 @@ class ShippingRepository
 
     public function obtenerImagenes($id_guide, $id_shipping_order)
     {
-        return DB::table('guide_images')->where('id_guide', $id_guide)->where('id_shipping_order', $id_shipping_order)->get();
+        return DB::table('guide_images')->where('guideid', $id_guide)->where('shippingorderid', $id_shipping_order)->get();
     }
 
     public function rechazarEnvio($id)

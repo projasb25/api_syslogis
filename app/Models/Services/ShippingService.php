@@ -223,7 +223,7 @@ class ShippingService
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
             }
 
-            $imagenes = $this->repository->obtenerImagenes($guide[0]->id_guide, $guide[0]->id_shipping_order);
+            $imagenes = $this->repository->obtenerImagenes($guide[0]->guideid, $guide[0]->shippingorderid);
             $data = [];
 
             foreach ($imagenes as $key => $img) {
@@ -232,7 +232,7 @@ class ShippingService
                 array_push($data, $thumb);
             }
             Log::info("Obtener imagen exitoso", [
-                'id_shipping_order' => $request->id_shipping_order,
+                'id_shipping_order' => $request->shippingorderid,
                 'guide_number' => $request->guide_number,
                 'nro_imagenes' => $imagenes->count()
             ]);
@@ -240,21 +240,21 @@ class ShippingService
             Log::warning('Obtener Imagen', [
                 'expcetion' => $e->getData()[0],
                 'guide_number' => $request->guide_number,
-                'id_shipping_order' => $request->id_shipping_order
+                'id_shipping_order' => $request->shippingorderid
             ]);
             return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
             Log::warning('Obtener Imagen', [
                 'expcetion' => $e->getMessage(),
                 'guide_number' => $request->guide_number,
-                'id_shipping_order' => $request->id_shipping_order
+                'id_shipping_order' => $request->shippingorderid
             ]);
             return Res::error(['Unxpected DB error', 3000], 400);
         } catch (Exception $e) {
             Log::warning('Obtener Imagen', [
                 'exception' => $e->getMessage(),
                 'guide_number' => $request->guide_number,
-                'id_shipping_order' => $request->id_shipping_order
+                'id_shipping_order' => $request->shippingorderid
             ]);
             return Res::error(['Unxpected error', 3000], 400);
         }
