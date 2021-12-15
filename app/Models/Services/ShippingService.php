@@ -275,7 +275,7 @@ class ShippingService
             
             foreach ($pedido as $key => $pd) {
                 array_push($guias, [
-                    'id_shipping_order_detail' => $pd->id_shipping_order_detail,
+                    'id_shipping_order_detail' => $pd->shippingorderdetailid,
                     'estado' => $data['estado'],
                     'observacion' => $data['observacion'],
                     'latitud' => $data['latitud'],
