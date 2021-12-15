@@ -55,7 +55,7 @@ class ShippingService
             } elseif ($orden->status !== 'PENDIENTE') {
                 throw new CustomException(['La oferta se cancelo u otro conductor ya la acepto', 2002], 400);
             }
-            $this->repository->rechazarEnvio($orden->id_shipping_order);
+            $this->repository->rechazarEnvio($orden->shippingorderid);
             Log::info('Rechazar oferta exitoso', ['orden' => (array) $orden, 'estado' => 'ACEPTADO']);
         } catch (CustomException $e) {
             Log::warning('Rechazar oferta', ['expcetion' => $e->getData()[0]]);
