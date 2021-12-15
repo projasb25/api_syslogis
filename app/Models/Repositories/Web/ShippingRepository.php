@@ -22,7 +22,7 @@ class ShippingRepository
 
     public function aceptarEnvio($id)
     {
-        DB::table('shipping_order')->where('id_shipping_order',$id)->update(['status' => 'ACEPTADO']);
+        DB::table('shipping_order')->where('shippingorderid',$id)->update(['status' => 'ACEPTADO']);
     }
 
     public function listarRutas($id)
