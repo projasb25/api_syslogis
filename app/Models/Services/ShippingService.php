@@ -266,7 +266,7 @@ class ShippingService
         try {
             $guias = [];
             $data = $request->all();
-            $pedido = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
+            $pedido = $this->repository->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('shippingorderid'));
             if (!count($pedido)) {
                 throw new CustomException(['Pedido no encontrado.', 2012], 400);
             } elseif ($pedido[0]->status !== 'CURSO') {
@@ -275,7 +275,7 @@ class ShippingService
             
             foreach ($pedido as $key => $pd) {
                 array_push($guias, [
-                    'id_shipping_order_detail' => $pd->id_shipping_order_detail,
+                    'id_shipping_order_detail' => $pd->shippingorderid,
                     'estado' => $data['estado'],
                     'observacion' => $data['observacion'],
                     'latitud' => $data['latitud'],
