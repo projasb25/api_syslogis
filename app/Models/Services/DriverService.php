@@ -67,9 +67,9 @@ class DriverService
         try {
             $driver = auth()->user();
             $estado = ($request->get('estado')) ? 'ACTIVO' : 'DESCONECTADO';
-            $this->repository->actualizarEstado($estado, $driver->id_driver);
+            $this->repository->actualizarEstado($estado, $driver->driverid);
             
-            Log::info('Actualizar estado', ['id_driver' => $driver->id_driver, 'estado' => $estado]);
+            Log::info('Actualizar estado', ['id_driver' => $driver->driverid, 'estado' => $estado]);
         } catch (CustomException $e) {
             Log::warning('Actualizar Estado', ['expcetion' => $e->getData()[0]]);
             return Res::error($e->getData(), $e->getCode());

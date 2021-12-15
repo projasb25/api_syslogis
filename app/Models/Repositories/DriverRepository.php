@@ -21,8 +21,8 @@ class DriverRepository
     {
         DB::beginTransaction();
         try {
-            DB::table('driver')->where('id_driver', $id)->update(['status' => $estado]);
-            DB::table('vehicle')->where('id_driver', $id)->update(['status' => $estado]);
+            DB::table('driver')->where('driverid', $id)->update(['status' => $estado]);
+            DB::table('vehicle')->where('driverid', $id)->update(['status' => $estado]);
         } catch (Exception $e) {
             DB::rollback();
             throw $e;
