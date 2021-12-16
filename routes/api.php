@@ -94,6 +94,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('', 'MassiveLoadController@index');
         Route::post('process', 'MassiveLoadController@process');
         Route::post('print/cargo', 'MassiveLoadController@print_cargo');
+        Route::post('print/cargo/{id_guide}', 'MassiveLoadController@print_cargo_guide');
         Route::post('print/marathon', 'MassiveLoadController@print_marathon');
         Route::post('unitaria' , 'MassiveLoadController@unitaria');
     });
