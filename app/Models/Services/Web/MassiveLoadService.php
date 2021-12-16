@@ -891,7 +891,7 @@ class MassiveLoadService
         return $res;
     }
 
-    public function generar_doc_cargo_tipo4($data, $seller_name)
+    public function generar_doc_cargo_tipo4($data, $seller_data)
     {
         try {
             $pdf = new CustomPDF();
