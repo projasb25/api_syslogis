@@ -560,4 +560,40 @@ class MassiveLoadRepository
     {
         return DB::table('master_ripley')->where('ripley_name', $ripley_name)->first();
     }
+
+    public function get_datos_ruta_cargo_ripley_seller($id)
+    {
+        $query = DB::select("select
+            gd.id_organization, gd.date_loaded,
+            gd.guide_number, gd.client_barcode, gd.client_name, gd.client_phone1, gd.client_email, gd.client_dni, gd.type, gd.alt_code1,
+            gd.collect_time_range, gd.contact_name, gd.client_date, gd.amount, gd.payment_method,
+            org.name, org.address as org_address, adr.district, adr.province, adr.address, adr.address_refernce, adr.department,
+            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created,
+            gd.total_pieces, gd.total_weight, mr.ripley_name, mr.address as, mr.district as rdistrict
+        from
+            guide gd
+        join massive_load ml on ml.id_massive_load = gd.id_massive_load
+        join organization as org on org.id_organization = gd.id_organization
+        join address as adr on adr.id_address = gd.id_address
+        join sku_product as sku on sku.id_guide = gd.id_guide
+        join master_ripley mr on mr.ripley_name = gd.client_name
+        where
+            gd.id_massive_load = ?
+        group by
+            gd.client_barcode,
+            gd.guide_number,
+            gd.client_name,
+            gd.client_phone1,
+            gd.client_email,
+            gd.alt_code1,
+            gd.total_pieces,
+            gd.total_weight,
+            org.name,
+            org.address,
+            adr.district,
+            adr.province,
+            adr.address
+        order by adr.district;", [$id]);
+        return $query;
+    }
 }

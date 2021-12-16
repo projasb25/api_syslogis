@@ -254,7 +254,7 @@ class MassiveLoadService
                 $data = $this->repo->get_datos_ripley_reversa($massive_load->id_massive_load);
                 $doc = $this->generar_doc_cargo_tipo3($data);
             } elseif ($massive_load->id_organization === 74) {
-                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $data = $this->repo->get_datos_ruta_cargo_ripley_seller($massive_load->id_massive_load);
                 $seller_data = $this->repo->get_datos_ripley_seller($data[0]->client_name);
                 $doc = $this->generar_doc_cargo_tipo4($data, $seller_data);
             } else {
@@ -927,7 +927,7 @@ class MassiveLoadService
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
                     $pdf->SetFont('Times', '', 10);
                     $pdf->SetXY($box_x+6, $box_y + 1);
-                    $pdf->MultiCell(85,6,'NOMBRE: '. utf8_decode($seller_data->ripley_name),0,'J');
+                    $pdf->MultiCell(85,6,'NOMBRE: '. utf8_decode($guide->ripley_name),0,'J');
                     $pdf->SetX($box_x+6);
                     if ($guide->name === 'InRetail') {
                         $pdf->Cell(34,6,'CIUDAD: LIMA',0,0,'L');
@@ -942,7 +942,7 @@ class MassiveLoadService
                     $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
                     $pdf->SetFont('Times', '', 10);
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($seller_data->address))),0,'L');
+                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->raddress))),0,'L');
 
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
