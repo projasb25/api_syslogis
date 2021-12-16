@@ -927,22 +927,22 @@ class MassiveLoadService
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
                     $pdf->SetFont('Times', '', 10);
                     $pdf->SetXY($box_x+6, $box_y + 1);
-                    $pdf->MultiCell(85,6,'NOMBRE: '. utf8_decode($guide->ripley_name),0,'J');
+                    $pdf->MultiCell(85,4,'NOMBRE: '. utf8_decode($guide->ripley_name),0,'J');
                     $pdf->SetX($box_x+6);
                     if ($guide->name === 'InRetail') {
-                        $pdf->Cell(34,6,'CIUDAD: LIMA',0,0,'L');
-                        $pdf->Cell(51,6,'COD.: '.$guide->alt_code1,0,1,'L');
+                        $pdf->Cell(34,4,'CIUDAD: LIMA',0,0,'L');
+                        $pdf->Cell(51,4,'COD.: '.$guide->alt_code1,0,1,'L');
                     } else {
-                        $pdf->Cell(85,6,'DISTRITO: '.$guide->rdistrict,0,1,'L');
+                        $pdf->Cell(85,4,'DISTRITO:'.$guide->rdistrict,0,1,'L');
                     }
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
+                    $pdf->MultiCell(85,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+6);
                     $pdf->SetFont('Times', 'B', 10);
-                    $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
+                    $pdf->MultiCell(85,4,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
                     $pdf->SetFont('Times', '', 10);
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->raddress))),0,'L');
+                    $pdf->MultiCell(84,4,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->raddress))),0,'L');
 
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
