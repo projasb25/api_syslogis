@@ -261,7 +261,7 @@ class MassiveLoadService
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
                 $doc = $this->generar_doc_cargo_tipo1($data);
             }
-            // $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
+            $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
             $massive_load->ruta_doc_cargo = $doc['file_name'];
         }
 
