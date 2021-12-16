@@ -925,24 +925,24 @@ class MassiveLoadService
 
                     // body
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
-                    $pdf->SetFont('Times', '', 10);
+                    $pdf->SetFont('Times', '', 11);
                     $pdf->SetXY($box_x+6, $box_y + 1);
-                    $pdf->MultiCell(85,4,'NOMBRE: '. utf8_decode($guide->ripley_name),0,'J');
+                    $pdf->MultiCell(85,5,'NOMBRE: '. utf8_decode($guide->ripley_name),0,'J');
                     $pdf->SetX($box_x+6);
                     if ($guide->name === 'InRetail') {
-                        $pdf->Cell(34,4,'CIUDAD: LIMA',0,0,'L');
-                        $pdf->Cell(51,4,'COD.: '.$guide->alt_code1,0,1,'L');
+                        $pdf->Cell(34,5,'CIUDAD: LIMA',0,0,'L');
+                        $pdf->Cell(51,5,'COD.: '.$guide->alt_code1,0,1,'L');
                     } else {
-                        $pdf->Cell(85,4,'DISTRITO:'.$guide->rdistrict,0,1,'L');
+                        $pdf->Cell(85,5,'DISTRITO:'.$guide->rdistrict,0,1,'L');
                     }
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(85,4,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
+                    $pdf->MultiCell(85,5,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+6);
-                    $pdf->SetFont('Times', 'B', 10);
-                    $pdf->MultiCell(85,4,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
-                    $pdf->SetFont('Times', '', 10);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->MultiCell(85,5,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
+                    $pdf->SetFont('Times', '', 11);
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(84,4,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->raddress))),0,'L');
+                    $pdf->MultiCell(84,5,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->raddress))),0,'L');
 
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
