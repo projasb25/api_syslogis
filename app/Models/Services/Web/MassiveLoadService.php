@@ -927,7 +927,7 @@ class MassiveLoadService
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
                     $pdf->SetFont('Times', '', 11);
                     $pdf->SetXY($box_x+6, $box_y + 1);
-                    $pdf->MultiCell(85,6,'NOMBRE: '. $seller_data->ripley_name,0,'J');
+                    $pdf->MultiCell(85,6,'NOMBRE: '. utf8_decode($seller_data->ripley_name),0,'J');
                     $pdf->SetX($box_x+6);
                     if ($guide->name === 'InRetail') {
                         $pdf->Cell(34,6,'CIUDAD: LIMA',0,0,'L');
