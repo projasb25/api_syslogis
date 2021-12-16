@@ -925,7 +925,7 @@ class MassiveLoadService
 
                     // body
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
-                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetFont('Times', '', 10);
                     $pdf->SetXY($box_x+6, $box_y + 1);
                     $pdf->MultiCell(85,6,'NOMBRE: '. utf8_decode($seller_data->ripley_name),0,'J');
                     $pdf->SetX($box_x+6);
@@ -938,11 +938,11 @@ class MassiveLoadService
                     $pdf->SetX($box_x+6);
                     $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+6);
-                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->SetFont('Times', 'B', 10);
                     $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
-                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetFont('Times', '', 10);
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
+                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($seller_data->address))),0,'L');
 
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
