@@ -555,4 +555,9 @@ class MassiveLoadRepository
         order by adr.district", [$id_massive_load]);
         return $query;
     }
+
+    public function get_datos_ripley_seller($ripley_name)
+    {
+        return DB::table('master_ripley')->where('ripley_name', $ripley_name)->first();
+    }
 }

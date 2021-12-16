@@ -280,11 +280,15 @@ class MassiveLoadService
             } elseif ($massive_load->id_organization === 66) {
                 $data = $this->repo->get_datos_ripley_reversa($massive_load->id_massive_load);
                 $doc = $this->generar_doc_cargo_tipo3($data);
+            } elseif ($massive_load->id_organization === 74) {
+                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $seller_data = $this->repo->get_datos_ripley_seller($data[0]->client_name);
+                $doc = $this->generar_doc_cargo_tipo4($data. $seller_data);
             } else {
                 $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
                 $doc = $this->generar_doc_cargo_tipo1($data);
             }
-            $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
+            // $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
             $massive_load->ruta_doc_cargo = $doc['file_name'];
         }
 
@@ -879,6 +883,189 @@ class MassiveLoadService
         } catch (Exception $e) {
             Log::warning('Generar Documento Marathon', ['exception' => $e->getMessage()]);
             throw $e;
+        }
+        return $res;
+    }
+
+    public function generar_doc_cargo_tipo4($data, $seller_data)
+    {
+        try {
+            $pdf = new CustomPDF();
+            $cellMargin = 2 * 1.000125;
+            $lmargin = 5;
+            $rmargin = 5;
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+            $pdf->SetMargins($lmargin, $rmargin);
+            $pdf->Ln(0);
+            $pdf->SetFont('Times', '', 7);
+            $y = $pdf->GetY();
+            $pdf->SetAutoPageBreak(false);
+
+            $box_x = 5;
+            $box_y = 5;
+
+            foreach ($data as $i => $guide) {
+                if ($i  % 3 == 0 && $i != 0) {
+                    $pdf->AddPage();
+                    $box_y = 5;
+                }
+                // cuadro principal
+                $pdf->Rect($box_x, $box_y, 200, 78);
+
+                // cuadro 1.1 REMITENTE
+                    //header
+                    $pdf->Rect($box_x + 0, $box_y + 0, 6, 37);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 29, 'REMITENTE', 'U');
+
+                    // body
+                    $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetXY($box_x+6, $box_y + 1);
+                    $pdf->MultiCell(85,6,'NOMBRE: '. $seller_data->ripley_name,0,'J');
+                    $pdf->SetX($box_x+6);
+                    if ($guide->name === 'InRetail') {
+                        $pdf->Cell(34,6,'CIUDAD: LIMA',0,0,'L');
+                        $pdf->Cell(51,6,'COD.: '.$guide->alt_code1,0,1,'L');
+                    } else {
+                        $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
+                    }
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
+
+                // codigo de barra
+                    if (isset($guide->client_barcode)) {
+                        $cod_barra = $guide->client_barcode;
+                    } else {
+                        $cod_barra = $guide->guide_number;
+                    }
+
+                    $pdf->code128($box_x + 23, ($box_y + 38 + 2), $cod_barra , 50, 12, false);
+                    $pdf->SetXY($box_x+1, ($box_y + 52 + 2));
+                    $pdf->SetFont('Times', 'B', 16);
+                    $pdf->MultiCell(96,4,$cod_barra, 0,'C');
+                    $pdf->Ln(2);
+
+                // cuadro 2.1 DATOS
+                    //header
+                    $pdf->Rect($box_x + 0, ($box_y + 59 + 2), 6, 17);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->TextWithDirection($box_x + 5, $box_y + 76, 'DATOS', 'U');
+
+                    // body
+                    $pdf->Rect($box_x + 6, ($box_y + 59 + 2), 85, 17);
+                    $pdf->SetFont('Times', 'B', 12);
+                    $pdf->SetXY($box_x+8, ($box_y + 66 + 2));
+                    $pdf->MultiCell(45,4,'NRO. PIEZAS: '. $guide->total_pieces,0,'J');
+                    $pdf->SetXY($box_x+8+45, ($box_y + 66 + 2));
+                    $pdf->MultiCell(45,4,'PESO: '. $guide->total_weight . ' KG',0,'J');
+                    $pdf->Line($box_x+8+41, ($box_y + 59 + 2), $box_x+8+41, ($box_y + 76 + 2));
+
+                    $pdf->SetX($box_x+8);
+                // cuadro 1.2 DESTINATARIO
+                    $tamano = ($guide->type === 'RECOLECCION') ? 53 : 41;
+
+                    //header
+                    $pdf->Rect($box_x + 93, $box_y + 0, 6, $tamano);
+                    $pdf->SetFont('Times', 'B', 11);
+                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + 35, 'DESTINATARIO', 'U');
+
+                    // body
+                    $nombre = utf8_decode(ucwords(strtolower($guide->client_name)));
+                    $distrito = utf8_decode(ucwords(strtolower($guide->district)));
+                    $direccion = utf8_decode(ucwords(strtolower($guide->address)));
+                    $provincia = utf8_decode(ucwords(strtolower($guide->province)));
+                    $departamento = utf8_decode(ucwords(strtolower($guide->department)));
+
+                    $pdf->Rect($box_x + 93 + 6, $box_y + 0, 101, $tamano);
+                    $pdf->SetFont('Times', '', 11);
+                    $pdf->SetXY($box_x + 92 + 7, $box_y + 1);
+                    $pdf->MultiCell(101,5,'NOMBRE: '. $nombre,0,'L');
+                    $pdf->SetX($box_x + 92 + 7);
+                    $pdf->MultiCell(101,5,'RUC: '. $guide->client_dni,0,'L');
+
+                    $pdf->SetX($box_x + 92 + 7);
+                    if ($guide->id_organization == 65) {
+                        $pdf->Cell(50,5,'DIST.: ' . $distrito,0,0,'L');
+                        $pdf->Cell(50,5,'PROV: '. $provincia,0,1,'L');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->Cell(101,5,'DEP.: ' . $departamento,0,1,'L');
+                    } else {
+                        $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
+                    }
+                    // $pdf->SetX($box_x + 92 + 7);
+                    // $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
+                    if ($guide->type === 'RECOLECCION') {
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'CONTACTO: ' .utf8_decode(strtolower($guide->contact_name)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'HORARIO REC.: ' .utf8_decode(strtolower($guide->collect_time_range)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($guide->client_date)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                    } else {
+                        $pdf->SetX($box_x + 92 + 7);
+                        if ($guide->collect_time_range) {
+                            $pdf->Cell(34,5,'TLF: '.$guide->client_phone1,0,0,'L');
+                            $pdf->Cell(67,5,'H/ENTREGA: '.$guide->collect_time_range,0,1,'L');
+                        } else {
+                            $pdf->Cell(70,5,'TLF: '.$guide->client_phone1,0,1,'L');
+                        }
+                        if ($guide->payment_method) {
+                            $pdf->SetX($box_x + 92 + 7);
+                            $pdf->Cell(60,5,'F/PAGO: '.$guide->payment_method,0,0,'L');
+                            $pdf->Cell(41,5,'MONTO: '.$guide->amount,0,1,'L');
+                        }
+                        $pdf->SetX($box_x + 92 + 7);
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
+                        $pdf->SetX($box_x + 92 + 7);
+                    }
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->MultiCell(100,5,'DIRECCION: '. $direccion,0,'L');
+                    $pdf->SetFont('Times', '', 11);
+
+                // cuadro 2.2 CONTENIDO
+                    $tamano2 = ($guide->type === 'RECOLECCION') ? 23 : 36;
+
+                    //header
+                    $pdf->Rect($box_x + 93, $box_y + $tamano+1, 6, $tamano2);
+                    $pdf->SetFont('Times', 'B', 10);
+                    $pdf->TextWithDirection($box_x + 93 + 4, $box_y + (($tamano2===23)?76:70), 'CONTENIDO', 'U');
+
+                    // body
+                    $pdf->Rect($box_x + 93 + 6, $box_y + $tamano+1, 101, $tamano2);
+                    $pdf->SetFont('Times', '', 9);
+                    $pdf->SetXY($box_x + 93 + 6, $box_y + $tamano+3);
+
+                    $contenidoArray = explode(",", $guide->contenido);
+                    foreach ($contenidoArray as $key => $product) {
+                        $pdf->MultiCell(101,3,utf8_decode(ucwords(strtolower($product))),0,'L');
+                        $pdf->SetX($box_x + 93 + 6);
+                    }
+                $box_y = 78+ $box_y + 4;
+            }
+
+            $disk = Storage::disk('cargo');
+            $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
+            $save = $disk->put($fileName, $pdf->Output('S', '', true));
+            if (!$save) {
+                throw new Exception('No se pudo grabar la hoja de ruta');
+            }
+            $res['file_name'] = $fileName;
+        } catch (Exception $e) {
+            Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = 'Error al actualizar las coordenadas de los envios.';
         }
         return $res;
     }
