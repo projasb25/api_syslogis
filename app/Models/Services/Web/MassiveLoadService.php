@@ -253,7 +253,7 @@ class MassiveLoadService
             } elseif ($massive_load->id_organization === 66) {
                 $data = $this->repo->get_datos_ripley_reversa($massive_load->id_massive_load);
                 $doc = $this->generar_doc_cargo_tipo3($data);
-            } elseif ($massive_load->id_organization === 74) {
+            } elseif ($massive_load->id_organization === 999) {
                 $data = $this->repo->get_datos_ruta_cargo_ripley_seller($massive_load->id_massive_load);
                 $seller_data = $this->repo->get_datos_ripley_seller($data[0]->client_name);
                 $doc = $this->generar_doc_cargo_tipo4($data, $seller_data);
