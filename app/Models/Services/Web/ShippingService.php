@@ -85,16 +85,16 @@ class ShippingService
     {
         $data = $request->all();
 
-        $hoja_ruta = $this->repo->get_hoja_ruta($data['id_shipping_order']);
+        $hoja_ruta = $this->repo->get_hoja_ruta($data['shippingorderid']);
         $disk = Storage::disk('hoja_ruta');
         $ruta = url('storage/hoja_ruta/');
 
         $file_exists = (Storage::disk('hoja_ruta')->exists($hoja_ruta->hoja_ruta_doc));
 
         if (!$hoja_ruta->hoja_ruta_doc || !$file_exists) {
-            $data_shipping = $this->repo->get_imprimir_hoja_ruta($data['id_shipping_order']);
+            $data_shipping = $this->repo->get_imprimir_hoja_ruta($data['shippingorderid']);
             $res = $this->crear_hoja_ruta($data_shipping);
-            $this->repo->actualizar_hoja_ruta($res['file_name'], $data['id_shipping_order']);
+            $this->repo->actualizar_hoja_ruta($res['file_name'], $data['shippingorderid']);
             $hoja_ruta->hoja_ruta_doc = $res['file_name'];
         }
 
@@ -120,7 +120,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 77, $y);
             $pdf->MultiCell(35, 5, 'Fecha de Asignacion:', 0, 'L');
             $pdf->SetXY($lmargin + 112, $y);
-            $pdf->MultiCell(20, 5, Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
+            $pdf->MultiCell(20, 5, Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->createdate)->format('Y-m-d'), 0, 'L');
             $y = $pdf->GetY();
     
             $pdf->MultiCell(20, 5, 'Conductor: ', 0, 'L');
@@ -134,7 +134,7 @@ class ShippingService
     
             $pdf->MultiCell(22, 5, 'Cod. Envio: ', 0, 'L');
             $pdf->SetXY($lmargin + 22, $y);
-            $pdf->MultiCell(55, 5, $data[0]->id_shipping_order, 0, 'L');
+            $pdf->MultiCell(55, 5, $data[0]->shippingorderid, 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
             $pdf->MultiCell(22, 5, 'Total Guias:', 0, 'L');
             $pdf->SetXY($lmargin + 99, $y);
@@ -169,7 +169,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 107, $y);
             $pdf->MultiCell(33, 5, '_________________', 0, 'L');
             $y = $pdf->GetY();
-            $pdf->code128(150, 13, str_pad($data[0]->id_shipping_order, 7, "0", STR_PAD_LEFT) , 50, 20, false);
+            $pdf->code128(150, 13, str_pad($data[0]->shippingorderid, 7, "0", STR_PAD_LEFT) , 50, 20, false);
             $pdf->Ln(2);
     
             $pdf->SetDrawColor(150, 153, 141);

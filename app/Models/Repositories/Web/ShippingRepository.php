@@ -17,7 +17,7 @@ class ShippingRepository
 
     public function get_hoja_ruta($id)
     {
-        return DB::table('shipping_order')->where('id_shipping_order', $id)->first();
+        return DB::table('shipping_order')->where('shippingorderid', $id)->first();
     }
 
     public function aceptarEnvio($id)
@@ -107,17 +107,17 @@ class ShippingRepository
     {
         $query = DB::select('select
             adr.address, adr.district, vh.plate_number, gd.guide_number, gd.client_barcode, dv.first_name, dv.last_name, pv.name as provider_name, so.*,
-            (select count(guide_barcode) from shipping_order_detail as sod2 where sod2.guide_barcode = gd.client_barcode and id_shipping_order = so.id_shipping_order) as nro_guias
+            (select count(guide_barcode) from shipping_order_detail as sod2 where sod2.guide_barcode = gd.client_barcode and shippingorderid = so.shippingorderid) as nro_guias
         from
             shipping_order so
-        join vehicle vh on vh.id_vehicle = so.id_vehicle 
-        join driver dv on dv.id_driver = vh.id_driver
-        join provider pv on pv.id_provider = vh.id_provider
-        join shipping_order_detail sod on sod.id_shipping_order = so.id_shipping_order
-        join guide as gd on gd.id_guide = sod.id_guide
-        join address adr on adr.id_address = gd.id_address
+        join vehicle vh on vh.vehicleid = so.vehicleid 
+        join driver dv on dv.driverid = vh.driverid
+        join provider pv on pv.providerid = vh.providerid
+        join shipping_order_detail sod on sod.shippingorderid = so.shippingorderid
+        join guide as gd on gd.guideid = sod.guideid
+        join address adr on adr.addressid = gd.addressid
         where
-            so.id_shipping_order = ?
+            so.shippingorderid = ?
         group by 
             gd.client_barcode,
             gd.guide_number,
@@ -131,7 +131,7 @@ class ShippingRepository
 
     public function actualizar_hoja_ruta($filename, $id)
     {
-        DB::table('shipping_order')->where('id_shipping_order', $id)->update([
+        DB::table('shipping_order')->where('shippingorderid', $id)->update([
             'hoja_ruta_doc' => $filename
         ]);
     }
