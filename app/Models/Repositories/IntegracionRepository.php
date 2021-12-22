@@ -97,7 +97,7 @@ class IntegracionRepository
         try {
             $guias_l = explode(',', $guias);
             foreach ($guias_l as $id_guia) {
-                DB::table('guide')->where('id_guide', $id_guia)->update(['reportado_integracion' => $report]);
+                DB::table('guide')->where('guideid', $id_guia)->update(['reportado_integracion' => $report]);
             }
             // foreach ($guides as $key => $guide) {
             //     DB::table('guide')->where('id_guide', $guide->id_guide)->update(['reportado_integracion' => 1]);
@@ -116,7 +116,7 @@ class IntegracionRepository
             DB::table('log_integracion_oechsle')->insert(
                 [
                     'result' => $result,
-                    'id_guide' => $id_guia,
+                    'guideid' => $id_guia,
                     'nro_despacho' => $altcode,
                     'response' => json_encode($response),
                     'request' => json_encode($request)
