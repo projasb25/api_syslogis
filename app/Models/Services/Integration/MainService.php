@@ -401,7 +401,7 @@ class MainService
                 $track_guide = [];
             } else {
                 $data = $this->repo->getProductInfo($guide->id_guide);
-                $status = $guide->status. ' para ' . $guide->type;
+                $status = (in_array($guide->status, ['RECOLECTADO', 'NO RECOLECTADO', 'ENTREGADO', 'NO ENTREGADO'])) ? $guide->status : $guide->status  . ' para ' . $guide->type;
                 $seg_code = $guide->seg_code;
                 $guide_number = $guide->guide_number;
                 $track_guide = $this->repo->getTrackingInfo($guide->id_guide);
