@@ -396,12 +396,12 @@ class MainService
                 $data = $integration_data;
                 $seg_code = $integration_data[0]->seg_code;
                 $guide_number = $integration_data[0]->guide_number;
-                $status  = 'REGISTRADO';
+                $status  = 'REGISTRADO para recoleccion';
                 $servicio = 'RECOLECCION';
                 $track_guide = [];
             } else {
                 $data = $this->repo->getProductInfo($guide->id_guide);
-                $status = $guide->status;
+                $status = $guide->status. ' para ' . $guide->type;
                 $seg_code = $guide->seg_code;
                 $guide_number = $guide->guide_number;
                 $track_guide = $this->repo->getTrackingInfo($guide->id_guide);
@@ -409,13 +409,13 @@ class MainService
             }
 
             $track_info = [
-                ['estado' => 'REGISTRADO', 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
+                ['estado' => 'REGISTRADO para ' . $guide->type, 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
             ];
 
             if (count($track_guide)) {
                 foreach ($track_guide as $item) {
                     array_push($track_info, [
-                        'estado' => $item->status,
+                        'estado' => $item->status . ' para ' .$guide->type,
                         'subEstado' => $item->motive,
                         'fecha' => $item->date_created
                     ]);
