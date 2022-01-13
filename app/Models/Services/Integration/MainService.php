@@ -235,6 +235,32 @@ class MainService
         return $res;
     }
 
+    public function procesar_distribucion_integracion()
+    {
+        $res['success'] = false;
+        try {
+            $integration_data = $this->repo->getGuidesCollectedIntegration();
+
+            $id = $this->repo->insertarCargaDistribucion($integration_data);
+
+            $res =[
+                'id_massive_load' => $id
+            ];
+            $res['success'] = true;
+            Log::info('Integracion procesar distribucion exito', ['id_carga' => $id]);
+        } catch (CustomException $e) {
+            Log::warning('Integracion procesar distribucion error', ['expcetion' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('Integracion procesar distribucion Query', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::warning('Integracion procesar distribucion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
     public function procesar_distribucion_express()
     {
         $res['success'] = false;

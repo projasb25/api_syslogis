@@ -103,6 +103,17 @@ class MainRepository
         return $query;
     }
 
+    public function getGuidesCollectedIntegration()
+    {
+        $query = DB::table('guide as gd')
+            ->join('load_integration_detail as lid','lid.guide_number','=','gd.guide_number')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.integracion',1)
+            ->get();
+        return $query;
+    }
+
     public function getGuidesCollectedExpress()
     {
         $query = DB::table('guide as gd')
@@ -404,6 +415,75 @@ class MainRepository
                     'date_loaded' => date('Y-m-d H:i:s')
                 ]);
                 DB::table('guide')->where('id_guide',$value->id_guide)->update(['proc_integracion'=>2]);
+            }
+
+            // DB::table('integration_data')->where('id_integration_data',$value->id_integration_data)->update(['status'=>'PROCESADO']);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return $id;
+    }
+
+    public function insertarCargaDistribucion($data)
+    {
+        DB::beginTransaction();
+        try {
+            $id = DB::table('massive_load')->insertGetId([
+                'number_records' => count($data),
+                'status' => 'PENDIENTE',
+                'created_by' => 'enviame',
+                'id_corporation' => $data[0]->id_corporation,
+                'id_organization' => $data[0]->id_organization,
+                'type' => 'DISTRIBUCION',
+                'integracion' => 1
+            ]);
+
+            foreach ($data as $key => &$value) {
+                DB::table('massive_load_details')->insert([
+                    'id_massive_load' => $id,
+                    'seg_code' => $value->seg_code,
+                    'guide_number' => $value->guide_number,
+                    'alt_code1' => $value->alt_code1,
+                    'alt_code2' => $value->alt_code2,
+                    'client_date' => date('Y-m-d H:i:s', time() + 86400),
+                    // 'client_date2' => $value['client_date2'] ?? null,
+                    'client_barcode' => $value->client_barcode,
+                    'client_dni' => $value->delivery_client_dni,
+                    'client_name' => $value->delivery_client_name,
+                    'client_phone1' => $value->delivery_client_phone1,
+                    'client_phone2' => $value->delivery_client_phone2,
+                    'client_phone3' => $value->delivery_client_phone3,
+                    'client_email' => $value->delivery_contact_email,
+                    'client_address' => $value->delivery_address,
+                    'client_address_reference' => $value->delivery_address_reference,
+                    // 'coord_latitude' => $value['coord_latitude'] ?? null,
+                    // 'coord_longitude' => $value['coord_longitude'] ?? null,
+                    'ubigeo' => $value->delivery_ubigeo,
+                    'department' => $value->delivery_department,
+                    'district' => $value->delivery_district,
+                    'province' => $value->delivery_province,
+                    'sku_code' => $value->sku_code,
+                    'sku_description' => $value->sku_description,
+                    'sku_weight' =>  $value->sku_weight,
+                    'sku_pieces' =>  $value->sku_pieces,
+                    // 'sku_brand' => $value['sku_brand'] ?? null,
+                    // 'sku_size' => $value['sku_size'] ?? null,
+                    // 'box_code' => $value['box_code'] ?? null,
+                    'status' => 'PENDIENTE',
+                    'created_by' => 'enviame',
+                    // 'delivery_type' => $value['delivery_type'] ?? null,
+                    'contact_name' => $value->delivery_contact_name,
+                    // 'contact_phone' => $value['contact_phone'] ?? null,
+                    // 'payment_method' => $value['payment_method'] ?? null,
+                    // 'amount' => $value['amount'] ?? null,
+                    // 'collect_time_range' => $value['collect_time_range'] ?? null,
+                    'seller_name' => $value->seller_name,
+                    'date_loaded' => date('Y-m-d H:i:s')
+                ]);
+                DB::table('guide')->where('id_guide',$value->id_guide)->update(['integracion'=>2]);
             }
 
             // DB::table('integration_data')->where('id_integration_data',$value->id_integration_data)->update(['status'=>'PROCESADO']);

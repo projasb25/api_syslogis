@@ -72,6 +72,7 @@ class CollectService
             $data['id_corporation'] = $load->id_corporation;
             $data['id_organization'] = $load->id_organization;
             $data['proc_integracion'] = $load->proc_integracion;
+            $data['integracion'] = $load->integracion;
 
             $adresses = $this->repo->process($data);
 

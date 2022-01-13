@@ -264,7 +264,8 @@ class CollectRepository
                         'collect_contact_name' => $value->collect_contact_name,
                         'proc_integracion' => $data['proc_integracion'],
                         'seller_name' => $value->seller_name,
-                        'date_loaded' => $value->date_loaded
+                        'date_loaded' => $value->date_loaded,
+                        'integracion' => $data['integracion']
                     ]);
 
                     if ($value->status === 'PROCESADO') {
