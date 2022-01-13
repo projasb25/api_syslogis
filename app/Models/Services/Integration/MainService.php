@@ -427,7 +427,7 @@ class MainService
                 $track_guide = [];
             } else {
                 $data = $this->repo->getProductInfo($guide->id_guide);
-                $status = (in_array($guide->status, ['RECOLECTADO', 'NO RECOLECTADO', 'ENTREGADO', 'NO ENTREGADO'])) ? $guide->status : $guide->status  . ' para ' . $guide->type;
+                $status = (in_array($guide->status, ['RECOLECCION COMPLETA', 'NO RECOLECTADO', 'ENTREGADO', 'NO ENTREGADO'])) ? $guide->status : $guide->status  . ' para ' . $guide->type;
                 $seg_code = $guide->seg_code;
                 $guide_number = $guide->guide_number;
                 $track_guide = $this->repo->getTrackingInfo($guide->id_guide);
@@ -441,7 +441,7 @@ class MainService
             if (count($track_guide)) {
                 foreach ($track_guide as $item) {
                     array_push($track_info, [
-                        'estado' => (in_array($item->status, ['RECOLECTADO', 'NO RECOLECTADO', 'ENTREGADO', 'NO ENTREGADO'])) ? $item->status : $item->status  . ' para ' . $guide->type,
+                        'estado' => (in_array($item->status, ['RECOLECCION COMPLETA', 'NO RECOLECTADO', 'ENTREGADO', 'NO ENTREGADO'])) ? $item->status : $item->status  . ' para ' . $guide->type,
                         'subEstado' => $item->motive,
                         'fecha' => $item->date_created
                     ]);
