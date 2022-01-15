@@ -440,8 +440,17 @@ class MainService
 
             if (count($track_guide)) {
                 foreach ($track_guide as $item) {
+                    if (in_array($item->status, ['NO RECOLECTADO', 'NO ENTREGADO'])) {
+                        $estado = $item->status . ' ' . $item->motive;
+                    }
+                    elseif (in_array($item->status, ['RECOLECCION COMPLETA', 'ENTREGADO'])) {
+                        $estado = $item->status;
+                    }
+                    else {
+                        $estado = $item->status  . ' para ' . $guide->type;
+                    }
                     array_push($track_info, [
-                        'estado' => (in_array($item->status, ['RECOLECCION COMPLETA', 'NO RECOLECTADO', 'ENTREGADO', 'NO ENTREGADO'])) ? $item->status : $item->status  . ' para ' . $guide->type,
+                        'estado' => $estado,
                         'subEstado' => $item->motive,
                         'fecha' => $item->date_created
                     ]);

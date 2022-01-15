@@ -65,7 +65,7 @@ class Handler extends ExceptionHandler
             $exception instanceof AuthenticationException ||
             $exception instanceof UnauthorizedHttpException
         ) {
-            Log::error('Error de ', ['exception' => $exception->getMessage()]);
+            Log::error('Error de Token', ['exception' => $exception->getMessage()]);
             return response()->json([
                 'success' => false,
                 'error' => [
