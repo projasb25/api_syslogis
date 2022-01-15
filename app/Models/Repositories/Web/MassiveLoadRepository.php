@@ -18,6 +18,11 @@ class MassiveLoadRepository
         return DB::table('massive_load')->where('id_massive_load', $id)->first();
     }
 
+    public function getGuide($id)
+    {
+        return DB::table('guide')->where('id_guide', $id)->first();
+    }
+
     public function getPropiedad($name)
     {
         return DB::table('properties')->where('name', $name)->first();
@@ -399,6 +404,42 @@ class MassiveLoadRepository
         return $query;
     }
 
+    public function get_datos_ruta_cargo_ripley_guide($id_massive_load, $id_guide)
+    {
+        $query = DB::select("select
+            gd.id_organization, gd.date_loaded,
+            gd.guide_number, gd.client_barcode, gd.client_name, gd.client_phone1, gd.client_email, gd.client_dni, gd.type, gd.alt_code1,
+            gd.collect_time_range, gd.contact_name, gd.client_date, gd.amount, gd.payment_method,
+            org.name, org.address as org_address, adr.district, adr.province, adr.address, adr.address_refernce, adr.department,
+            GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created,
+            gd.total_pieces, gd.total_weight
+        from
+            guide gd
+        join massive_load ml on ml.id_massive_load = gd.id_massive_load
+        join organization as org on org.id_organization = gd.id_organization
+        join address as adr on adr.id_address = gd.id_address
+        join sku_product as sku on sku.id_guide = gd.id_guide
+        where
+            gd.id_massive_load = ? and
+            gd.id_guide = ?
+        group by
+            gd.client_barcode,
+            gd.guide_number,
+            gd.client_name,
+            gd.client_phone1,
+            gd.client_email,
+            gd.alt_code1,
+            gd.total_pieces,
+            gd.total_weight,
+            org.name,
+            org.address,
+            adr.district,
+            adr.province,
+            adr.address
+        order by adr.district;", [$id_massive_load, $id_guide]);
+        return $query;
+    }
+
     public function get_datos_ruta_cargo_oechsle($id)
     {
         $query = DB::select("select
@@ -427,6 +468,38 @@ class MassiveLoadRepository
             adr.province,
             adr.address
         order by adr.district;", [$id]);
+        return $query;
+    }
+
+    public function get_datos_ruta_cargo_oechsle_guide($id_massive_load, $id_guide)
+    {
+        $query = DB::select("select
+            gd.guide_number, gd.client_name, gd.client_phone1, gd.client_email, gd.client_dni,
+            org.name, org.address as org_address,
+            adr.district, adr.province, adr.address,
+            GROUP_CONCAT(gd.client_barcode, '-',sku.sku_description) as contenido,
+            GROUP_CONCAT(if(gd.delivery_type is null, '',gd.delivery_type), '||',if(gd.contact_name is null, '',gd.contact_name), '||',if(gd.contact_phone is null, '',gd.contact_phone) SEPARATOR ';') as observaciones,
+            ml.date_created
+        from guide gd
+        join massive_load as ml on ml.id_massive_load = gd.id_massive_load
+        join sku_product as sku on sku.id_guide = gd.id_guide
+        join organization as org on org.id_organization = gd.id_organization
+        join address as adr on adr.id_address = gd.id_address
+        where
+            gd.id_massive_load = ? and
+            gd.id_guide = ?
+        group by
+            gd.guide_number,
+            gd.client_name,
+            gd.client_phone1,
+            gd.client_email,
+            gd.client_dni,
+            org.name,
+            org.address,
+            adr.district,
+            adr.province,
+            adr.address
+        order by adr.district;", [$id_massive_load, $id_guide]);
         return $query;
     }
 
@@ -553,6 +626,33 @@ class MassiveLoadRepository
         where
             gd.id_massive_load = ?
         order by adr.district", [$id_massive_load]);
+        return $query;
+    }
+
+    public function get_datos_ripley_reversa_guide($id_massive_load, $id_guide)
+    {
+        $query = DB::select("select
+            gd.seller_name,
+            adr.address,
+            adr.address_refernce,
+            adr.district,
+            adr.department,
+            adr.province,
+            gd.client_phone1,
+            gd.client_name,
+            gd.client_barcode,
+            gd.seg_code,
+            gd.guide_number,
+            GROUP_CONCAT(sp.sku_description) as sku_description,
+            GROUP_CONCAT(sp.sku_pieces) as sku_pieces,
+            gd.client_info
+        from guide gd
+        join address adr on adr.id_address = gd.id_address
+        join sku_product sp on sp.id_guide = gd.id_guide
+        where
+            gd.id_massive_load = ? and
+            gd.id_guide = ?
+        order by adr.district", [$id_massive_load, $id_guide]);
         return $query;
     }
 

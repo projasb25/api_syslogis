@@ -270,7 +270,8 @@ class MassiveLoadService
 
     public function print_cargo_guide($request)
     {
-        $massive_load = $this->repo->get($request->id_guide);
+        $guide = $this->repo->getGuide($request->id_guide);
+        $massive_load = $this->repo->get($guide->id_massive_load);
 
         $disk = Storage::disk('cargo');
         $ruta = url('storage/cargo/');
@@ -278,18 +279,18 @@ class MassiveLoadService
         $file_exists = (Storage::disk('cargo')->exists($massive_load->ruta_doc_cargo));
         if (!$massive_load->ruta_doc_cargo || !$file_exists) {
             if ($massive_load->id_corporation === 4) {
-                $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
+                $data = $this->repo->get_datos_ruta_cargo_oechsle_guide($massive_load->id_massive_load, $guide->id_guide);
                 $motivos = $this->repo->get_motivos();
                 $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
             } elseif ($massive_load->id_organization === 66) {
-                $data = $this->repo->get_datos_ripley_reversa($massive_load->id_massive_load);
+                $data = $this->repo->get_datos_ripley_reversa_guide($massive_load->id_massive_load, $guide->id_guide);
                 $doc = $this->generar_doc_cargo_tipo3($data);
             } elseif ($massive_load->id_organization === 74) {
-                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $data = $this->repo->get_datos_ruta_cargo_ripley_guide($massive_load->id_massive_load, $guide->id_guide);
                 $seller_data = $this->repo->get_datos_ripley_seller($data[0]->client_name);
-                $doc = $this->generar_doc_cargo_tipo4($data. $seller_data);
+                $doc = $this->generar_doc_cargo_tipo4($data, $seller_data);
             } else {
-                $data = $this->repo->get_datos_ruta_cargo_ripley($massive_load->id_massive_load);
+                $data = $this->repo->get_datos_ruta_cargo_ripley_guide($massive_load->id_massive_load, $guide->id_guide);
                 $doc = $this->generar_doc_cargo_tipo1($data);
             }
             // $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
