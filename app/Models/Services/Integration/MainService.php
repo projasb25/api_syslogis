@@ -413,7 +413,7 @@ class MainService
             $items = [];
             $track_info = [];
 
-            $guide = $this->repo->getGuideFromIn1tegration($request->seg_code, $user);
+            $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
             $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
             if (!$guide) {
                 if (!count($integration_data)) {
