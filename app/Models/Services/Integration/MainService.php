@@ -415,6 +415,7 @@ class MainService
             $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
             $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
             Log::info('integration_data ', ['data' => $integration_data]);
+            Log::info('guide ', ['data' => (array) $guide]);
             if (!$guide) {
                 if (!count($integration_data)) {
                     throw new CustomException(["Codigo de segumiento no encontrado", 404]);
