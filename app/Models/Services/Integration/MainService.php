@@ -433,7 +433,7 @@ class MainService
                 $track_guide = $this->repo->getTrackingInfo($guide->id_guide);
                 $servicio = $guide->type;
             }
-
+            Log::info('guide info '.($guide) ? $guide->type : 'recoleccion');
             $track_info = [
                 ['estado' => 'REGISTRADO para ' . ($guide) ? $guide->type : 'recoleccion', 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
             ];
