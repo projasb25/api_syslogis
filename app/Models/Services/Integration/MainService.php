@@ -420,7 +420,6 @@ class MainService
                 if (!count($integration_data)) {
                     throw new CustomException(["Codigo de segumiento no encontrado", 404]);
                 }
-                Log::info('entrar aca');
                 $data = $integration_data;
                 $seg_code = $integration_data[0]->seg_code;
                 $guide_number = $integration_data[0]->guide_number;
@@ -435,9 +434,9 @@ class MainService
                 $track_guide = $this->repo->getTrackingInfo($guide->id_guide);
                 $servicio = $guide->type;
             }
-            Log::info('guide info '.($guide) ? $guide->type : 'recoleccion');
+            $type_temp = (!$guide) ? 'recoleccion' : $guide->type;
             $track_info = [
-                ['estado' => 'REGISTRADO para ' . ($guide) ? $guide->type : 'recoleccion', 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
+                ['estado' => 'REGISTRADO para ' .  $type_temp, 'subEstado' => 'Registro Automático.', 'fecha' => $integration_data[0]->date_created]
             ];
 
             if (count($track_guide)) {
