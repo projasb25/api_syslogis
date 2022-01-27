@@ -420,6 +420,7 @@ class MainService
                 if (!count($integration_data)) {
                     throw new CustomException(["Codigo de segumiento no encontrado", 404]);
                 }
+                Log::info('entrar aca');
                 $data = $integration_data;
                 $seg_code = $integration_data[0]->seg_code;
                 $guide_number = $integration_data[0]->guide_number;
