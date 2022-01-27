@@ -412,7 +412,7 @@ class MainService
             $res = [];
             $items = [];
             $track_info = [];
-
+            Log::info('user orgid '. $user->id_organization);
             $guide = $this->repo->getGuideFromIntegration($request->seg_code, $user);
             $integration_data = $this->repo->getLoadDataByGuide($request->seg_code, $user);
             if (!$guide) {
