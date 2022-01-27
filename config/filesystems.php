@@ -81,7 +81,7 @@ return [
 
         'imagenes' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/imagenes3'),
+            'root' => storage_path('app/public/imagenes4'),
         ],
 
         's3' => [
