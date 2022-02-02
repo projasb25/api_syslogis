@@ -182,7 +182,7 @@ class IntegracionService
 
                 $req_body = [
                     "companyCode" => "OE",
-                    "stateDate" => $guide->stateDate,
+                    "stateDate" => explode(",", $guide->stateDate)[0],
                     "userName" => 'Qapla',
                     "items" => $items
                 ];
