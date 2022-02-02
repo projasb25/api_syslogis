@@ -166,7 +166,7 @@ class IntegracionService
                 $g .= $guide->ids_guias . ',';
                 Log::info('guias ',['ids_guias' => $guide->ids_guias, 'g' => $g]);
                 $productos = explode("|", $guide->contenido);
-                foreach ($productos as $producto) {
+                foreach ($productos as $key => $producto) {
                     $detalle = explode("/", $producto);
                     array_push($items, [
                         'dispatchNumber' => $guide->alt_code1,
@@ -174,9 +174,10 @@ class IntegracionService
                         'quantity' => $detalle[1]
                     ]);
                     if ($guide->status === 'PENDIENTE') {
-                        array_push($items, [
-                            'reason' => explode(",", $guide->motive)[0]
-                        ]);
+                        $items[$key]['reason'] = explode(",", $guide->motive)[0];
+                        // array_push($items, [
+                        //     'reason' => explode(",", $guide->motive)[0]
+                        // ]);
                     }
                 }
 
