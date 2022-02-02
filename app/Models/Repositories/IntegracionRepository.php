@@ -131,7 +131,7 @@ class IntegracionRepository
         }
     }
 
-    public function LogInsertOechsle_inter($result, $request, $response, $guias, $altcode)
+    public function LogInsertOechsle_inter($result, $request, $response, $guias, $altcode, $status, $type)
     {
         $guias_l = explode(',', $guias);
         foreach ($guias_l as $id_guia) {
@@ -141,7 +141,9 @@ class IntegracionRepository
                     'guideid' => $id_guia,
                     'nro_despacho' => $altcode,
                     'response' => json_encode($response),
-                    'request' => json_encode($request)
+                    'request' => json_encode($request),
+                    'status' => $status,
+                    'type' => $type
                 ]
             );
         }

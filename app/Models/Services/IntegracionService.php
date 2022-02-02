@@ -195,7 +195,8 @@ class IntegracionService
                 ];
 
                 Log::info('header', ['header' => $headers]);
-
+                
+                $type = ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED';
                 if (env('OESCHLE_INTEGRACION_API_SEND')) {
                     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL_INTER')]);
 
@@ -212,7 +213,7 @@ class IntegracionService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar estado a Oechsle, ', ['req' => $req_body, 'exception' => $response]);
-                        $this->repository->LogInsertOechsle_inter('ERROR', $req_body, $response, $guias, $guide->alt_code1);
+                        $this->repository->LogInsertOechsle_inter('ERROR', $req_body, $response, $guias, $guide->alt_code1, $guide->status, $type);
                         $this->repository->updateReportadoOeschle($guias, 2);
                         continue;
                     }
@@ -222,7 +223,7 @@ class IntegracionService
                 } else {
                     $response = $guias;
                 }
-                $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, $response, $guias, $guide->alt_code1);
+                $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, $response, $guias, $guide->alt_code1, $guide->status, $type);
 
                 Log::info('registro ',['req_body' => $req_body]);
             }
