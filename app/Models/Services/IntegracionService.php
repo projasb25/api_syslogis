@@ -175,9 +175,6 @@ class IntegracionService
                     ]);
                     if ($guide->status === 'PENDIENTE') {
                         $items[$key]['reason'] = explode(",", $guide->motive)[0];
-                        // array_push($items, [
-                        //     'reason' => explode(",", $guide->motive)[0]
-                        // ]);
                     }
                 }
 
@@ -190,13 +187,23 @@ class IntegracionService
 
                 $guias = rtrim($g, ',');
 
+                $headers = [
+                    "Content-Type" => "application/json",
+                    'client_id' => env('OESCHLE_INTEGRACION_API_KEY'),
+                    'X-DadCenter-Event' => ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED',
+                    'ORDER_IN_TRIP_DISPATCHED' => 'EXT'
+                ];
+
                 // if (env('OESCHLE_INTEGRACION_API_SEND')) {
-                //     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL')]);
+                //     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL_INTER')]);
 
                 //     try {
-                //         $req = $cliente->request('POST', 'provider/delivery', [
+                //         $req = $cliente->request('POST', 'orders-events/v1', [
                 //             "headers" => [
+                //                 "Content-Type" => "application/json",
                 //                 'client_id' => env('OESCHLE_INTEGRACION_API_KEY'),
+                //                 'X-DadCenter-Event' => ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED',
+                //                 'ORDER_IN_TRIP_DISPATCHED' => 'EXT'
                 //             ],
                 //             "json" => [$req_body]
                 //         ]);
