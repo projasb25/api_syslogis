@@ -91,6 +91,12 @@ class IntegracionRepository
         return $query;
     }
 
+    public function getGuideOeschleInter()
+    {
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_OECHSLE_INTER()");
+        return $query;
+    }
+
     public function updateReportadoOeschle($guias, $report)
     {
         DB::beginTransaction();
@@ -114,6 +120,22 @@ class IntegracionRepository
         $guias_l = explode(',', $guias);
         foreach ($guias_l as $id_guia) {
             DB::table('log_integracion_oechsle')->insert(
+                [
+                    'result' => $result,
+                    'guideid' => $id_guia,
+                    'nro_despacho' => $altcode,
+                    'response' => json_encode($response),
+                    'request' => json_encode($request)
+                ]
+            );
+        }
+    }
+
+    public function LogInsertOechsle_inter($result, $request, $response, $guias, $altcode)
+    {
+        $guias_l = explode(',', $guias);
+        foreach ($guias_l as $id_guia) {
+            DB::table('log_integracion_oechsle_inter')->insert(
                 [
                     'result' => $result,
                     'guideid' => $id_guia,

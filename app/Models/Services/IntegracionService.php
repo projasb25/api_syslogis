@@ -148,6 +148,82 @@ class IntegracionService
         return $res;
     }
 
+    public function integracionOechsleInter()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuideOeschleInter();
+            Log::info('Proceso de integracion con Oeschle puntos medios', ['nro_registros' => count($guides)]);
+
+            if (count($guides) === 0) {
+                $res['success'] = true;
+                return $res;
+            }
+
+            foreach ($guides as $key => $guide) {
+                $g = '';
+                $items = [];
+                $g .= $guide->ids_guias . ',';
+                Log::info('guias ',['ids_guias' => $guide->ids_guias, 'g' => $g]);
+                $productos = explode("|", $guide->contenido);
+                foreach ($productos as $producto) {
+                    $detalle = explode("/", $producto);
+                    array_push($items, [
+                        'dispatchNumber' => $guide->alt_code1,
+                        'skuCode' => $detalle[0],
+                        'quantity' => $detalle[1]
+                    ]);
+                    if ($guide->status === 'NO ENTREGADO') {
+                        array_push($items, [
+                            'reason' => $guide->motive
+                        ]);
+                    }
+                }
+
+                $req_body = [
+                    "companyCode" => "OE",
+                    "stateDate" => $guide->stateDate,
+                    "userName" => 'Qapla',
+                    "items" => $items
+                ];
+
+                $guias = rtrim($g, ',');
+
+                // if (env('OESCHLE_INTEGRACION_API_SEND')) {
+                //     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL')]);
+
+                //     try {
+                //         $req = $cliente->request('POST', 'provider/delivery', [
+                //             "headers" => [
+                //                 'client_id' => env('OESCHLE_INTEGRACION_API_KEY'),
+                //             ],
+                //             "json" => [$req_body]
+                //         ]);
+                //     } catch (\GuzzleHttp\Exception\RequestException $e) {
+                //         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+                //         Log::error('Reportar estado a Oechsle, ', ['req' => $req_body, 'exception' => $response]);
+                //         $this->repository->LogInsertOechsle_inter('ERROR', $req_body, $response, $guias, $guide->alt_code1);
+                //         $this->repository->updateReportadoOeschle($guias, 2);
+                //         continue;
+                //     }
+
+                //     $response = json_decode($req->getBody()->getContents());
+                //     $this->repository->updateReportadoOeschle($guias, 1);
+                // } else {
+                //     $response = $guias;
+                // }
+                // $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, $response, $guias, $guide->alt_code1);
+                Log::info('registro ',['req_body' => $req_body]);
+            }
+            $res['success'] = true;
+            Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
+        } catch (Exception $e) {
+            Log::error('Integracion Oechsle', ['cliente' => 'Oechsle', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
     public function integracionInretail()
     {
         $res['success'] = false;
