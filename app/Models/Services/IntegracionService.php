@@ -194,6 +194,9 @@ class IntegracionService
                     'ORDER_IN_TRIP_DISPATCHED' => 'EXT'
                 ];
 
+                Log::info('header', ['header' => $headers]);
+
+
                 // if (env('OESCHLE_INTEGRACION_API_SEND')) {
                 //     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL_INTER')]);
 
