@@ -173,9 +173,9 @@ class IntegracionService
                         'skuCode' => $detalle[0],
                         'quantity' => $detalle[1]
                     ]);
-                    if ($guide->status === 'NO ENTREGADO') {
+                    if ($guide->status === 'PENDIENTE') {
                         array_push($items, [
-                            'reason' => $guide->motive
+                            'reason' => explode(",", $guide->motive)[0]
                         ]);
                     }
                 }
