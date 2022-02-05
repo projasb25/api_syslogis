@@ -201,7 +201,7 @@ class IntegracionService
                     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL_INTER')]);
 
                     try {
-                        $req = $cliente->request('POST', 'orders-events/v1', [
+                        $req = $cliente->request('POST', 'dispatch/event', [
                             "headers" => [
                                 "Content-Type" => "application/json",
                                 'client_id' => env('OESCHLE_INTEGRACION_API_KEY_INTER'),
