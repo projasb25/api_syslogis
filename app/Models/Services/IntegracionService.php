@@ -206,7 +206,7 @@ class IntegracionService
                                 "Content-Type" => "application/json",
                                 'client_id' => env('OESCHLE_INTEGRACION_API_KEY_INTER'),
                                 'X-DadCenter-Event' => ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED',
-                                'ORDER_IN_TRIP_DISPATCHED' => 'EXT'
+                                'X-Origin-System' => 'EXT'
                             ],
                             "json" => [$req_body]
                         ]);
