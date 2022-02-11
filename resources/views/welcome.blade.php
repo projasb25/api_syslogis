@@ -81,8 +81,8 @@
 
             <div class="content">
                 <div class="m-b-md">
-                    <h2>SISTEMA DE LOGISTICA API V3.0</h2>
-                    <h5>Todos los derechos reservados 2020</h5>
+                    <h2>SISTEMA DE LOGISTICA API V4.0</h2>
+                    <h5>Todos los derechos reservados 2022</h5>
                 </div>
                 <!--
                 <div class="links">
