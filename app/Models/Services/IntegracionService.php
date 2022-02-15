@@ -171,7 +171,7 @@ class IntegracionService
                     array_push($items, [
                         'dispatchNumber' => $guide->alt_code1,
                         'skuCode' => $detalle[0],
-                        'quantity' => $detalle[1]
+                        'quantity' => (int) $detalle[1]
                     ]);
                     if ($guide->status === 'NO ENTREGADO') {
                         $items[$key]['reason'] = explode(",", $guide->motive)[0];
