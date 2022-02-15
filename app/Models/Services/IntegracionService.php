@@ -208,7 +208,7 @@ class IntegracionService
                                 'X-DadCenter-Event' => ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED',
                                 'X-Origin-System' => 'EXT'
                             ],
-                            "json" => [$req_body]
+                            "json" => $req_body
                         ]);
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         Log::error('exception', ['exc' => $e]);
