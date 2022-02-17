@@ -180,6 +180,7 @@ class IntegracionService
 
                 $req_body = [
                     "companyCode" => "OE",
+                    "deliveryMode" => "HOME_DELIVERY",
                     "stateDate" => explode(",", $guide->stateDate)[0],
                     "userName" => 'Qapla',
                     "items" => $items
@@ -187,16 +188,28 @@ class IntegracionService
 
                 $guias = rtrim($g, ',');
 
+                switch ($guide->status) {
+                    case 'NO ENTREGADO':
+                        $type = 'ORDER_NOT_DELIVERED';
+                        break;
+                    case 'ENTREGADO':
+                        $type = 'ORDER_DELIVERED';
+                        break;
+                    default:
+                        $type = 'ORDER_IN_TRIP_DISPATCHED';
+                        break;
+                }
+                
                 $headers = [
                     "Content-Type" => "application/json",
                     'client_id' => env('OESCHLE_INTEGRACION_API_KEY_INTER'),
-                    'X-DadCenter-Event' => ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED',
+                    'X-DadCenter-Event' => $type,
                     'X-Origin-System' => 'EXT'
                 ];
 
                 Log::info('header', ['header' => $headers]);
                 
-                $type = ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED';
+                // $type = ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED';
                 if (env('OESCHLE_INTEGRACION_API_SEND')) {
                     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL_INTER')]);
 
@@ -205,7 +218,7 @@ class IntegracionService
                             "headers" => [
                                 "Content-Type" => "application/json",
                                 'client_id' => env('OESCHLE_INTEGRACION_API_KEY_INTER'),
-                                'X-DadCenter-Event' => ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED',
+                                'X-DadCenter-Event' => $type,
                                 'X-Origin-System' => 'EXT'
                             ],
                             "json" => $req_body
