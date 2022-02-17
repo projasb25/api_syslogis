@@ -40,7 +40,7 @@ class ShippingService
             // elseif ($guide[0]->status !== 'CURSO') {
             //     throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
             // }
-            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide[0]->id_guide;
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $guide[0]->guideid;
             # CHeck if folder exists before create one
             if (!file_exists($destination_path)) {
                 File::makeDirectory($destination_path, $mode = 0777, true, true);
@@ -48,7 +48,7 @@ class ShippingService
             }
 
             $imagen = $request->file('imagen');
-            $nombre_imagen = $guide[0]->id_guide . '_' . time() . '.jpg';
+            $nombre_imagen = $guide[0]->guideid . '_' . time() . '.jpg';
             $thumbnail = Image::make($imagen->getRealPath());
 
             # Guardamos el thumnail primero
@@ -62,9 +62,9 @@ class ShippingService
                 $constraint->aspectRatio();
             })->save($destination_path . '/' . $nombre_imagen);
 
-            $ruta = url('storage/imagenes2/' . $guide[0]->id_guide . '/' . $nombre_imagen);
+            $ruta = url('storage/imagenes2/' . $guide[0]->guideid . '/' . $nombre_imagen);
             foreach ($guide as $key => $gd) {
-                $this->repo->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
+                $this->repository->insertarImagen($gd->guideid, $gd->shippingorderid, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
             }
 
             Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
