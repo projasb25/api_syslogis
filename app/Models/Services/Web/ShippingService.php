@@ -64,7 +64,7 @@ class ShippingService
 
             $ruta = url('storage/imagenes2/' . $guide[0]->guideid . '/' . $nombre_imagen);
             foreach ($guide as $key => $gd) {
-                $this->repository->insertarImagen($gd->guideid, $gd->shippingorderid, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
+                $this->repo->insertarImagen($gd->guideid, $gd->shippingorderid, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
             }
 
             Log::info('Grabar imagen exitoso', ['request' => $request->except('imagen'), 'nombre_imagen' => $ruta]);
