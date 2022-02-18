@@ -224,7 +224,7 @@ class IntegracionService
                             "json" => $req_body
                         ]);
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
-                        Log::error('exception', ['exc' => $e]);
+                        Log::error('exception', ['exc' => $e->getMessage()]);
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar estado a Oechsle, ', ['req' => $req_body, 'exception' => $response]);
                         $this->repository->LogInsertOechsle_inter('ERROR', $req_body, $response, $guias, $guide->alt_code1, $guide->status, $type);
