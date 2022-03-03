@@ -152,7 +152,7 @@ class MainService
 
             $user = auth()->user();
             $req = $request->all();
-            // $req['data'] = array_merge($req['data'], $user->getIdentifierData());
+            $user_data = $user->getIdentifierData();
             $fun = $this->functions->getFunctions();
             if (!isset($fun[$req['methodcollection']]) || !isset($fun[$req['methodcount']]) ) {
                 throw new CustomException(['metodo no existe.', 2100], 400);
@@ -161,8 +161,8 @@ class MainService
             $query_collection = $fun[$req['methodcollection']]['query'];
             $query_count = $fun[$req['methodcount']]['query'];
 
-            $data['collection'] = $this->repository->execute_store($query_collection, [$where, $take, $skip]);
-            $data['count'] = $this->repository->execute_store($query_count, [$where, $take, $skip])[0]->count;
+            $data['collection'] = $this->repository->execute_store($query_collection, [$where, $take, $skip, $user_data['username']]);
+            $data['count'] = $this->repository->execute_store($query_count, [$where, $take, $skip, $user_data['username']])[0]->count;
         } catch (CustomException $e) {
             Log::warning('Main Service paginated error', ['expcetion' => $e->getData()[0], 'request' => $request->all()]);
             return Res::error($e->getData(), $e->getCode());
