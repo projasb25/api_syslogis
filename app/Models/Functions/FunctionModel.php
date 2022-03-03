@@ -49,8 +49,8 @@ class FunctionModel
             "params" => ['domain_name', 'status']
         ],
         "SP_VEHICLE_DRIVER" => [
-            "query" => 'CALL SP_VEHICLE_DRIVER()',
-            "params" => []
+            "query" => 'CALL SP_VEHICLE_DRIVER(:username)',
+            "params" => ['username']
         ],
         "SP_CREATE_SHIPPING_ORDER" => [
             "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :id_driver, :quadrant_name, :guide_ids, :username, :type)',
