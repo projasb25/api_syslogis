@@ -511,7 +511,7 @@ class MainRepository
                     'id_integration_user' => $user->id_integration_user, 'id_corporation' => $user->id_corporation,
                     'id_organization' => $user->id_organization, 'request_data' => json_encode($data), 'status' => 'PENDIENTE',
                     'created_by' => $user->integration_username, 'number_records' => count($data['items']),
-                    'type' => $data['selectedSla']
+                    'type' => $data['selectedSla'] ?? 'NINGUNO'
                 ]
             );
 
