@@ -70,6 +70,7 @@ class MainRepository
         $query = DB::table('load_integration as li')
             ->join('load_integration_detail as lid','lid.id_load_integration','=','li.id_load_integration')
             ->where('li.status', 'PENDIENTE')
+            ->where('id_organization', 68)
             // ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
             ->get();
         return $query;

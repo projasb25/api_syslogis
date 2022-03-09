@@ -30,6 +30,7 @@ class CollectRepository
                 'id_corporation' => $data['id_corporation'],
                 'id_organization' => $data['id_organization'],
                 'id_load_template' => $data['id_load_template'],
+                'id_subsidiary' => $data['id_subsidiary'],
                 'type' => 'RECOLECCION'
             ]);
 
@@ -154,7 +155,8 @@ class CollectRepository
                     'contact_phone' => $value['contact_phone'] ?? null,
                     'collect_time_range' => $value['collect_time_range'] ?? null,
                     'collect_contact_name' => $value['collect_contact_name'] ?? null,
-                    'date_loaded' => $data['date_loaded']
+                    'date_loaded' => $data['date_loaded'],
+                    'id_subsidiary' => $data['id_subsidiary'],
                 ]);
             }
             DB::commit();
@@ -265,7 +267,8 @@ class CollectRepository
                         'proc_integracion' => $data['proc_integracion'],
                         'seller_name' => $value->seller_name,
                         'date_loaded' => $value->date_loaded,
-                        'integracion' => $data['integracion']
+                        'integracion' => $data['integracion'],
+                        'id_subsidiary' => $value->id_subsidiary,
                     ]);
 
                     if ($value->status === 'PROCESADO') {

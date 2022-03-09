@@ -44,6 +44,7 @@ class MassiveLoadRepository
                 'id_corporation' => $data['id_corporation'],
                 'id_organization' => $data['id_organization'],
                 'id_load_template' => $data['id_load_template'],
+                'id_subsidiary' => $data['id_subsidiary'],
                 'type' => 'DISTRIBUCION'
             ]);
 
@@ -170,7 +171,8 @@ class MassiveLoadRepository
                     'payment_method' => $value['payment_method'] ?? null,
                     'amount' => $value['amount'] ?? null,
                     'collect_time_range' => $value['collect_time_range'] ?? null,
-                    'date_loaded' => $data['date_loaded']
+                    'date_loaded' => $data['date_loaded'],
+                    'id_subsidiary' => $data['id_subsidiary'],
                 ]);
             }
             DB::commit();
@@ -282,7 +284,8 @@ class MassiveLoadRepository
                         'amount' => $value->amount,
                         'seller_name' => $value->seller_name,
                         'date_loaded' => $value->date_loaded,
-                        'client_info' => $value->client_info
+                        'client_info' => $value->client_info,
+                        'id_subsidiary' => $value->id_subsidiary,
                     ]);
 
                     if ($value->status === 'PROCESADO') {

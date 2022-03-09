@@ -28,6 +28,7 @@ class CollectService
             $req = $request->all();
             $data['count'] = count($req['data']);
             $data['username'] = $user->username;
+            $data['id_subsidiary'] = $user->id_subsidiary;
             $data['data'] = $req['data'];
             $data['id_corporation'] = $req['id_corporation'];
             $data['id_organization'] = $req['id_organization'];

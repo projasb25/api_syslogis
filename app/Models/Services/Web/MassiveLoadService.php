@@ -32,6 +32,7 @@ class MassiveLoadService
             $req = $request->all();
             $data['count'] = count($req['data']);
             $data['username'] = $user->username;
+            $data['id_subsidiary'] = $user->id_subsidiary;
             $data['data'] = $req['data'];
             $data['id_corporation'] = $req['id_corporation'];
             $data['id_organization'] = $req['id_organization'];
@@ -130,7 +131,7 @@ class MassiveLoadService
             $adresses = $this->repo->process($data);
 
             $propiedad = $this->repo->getPropiedad('apigmaps_call');
-            if ($propiedad && $propiedad->value === '1') {
+            if ($propiedad && $propiedad->value === '1' && $load->id_subsidiary === 1) {
                 $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
             }
 
