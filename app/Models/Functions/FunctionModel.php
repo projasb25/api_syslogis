@@ -61,8 +61,8 @@ class FunctionModel
             "params" => ['status', 'username', 'type']
         ],
         "SP_SEL_USER" => [
-            "query" => 'CALL SP_SEL_USER(:status)',
-            "params" => ['status']
+            "query" => 'CALL SP_SEL_USER(:status, :username)',
+            "params" => ['status', 'username']
         ],
         "SP_SEL_CORPORATIONS" => [
             "query" => 'CALL SP_SEL_CORPORATIONS(:status, :username)',
@@ -235,11 +235,11 @@ class FunctionModel
          **/
 
         "SP_SEL_GUIDES_P" => [
-            "query" => 'CALL SP_SEL_GUIDES_P(?,?,?)',
+            "query" => 'CALL SP_SEL_GUIDES_P(?,?,?,?)',
             "params" => ['id_massive_load', 'username']
         ],
         "SP_SEL_GUIDES_PCOUNT" => [
-            "query" => 'CALL SP_SEL_GUIDES_PCOUNT(?,?,?)',
+            "query" => 'CALL SP_SEL_GUIDES_PCOUNT(?,?,?,?)',
             "params" => ['id_massive_load', 'username']
         ],
         "SP_SEL_IMG_MONITOR" => [
@@ -251,11 +251,11 @@ class FunctionModel
             "params" => ['id_massive_load', 'username']
         ],
         "SP_SEL_MONITORING_GUIDES" => [
-            "query" => 'CALL SP_SEL_MONITORING_GUIDES(?,?,?)',
+            "query" => 'CALL SP_SEL_MONITORING_GUIDES(?,?,?,?)',
             "params" => ['id_massive_load', 'username']
         ],
         "SP_SEL_MONITORING_GUIDES_COUNT" => [
-            "query" => 'CALL SP_SEL_MONITORING_GUIDES_COUNT(?,?,?)',
+            "query" => 'CALL SP_SEL_MONITORING_GUIDES_COUNT(?,?,?,?)',
             "params" => ['id_massive_load', 'username']
         ],
         
