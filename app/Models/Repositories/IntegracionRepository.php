@@ -141,4 +141,28 @@ class IntegracionRepository
         $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_COOLBOX()");
         return $query;
     }
+
+    public function getGuideOeschleInter()
+    {
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_OECHSLE_INTER()");
+        return $query;
+    }
+
+    public function LogInsertOechsle_inter($result, $request, $response, $guias, $altcode, $status, $type)
+    {
+        $guias_l = explode(',', $guias);
+        foreach ($guias_l as $id_guia) {
+            DB::table('log_integracion_oechsle_inter')->insert(
+                [
+                    'result' => $result,
+                    'id_guide' => $id_guia,
+                    'nro_despacho' => $altcode,
+                    'response' => json_encode($response),
+                    'request' => json_encode($request),
+                    'status' => $status,
+                    'type' => $type
+                ]
+            );
+        }
+    }
 }

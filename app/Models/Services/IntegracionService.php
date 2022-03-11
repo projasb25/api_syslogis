@@ -346,4 +346,105 @@ class IntegracionService
         $responseArr = json_decode($responseBody, true);
         return $responseArr;
     }
+
+    public function integracionOechsleInter()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuideOeschleInter();
+            Log::info('Proceso de integracion con Oeschle puntos medios', ['nro_registros' => count($guides)]);
+
+            if (count($guides) === 0) {
+                $res['success'] = true;
+                return $res;
+            }
+
+            foreach ($guides as $key => $guide) {
+                $g = '';
+                $items = [];
+                $g .= $guide->ids_guias . ',';
+                Log::info('guias ',['ids_guias' => $guide->ids_guias, 'g' => $g]);
+                $productos = explode("|", $guide->contenido);
+                foreach ($productos as $key => $producto) {
+                    $detalle = explode("/", $producto);
+                    array_push($items, [
+                        'dispatchNumber' => $guide->alt_code1,
+                        'skuCode' => $detalle[0],
+                        'quantity' => (int) $detalle[1]
+                    ]);
+                    if ($guide->status === 'NO ENTREGADO') {
+                        $items[$key]['reason'] = explode(",", $guide->motive)[0];
+                    }
+                }
+
+                $req_body = [
+                    "companyCode" => "OE",
+                    "deliveryMode" => "HOME_DELIVERY",
+                    "stateDate" => explode(",", $guide->stateDate)[0],
+                    "userName" => 'QAYARIX_APP',
+                    "items" => $items
+                ];
+
+                $guias = rtrim($g, ',');
+
+                switch ($guide->status) {
+                    case 'NO ENTREGADO':
+                        $type = 'ORDER_NOT_DELIVERED';
+                        break;
+                    case 'ENTREGADO':
+                        $type = 'ORDER_DELIVERED';
+                        break;
+                    default:
+                        $type = 'ORDER_IN_TRIP_DISPATCHED';
+                        break;
+                }
+                
+                $headers = [
+                    "Content-Type" => "application/json",
+                    'client_id' => env('OESCHLE_INTEGRACION_API_KEY_INTER'),
+                    'X-DadCenter-Event' => $type,
+                    'X-Origin-System' => 'EXT'
+                ];
+
+                Log::info('header', ['header' => $headers]);
+                
+                // $type = ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED';
+                if (env('OESCHLE_INTEGRACION_API_SEND')) {
+                    $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL_INTER')]);
+
+                    try {
+                        $req = $cliente->request('POST', 'dispatch/event', [
+                            "headers" => [
+                                "Content-Type" => "application/json",
+                                'client_id' => env('OESCHLE_INTEGRACION_API_KEY_INTER'),
+                                'X-DadCenter-Event' => $type,
+                                'X-Origin-System' => 'EXT'
+                            ],
+                            "json" => $req_body
+                        ]);
+                    } catch (\GuzzleHttp\Exception\RequestException $e) {
+                        $response = $e->getResponse()->getBody()->getContents();
+                        Log::error('Reportar estado a Oechsle, ', ['exception' => $response, 'req' => $req_body]);
+                        $this->repository->LogInsertOechsle_inter('ERROR', $req_body, $response, $guias, $guide->alt_code1, $guide->status, $type);
+                        $this->repository->updateReportadoOeschle($guias, 2);
+                        continue;
+                    }
+
+                    $response = json_decode($req->getBody()->getContents());
+                    $this->repository->updateReportadoOeschle($guias, 1);
+                } else {
+                    $response = $guias;
+                }
+                $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, $response, $guias, $guide->alt_code1, $guide->status, $type);
+
+                Log::info('registro ',['req_body' => $req_body]);
+            }
+            $res['success'] = true;
+            Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
+        } catch (Exception $e) {
+            Log::error('Integracion Oechsle', ['cliente' => 'Oechsle', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
 }
