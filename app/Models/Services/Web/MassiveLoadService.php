@@ -131,8 +131,8 @@ class MassiveLoadService
             $adresses = $this->repo->process($data);
 
             $propiedad = $this->repo->getPropiedad('apigmaps_call');
-            if ($propiedad && $propiedad->value === '1' && $load->id_subsidiary === 1) {
-                $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
+            if ($propiedad && $propiedad->value === '1') {
+                $this->obtenerCoordenadas($adresses, $data['id_massive_load'], $load->id_subsidiary);
             }
 
         } catch (CustomException $e) {
@@ -173,7 +173,7 @@ class MassiveLoadService
         return Res::success('Carga insertada correctamente');
     }
 
-    public function obtenerCoordenadas($direcciones, $id_massive_load)
+    public function obtenerCoordenadas($direcciones, $id_massive_load, $id_subsidiary)
     {
         $res['success'] = false;
         $coordenadas = [];
@@ -183,9 +183,11 @@ class MassiveLoadService
                 # Limpiamos la direccion para que no haya problemas con la api de google
                 $direccion = $this->sanitizeAdress($value->address);
 
+                $country = ($id_subsidiary === 1) ? 'PE' : 'ARG';
+
                 try {
                     $client = new Client(['base_uri' => env('GOOGLEAPIS_GEOCODE_URL')]);
-                    $url = "json?address=" . $direccion . "-" . $value->district . "&components=country:PE&key=" . env('GOOGLEAPIS_GEOCODE_KEY');
+                    $url = "json?address=" . $direccion . "-" . $value->district . "&components=country:" . $country . "&key=" . env('GOOGLEAPIS_GEOCODE_KEY');
 
                     $req = $client->request('GET', $url);
                     $resp = json_decode($req->getBody()->getContents());
