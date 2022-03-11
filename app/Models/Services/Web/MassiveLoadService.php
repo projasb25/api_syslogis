@@ -197,6 +197,7 @@ class MassiveLoadService
                         $lat = null;
                         $lng = null;
                     } else {
+                        Log::info('Obtener coordenadas google.', ['url' => $url, 'direccion' => $direccion , 'response' => array($resp) ]);
                         $lat = $resp->results[0]->geometry->location->lat;
                         $lng = $resp->results[0]->geometry->location->lng;
                     }
