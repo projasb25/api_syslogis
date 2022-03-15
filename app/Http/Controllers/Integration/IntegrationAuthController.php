@@ -46,11 +46,7 @@ class IntegrationAuthController extends Controller
                 throw new CustomException(['Credenciales incorrectas.', 2001], 401);
             }
 
-            if ($user->id_organization === 68) {
-                auth()->factory()->setTTL(null);
-            } else {
-                auth()->factory()->setTTL(3600);
-            }
+            auth()->factory()->setTTL(null);
             
             $token = auth()->login($user);
 
