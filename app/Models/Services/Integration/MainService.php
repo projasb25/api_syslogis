@@ -504,7 +504,9 @@ class MainService
                 $data = $this->repo->getDatosRutaCargoIntegracion($guide_number);
                 $doc = $this->generar_doc_cargo_tipo1($data);
             }
+            
             $doc['file_name'];
+            Log::info('[INTEGRACION] Reporte cargo generado exitosamente', ['file_name' => $doc['file_name'], 'guide_number' => $guide_number]);
         } catch (QueryException $e) {
             Log::warning('Integracion reporte Query', ['expcetion' => $e->getMessage(), 'request' => $request->seg_code]);
             return Res::error(['Unxpected error', 2020], 400);
