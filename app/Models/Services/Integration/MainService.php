@@ -540,6 +540,7 @@ class MainService
 
             Log::info('aca probando =====================');
             foreach ($data as $i => $guide) {
+                Log::info('aca probando =====================');
                 if ($i  % 3 == 0 && $i != 0) {
                     $pdf->AddPage();
                     $box_y = 5;
