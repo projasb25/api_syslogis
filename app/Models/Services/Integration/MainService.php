@@ -495,17 +495,23 @@ class MainService
 
     public function exportar_cargo($request)
     {
-        $guide_number = $request->seg_code;
-        $disk = Storage::disk('cargo');
-        $ruta = url('storage/cargo/');
-
-        // $file_exists = (Storage::disk('cargo')->exists($massive_load->ruta_doc_cargo));
-        if (true) {
-            $data = $this->repo->getDatosRutaCargoIntegracion($guide_number);
-            $doc = $this->generar_doc_cargo_tipo1($data);
+        try {
+            $guide_number = $request->seg_code;
+            $disk = Storage::disk('cargo');
+            $ruta = url('storage/cargo/');
+    
+            if (true) {
+                $data = $this->repo->getDatosRutaCargoIntegracion($guide_number);
+                $doc = $this->generar_doc_cargo_tipo1($data);
+            }
+            $doc['file_name'];
+        } catch (QueryException $e) {
+            Log::warning('Integracion reporte Query', ['expcetion' => $e->getMessage(), 'request' => $request->seg_code]);
+            return Res::error(['Unxpected error', 2020], 400);
+        } catch (Exception $e) {
+            Log::warning('Integracion reporte error', ['exception' => $e->getMessage(), 'request' => $request->seg_code]);
+            return Res::error(['Unxpected error', 2021], 500);
         }
-            // $this->repo->actualizar_doc_ruta($massive_load->id_massive_load, $doc['file_name']);
-        $doc['file_name'];
 
         return Res::success(['hoja_ruta' => $ruta .'/'. $doc['file_name']]);
     }
