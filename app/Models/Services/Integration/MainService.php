@@ -555,6 +555,7 @@ class MainService
                     $pdf->SetFont('Times', 'B', 11);
                     $pdf->TextWithDirection($box_x + 5, $box_y + 29, 'REMITENTE', 'U');
 
+                Log::info('aca probando ===========yyyyyyyyyyyyyy==========');
                     // body
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
                     $pdf->SetFont('Times', '', 11);
@@ -568,6 +569,7 @@ class MainService
                         $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
                     }
                     $pdf->SetX($box_x+6);
+                Log::info('aca probando ===========yyyyyyyyyyyyyy==========');
                     $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+6);
                     $pdf->SetFont('Times', 'B', 11);
