@@ -573,6 +573,7 @@ class MainService
                     $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
                     $pdf->SetX($box_x+6);
                     $pdf->SetFont('Times', 'B', 11);
+                Log::info('aca probando ===========RRRRRRRRRRRR==========');
                     $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
                     $pdf->SetFont('Times', '', 11);
                     $pdf->SetX($box_x+6);
