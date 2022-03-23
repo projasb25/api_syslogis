@@ -33,6 +33,7 @@ Route::post('test', function(){
         ->where('gd.proc_integracion',1)
         ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
         ->get();
+    dd($getTypes);
     foreach ($getTypes as $key => $type) {
         var_dump($type->type);
         echo '</br>';
