@@ -538,6 +538,7 @@ class MainService
             $box_x = 5;
             $box_y = 5;
 
+            Log::info('aca probando =====================');
             foreach ($data as $i => $guide) {
                 if ($i  % 3 == 0 && $i != 0) {
                     $pdf->AddPage();
@@ -688,13 +689,16 @@ class MainService
                     }
                 $box_y = 78+ $box_y + 4;
             }
+            Log::info('aca probando =====================');
 
             $disk = Storage::disk('cargo');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
+            Log::info('aca probando =====================');
             $save = $disk->put($fileName, $pdf->Output('S', '', true));
             if (!$save) {
                 throw new Exception('No se pudo grabar la hoja de ruta');
             }
+            Log::info('aca probando =====================');
             $res['file_name'] = $fileName;
         } catch (Exception $e) {
             Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
