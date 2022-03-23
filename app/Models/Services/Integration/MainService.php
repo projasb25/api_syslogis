@@ -114,7 +114,7 @@ class MainService
                     $integration_data = $this->repo->InRetail_getCollectData($item->type);
                     $id = $this->repo->insertMassiveLoad($integration_data, $item->type);
                     
-                    Log::info('Integracion Crear Carga exito', ['id_carga' => $id, 'type' => $item->type]);
+                    Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'type' => $item->type]);
                 }
             }
             $res =['message' => 'Ok'];
@@ -219,15 +219,16 @@ class MainService
         try {
             $collectedTypes = $this->repo->InRetail_getCollectedGuidesTypes();
             if (count($collectedTypes)) {
-                foreach ($collectedTypes as $key => $type) {
-                    $integration_data = $this->repo->InRetail_getGuidesCollectedByType($type); 
-                    $id = $this->repo->insertMassiveLoadDist($integration_data, $type);
+                foreach ($collectedTypes as $key => $item) {
+                    $integration_data = $this->repo->InRetail_getGuidesCollectedByType($item->type); 
+                    $id = $this->repo->insertMassiveLoadDist($integration_data, $item->type);
+
+                    Log::info('InRetail Distribucion Crear Carga exito', ['id_carga' => $id, 'type' => $item->type]);
                 }
             }
             // $integration_data = $this->repo->getGuidesCollected();
-            $res =[ 'id_massive_load' => $id ];
+            $res =['message' => 'Ok'];
             $res['success'] = true;
-            Log::info('Integracion procesar distribucion exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
             Log::warning('Integracion procesar distribucion error', ['expcetion' => $e->getData()[0]]);
             $res['mensaje'] = $e->getData()[0];

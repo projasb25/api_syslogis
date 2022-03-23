@@ -145,7 +145,8 @@ class MainRepository
     public function InRetail_getCollectedGuidesTypes()
     {
         $query = DB::table('guide as gd')
-            ->select('distinct(gd.delivery_type)')
+            ->select('gd.delivery_type as type')
+            ->distinct()
             ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
             ->where('gd.type','RECOLECCION')
             ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
