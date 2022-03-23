@@ -39,4 +39,9 @@ class IntegrationController extends Controller
     {
         return $this->mainService->consultar($request);
     }
+
+    public function exportar_cargo(Request $request)
+    {
+        return $this->mainService->exportar_cargo($request);
+    }
 }

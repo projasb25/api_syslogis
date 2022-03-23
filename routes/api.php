@@ -134,6 +134,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => '
     Route::group(['middleware' => ['assign.guard:integration_users','jwt.auth']], function(){
         Route::post('registrar', 'IntegrationController@registrar');
         Route::get('consultar/{seg_code}', 'IntegrationController@consultar');
+        Route::get('consultar/cargo/{seg_code}', 'IntegrationController@exportar_cargo');
     });
 
     Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {

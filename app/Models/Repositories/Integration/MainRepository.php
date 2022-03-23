@@ -65,6 +65,25 @@ class MainRepository
         return $query;
     }
 
+    public function InRetail_getCollectData($type)
+    {
+        $query = DB::table('integration_data as id')
+            ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
+            ->where('id.type','like',$type)
+            ->where('id.status', 'PENDIENTE')
+            ->get();
+        return $query;
+    }
+
+    public function InRetail_getDistinctTypes()
+    {
+        $query = DB::table('integration_data as id')
+            ->select('distinct(id.type)')
+            ->where('id.status', 'PENDIENTE')
+            ->get();
+        return $query;
+    }
+
     public function getLoadIntegration()
     {
         $query = DB::table('load_integration as li')
@@ -97,9 +116,35 @@ class MainRepository
         return $query;
     }
 
-    public function getGuidesCollected()
+    // public function getGuidesCollected()
+    // {
+    //     $query = DB::table('guide as gd')
+    //         ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+    //         ->where('gd.type','RECOLECCION')
+    //         ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+    //         ->where('gd.proc_integracion',1)
+    //         ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
+    //         ->get();
+    //     return $query;
+    // }
+
+    public function InRetail_getGuidesCollectedByType($type)
     {
         $query = DB::table('guide as gd')
+            ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.proc_integracion',1)
+            ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
+            ->where('gd.delivery_type', $type)
+            ->get();
+        return $query;
+    }
+
+    public function InRetail_getCollectedGuidesTypes()
+    {
+        $query = DB::table('guide as gd')
+            ->select('distinct(gd.delivery_type)')
             ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
             ->where('gd.type','RECOLECCION')
             ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
@@ -230,14 +275,14 @@ class MainRepository
         return $idOriginal;
     }
 
-    public function insertMassiveLoad($data)
+    public function insertMassiveLoad($data, $type)
     {
         DB::beginTransaction();
         try {
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
-                'created_by' => 'integracion express',
+                'created_by' => 'InRetail '.$type,
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
                 'type' => 'RECOLECCION',
@@ -276,7 +321,7 @@ class MainRepository
                     // 'sku_size' => $value['sku_size'] ?? null,
                     // 'box_code' => $value['box_code'] ?? null,
                     'status' => 'PENDIENTE',
-                    'created_by' => 'integracion',
+                    'created_by' => 'InRetail '.$type,
                     // 'delivery_type' => $value['delivery_type'] ?? null,
                     // 'contact_name' => $value['contact_name'] ?? null,
                     // 'contact_phone' => $value['contact_phone'] ?? null,
@@ -284,7 +329,8 @@ class MainRepository
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
                     'seller_name' => $value->seller_name,
-                    'date_loaded' => date('Y-m-d H:i:s')
+                    'date_loaded' => date('Y-m-d H:i:s'),
+                    'delivery_type' => $type
                 ]);
 
                 DB::table('integration_data')->where('id_integration_data',$value->id_integration_data)->update(['status'=>'PROCESADO']);
@@ -364,14 +410,14 @@ class MainRepository
         return $id;
     }
 
-    public function insertMassiveLoadDist($data)
+    public function insertMassiveLoadDist($data, $type)
     {
         DB::beginTransaction();
         try {
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
-                'created_by' => 'integracion',
+                'created_by' => 'InRetail '.$type,
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
                 'type' => 'DISTRIBUCION',
@@ -410,7 +456,7 @@ class MainRepository
                     // 'sku_size' => $value['sku_size'] ?? null,
                     // 'box_code' => $value['box_code'] ?? null,
                     'status' => 'PENDIENTE',
-                    'created_by' => 'integracion',
+                    'created_by' => 'InRetail '.$type,
                     // 'delivery_type' => $value['delivery_type'] ?? null,
                     'contact_name' => $value->delivery_contact_name,
                     // 'contact_phone' => $value['contact_phone'] ?? null,
@@ -418,7 +464,8 @@ class MainRepository
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
                     'seller_name' => $value->seller_name,
-                    'date_loaded' => date('Y-m-d H:i:s')
+                    'date_loaded' => date('Y-m-d H:i:s'),
+                    'delivery_type' => $type
                 ]);
                 DB::table('guide')->where('id_guide',$value->id_guide)->update(['proc_integracion'=>2]);
             }
@@ -571,5 +618,42 @@ class MainRepository
         }
         DB::commit();
         return $idOriginal;
+    }
+
+    public function getDatosRutaCargoIntegracion($guide_number)
+    {
+        $query = DB::select("select
+                li.id_organization, date(lid.date_created) as date_loaded, lid.guide_number, lid.client_barcode,
+                lid.delivery_client_name as client_name, lid.delivery_client_phone1 as client_phone1, lid.delivery_contact_email as client_email,
+                lid.delivery_client_dni as client_dni, 'DISTRIBUCION' as type, lid.alt_code1, null as collect_time_range,
+                lid.delivery_contact_name as contact_name, null as client_date, null as amount, null as payment_method,
+                org.name, org.address as org_address, lid.delivery_district as district, lid.delivery_province as province,
+                lid.delivery_address as address, lid.delivery_address_reference as address_refernce, lid.delivery_department as department,
+                0 as total_pieces, 0 as total_weight, GROUP_CONCAT(lid.sku_code, '-',lid.sku_description) as contenido,
+                date(li.date_updated) as date_created
+            from load_integration_detail lid
+            join load_integration li on li.id_load_integration = lid.id_load_integration
+            join organization as org on org.id_organization = li.id_organization
+            where
+                lid.guide_number = '?'
+            group by
+                lid.guide_number,
+                li.id_organization,
+                date(lid.date_created),
+                lid.client_barcode,
+                lid.delivery_client_name,
+                lid.delivery_client_phone1,
+                lid.delivery_contact_email,
+                lid.delivery_client_dni,
+                lid.alt_code1,
+                lid.delivery_contact_name,
+                lid.delivery_district,
+                lid.delivery_province,
+                lid.delivery_address,
+                lid.delivery_address_reference,
+                lid.delivery_department,
+                date(li.date_updated)
+            order by 1 desc;", [$guide_number]);
+        return $query;
     }
 }
