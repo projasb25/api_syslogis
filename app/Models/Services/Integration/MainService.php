@@ -5,7 +5,6 @@ namespace App\Models\Services\Integration;
 use App\Exceptions\CustomException;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Integration\MainRepository;
-use App\Models\Services\Web\CustomPDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
