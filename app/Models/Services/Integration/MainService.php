@@ -5,6 +5,7 @@ namespace App\Models\Services\Integration;
 use App\Exceptions\CustomException;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Integration\MainRepository;
+use App\Models\Services\Web\CustomPDF;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -520,6 +521,7 @@ class MainService
 
     public function generar_doc_cargo_tipo1($data)
     {
+        Log::info('[INTEGRACION] data', ['data' => $data]);
         try {
             $pdf = new CustomPDF();
             $cellMargin = 2 * 1.000125;
