@@ -521,7 +521,6 @@ class MainService
 
     public function generar_doc_cargo_tipo1($data)
     {
-        Log::info('[INTEGRACION] data', ['data' => $data]);
         try {
             $pdf = new CustomPDF();
             $cellMargin = 2 * 1.000125;
@@ -538,9 +537,7 @@ class MainService
             $box_x = 5;
             $box_y = 5;
 
-            Log::info('aca probando =====================');
             foreach ($data as $i => $guide) {
-                Log::info('aca probando =====================');
                 if ($i  % 3 == 0 && $i != 0) {
                     $pdf->AddPage();
                     $box_y = 5;
@@ -548,14 +545,12 @@ class MainService
                 // cuadro principal
                 $pdf->Rect($box_x, $box_y, 200, 78);
 
-                Log::info('aca probando ===========xxxxxxxxxxxxx==========');
                 // cuadro 1.1 REMITENTE
                     //header
                     $pdf->Rect($box_x + 0, $box_y + 0, 6, 37);
                     $pdf->SetFont('Times', 'B', 11);
                     $pdf->TextWithDirection($box_x + 5, $box_y + 29, 'REMITENTE', 'U');
 
-                Log::info('aca probando ===========yyyyyyyyyyyyyy==========');
                     // body
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
                     $pdf->SetFont('Times', '', 11);
@@ -569,9 +564,7 @@ class MainService
                         $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
                     }
                     $pdf->SetX($box_x+6);
-                Log::info('aca probando ===========FECHAAAAAAAA==========' . $guide->date_loaded);
                     $pdf->MultiCell(85,6,'FECHA: '. $guide->date_loaded,0,'J');
-                    Log::info('aca probando ===========RRRRRRRRRRRR==========');
                     $pdf->SetX($box_x+6);
                     $pdf->SetFont('Times', 'B', 11);
                     $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
@@ -579,7 +572,6 @@ class MainService
                     $pdf->SetX($box_x+6);
                     $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
 
-                Log::info('aca probando ==============asdfasdfasdf=======');
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
                         $cod_barra = $guide->client_barcode;
@@ -695,16 +687,13 @@ class MainService
                     }
                 $box_y = 78+ $box_y + 4;
             }
-            Log::info('aca probando =====================');
 
             $disk = Storage::disk('cargo');
             $fileName = date('YmdHis') . '_cc_' . '51616516' . '_' . rand(1, 100) . '.pdf';
-            Log::info('aca probando =====================');
             $save = $disk->put($fileName, $pdf->Output('S', '', true));
             if (!$save) {
                 throw new Exception('No se pudo grabar la hoja de ruta');
             }
-            Log::info('aca probando =====================');
             $res['file_name'] = $fileName;
         } catch (Exception $e) {
             Log::warning('Generar documento hoja ruta', ['exception' => $e->getMessage()]);
