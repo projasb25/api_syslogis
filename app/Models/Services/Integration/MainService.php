@@ -569,7 +569,7 @@ class MainService
                         $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
                     }
                     $pdf->SetX($box_x+6);
-                Log::info('aca probando ===========yyyyyyyyyyyyyy==========');
+                Log::info('aca probando ===========FECHAAAAAAAA==========');
                     $pdf->MultiCell(85,6,'FECHA: '. Carbon::createFromFormat('Y-m-d H:i:s', $guide->date_loaded)->format('Y-m-d'),0,'J');
                     Log::info('aca probando ===========RRRRRRRRRRRR==========');
                     $pdf->SetX($box_x+6);
