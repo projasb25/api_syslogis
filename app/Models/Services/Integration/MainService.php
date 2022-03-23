@@ -497,12 +497,13 @@ class MainService
     public function exportar_cargo($request)
     {
         try {
+            $user = auth()->user();
             $guide_number = $request->seg_code;
             $disk = Storage::disk('cargo');
             $ruta = url('storage/cargo/');
     
             if (true) {
-                $data = $this->repo->getDatosRutaCargoIntegracion($guide_number);
+                $data = $this->repo->getDatosRutaCargoIntegracion($guide_number, $user->id_organization);
                 $doc = $this->generar_doc_cargo_tipo1($data);
             }
             

@@ -620,7 +620,7 @@ class MainRepository
         return $idOriginal;
     }
 
-    public function getDatosRutaCargoIntegracion($guide_number)
+    public function getDatosRutaCargoIntegracion($guide_number, $id_organization)
     {
         $query = DB::select("select
                 li.id_organization, date(lid.date_created) as date_loaded, lid.guide_number, lid.client_barcode,
@@ -635,7 +635,8 @@ class MainRepository
             join load_integration li on li.id_load_integration = lid.id_load_integration
             join organization as org on org.id_organization = li.id_organization
             where
-                lid.guide_number = ?
+                lid.guide_number = ? and
+                li.id_organization = ?
             group by
                 lid.guide_number,
                 li.id_organization,
@@ -653,7 +654,7 @@ class MainRepository
                 lid.delivery_address_reference,
                 lid.delivery_department,
                 date(li.date_updated)
-            order by 1 desc;", [$guide_number]);
+            order by 1 desc;", [$guide_number, $id_organization]);
         return $query;
     }
 }
