@@ -19,10 +19,19 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(){
-    $getTypes = DB::table('integration_data as id')
-        ->select('id.type')
+    // $getTypes = DB::table('integration_data as id')
+    //     ->select('id.type')
+    //     ->distinct()
+    //     ->where('id.status', 'PENDIENTE')
+    //     ->get();
+    $getTypes = DB::table('guide as gd')
+        ->select('gd.delivery_type')
         ->distinct()
-        ->where('id.status', 'PENDIENTE')
+        ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+        ->where('gd.type','RECOLECCION')
+        ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+        ->where('gd.proc_integracion',1)
+        ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
         ->get();
     foreach ($getTypes as $key => $type) {
         var_dump($type->type);

@@ -78,7 +78,8 @@ class MainRepository
     public function InRetail_getDistinctTypes()
     {
         $query = DB::table('integration_data as id')
-            ->select('distinct(id.type)')
+            ->select('id.type')
+            ->distinct()
             ->where('id.status', 'PENDIENTE')
             ->get();
         return $query;

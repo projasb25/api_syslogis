@@ -110,11 +110,11 @@ class MainService
         try {
             $getTypes = $this->repo->InRetail_getDistinctTypes();
             if (count($getTypes)) {
-                foreach ($getTypes as $key => $type) {
-                    $integration_data = $this->repo->InRetail_getCollectData($type);
-                    $id = $this->repo->insertMassiveLoad($integration_data, $type);
+                foreach ($getTypes as $key => $item) {
+                    $integration_data = $this->repo->InRetail_getCollectData($item->type);
+                    $id = $this->repo->insertMassiveLoad($integration_data, $item->type);
                     
-                    Log::info('Integracion Crear Carga exito', ['id_carga' => $id, 'type' => $type]);
+                    Log::info('Integracion Crear Carga exito', ['id_carga' => $id, 'type' => $item->type]);
                 }
             }
             $res =['message' => 'Ok'];
