@@ -6,6 +6,7 @@ use App\Exceptions\CustomException;
 use App\Helpers\ResponseHelper as Res;
 use App\Models\Repositories\Integration\MainRepository;
 use App\Models\Services\Web\CustomPDF;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Log;
@@ -166,7 +167,7 @@ class MainService
             $integration_data[0]->id_corporation = 15;
             $integration_data[0]->id_organization = 65;
 
-            $id = $this->repo->insertMassiveLoad($integration_data);
+            $id = $this->repo->insertMassiveLoad($integration_data, 'Provincia');
             $res =[
                 'id_massive_load' => $id
             ];
@@ -192,7 +193,7 @@ class MainService
         try {
             $integration_data = $this->repo->getIntegrationDataExpress();
 
-            $id = $this->repo->insertMassiveLoad($integration_data);
+            $id = $this->repo->insertMassiveLoad($integration_data, 'Express');
             $res =[
                 'id_massive_load' => $id
             ];
@@ -272,7 +273,7 @@ class MainService
         try {
             $integration_data = $this->repo->getGuidesCollectedExpress();
 
-            $id = $this->repo->insertMassiveLoadDist($integration_data);
+            $id = $this->repo->insertMassiveLoadDist($integration_data, 'Express');
 
             $res =[
                 'id_massive_load' => $id
@@ -300,7 +301,7 @@ class MainService
 
             $integration_data[0]->id_corporation = 15;
             $integration_data[0]->id_organization = 65;
-            $id = $this->repo->insertMassiveLoadDist($integration_data);
+            $id = $this->repo->insertMassiveLoadDist($integration_data, 'Provincia');
 
 
             $res =[
