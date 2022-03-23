@@ -25,7 +25,7 @@ Route::post('test', function(){
     //     ->where('id.status', 'PENDIENTE')
     //     ->get();
     $getTypes = DB::table('guide as gd')
-        ->select('gd.delivery_type')
+        ->select('gd.delivery_type as type')
         ->distinct()
         ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
         ->where('gd.type','RECOLECCION')
