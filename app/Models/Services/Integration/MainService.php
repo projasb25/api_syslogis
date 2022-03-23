@@ -504,11 +504,18 @@ class MainService
     
             if (true) {
                 $data = $this->repo->getDatosRutaCargoIntegracion($guide_number, $user->id_organization);
+                if (!count($data)) {
+                    throw new CustomException(["Codigo de segumiento no encontrado", 404]);
+                }
+
                 $doc = $this->generar_doc_cargo_tipo1($data);
             }
             
             $doc['file_name'];
             Log::info('[INTEGRACION] Reporte cargo generado exitosamente', ['file_name' => $doc['file_name'], 'guide_number' => $guide_number]);
+        } catch (CustomException $e) {
+            Log::warning('Integracion reporte error', ['expcetion' => $e->getData()[0], 'request' => $request->seg_code]);
+            return Res::error($e->getData(), $e->getCode());
         } catch (QueryException $e) {
             Log::warning('Integracion reporte Query', ['expcetion' => $e->getMessage(), 'request' => $request->seg_code]);
             return Res::error(['Unxpected error', 2020], 400);
