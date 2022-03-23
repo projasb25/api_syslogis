@@ -25,7 +25,7 @@ Route::post('test', function(){
         ->where('id.status', 'PENDIENTE')
         ->get();
     foreach ($getTypes as $key => $type) {
-        var_dump($type);
+        var_dump($type->type);
         echo '</br>';
     }
     dd($getTypes);
