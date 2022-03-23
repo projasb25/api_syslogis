@@ -548,7 +548,7 @@ class MainService
                 // cuadro principal
                 $pdf->Rect($box_x, $box_y, 200, 78);
 
-                Log::info('aca probando =====================');
+                Log::info('aca probando ===========xxxxxxxxxxxxx==========');
                 // cuadro 1.1 REMITENTE
                     //header
                     $pdf->Rect($box_x + 0, $box_y + 0, 6, 37);
@@ -576,7 +576,7 @@ class MainService
                     $pdf->SetX($box_x+6);
                     $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
 
-                Log::info('aca probando =====================');
+                Log::info('aca probando ==============asdfasdfasdf=======');
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
                         $cod_barra = $guide->client_barcode;
