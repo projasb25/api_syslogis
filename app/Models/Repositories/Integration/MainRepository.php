@@ -635,7 +635,7 @@ class MainRepository
             join load_integration li on li.id_load_integration = lid.id_load_integration
             join organization as org on org.id_organization = li.id_organization
             where
-                lid.guide_number = 'RP20220316023386'
+                lid.guide_number = '?'
             group by
                 lid.guide_number,
                 li.id_organization,
