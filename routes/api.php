@@ -20,8 +20,8 @@ use Location\Distance\Vincenty;
 
 Route::post('test', function(){
     $getTypes = DB::table('integration_data as id')
-        // ->select('id.type')
-        ->distinct('id.type')
+        ->select('id.type')
+        ->distinct()
         ->where('id.status', 'PENDIENTE')
         ->get();
     dd($getTypes);
