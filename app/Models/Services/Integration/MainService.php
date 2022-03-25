@@ -690,10 +690,10 @@ class MainService
                     $pdf->SetXY($box_x + 93 + 6, $box_y + $tamano+3);
 
                     $contenidoArray = explode(",", $guide->contenido);
-                    foreach ($contenidoArray as $key => $product) {
-                        $pdf->MultiCell(101,3,utf8_decode(ucwords(strtolower($product))),0,'L');
-                        $pdf->SetX($box_x + 93 + 6);
-                    }
+                    // foreach ($contenidoArray as $key => $product) {
+                    //     $pdf->MultiCell(101,3,utf8_decode(ucwords(strtolower($product))),0,'L');
+                    //     $pdf->SetX($box_x + 93 + 6);
+                    // }
                 $box_y = 78+ $box_y + 4;
             }
 

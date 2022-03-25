@@ -631,7 +631,7 @@ class MainRepository
                 lid.delivery_contact_name as contact_name, null as client_date, null as amount, null as payment_method,
                 org.name, org.address as org_address, lid.delivery_district as district, lid.delivery_province as province,
                 lid.delivery_address as address, lid.delivery_address_reference as address_refernce, lid.delivery_department as department,
-                0 as total_pieces, 0 as total_weight, GROUP_CONCAT(lid.sku_code, '-',lid.sku_description) as contenido,
+                sum(sku_pieces) as total_pieces, sum(sku_weight) as total_weight, GROUP_CONCAT(lid.sku_code, '-',lid.sku_description) as contenido,
                 date(li.date_updated) as date_created
             from load_integration_detail lid
             join load_integration li on li.id_load_integration = lid.id_load_integration
