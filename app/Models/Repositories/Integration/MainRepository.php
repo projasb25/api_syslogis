@@ -625,7 +625,7 @@ class MainRepository
     public function getDatosRutaCargoIntegracion($guide_number, $id_organization)
     {
         $query = DB::select("select
-                li.id_organization, date(lid.date_created) as date_loaded, lid.guide_number, lid.client_barcode,
+                li.id_organization, date(lid.date_created) as date_loaded, lid.guide_number, lid.client_barcode, lid.seg_code,
                 lid.delivery_client_name as client_name, lid.delivery_client_phone1 as client_phone1, lid.delivery_contact_email as client_email,
                 lid.delivery_client_dni as client_dni, 'DISTRIBUCION' as type, lid.alt_code1, null as collect_time_range,
                 lid.delivery_contact_name as contact_name, null as client_date, null as amount, null as payment_method,
@@ -644,6 +644,7 @@ class MainRepository
                 li.id_organization,
                 date(lid.date_created),
                 lid.client_barcode,
+                lid.seg_code,
                 lid.delivery_client_name,
                 lid.delivery_client_phone1,
                 lid.delivery_contact_email,

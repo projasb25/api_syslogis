@@ -575,6 +575,8 @@ class MainService
                     $pdf->SetX($box_x+6);
                     $pdf->MultiCell(85,6,'FECHA: '. $guide->date_loaded,0,'J');
                     $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(85,6,'COD. SEGUIMIENTO: '. $guide->seg_code,0,'J');
+                    $pdf->SetX($box_x+6);
                     $pdf->SetFont('Times', 'B', 11);
                     $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
                     $pdf->SetFont('Times', '', 11);
