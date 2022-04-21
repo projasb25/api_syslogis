@@ -98,11 +98,12 @@ class MainRepository
 
     public function getLoadIntegrationByOrg($orgid)
     {
-        return DB::table('load_integration as li')
-            ->join('load_integration_detail as lid','lid.id_load_integration','=','li.id_load_integration')
-            ->where('li.status', 'PENDIENTE')
-            ->where('id_organization', $orgid)
-            ->get();
+        return DB::select("CALL view_integration_byOrg(?)",[$orgid]);
+        // return DB::table('load_integration as li')
+        //     ->join('load_integration_detail as lid','lid.id_load_integration','=','li.id_load_integration')
+        //     ->where('li.status', 'PENDIENTE')
+        //     ->where('id_organization', $orgid)
+        //     ->get();
     }
 
     public function getLoadIntegrationOrganizations()
@@ -359,14 +360,14 @@ class MainRepository
         return $id;
     }
 
-    public function insertMassiveLoadIntegration($data)
+    public function insertMassiveLoadIntegration($data, $orgname)
     {
         DB::beginTransaction();
         try {
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
-                'created_by' => 'enviame',
+                'created_by' => $orgname,
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
                 'type' => 'RECOLECCION',
@@ -405,7 +406,7 @@ class MainRepository
                     // 'sku_size' => $value['sku_size'] ?? null,
                     // 'box_code' => $value['box_code'] ?? null,
                     'status' => 'PENDIENTE',
-                    'created_by' => 'integracion',
+                    'created_by' => $orgname,
                     // 'delivery_type' => $value['delivery_type'] ?? null,
                     // 'contact_name' => $value['contact_name'] ?? null,
                     // 'contact_phone' => $value['contact_phone'] ?? null,
@@ -417,6 +418,7 @@ class MainRepository
                 ]);
 
                 DB::table('load_integration')->where('id_load_integration',$value->id_load_integration)->update(['status'=>'PROCESADO']);
+                DB::table('load_integration_detail')->where('id_load_integration',$value->id_load_integration)->update(['status'=>'PROCESADO']);
             }
             DB::commit();
         } catch (\Exception $e) {
