@@ -96,6 +96,20 @@ class MainRepository
         return $query;
     }
 
+    public function getLoadIntegrationByOrg($orgid)
+    {
+        return DB::table('load_integration as li')
+            ->join('load_integration_detail as lid','lid.id_load_integration','=','li.id_load_integration')
+            ->where('li.status', 'PENDIENTE')
+            ->where('id_organization', $orgid)
+            ->get();
+    }
+
+    public function getLoadIntegrationOrganizations()
+    {
+        return DB::table('getOrgsCollectIntegration')->get();
+    }
+
     public function getIntegrationDataProvincia()
     {
         $query = DB::table('integration_data as id')

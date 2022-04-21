@@ -136,15 +136,37 @@ class MainService
     {
         $res['success'] = false;
         try {
-            $integration_data = $this->repo->getLoadIntegration();
+            $getOrgs = $this->repo->getLoadIntegrationOrganizations();
+            Log::info('getOrgs',['data' => $getOrgs]);
+            // if (count($getOrgs)) {
+            //     foreach ($getOrgs as $item) {
+            //         $integration_data = $this->repo->getLoadIntegrationByOrg($item->id_organization);
+            //         $id = $this->repo->insertMassiveLoadIntegration($integration_data)
+            //     }
+            // }
 
-            $id = $this->repo->insertMassiveLoadIntegration($integration_data);
-            $res =[
-                'id_massive_load' => $id
-            ];
 
+            // $id = $this->repo->insertMassiveLoadIntegration($integration_data);
+            // $res =[
+            //     'id_massive_load' => $id
+            // ];
+
+            // $res['success'] = true;
+            // Log::info('Integracion Crear Carga exito', ['id_carga' => $id]);
+
+
+            // $getTypes = $this->repo->InRetail_getDistinctTypes();
+            // if (count($getTypes)) {
+            //     foreach ($getTypes as $key => $item) {
+            //         $integration_data = $this->repo->InRetail_getCollectData($item->type);
+            //         $id = $this->repo->insertMassiveLoad($integration_data, $item->type);
+                    
+            //         Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'type' => $item->type]);
+            //     }
+            // }
+            $res =['message' => 'Ok'];
             $res['success'] = true;
-            Log::info('Integracion Crear Carga exito', ['id_carga' => $id]);
+
         } catch (CustomException $e) {
             Log::warning('Integracion Crear Carga error', ['expcetion' => $e->getData()[0]]);
             $res['mensaje'] = $e->getData()[0];
