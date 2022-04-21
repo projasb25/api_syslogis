@@ -248,15 +248,31 @@ class MainService
     {
         $res['success'] = false;
         try {
-            $integration_data = $this->repo->getGuidesCollectedIntegration();
-
-            $id = $this->repo->insertarCargaDistribucion($integration_data);
-
-            $res =[
-                'id_massive_load' => $id
-            ];
+            $getOrgs = $this->repo->getOrgsDistributionIntegration();
+            if (count($getOrgs)) {
+                foreach ($getOrgs as $item) {
+                    $integration_data = $this->repo->getGuidesCollectedIntegrationByOrg($item->id_organization);
+                    $id = $this->repo->insertarCargaDistribucion($integration_data, $item->name);
+                    Log::info('[INTEGRACION] Crear carga distribucion exito', ['id_carga' => $id, 'orgname' => $item->name, 'id_organization' => $item->id_organization]);
+                }
+            }
+            // $integration_data = $this->repo->getGuidesCollectedIntegration();
+            // $id = $this->repo->insertarCargaDistribucion($integration_data);
+            // $res =[
+            //     'id_massive_load' => $id
+            // ];
+            // $res['success'] = true;
+            // Log::info('Integracion procesar distribucion exito', ['id_carga' => $id]);
+            // $getOrgs = $this->repo->getLoadIntegrationOrganizations();
+            // if (count($getOrgs)) {
+            //     foreach ($getOrgs as $item) {
+            //         $integration_data = $this->repo->getLoadIntegrationByOrg($item->id_organization);
+            //         $id = $this->repo->insertMassiveLoadIntegration($integration_data, $item->name);
+            //         Log::info('[INTEGRACION] Crear carga recoleccion exito]', ['id_carga' => $id, 'orgname' => $item->name, 'id_organization' => $item->id_organization]);
+            //     }
+            // }
+            $res =['message' => 'Ok'];
             $res['success'] = true;
-            Log::info('Integracion procesar distribucion exito', ['id_carga' => $id]);
         } catch (CustomException $e) {
             Log::warning('Integracion procesar distribucion error', ['expcetion' => $e->getData()[0]]);
             $res['mensaje'] = $e->getData()[0];
