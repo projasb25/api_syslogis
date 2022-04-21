@@ -99,11 +99,6 @@ class MainRepository
     public function getLoadIntegrationByOrg($orgid)
     {
         return DB::select("CALL view_integration_byOrg(?)",[$orgid]);
-        // return DB::table('load_integration as li')
-        //     ->join('load_integration_detail as lid','lid.id_load_integration','=','li.id_load_integration')
-        //     ->where('li.status', 'PENDIENTE')
-        //     ->where('id_organization', $orgid)
-        //     ->get();
     }
 
     public function getLoadIntegrationOrganizations()
