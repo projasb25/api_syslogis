@@ -64,7 +64,7 @@ class IntegracionRepository
     {
         DB::table('log_integration_coolbox')->insert(
             [
-                'id_guide' => $id_guide,
+                'guideid' => $id_guide,
                 'seg_code' => $seg_code,
                 'guide_number' => $guide_number,
                 'estado' => $estado,
