@@ -141,7 +141,7 @@ class MainService
                 foreach ($getOrgs as $item) {
                     $integration_data = $this->repo->getLoadIntegrationByOrg($item->id_organization, $params['type']);
                     $id = $this->repo->insertMassiveLoadIntegration($integration_data, $item->name, $params['type']);
-                    Log::info('[INTEGRACION] Crear carga recoleccion exito]', ['id_carga' => $id, 'orgname' => $item->name, 'id_organization' => $item->id_organization]);
+                    Log::info('[INTEGRACION] Crear carga recoleccion exito', ['tipo' => $params['type'], 'id_carga' => $id, 'orgname' => $item->name, 'id_organization' => $item->id_organization]);
                 }
             }
             $res =['message' => 'Ok'];
