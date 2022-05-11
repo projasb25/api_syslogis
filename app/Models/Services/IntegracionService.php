@@ -358,11 +358,11 @@ class IntegracionService
             foreach ($guides as $key => $guide) {
                 $evidences = [];
                 $fotos = explode(",", $guide->imagenes);
-                // foreach ($fotos as $foto) {
-                //     array_push($evidences, [
-                //         'evidence_url' => $foto
-                //     ]);
-                // }
+                foreach ($fotos as $foto) {
+                    array_push($evidences, [
+                        'url' => $foto
+                    ]);
+                }
 
                 switch ($guide->status) {
                     case 'CURSO':
@@ -390,7 +390,7 @@ class IntegracionService
                     "ubicacion" => "",
                     "guia" => "",
                     "motivo" => $guide->motive,
-                    "archivos" => ($estado == 8) ? $fotos[0] : ""
+                    "archivos" => ($estado == 8) ? $evidences : []
                 ];
 
                 if (env('COOLBOX.FAKE')) {
