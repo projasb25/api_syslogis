@@ -653,7 +653,7 @@ class MainRepository
                 org.name, org.address as org_address, lid.delivery_district as district, lid.delivery_province as province,
                 lid.delivery_address as address, lid.delivery_address_reference as address_refernce, lid.delivery_department as department,
                 sum(sku_pieces) as total_pieces, sum(sku_weight) as total_weight, GROUP_CONCAT(lid.sku_code, '-',lid.sku_description) as contenido,
-                date(li.date_updated) as date_created
+                date(li.date_updated) as date_created, li.type as delivery_type
             from load_integration_detail lid
             join load_integration li on li.id_load_integration = lid.id_load_integration
             join organization as org on org.id_organization = li.id_organization
@@ -677,7 +677,8 @@ class MainRepository
                 lid.delivery_address,
                 lid.delivery_address_reference,
                 lid.delivery_department,
-                date(li.date_updated)
+                date(li.date_updated),
+                li.type
             order by 1 desc;", [$guide_number, $id_organization]);
         return $query;
     }

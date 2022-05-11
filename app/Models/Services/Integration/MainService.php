@@ -582,24 +582,26 @@ class MainService
                     $pdf->Rect($box_x + 6, $box_y + 0, 85, 37);
                     $pdf->SetFont('Times', '', 11);
                     $pdf->SetXY($box_x+6, $box_y + 1);
-                    $pdf->MultiCell(85,6,'NOMBRE: '. $guide->name,0,'J');
+                    $pdf->MultiCell(85,5,'NOMBRE: '. $guide->name,0,'J');
                     $pdf->SetX($box_x+6);
                     if ($guide->name === 'InRetail') {
-                        $pdf->Cell(34,6,'CIUDAD: LIMA',0,0,'L');
-                        $pdf->Cell(51,6,'COD.: '.$guide->alt_code1,0,1,'L');
+                        $pdf->Cell(34,5,'CIUDAD: LIMA',0,0,'L');
+                        $pdf->Cell(51,5,'COD.: '.$guide->alt_code1,0,1,'L');
                     } else {
-                        $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
+                        $pdf->Cell(85,5,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
                     }
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(85,6,'FECHA: '. $guide->date_loaded,0,'J');
+                    $pdf->MultiCell(85,5,'FECHA: '. $guide->date_loaded,0,'J');
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(85,6,'COD. SEG: '. $guide->seg_code,0,'J');
+                    $pdf->MultiCell(85,5,'COD. SEG: '. $guide->seg_code,0,'J');
+                    $pdf->SetX($box_x+6);
+                    $pdf->MultiCell(85,5,'TIP. SERVICIO: '. $guide->delivery_type,0,'J');
                     $pdf->SetX($box_x+6);
                     $pdf->SetFont('Times', 'B', 11);
-                    $pdf->MultiCell(85,6,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
+                    $pdf->MultiCell(85,5,utf8_decode('Nº de Guía: ' . $guide->guide_number),0,'J');
                     $pdf->SetFont('Times', '', 11);
                     $pdf->SetX($box_x+6);
-                    $pdf->MultiCell(84,6,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
+                    $pdf->MultiCell(84,5,'DIRECCION: ' . utf8_decode(ucwords(strtolower($guide->org_address))),0,'L');
 
                 // codigo de barra
                     if (isset($guide->client_barcode)) {
@@ -631,7 +633,7 @@ class MainService
 
                     $pdf->SetX($box_x+8);
                 // cuadro 1.2 DESTINATARIO
-                    $tamano = ($guide->type === 'RECOLECCION') ? 53 : 41;
+                    $tamano = ($guide->type === 'RECOLECCION') ? 53 : 53;
 
                     //header
                     $pdf->Rect($box_x + 93, $box_y + 0, 6, $tamano);
@@ -653,7 +655,8 @@ class MainService
                     $pdf->MultiCell(101,5,'RUC: '. $guide->client_dni,0,'L');
 
                     $pdf->SetX($box_x + 92 + 7);
-                    if ($guide->id_organization == 65) {
+                    // if ($guide->id_organization == 65) {
+                    if (true) {
                         $pdf->Cell(50,5,'DIST.: ' . $distrito,0,0,'L');
                         $pdf->Cell(50,5,'PROV: '. $provincia,0,1,'L');
                         $pdf->SetX($box_x + 92 + 7);
@@ -697,7 +700,7 @@ class MainService
                     $pdf->SetFont('Times', '', 11);
 
                 // cuadro 2.2 CONTENIDO
-                    $tamano2 = ($guide->type === 'RECOLECCION') ? 23 : 36;
+                    $tamano2 = ($guide->type === 'RECOLECCION') ? 23 : 23;
 
                     //header
                     $pdf->Rect($box_x + 93, $box_y + $tamano+1, 6, $tamano2);
