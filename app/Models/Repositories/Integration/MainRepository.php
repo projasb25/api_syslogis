@@ -412,7 +412,7 @@ class MainRepository
                     // 'box_code' => $value['box_code'] ?? null,
                     'status' => 'PENDIENTE',
                     'created_by' => $orgname,
-                    // 'delivery_type' => $value['delivery_type'] ?? null,
+                    'delivery_type' => $type,
                     // 'contact_name' => $value['contact_name'] ?? null,
                     // 'contact_phone' => $value['contact_phone'] ?? null,
                     // 'payment_method' => $value['payment_method'] ?? null,
