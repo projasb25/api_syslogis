@@ -132,15 +132,15 @@ class MainService
         return $res;
     }
 
-    public function procesar_recoleccion()
+    public function procesar_recoleccion($params)
     {
         $res['success'] = false;
         try {
-            $getOrgs = $this->repo->getLoadIntegrationOrganizations();
+            $getOrgs = $this->repo->getLoadIntegrationOrganizations($params['type']);
             if (count($getOrgs)) {
                 foreach ($getOrgs as $item) {
-                    $integration_data = $this->repo->getLoadIntegrationByOrg($item->id_organization);
-                    $id = $this->repo->insertMassiveLoadIntegration($integration_data, $item->name);
+                    $integration_data = $this->repo->getLoadIntegrationByOrg($item->id_organization, $params['type']);
+                    $id = $this->repo->insertMassiveLoadIntegration($integration_data, $item->name, $params['type']);
                     Log::info('[INTEGRACION] Crear carga recoleccion exito]', ['id_carga' => $id, 'orgname' => $item->name, 'id_organization' => $item->id_organization]);
                 }
             }

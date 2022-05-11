@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class ProcesoRecoleccion extends Command
+class ProcesoRecoleccionTipo extends Command
 {
     protected $mainService;
     /**
@@ -15,14 +15,14 @@ class ProcesoRecoleccion extends Command
      *
      * @var string
      */
-    protected $signature = 'procesos:recoleccion_bq';
+    protected $signature = 'procesos:recoleccion {type : Tipo de envio}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Procesar carga a recoleccion de clientes de integracion';
+    protected $description = 'Lista tipos de servicio 1.- NextDay, 2.- SameDay';
 
     /**
      * Create a new command instance.
@@ -43,11 +43,23 @@ class ProcesoRecoleccion extends Command
     public function handle()
     {
         try {
+            $type = $this->argument('type');
+            $params = [];
+
+            switch ($type) {
+                case 1: # NEXTDAY
+                    $params['type'] = 'NEXTDAY';
+                    break;
+                case 2: # SAMEDAY
+                    $params['type'] = 'SAMEDAY';
+                    break;
+            }
+
             $this->line("PROCESAR CARGA INTEGRACION - RECOLECCION");
             $this->line("=============================================");
             $this->line('');
 
-            $integracion = $this->mainService->procesar_recoleccion();
+            $integracion = $this->mainService->procesar_recoleccion($params);
             if (!$integracion['success']) {
                 throw new Exception($integracion['mensaje'], 500);
             }

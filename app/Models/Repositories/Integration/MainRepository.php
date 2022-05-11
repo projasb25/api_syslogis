@@ -96,14 +96,14 @@ class MainRepository
         return $query;
     }
 
-    public function getLoadIntegrationByOrg($orgid)
+    public function getLoadIntegrationByOrg($orgid, $type)
     {
-        return DB::select("CALL view_integration_byOrg(?)",[$orgid]);
+        return DB::select("CALL view_integration_byOrg(?,?)",[$orgid, $type]);
     }
 
-    public function getLoadIntegrationOrganizations()
+    public function getLoadIntegrationOrganizations($type)
     {
-        return DB::table('getOrgsCollectIntegration')->get();
+        return DB::select("CALL ufn_integration_collect_type_orgs(?)",[$type]);
     }
 
     public function getIntegrationDataProvincia()
@@ -365,14 +365,14 @@ class MainRepository
         return $id;
     }
 
-    public function insertMassiveLoadIntegration($data, $orgname)
+    public function insertMassiveLoadIntegration($data, $orgname, $type)
     {
         DB::beginTransaction();
         try {
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
-                'created_by' => $orgname,
+                'created_by' => $orgname . ' ' . $type,
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
                 'type' => 'RECOLECCION',
