@@ -78,7 +78,7 @@ class IntegracionRepository
 
     public function updateReportado($id_guide, $report)
     {
-        DB::table('guide')->where('id_guide', $id_guide)->update(['reportado_integracion' => $report]);
+        DB::table('guide')->where('guideid', $id_guide)->update(['reportado_integracion' => $report]);
     }
 
     public function getGuideOeschle()
@@ -162,7 +162,7 @@ class IntegracionRepository
 
     public function getGuidesCoolbox()
     {
-        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_COOLBOX()");
+        $query = DB::select("CALL UFN_SEL_INTEGRATION_GUIDES_COOLBOX()");
         return $query;
     }
 }

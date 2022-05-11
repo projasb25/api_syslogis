@@ -375,6 +375,7 @@ class IntegracionService
                         $estado = 18;
                         break;
                     default:
+                        $estado = 7;
                         break;
                 }
                 // if ($guide->status === 'CURSO') {
@@ -388,7 +389,8 @@ class IntegracionService
                     "estado" =>  $estado,
                     "ubicacion" => "",
                     "guia" => "",
-                    "archivo" => ($estado == 8) ? $fotos[0] : ""
+                    "motivo" => $guide->motive,
+                    "archivos" => ($estado == 8) ? $fotos[0] : ""
                 ];
 
                 if (env('COOLBOX.FAKE')) {
@@ -408,20 +410,20 @@ class IntegracionService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar estado a Coolbox, ', ['req' => $req_body, 'exception' => $response]);
-                        $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
-                        $this->repository->updateReportado($guide->id_guide, 2);
+                        $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->guideid, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
+                        $this->repository->updateReportado($guide->guideid, 2);
                         continue;
                     }
                     $response = json_decode($req->getBody()->getContents());
                     if(!$response->actualizado){
-                        $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
-                        $this->repository->updateReportado($guide->id_guide, 2);
+                        $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->guideid, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
+                        $this->repository->updateReportado($guide->guideid, 2);
                         continue;
                     }
                 }
 
-                $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'SUCCESS', $req_body, $response);
-                $this->repository->updateReportado($guide->id_guide, 1);
+                $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->guideid, $guide->status, $guide->motive, 'SUCCESS', $req_body, $response);
+                $this->repository->updateReportado($guide->guideid, 1);
             }
             $res['success'] = true;
             Log::info('Proceso de integracion con Coolbox exitoso', ['nro_registros' => count($guides)]);
