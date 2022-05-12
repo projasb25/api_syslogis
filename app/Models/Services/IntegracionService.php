@@ -344,19 +344,22 @@ class IntegracionService
         try {
             $guides = $this->repository->getGuidesCoolbox();
             Log::info('Proceso de integracion con coolbox', ['nro_registros' => count($guides)]);
-
+            
             if (!count($guides)) {
                 Log::info('Nada que reportar Coolbox');
                 $res['success'] = true;
                 return $res;
             }
-
+            
             if (!env('COOLBOX.FAKE')) {
                 $accessToken = $this->prepare_access_token();
             } else { $accessToken = 'token prueba'; }
-
+            
+            // error_log('probando ' .json_encode($accessToken));
+            // die();
             foreach ($guides as $key => $guide) {
                 $evidences = [];
+                $motive = 0;
                 $fotos = explode(",", $guide->imagenes);
                 foreach ($fotos as $foto) {
                     array_push($evidences, [
@@ -364,12 +367,60 @@ class IntegracionService
                     ]);
                 }
 
+                switch ($guide->motive) {
+                    case 'Anula Compra':
+                    case 'Cambio de Producto':
+                    case 'Consignaron Datos Incorrectos':
+                    case 'Documentacion Incorrecta':
+                    case 'Mercaderia Incompleta':
+                    case 'Mercaderia Incorrecta':
+                    case 'Percepcion del Cliente':
+                    case 'Direccion Deficiente':
+                        $motive = 2;
+                        break;
+                    case 'Acceso Dificil y/o Inaccesible':
+                    case 'Transporte en espera de atención':
+                    case 'Zona Restringida y/o Sin Referencia':
+                    case 'Cambio de Direccion':
+                    case 'Agencia Cerrada':
+                    case 'Agencia Remodelacion':
+                        $motive = 8;
+                        break;
+                    case 'Mercaderia Danada':
+                    case 'Robo':
+                    case 'Paro de Transporte':
+                    case 'Fraude':
+                        $motive = 16;
+                        break;
+                    case 'Cambio Fecha de Despacho':
+                    case 'Cliente no coordino recepcion':
+                    case 'Suspende Entrega':
+                    case 'Cliente de Viaje':
+                        $motive = 13;
+                        break;
+                    case 'Sin Morador':
+                        $motive = 1;
+                        break;
+                    case 'Falto Personal de Apoyo':
+                    case 'Fuera de Hora':
+                        $motive = 12;
+                        break;
+                    case 'Desconocido':
+                        $motive = 9;
+                        break;
+                    default:
+                        $motive = null;
+                        break;
+                }
+
                 switch ($guide->status) {
                     case 'CURSO':
                         $estado = 7;
+                        $motive = null;
                         break;
                     case 'ENTREGADO':
                         $estado = 8;
+                        $motive = null;
                         break;
                     case 'NO ENTREGADO':
                         $estado = 18;
@@ -378,6 +429,8 @@ class IntegracionService
                         $estado = 7;
                         break;
                 }
+
+                
                 // if ($guide->status === 'CURSO') {
                 //     $guide->status = 'EN RUTA';
                 //     $guide->SubEstado = '';
@@ -389,7 +442,7 @@ class IntegracionService
                     "estado" =>  $estado,
                     "ubicacion" => "",
                     "guia" => "",
-                    "motivo" => $guide->motive,
+                    "motivo" => $motive,
                     "archivos" => ($estado == 8) ? $evidences : []
                 ];
 
