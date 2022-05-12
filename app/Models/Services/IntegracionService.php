@@ -370,40 +370,40 @@ class IntegracionService
                 switch ($guide->motive) {
                     case 'Anula Compra':
                     case 'Cambio de Producto':
-                    case 'Consignaron Datos Incorrectos':
-                    case 'Documentacion Incorrecta':
+                    case 'Direccion Deficiente':
                     case 'Mercaderia Incompleta':
                     case 'Mercaderia Incorrecta':
                     case 'Percepcion del Cliente':
-                    case 'Direccion Deficiente':
+                    case 'Documentacion Incorrecta':
+                    case 'Consignaron Datos Incorrectos':
                         $motive = 2;
                         break;
+                    case 'Agencia Cerrada':
+                    case 'Cambio de Direccion':
+                    case 'Agencia Remodelacion':
                     case 'Acceso Dificil y/o Inaccesible':
                     case 'Transporte en espera de atención':
                     case 'Zona Restringida y/o Sin Referencia':
-                    case 'Cambio de Direccion':
-                    case 'Agencia Cerrada':
-                    case 'Agencia Remodelacion':
                         $motive = 8;
                         break;
-                    case 'Mercaderia Danada':
                     case 'Robo':
-                    case 'Paro de Transporte':
                     case 'Fraude':
+                    case 'Mercaderia Danada':
+                    case 'Paro de Transporte':
                         $motive = 16;
                         break;
-                    case 'Cambio Fecha de Despacho':
-                    case 'Cliente no coordino recepcion':
                     case 'Suspende Entrega':
                     case 'Cliente de Viaje':
+                    case 'Cambio Fecha de Despacho':
+                    case 'Cliente no coordino recepcion':
                         $motive = 13;
+                        break;
+                    case 'Fuera de Hora':
+                    case 'Falto Personal de Apoyo':
+                        $motive = 12;
                         break;
                     case 'Sin Morador':
                         $motive = 1;
-                        break;
-                    case 'Falto Personal de Apoyo':
-                    case 'Fuera de Hora':
-                        $motive = 12;
                         break;
                     case 'Desconocido':
                         $motive = 9;
