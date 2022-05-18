@@ -156,6 +156,7 @@ class IntegracionService
             Log::info('Proceso de integracion con inRetail', ['nro_registros' => count($guides)]);
             foreach ($guides as $key => $guide) {
                 if ($guide->status === 'CURSO' && $guide->type === 'RECOLECCION' && $guide->delivery_type === 'Logistica inversa') { 
+                    $this->repository->updateReportado($guide->id_guide, 1);
                     continue; // Jumps to next iteration
                 }
 
