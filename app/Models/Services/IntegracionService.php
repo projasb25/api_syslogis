@@ -247,14 +247,14 @@ class IntegracionService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar estado a InRetail, ', ['req' => $req_body, 'exception' => $response]);
-                        $this->repository->logInsertInRetail($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
+                        $this->repository->logInsertInRetail($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->estado, $guide->motive, 'ERROR', $req_body, $response);
                         $this->repository->updateReportado($guide->id_guide, 2);
                         continue;
                     }
                     $response = json_decode($req->getBody()->getContents());
                 }
 
-                $this->repository->logInsertInRetail($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'SUCCESS', $req_body, $response);
+                $this->repository->logInsertInRetail($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->estado, $guide->motive, 'SUCCESS', $req_body, $response);
                 $this->repository->updateReportado($guide->id_guide, 1);
             }
             $res['success'] = true;
