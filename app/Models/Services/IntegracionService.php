@@ -200,7 +200,6 @@ class IntegracionService
                             $guide->estado = 'NO DEVUELTA';
                             break;
                         default:
-                            $guide->estado = $guide->status;
                             break;
                     }
                 }
