@@ -155,6 +155,10 @@ class IntegracionService
             $guides = $this->repository->getGuidesInRetail();
             Log::info('Proceso de integracion con inRetail', ['nro_registros' => count($guides)]);
             foreach ($guides as $key => $guide) {
+                if ($guide->status === 'CURSO' && $guide->type === 'RECOLECCION') { 
+                    continue; // Jumps to next iteration
+                }
+
                 $evidences = [];
                 $fotos = explode(",", $guide->imagenes);
                 foreach ($fotos as $foto) {
@@ -164,16 +168,41 @@ class IntegracionService
                 }
 
                 switch ($guide->status) {
+                    case 'PENDIENTE': 
+                        $guide->estado = 'EMITIDO';
+                        break;
                     case 'CURSO':
-                        $guide->status = 'EN RUTA';
-                        $guide->SubEstado = '';
+                        $guide->estado = 'EN RUTA';
                         break;
                     case 'RECOLECCION COMPLETA':
-                        $guide->status = 'RECOLECTADO';
-                        $guide->SubEstado = '';
+                        $guide->estado = 'RECOLECTADO';
                         break;
                     default:
+                        $guide->estado = $guide->status;
                         break;
+                }
+
+                if ($guide->delivery_type === 'Logistica inversa') {
+                    switch ($guide->status) {
+                        case 'RECOLECCION COMPLETA': 
+                            $guide->estado = 'RECOLECTADO CLIENTE';
+                            break;
+                        case 'NO RECOLECTADO':
+                            $guide->estado = 'NO RECOLECTADO CLIENTE';
+                            break;
+                        case 'CURSO':
+                            $guide->estado = 'EN DEVOLUCION';
+                            break;
+                        case 'ENTREGADO':
+                            $guide->estado = 'DEVUELTA';
+                            break;
+                        case 'NO ENTREGADO':
+                            $guide->estado = 'NO DEVUELTA';
+                            break;
+                        default:
+                            $guide->estado = $guide->status;
+                            break;
+                    }
                 }
                 // if ($guide->status === 'CURSO') {
                 //     $guide->status = 'EN RUTA';
@@ -182,13 +211,13 @@ class IntegracionService
 
                 $req_body = [
                     "Account" => $guide->alt_code1,
+                    "Evidences" => $evidences,
+                    "GuideNumber" => $guide->guide_number,
                     "OrderNumber" => $guide->seg_code,
                     "SellerName" => $guide->sellerName,
-                    "GuideNumber" => $guide->guide_number,
-                    "TrackingUrl" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide,
-                    "Status" => $guide->status,
+                    "Status" => $guide->estado,
                     "StatusDescription" => $guide->motive,
-                    "Evidences" => $evidences
+                    "TrackingUrl" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide,
                 ];
 
                 if (env('INRETAIL.FAKE')) {
