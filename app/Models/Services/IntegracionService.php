@@ -155,7 +155,7 @@ class IntegracionService
             $guides = $this->repository->getGuidesInRetail();
             Log::info('Proceso de integracion con inRetail', ['nro_registros' => count($guides)]);
             foreach ($guides as $key => $guide) {
-                if ($guide->status === 'CURSO' && $guide->type === 'RECOLECCION') { 
+                if ($guide->status === 'CURSO' && $guide->type === 'RECOLECCION' && $guide->delivery_type === 'Logistica inversa') { 
                     continue; // Jumps to next iteration
                 }
 
