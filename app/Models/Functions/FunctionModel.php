@@ -229,6 +229,10 @@ class FunctionModel
             "query" => 'CALL SP_INSERTAR_NOVEDAD_GUIDE_SKU(:p_id_guide, :p_novedad, :username)',
             "params" => ['p_id_guide', 'p_novedad', 'username']
         ],
+        "SP_SEL_DELIVERY_TYPE" => [
+            "query" => 'CALL SP_SEL_DELIVERY_TYPE(:id_corporation, :id_organization, :type)',
+            "params" => ['id_corporation', 'id_organization', 'type']
+        ],
 
         /**
          * Funciones para Paginacion
