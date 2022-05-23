@@ -557,7 +557,8 @@ class MainRepository
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
                     'seller_name' => $value->seller_name,
-                    'date_loaded' => date('Y-m-d H:i:s')
+                    'date_loaded' => date('Y-m-d H:i:s'),
+                    'delivery_type' => $value->delivery_type
                 ]);
                 DB::table('guide')->where('id_guide',$value->id_guide)->update(['integracion'=>2]);
             }
