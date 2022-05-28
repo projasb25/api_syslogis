@@ -439,7 +439,7 @@ class MassiveLoadService
                         } else {
                             $pdf->Cell(70,5,'TLF: '.$guide->client_phone1,0,1,'L');
                         }
-                        if ($guide->payment_method) {
+                        if ($guide->payment_method || $guide->amount) {
                             $pdf->SetX($box_x + 92 + 7);
                             $pdf->Cell(60,5,'F/PAGO: '.$guide->payment_method,0,0,'L');
                             $pdf->Cell(41,5,'MONTO: '.$guide->amount,0,1,'L');
