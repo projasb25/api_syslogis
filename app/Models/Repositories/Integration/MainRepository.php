@@ -376,7 +376,8 @@ class MainRepository
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
                 'type' => 'RECOLECCION',
-                'integracion' => 1
+                'integracion' => 1,
+                'id_subsidiary' => $data[0]->id_subsidiary
             ]);
 
             foreach ($data as $key => &$value) {
@@ -582,7 +583,7 @@ class MainRepository
                     'id_integration_user' => $user->id_integration_user, 'id_corporation' => $user->id_corporation,
                     'id_organization' => $user->id_organization, 'request_data' => json_encode($data), 'status' => 'PENDIENTE',
                     'created_by' => $user->integration_username, 'number_records' => count($data['items']),
-                    'type' => $data['selectedSla'] ?? 'NINGUNO'
+                    'type' => $data['selectedSla'] ?? 'NINGUNO', 'id_subsidiary' => $user->id_subsidiary
                 ]
             );
 
