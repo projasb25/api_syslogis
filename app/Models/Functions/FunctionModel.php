@@ -60,6 +60,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :username, :type)',
             "params" => ['status', 'username', 'type']
         ],
+        "SP_SEL_SHIPPING_ORDERS_DATE" => [
+            "query" => 'CALL SP_SEL_SHIPPING_ORDERS_DATE(:status, :username, :type, :desde, :hasta)',
+            "params" => ['status', 'username', 'type', 'desde', 'hasta']
+        ],
         "SP_SEL_USER" => [
             "query" => 'CALL SP_SEL_USER(:status, :username)',
             "params" => ['status', 'username']
