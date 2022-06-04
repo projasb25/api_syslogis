@@ -56,6 +56,10 @@ class FunctionModel
             "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :id_driver, :quadrant_name, :guide_ids, :username, :type)',
             "params" => ['id_vehicle', 'id_driver', 'quadrant_name','guide_ids', 'username', 'type']
         ],
+        "SP_PROCESAR_RENDICION" => [
+            "query" => 'CALL SP_PROCESAR_RENDICION(:id_shipping_order, :reported_guides, :lost_guides, :username)',
+            "params" => ['id_shipping_order', 'reported_guides', 'lost_guides', 'username']
+        ],
         "SP_SEL_SHIPPING_ORDERS" => [
             "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :username, :type)',
             "params" => ['status', 'username', 'type']
