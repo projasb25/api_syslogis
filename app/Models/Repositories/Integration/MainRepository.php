@@ -152,6 +152,33 @@ class MainRepository
         return $query;
     }
 
+    public function sel_types_restaurar_recoleccion_inretail($guides_number)
+    {
+        $query = DB::table('guide as gd')
+            ->select('gd.delivery_type as type')
+            ->distinct()
+            ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.proc_integracion',2)
+            ->whereIn('gd.guide_number', $guides_number)
+            ->get();
+        return $query;
+    }
+
+    public function sel_restaurar_recoleccion_inretail($guides_number, $type)
+    {
+        $query = DB::table('guide as gd')
+            ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.proc_integracion',2)
+            ->whereIn('gd.guide_number', $guides_number)
+            ->where('gd.delivery_type', $type)
+            ->get();
+        return $query;
+    }
+
     public function InRetail_getCollectedGuidesTypes()
     {
         $query = DB::table('guide as gd')

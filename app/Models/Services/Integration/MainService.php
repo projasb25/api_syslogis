@@ -733,4 +733,33 @@ class MainService
         }
         return $res;
     }
+
+    public function restaurar_recoleccion_inretail($guides_number)
+    {
+        $res['success'] = false;
+        try {
+            $collectedTypes = $this->repo->sel_types_restaurar_recoleccion_inretail($guides_number);
+            if (count($collectedTypes)) {
+                foreach ($collectedTypes as $key => $item) {
+                    $integration_data = $this->repo->sel_restaurar_recoleccion_inretail($guides_number, $item->type); 
+                    $id = $this->repo->insertMassiveLoadDist($integration_data, $item->type);
+                    
+                    Log::info('InRetail Distribucion Restaurar Carga exito', ['id_carga' => $id, 'type' => $item->type]);
+                }
+            }
+
+            $res =['message' => 'Ok'];
+            $res['success'] = true;
+        } catch (CustomException $e) {
+            Log::warning('Integracion procesar Restaurar distribucion error', ['expcetion' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('Integracion procesar Restaurar distribucion Query', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::warning('Integracion procesar Restaurar distribucion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
 }
