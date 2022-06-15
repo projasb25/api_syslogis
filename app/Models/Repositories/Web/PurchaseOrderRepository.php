@@ -269,9 +269,10 @@ class PurchaseOrderRepository
                 }
                 $inventario = DB::table('inventory')->where('id_inventory',$value->id_inventory)->first();
                 DB::table('inventory')->where('id_inventory',$inventario->id_inventory)->update([
-                    $origen => $value->quantity + $inventario->$origen,
-                    'quantity' => $inventario->quantity + $value->quantity
+                    'available' => $inventario->available + $value->quantity,
+                    'quantity' => $inventario->quantity + $value->quantity,
                 ]);
+
                 DB::table('kardex')->insert([
                     'id_corporation' => $value->id_corporation,
                     'id_organization' => $value->id_organization,
@@ -283,11 +284,12 @@ class PurchaseOrderRepository
                     'quarantine' => $value->quarantine,
                     'scrap' => $value->scrap,
                     'demo' => $value->demo,
-                    'balance_available' => ($origen === 'available') ? $inventario->available + $value->quantity : $inventario->available,
+                    'balance_available' => $inventario->available + $value->quantity,
                     'balance' => $inventario->quantity + $value->quantity,
                     'doc_type' => $value->doc_type,
                     'id_document' => $value->id_document,
                     'created_by' => $data['username'],
+                    'batch' => $inventario->batch
                 ]);
                 $totales = DB::table('inventory')->select(DB::raw('SUM(quantity) as qty_tot,SUM(shrinkage) as s_tot,SUM(scrap) as scrap_tot,SUM(demo) as demo_tot,SUM(quarantine) as q_tot,SUM(available) as a_tot'))->where('id_product',$value->id_product)->first();
                 DB::table('product')->where('id_product', $value->id_product)
