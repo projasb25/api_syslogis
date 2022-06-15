@@ -47,6 +47,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'purchase_order'], function() {
         Route::post('', [PurchaseOrderController::class, 'index']);
+        Route::post('register', [PurchaseOrderController::class, 'register']);
         Route::post('process', [PurchaseOrderController::class, 'process']);
         Route::post('cancel', [PurchaseOrderController::class, 'cancel']);
         Route::post('print/detail', [PurchaseOrderController::class, 'print_detail']);

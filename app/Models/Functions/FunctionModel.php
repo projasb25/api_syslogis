@@ -115,8 +115,6 @@ class FunctionModel
 
 
 
-
-
         
         /**
          * Funciones para Transaccions

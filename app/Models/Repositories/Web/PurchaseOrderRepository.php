@@ -107,6 +107,63 @@ class PurchaseOrderRepository
         return $id;
     }
 
+    public function insertPurchaseOrderUnit($data)
+    {
+        DB::beginTransaction();
+        try {
+            $id = DB::table('purchase_order')->insertGetId([
+                'id_corporation' => $data['id_corporation'],
+                'id_organization' => $data['id_organization'],
+                'id_client' => $data['id_client'],
+                'id_client_store' => $data['id_client_store'],
+                'id_load_template' => $data['id_load_template'],
+                'id_buyer' => $data['id_buyer'],
+                'number_records' => $data['count'],
+                'status' => 'PENDIENTE',
+                'created_by' => $data['username'],
+                'purchase_order_number' => $data['purchase_order_number'],
+                "id_provider" => $data["id_provider"],
+                "id_vehicle" => $data["id_vehicle"],
+                "document_type" => $data["document_type"],
+                "document_number" => $data["document_number"],
+                "driver_license" => $data["driver_license"],
+                'exit_date' => $data['exit_date'],
+                'client_phone' => $data['client_phone'],
+                'client_name' => $data['client_name'],
+            ]);
+
+            foreach ($data['data'] as $key => $value) {
+                $validate_quantity = DB::table('inventory')->where('id_inventory', $value['id_inventory'])->where('id_product', $value['id_product'])->first();
+                if (!$validate_quantity) {
+                    throw new CustomException(['No se ha podido encontrar el producto ' . $value['product_code'] . '.', 2000], 401);
+                }
+
+                if ($value['product_quantity'] > $validate_quantity->available) {
+                    throw new CustomException(["No hay stock disponible para descontar el codigo ".$value['product_code']." del Lote ".$validate_quantity->batch, 2000], 400);
+                }
+
+                DB::table('purchase_order_detail')->insert([
+                    'id_purchase_order' =>  $id,
+                    'product_description' => $value['product_description'] ?? null,
+                    'id_product' => $value['id_product'] ?? null,
+                    'id_inventory' => $value['id_inventory'] ?? null,
+                    'discount_from' => $value['discount_from'] ?? null,
+                    'product_code' => $value['product_code'] ?? null,
+                    'status' => 'PENDIENTE',
+                    'product_quantity' => $value['product_quantity'] ?? null,
+                    'created_by' => $data['username'],
+                    'batch' => $value['batch'] ?? null,
+                ]);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return $id;
+    }
+
     public function processPurchaseOrder($data)
     {
         DB::beginTransaction();
@@ -127,45 +184,38 @@ class PurchaseOrderRepository
 
             $detalle = DB::table('purchase_order_detail')->where('id_purchase_order',$data['id_purchase_order'])->get();
             foreach ($detalle as $key => $value) {
+                $product = DB::table('product')->where('id_product', $value->id_product)->first();
+                $inventario = DB::table('inventory')->where('id_inventory', $value->id_inventory)->first();
+
+                if ($value->product_quantity > $inventario->available) {
+                    throw new CustomException(["No hay stock disponible para descontar el codigo ".$product->product_code." del Lote ".$inventario->batch, 2000], 400);
+                }
                 
-                $property_name = $value->discount_from;
-                $product = DB::table('product')->where('product_code',$value->product_code)->where('id_client_store', $oc->id_client_store)->first();
-                $descontar = $value->product_quantity;
-                do {
-                    $inventario = DB::table('inventory')->where('id_product',$product->id_product)->where($property_name,'>',0)->first();
+                // Restamos en el inventario la cantidad y el disponible de igual forma
+                $inventory_total_balance = $inventario->quantity - $value->product_quantity;
+                $inventory_available_balance = $inventario->available - $value->product_quantity;
 
-                    if ($descontar > $inventario->$property_name) { 
-                        $total_inventario = $inventario->quantity - $inventario->$property_name; 
-                        $aux_descontar = $inventario->$property_name;
-                    } else {
-                        $total_inventario = $inventario->quantity - $descontar;
-                        $aux_descontar = $descontar;
-                    }
+                DB::table('inventory')->where('id_inventory', $inventario->id_inventory)
+                ->update([
+                    'available' => $inventory_available_balance,
+                    'quantity' => $inventory_total_balance,
+                ]);
 
-                    $descontar = $descontar - $aux_descontar;
-
-                    DB::table('inventory')->where('id_inventory', $inventario->id_inventory)
-                    ->update([
-                        $property_name => $inventario->$property_name - $aux_descontar,
-                        'quantity' => $total_inventario,
-                    ]);
-
-                    $kardex_column = ($property_name === 'available') ? 'quantity' : $property_name;
-                    DB::table('kardex')->insert([
-                        'id_corporation' => $oc->id_corporation,
-                        'id_organization' => $oc->id_organization,
-                        'id_product' => $product->id_product,
-                        'id_inventory' => $inventario->id_inventory,
-                        'quantity' => $aux_descontar,
-                        $kardex_column => $aux_descontar,
-                        'balance' => $total_inventario,
-                        'balance_available' => ($property_name === 'available') ? $inventario->available - $aux_descontar : $inventario->available,
-                        'doc_type' => 'ORDEN DE COMPRA',
-                        'id_document' => $oc->id_purchase_order,
-                        'created_by' => $data['username'],
-                        'description' => 'SALIDA'
-                    ]);
-                } while ($descontar > 0);
+                // Registramos el movimiento en el kardex
+                DB::table('kardex')->insert([
+                    'id_corporation' => $oc->id_corporation,
+                    'id_organization' => $oc->id_organization,
+                    'id_product' => $product->id_product,
+                    'id_inventory' => $inventario->id_inventory,
+                    'quantity' => $value->product_quantity,
+                    'balance' => $inventory_total_balance,
+                    'balance_available' => $inventory_available_balance,
+                    'doc_type' => 'ORDEN DE COMPRA',
+                    'id_document' => $oc->id_purchase_order,
+                    'created_by' => $data['username'],
+                    'description' => 'SALIDA',
+                    'batch' => $value->batch
+                ]);
 
                 $totales = DB::table('inventory')->select(DB::raw('SUM(quantity) as qty_tot,SUM(shrinkage) as s_tot,SUM(scrap) as scrap_tot,SUM(demo) as demo_tot,SUM(quarantine) as q_tot,SUM(available) as a_tot'))->where('id_product',$product->id_product)->first();
                 DB::table('product')->where('id_product', $product->id_product)

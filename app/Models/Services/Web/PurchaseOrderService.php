@@ -59,6 +59,51 @@ class PurchaseOrderService
         return Res::success($res);
     }
 
+    public function register($request)
+    {
+        try {
+            $user = auth()->user();
+            $req = $request->all();
+            $user_data = $user->getIdentifierData();
+            $data['count'] = count($req['data']);
+            $data['username'] = $user->username;
+            $data['data'] = $req['data'];
+            $data['id_corporation'] = $user->id_corporation;
+            $data['id_organization'] = $user_data['id_organization'];
+            $data['id_client'] = $req['id_client'];
+            $data['id_client_store'] = $req['id_client_store'];
+            $data['id_buyer'] = null;
+            $data["id_vehicle"] = null;
+            $data["id_provider"] = null;
+            $data["driver_license"] = null;
+            $data['id_load_template'] = null;
+            $data['purchase_order_number'] = null;
+            $data["document_type"] = $req['document_type'];
+            $data["document_number"] = $req['document_number'];
+            $data['exit_date'] = $req['exit_date'];
+            $data['client_phone'] = $req['client_phone'];
+            $data['client_name'] = $req['client_name'];
+
+            $id = $this->repo->insertPurchaseOrderUnit($data);
+            
+            $res =[
+                'id_purchase_order' => $id
+            ];
+            Log::info('Purchase Order Load Service exito', ['id_purchase_order' => $id, 'id_client' => $req['id_client'], 'client_store' => $req['id_client_store'], 'numero registros' => $data['count']]);
+
+        } catch (CustomException $e) {
+            Log::warning('Purchase Order Load Service error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Purchase Order Load Service Query', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Purchase Order Load Service error', ['exception' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success($res);
+    }
+
     public function process($request)
     {
         try {

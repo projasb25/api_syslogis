@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\PurchaseOrderLoadRequest;
+use App\Http\Requests\Web\PurchaseOrderUnitLoadRequest;
 use App\Models\Services\Web\PurchaseOrderService;
 use Illuminate\Http\Request;
 
@@ -32,5 +33,10 @@ class PurchaseOrderController extends Controller
     public function print_detail(Request $request)
     {
         return $this->mainService->print_detail($request);
+    }
+
+    public function register(PurchaseOrderUnitLoadRequest $request)
+    {
+        return $this->mainService->register($request);
     }
 }
