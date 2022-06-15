@@ -23,29 +23,4 @@ class ReporteController extends Controller
     {
         return $this->service->reporte_inventario_producto($request);
     }
-
-    // public function reporte_control(Request $request)
-    // {
-    //     return $this->service->reporte_control($request);
-    // }
-
-    // public function reporte_torre_control(Request $request)
-    // {
-    //     return $this->service->reporte_torre_control($request);
-    // }
-
-    // public function reporte_control_sku(Request $request)
-    // {
-    //     return $this->service->reporte_control_sku($request);
-    // }
-
-    // public function control_proveedor(Request $request)
-    // {
-    //     return $this->service->control_proveedor($request);
-    // }
-
-    // public function img_monitor(Request $request)
-    // {
-    //     return $this->service->img_monitor($request);
-    // }
 }

@@ -41,6 +41,10 @@ class BillLoadRepository
                     $value['product_exp_date'] = date('Y-m-d H:i:s', (($value['product_exp_date'] - (25567 + 1)) * 86400));
                 }
 
+                if (isset($value['entry_date']) && !is_string($value['entry_date'])) {
+                    $value['entry_date'] = date('Y-m-d H:i:s', (($value['entry_date'] - (25567 + 1)) * 86400));
+                }
+
                 $value['id_bill_load'] = $id;
                 $value['status'] = 'PENDIENTE';
                 $value['created_by'] = $data['username'];
@@ -71,7 +75,13 @@ class BillLoadRepository
                     'shrinkage' => $value['shrinkage'] ?? 0,
                     'quarantine' => $value['quarantine'] ?? 0,
                     'scrap' => $value['scrap'] ?? 0,
-                    'demo' => $value['demo'] ?? 0
+                    'demo' => $value['demo'] ?? 0,
+                    'batch' => $value['batch'] ?? 0,
+                    'document_type' => $value['document_type'] ?? 0,
+                    'document_number' => $value['document_number'] ?? 0,
+                    'entry_date' => $value['entry_date'] ?? 0,
+                    'observation' => $value['observation'] ?? '',
+                    'owner' => $value['owner'] ?? 0,
                 ]);
             }
             DB::commit();
@@ -115,7 +125,6 @@ class BillLoadRepository
                         'product_description' => $value->product_description,
                         'product_serie' => $value->product_serie,
                         'product_lots' => $value->product_lots,
-                        'product_exp_date' => $value->product_exp_date,
                         'product_available' => $value->product_available,
                         'product_color' => $value->product_color,
                         'product_size' => $value->product_size,
@@ -130,7 +139,6 @@ class BillLoadRepository
                         'product_scrap_total' => $value->scrap,
                         'product_demo_total' => $value->demo,
                         'product_available_total' => $value->product_quantity - ($value->shrinkage + $value->quarantine + $value->demo + $value->scrap),
-
                     ]);
                 } else {
                     DB::table('product')->where('id_product', $check_product->id_product)
@@ -150,7 +158,8 @@ class BillLoadRepository
                     ['id_product', $product_id],
                     ['hallway', $value->hallway],
                     ['level', $value->level],
-                    ['column', $value->column]
+                    ['column', $value->column],
+                    ['batch', $value->batch]
                 ])->first();
 
                 if (!$check_inventory) {
@@ -176,7 +185,9 @@ class BillLoadRepository
                         'scrap' => $scrap,
                         'demo' => $demo,
                         'available' =>  $balance_available,
-                        'created_by' => $data['username']
+                        'created_by' => $data['username'],
+                        'batch' => $value->batch,
+                        'product_exp_date' => $value->product_exp_date,
                     ]);
                 } else {
                     $inventory_id = $check_inventory->id_inventory;
@@ -215,7 +226,8 @@ class BillLoadRepository
                     'type' => null,
                     'doc_type' => 'NOTA DE INGRESO',
                     'id_document' => $data['id_bill_load'],
-                    'created_by' => $data['username']
+                    'created_by' => $data['username'],
+                    'batch' => $value->batch
                 ]);
 
                 DB::table('bill_load_detail')

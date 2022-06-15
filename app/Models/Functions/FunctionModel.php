@@ -104,6 +104,14 @@ class FunctionModel
             "query" => 'CALL SP_INS_PROPERTIES(:id_properties, :name, :value, :status)',
             "params" => ['id_properties', 'name', 'value', 'status']
         ],
+        "SP_LST_PRODUCTS" => [
+            "query" => 'CALL SP_LST_PRODUCTS(:username, :id_corporation, :id_organization, :id_client_store)',
+            "params" => ['username', 'id_corporation', 'id_organization', 'id_client_store']
+        ],
+        "SP_SEL_PRODUCT_BY_CODE" => [
+            "query" => 'CALL SP_SEL_PRODUCT_BY_CODE(:id_product, :id_client_store, :username, :id_corporation, :id_organization)',
+            "params" => ['username', 'id_corporation', 'id_organization', 'id_product', 'id_client_store']
+        ],
 
 
 
