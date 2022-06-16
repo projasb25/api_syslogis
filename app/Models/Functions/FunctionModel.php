@@ -241,6 +241,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_DELIVERY_TYPE(:id_corporation, :id_organization, :type)',
             "params" => ['id_corporation', 'id_organization', 'type']
         ],
+        "SP_FINALIZAR_RUTA" => [
+            "query" => 'CALL SP_FINALIZAR_RUTA(:id_shipping_order)',
+            "params" => ['id_shipping_order']
+        ],
 
         /**
          * Funciones para Paginacion
