@@ -349,7 +349,7 @@ class MainRepository
                     // 'client_date2' => $value['client_date2'] ?? null,
                     'client_barcode' => $value->client_barcode,
                     'client_dni' => $value->collect_client_dni,
-                    'client_name' => $value->collect_client_name,
+                    'client_name' => ($type === 'Logistica inversa') ? $value->seller_name : $value->client_name,
                     'client_phone1' => $value->collect_client_phone1,
                     'client_phone2' => $value->collect_client_phone2,
                     'client_phone3' => $value->collect_client_phone3,
@@ -377,7 +377,7 @@ class MainRepository
                     // 'payment_method' => $value['payment_method'] ?? null,
                     // 'amount' => $value['amount'] ?? null,
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
-                    'seller_name' => $value->seller_name,
+                    'seller_name' => ($type === 'Logistica inversa') ? $value->client_name : $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
                     'delivery_type' => $type
                 ]);
