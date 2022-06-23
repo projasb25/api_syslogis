@@ -345,6 +345,8 @@ class MassiveLoadService
                     if ($guide->name === 'InRetail') {
                         $pdf->Cell(34,6,'CIUDAD: LIMA',0,0,'L');
                         $pdf->Cell(51,6,'COD.: '.$guide->alt_code1,0,1,'L');
+                        $pdf->SetX($box_x+6);
+                        $pdf->MultiCell(85,6,'TIP. ENVIO: '. $guide->delivery_type,0,'J');
                     } else {
                         $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
                     }
