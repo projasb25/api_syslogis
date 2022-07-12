@@ -11,11 +11,6 @@ class DriverRepository
     public function getShippingOrders($id_driver)
     {
         return collect(DB::select("CALL SP_SEL_DRIVERS_ORDERS(?)",[$id_driver]));
-        // return DB::table('shipping_order as so')
-        //     ->select("shippingorderid as id_shipping_order","driverid as id_driver","number_guides as paradas","descrption","status","type","createdate")
-        //     ->where('driverid', $id_driver)
-        //     ->whereNotIn('status', ['FINALIZADO', 'RECHAZADO', 'ELIMINADO'])
-        //     ->get();
     }
 
     public function actualizarEstado($estado, $id)
