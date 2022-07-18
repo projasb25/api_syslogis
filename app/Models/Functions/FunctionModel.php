@@ -56,6 +56,10 @@ class FunctionModel
             "query" => 'CALL SP_CREATE_SHIPPING_ORDER(:id_vehicle, :id_driver, :quadrant_name, :guide_ids, :username, :type)',
             "params" => ['id_vehicle', 'id_driver', 'quadrant_name','guide_ids', 'username', 'type']
         ],
+        "SP_REASIGNAR_ENVIO" => [
+            "query" => 'CALL SP_REASIGNAR_ENVIO(:vehicleid, :driverid, :shippingorderid, :username)',
+            "params" => ['vehicleid', 'driverid', 'shippingorderid', 'username']
+        ],
         "SP_SEL_SHIPPING_ORDERS" => [
             "query" => 'CALL SP_SEL_SHIPPING_ORDERS(:status, :username, :type)',
             "params" => ['status', 'username', 'type']
