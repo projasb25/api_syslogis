@@ -241,7 +241,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 8, $y);
             $pdf->MultiCell(38, 6, 'Codigo de Barra', 1, 'L');
             $pdf->SetXY($lmargin + 46, $y);
-            $pdf->MultiCell(30, 6, 'Nro Guia', 1, 'L');
+            $pdf->MultiCell(30, 6, 'Cod. Seg.', 1, 'L');
             $pdf->SetXY($lmargin + 76, $y);
             $pdf->MultiCell(33, 6, 'Distrito', 1, 'L');
             $pdf->SetXY($lmargin + 109, $y);
@@ -286,7 +286,8 @@ class ShippingService
                 $pdf->SetXY($lmargin + 8, $y);
                 $pdf->MultiCell(38, 5 * $rows, $value->client_barcode, 1, 'L');
                 $pdf->SetXY($lmargin + 46, $y);
-                $pdf->MultiCell(30, 5 * $rows, $value->guide_number, 1, 'L');
+                // $pdf->MultiCell(30, 5 * $rows, $value->guide_number, 1, 'L');
+                $pdf->MultiCell(30, 5 * $rows, $value->seg_code, 1, 'L');
                 $pdf->SetXY($lmargin + 76, $y);
                 $pdf->MultiCell(33, ($distrito_row >= $direccion_row) ? 5 : 5 * $rows, $distrito, 1, 'L');
                 $pdf->SetXY($lmargin + 109, $y);

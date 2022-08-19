@@ -111,7 +111,7 @@ class ShippingRepository
     public function get_imprimir_hoja_ruta($shipping_order)
     {
         $query = DB::select('select
-            adr.address, adr.district, vh.plate_number, gd.guide_number, gd.client_barcode, dv.first_name, dv.last_name, pv.name as provider_name, so.*,
+            adr.address, adr.district, vh.plate_number, gd.seg_code, gd.guide_number, gd.client_barcode, dv.first_name, dv.last_name, pv.name as provider_name, so.*,
             (select count(guide_barcode) from shipping_order_detail as sod2 where sod2.guide_barcode = gd.client_barcode and id_shipping_order = so.id_shipping_order) as nro_guias
         from
             shipping_order so
