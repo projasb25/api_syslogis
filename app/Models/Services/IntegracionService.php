@@ -9,6 +9,8 @@ use App\Models\Repositories\EnvioRepository;
 use App\Models\Repositories\IntegracionRepository;
 use App\Models\Repositories\OfertasEnvioRepository;
 use App\Models\Repositories\PedidoDetalleRepository;
+use Carbon\Carbon;
+use Error;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -472,6 +474,121 @@ class IntegracionService
             Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
             Log::error('Integracion Oechsle', ['cliente' => 'Oechsle', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function integracionTailoy()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuidesAllStatus(48);
+            Log::info('Proceso de integracion con TaiLoy', ['nro_registros' => count($guides)]);
+            if (count($guides) === 0) {
+                $res['success'] = true;
+                return $res;
+            }
+
+            foreach ($guides as $key => $guide) {
+                $evidences = [];
+                $coordenadas = ['lat' => null, 'lng' => null];
+                if ($guide->imagenes) {
+                    $fotos = explode(",", $guide->imagenes);
+                    foreach ($fotos as $foto) {
+                        array_push($evidences, [
+                            'imagen' => $foto
+                        ]);
+                    }
+                }
+
+                $estados_tailoy = [];
+                $motive_code = null;
+                switch ($guide->status) {
+                    case 'PENDIENTE':
+                        $estados_tailoy = [1,2];
+                        break;
+                    case 'CURSO':
+                        $estados_tailoy = [3];
+                        break;
+                    case 'ENTREGADO':
+                        $estados_tailoy = [5,6,7];
+                        $coordenadas['lat'] = $guide->latitude;
+                        $coordenadas['lng'] = $guide->longitude;
+                        break;
+                    case 'NO ENTREGADO':
+                        $estados_tailoy = [5,10];
+                        $motive_code = ($guide->motive === 'Consignaron Datos Incorrectos') ? 514 : (($guide->motive === 'Documentacion Incorrecta') ? 8 : 2);
+                        break;
+                    default:
+                        $estados_tailoy = [1,2];
+                        break;
+                }
+                
+                foreach ($estados_tailoy as $key => $estado) {
+                    $req_body = [
+                        'recurso' => 'TAREA',
+                        'data' => [
+                            [
+                                'nroTarea' => $guide->guide_number,
+                                'codigoRastreo' => $guide->seg_code,
+                                'estado' => $estado,
+                                'coordenadas' => $coordenadas,
+                                'fechaHora' => Carbon::parse($guide->date_loaded)->format('d/m/Y H:i:s'),
+                                'evidencias' => $evidences,
+                                'conductor' => $guide->driver_name,
+                                'placa' => $guide->plate_number,
+                                'fechaEstimadaEntregaInicio' => null,
+                                'fechaEstimadaEntregaFin' => null,
+                                'codigoMotivo' => $motive_code
+                            ]
+                        ]
+                    ];
+                    
+                    if (env('TAILOY.FAKE')) {
+                        $body = json_decode('{
+                            "mensaje": "No se pudo realizar la actualización de los estados de las tareas solicitadas",
+                            "resultado": "Ok",
+                            "errores": [
+                                {
+                                    "codigoRastreo": "2001",
+                                    "estado": "1",
+                                    "fechaHora": "2021-08-06 10:18:04",
+                                    "nroTarea": "2001"
+                                }
+                            ]
+                        }');
+                    } else {
+                        try {
+                            $cliente = new Client(['base_uri' => env('TAILOY.URL')]);
+                            $request = $cliente->post('integracion/couriers', [
+                                "headers" => [ 'X-AUTH-TOKEN' => 'QAYARIX' ],
+                                "json" => $req_body
+                            ]);
+                            $body = json_decode($request->getBody());
+                        } catch (RequestException $e) {
+                            $response = json_decode((string) $e->getResponse()->getBody());
+                            Log::error('Reportar estado a Tailoy, ', ['req' => json_encode($req_body, JSON_UNESCAPED_SLASHES), 'exception' => (array) $response]);
+                            $this->repository->insertLogIntegration($guide->seg_code, $guide->id_corporation, $guide->id_organization, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
+                            $this->repository->updateReportado($guide->id_guide, 2);
+                            continue;
+                        }
+                    }
+
+                    if ($body->resultado !== 'Ok') {
+                        $this->repository->insertLogIntegration($guide->seg_code, $guide->id_corporation, $guide->id_organization, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'ERROR', $req_body, $body);
+                        $this->repository->updateReportado($guide->id_guide, 2);
+                        continue;
+                    }
+
+                    $this->repository->insertLogIntegration($guide->seg_code, $guide->id_corporation, $guide->id_organization, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'SUCCESS', $req_body, $body);
+                    $this->repository->updateReportado($guide->id_guide, 1);
+                }
+            }
+            $res['success'] = true;
+            Log::info('Proceso de integracion con Tailoy exitoso', ['nro_registros' => count($guides)]);
+        } catch (Exception $e) {
+            Log::error('Integracion Tailoy', ['cliente' => 'Tailoy', 'exception' => $e->getMessage()]);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;

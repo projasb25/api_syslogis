@@ -27,7 +27,12 @@ class IntegracionRepository
         //     and gd.status IN ('CURSO', 'ENTREGADO', 'NO ENTREGADO')"
         // );
     }
-    // gt.date_created as Fecha, gd.date_updated, gd.client_name as NombreReceptor,
+
+    public function getGuidesAllStatus($corpId)
+    {
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_ALLSTATUS(?)", [$corpId]);
+        return $query;
+    }
     
     public function LogInsert($cud, $id_guide, $estado, $subestado, $result, $request, $response)
     {
@@ -72,6 +77,24 @@ class IntegracionRepository
                 'result' => $result,
                 'response' => json_encode($response),
                 'request' => json_encode($request)
+            ]
+            );
+    }
+
+    public function insertLogIntegration($seg_code, $id_corporation, $id_organization, $guide_number, $id_guide, $estado, $subestado, $result, $request, $response)
+    {
+        DB::table('log_integration')->insert(
+            [
+                'id_guide' => $id_guide,
+                'id_corporation' => $id_corporation,
+                'id_organization' => $id_organization,
+                'seg_code' => $seg_code,
+                'guide_number' => $guide_number,
+                'status' => $estado,
+                'substatus' => $subestado,
+                'result' => $result,
+                'response' => json_encode($response, JSON_UNESCAPED_UNICODE),
+                'request' => json_encode($request, JSON_UNESCAPED_SLASHES)
             ]
             );
     }
