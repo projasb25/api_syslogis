@@ -562,7 +562,7 @@ class IntegracionService
                         try {
                             $cliente = new Client(['base_uri' => env('TAILOY.URL')]);
                             $request = $cliente->post('integracion/couriers', [
-                                "headers" => [ 'X-AUTH-TOKEN' => 'QAYARIX' ],
+                                "headers" => [ 'X-AUTH-TOKEN' => env('TAILOY.TOKEN')],
                                 "json" => $req_body
                             ]);
                             $body = json_decode($request->getBody());
