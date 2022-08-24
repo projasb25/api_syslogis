@@ -217,7 +217,13 @@ class CollectRepository
                         $total_pieces = 0;
                     }
                     /* Validar si existe la dirección registrada, si es asi, utlizar el mismo id */
-                    $check_add = DB::table('address')->whereRaw('LOWER(`address`) = ? ',[trim(strtolower($value->client_address))])->first();
+                    $check_add = DB::table('address')
+                        ->whereRaw('LOWER(`address`) = ? ',[trim(strtolower($value->client_address))])
+                        ->whereRaw('LOWER(`district`) = ?', [trim(strtolower($value->district))])
+                        ->whereRaw('LOWER(`department`) = ?', [trim(strtolower($value->department))])
+                        ->whereRaw('LOWER(`province`) = ?', [trim(strtolower($value->province))])
+                        ->first();
+                        
                     if (!$check_add) {
                         $address_id = DB::table('address')->insertGetId([
                             'ubigeo' => $value->ubigeo,
