@@ -319,8 +319,8 @@ class CollectRepository
                     DB::table('sku_product')->where('id_sku_product', $id_sku)->update(['sku_code' => $v_sku_code]);
                 }
 
-                $total_weight =+ $value->sku_weight;
-                $total_pieces =+ $value->sku_pieces;
+                $total_weight += $value->sku_weight;
+                $total_pieces += $value->sku_pieces;
                 $prev_val = $current_val;
             }
 
