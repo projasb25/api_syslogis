@@ -381,7 +381,7 @@ class MainService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = (array) json_decode($e->getResponse()->getBody()->getContents());
                         Log::error('Reportar carga a InRetail error, ', ['req' => $req_body, 'exception' => $response]);
-                        $this->repo->updateReportado($load->id_integration_data, 0);
+                        $this->repo->updateReportado($load->id_integration_data, 2);
                         continue;
                     }
                     $response = json_decode($req->getBody()->getContents());
