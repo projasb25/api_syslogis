@@ -312,7 +312,8 @@ class MainRepository
                         'delivery_client_phone1' => $data['clientPhone'],
                         'delivery_contact_name' => $data['clientFirstName'] . ' ' . $data['clientLastName'],
                         'delivery_contact_email' => $data['clientEmail'],
-                        'seller_name' =>  $data['sellerCorporateName']
+                        'seller_name' =>  $data['sellerCorporateName'],
+                        'sku_vol_weight' => $value['volWeight'],
                     ]
                 );
             }
@@ -379,7 +380,8 @@ class MainRepository
                     // 'collect_time_range' => $value['collect_time_range'] ?? null,
                     'seller_name' => $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
-                    'delivery_type' => $type
+                    'delivery_type' => $type,
+                    'sku_vol_weight' => $value->sku_vol_weight
                 ]);
 
                 DB::table('integration_data')->where('id_integration_data',$value->id_integration_data)->update(['status'=>'PROCESADO']);

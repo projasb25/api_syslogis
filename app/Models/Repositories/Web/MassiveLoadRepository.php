@@ -330,7 +330,8 @@ class MassiveLoadRepository
                     'sku_size' => $value->sku_size,
                     'box_code' => $value->box_code,
                     'status' => $value->status,
-                    'created_by' => $data['username']
+                    'created_by' => $data['username'],
+                    'sku_vol_weight' => $value->sku_vol_weight
                     ]);
 
                 if (is_null($value->sku_code)) {

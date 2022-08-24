@@ -29,7 +29,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             'ULTIMO ESTADO', 'NOMBRE CLIENTE', 'TELEFONO 1', 'TELEFONO 2', 'DIRECCION', 'DEPARTAMENTO', 'DISTRITO',
             'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ESTADO DE DESCARGA', 'OBSERVACIONES',
             'FECHA VISITA1', 'RESULTADO 1', 'FECHA VISITA2', 'RESULTADO 2', 'FECHA VISITA3', 'RESULTADO 3',
-            'CANTIDAD VISITAS', 'NRO IMAGENES', 'PESO', 'TIPO SERVICIO', 'COD ALT1'
+            'CANTIDAD VISITAS', 'NRO IMAGENES', 'TIPO SERVICIO', 'COD ALT1', 'SKU DESCRIPCION', 'SKU PESO', 'SKU PESO VOL'
         ];
     }
     /**
@@ -77,9 +77,11 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             $collection->resultado_3,
             $collection->cantidad_visitas,
             $collection->nro_imagenes,
-            $collection->peso,
             $collection->delivery_type,
-            $collection->alt_code1
+            $collection->alt_code1,
+            $collection->sku_description,
+            $collection->peso,
+            $collection->sku_vol_weight,
         ];
     }
 }
