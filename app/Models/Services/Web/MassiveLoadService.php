@@ -342,7 +342,7 @@ class MassiveLoadService
                     $pdf->SetXY($box_x+6, $box_y + 1);
                     $pdf->MultiCell(85,6,'NOMBRE: '. $guide->name,0,'J');
                     $pdf->SetX($box_x+6);
-                    if ($guide->name === 'InRetail') {
+                    if ($guide->name === 'InRetail' || $guide->name === 'InRetail_Log_Inversa') {
                         $pdf->Cell(34,6,'CIUDAD: LIMA',0,0,'L');
                         $pdf->Cell(51,6,'COD.: '.$guide->alt_code1,0,1,'L');
                         $pdf->SetX($box_x+6);
