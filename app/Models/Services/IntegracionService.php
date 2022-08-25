@@ -391,6 +391,7 @@ class IntegracionService
             }
 
             foreach ($guides as $key => $guide) {
+                $delivery_mode = ($guide->id_organization === 54) ? 'STORE_WITHDRAWAL' : 'HOME_DELIVERY';
                 $g = '';
                 $items = [];
                 $g .= $guide->ids_guias . ',';
@@ -410,7 +411,7 @@ class IntegracionService
 
                 $req_body = [
                     "companyCode" => "OE",
-                    "deliveryMode" => "HOME_DELIVERY",
+                    "deliveryMode" => $delivery_mode,
                     "stateDate" => explode(",", $guide->stateDate)[0],
                     "userName" => 'QAYARIX_APP',
                     "items" => $items
