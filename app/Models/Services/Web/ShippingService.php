@@ -117,8 +117,8 @@ class ShippingService
                     throw new CustomException([$res['error'], 2000], 401);
                 }
 
-                $this->repo->actualizar_hoja_ruta($res['file_name'], $data['id_shipping_order']);
-                $hoja_ruta->hoja_ruta_doc = $res['file_name'];
+                $this->repo->actualizar_hoja_ruta($res['fileName'], $data['id_shipping_order']);
+                $hoja_ruta->hoja_ruta_doc = $res['fileName'];
             }
         } catch (CustomException $e) {
             Log::warning('Print hoja ruta', ['expcetion' => $e->getData()[0], 'request' => $request->except('imagen')]);
