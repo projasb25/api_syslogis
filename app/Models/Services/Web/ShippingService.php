@@ -17,6 +17,7 @@ use Mumpo\FpdfBarcode\FpdfBarcode;
 use Intervention\Image\Facades\Image;
 use App\Models\Services\Web\CustomPDF;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ShippingService
 {
@@ -36,7 +37,7 @@ class ShippingService
             $guide = $this->repo->getShippingDetailByGuideNumber($request->get('guide_number'), $request->get('id_shipping_order'));
             if (!count($guide)) {
                 throw new CustomException(['Detalle no encontrado.', 2010], 400);
-            } 
+            }
             // elseif ($guide[0]->status !== 'CURSO') {
             //     throw new CustomException(['La guia no se encuentra en Curso.', 2011], 400);
             // }
@@ -97,7 +98,72 @@ class ShippingService
             $hoja_ruta->hoja_ruta_doc = $res['file_name'];
         }
 
-        return Res::success(['hoja_ruta' => $ruta .'/'. $hoja_ruta->hoja_ruta_doc]);
+        return Res::success(['hoja_ruta' => $ruta . '/' . $hoja_ruta->hoja_ruta_doc]);
+    }
+
+    public function print_hoja_ruta_reworked($request)
+    {
+        try {
+            $data = $request->all();
+
+            $hoja_ruta = $this->repo->get_hoja_ruta($data['id_shipping_order']);
+            $ruta = url('storage/hoja_ruta/');
+            $file_exists = (Storage::disk('hoja_ruta')->exists($hoja_ruta->hoja_ruta_doc));
+
+            if (!$hoja_ruta->hoja_ruta_doc || !$file_exists) {
+                $data_shipping = $this->repo->get_imprimir_hoja_ruta($data['id_shipping_order']);
+                $res = $this->generarPdf($data_shipping);
+                if (!$res['success']) {
+                    throw new CustomException([$res['error'], 2000], 401);
+                }
+
+                $this->repo->actualizar_hoja_ruta($res['file_name'], $data['id_shipping_order']);
+                $hoja_ruta->hoja_ruta_doc = $res['file_name'];
+            }
+        } catch (CustomException $e) {
+            Log::warning('Print hoja ruta', ['expcetion' => $e->getData()[0], 'request' => $request->except('imagen')]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('Print hoja ruta', ['expcetion' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::warning('Print hoja ruta', ['exception' => $e->getMessage(), 'request' => $request->except('imagen')]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success(['hoja_ruta' => $ruta . '/' . $hoja_ruta->hoja_ruta_doc]);
+    }
+
+    public function generarPdf($data)
+    {
+        $res['success'] = false;
+        try {
+            $dataView = [
+                'title' => 'Welcome to ItSolutionStuff.com',
+                'rows' => $data,
+                'total_guias' => count(array_unique(array_column($data, 'guide_number'))),
+                'total_bultos' => array_reduce($data, function($carry, $item) { return $carry + $item->nro_guias; }),
+                'total_direcciones' => count(array_unique(array_column($data, 'address'))),
+                'hora_asignacion' => Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('H:i:s'),
+                'fecha_asignacion' => Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('Y-m-d'),
+            ];
+            $pdf = Pdf::setOption(['defaultFont' => 'arial'])->setPaper('a4', 'landscape')->loadView('pdf.manifiesto', $dataView);
+            $fileName = date('YmdHis') . '_cc_' . 'manifiesto' . '_' . rand(1, 100) . '.pdf';
+            $save = Storage::disk('hoja_ruta')->put($fileName, $pdf->output());
+            if (!$save) {
+                throw new CustomException(['No se pudo grabar la hoja de ruta', 2000], 401);
+            }
+
+            $res['fileName'] = $fileName;
+            $res['success'] = true;
+            Log::info('Hoja ruta PDF generado exitosamente', ['filename' => $fileName]);
+        } catch (CustomException $e) {
+            Log::warning('Error generar PDF hoja ruta', ['expcetion' => $e->getData()[0]]);
+            $res['error'] = $e->getData()[0];
+        } catch (Exception $e) {
+            Log::warning('Error generar PDF hoja ruta', ['exception' => $e->getMessage()]);
+            $res['error'] = 'Unxpected error';
+        }
+        return $res;
     }
 
     public function crear_hoja_ruta($data)
@@ -121,16 +187,16 @@ class ShippingService
             $pdf->SetXY($lmargin + 112, $y);
             $pdf->MultiCell(20, 5, Carbon::createFromFormat('Y-m-d H:i:s', $data[0]->date_created)->format('Y-m-d'), 0, 'L');
             $y = $pdf->GetY();
-    
+
             $pdf->MultiCell(20, 5, 'Conductor: ', 0, 'L');
             $pdf->SetXY($lmargin + 20, $y);
-            $pdf->MultiCell(57, 5, utf8_decode($data[0]->first_name .' '. $data[0]->last_name), 0, 'L');
+            $pdf->MultiCell(57, 5, utf8_decode($data[0]->first_name . ' ' . $data[0]->last_name), 0, 'L');
             $pdf->SetXY($lmargin + 77, $y);
             $pdf->MultiCell(11, 5, 'Placa:', 0, 'L');
             $pdf->SetXY($lmargin + 88, $y);
             $pdf->MultiCell(20, 5, utf8_decode($data[0]->plate_number), 0, 'L');
             $y = $pdf->GetY();
-    
+
             $pdf->MultiCell(22, 5, 'Cod. Envio: ', 0, 'L');
             $pdf->SetXY($lmargin + 22, $y);
             $pdf->MultiCell(55, 5, $data[0]->id_shipping_order, 0, 'L');
@@ -148,9 +214,9 @@ class ShippingService
                 $sum += $item->nro_guias;
             }
             $pdf->MultiCell(10, 5, $sum, 0, 'L');
-            
+
             $y = $pdf->GetY();
-    
+
             $pdf->MultiCell(29, 5, 'Hora de Llegada: ', 0, 'L');
             $pdf->SetXY($lmargin + 29, $y);
             $pdf->MultiCell(48, 5, '______ : _______', 0, 'L');
@@ -159,7 +225,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 103, $y);
             $pdf->MultiCell(29, 5, '______ : _______', 0, 'L');
             $y = $pdf->GetY();
-    
+
             $pdf->MultiCell(29, 5, 'Nro de Celular:', 0, 'L');
             $pdf->SetXY($lmargin + 29, $y);
             $pdf->MultiCell(48, 5, '__________________', 0, 'L');
@@ -180,14 +246,14 @@ class ShippingService
             $pdf->MultiCell(33, 5, $uniqueAddress, 0, 'L');
             $y = $pdf->GetY();
 
-            $pdf->code128(150, 13, str_pad($data[0]->id_shipping_order, 7, "0", STR_PAD_LEFT) , 50, 20, false);
+            $pdf->code128(150, 13, str_pad($data[0]->id_shipping_order, 7, "0", STR_PAD_LEFT), 50, 20, false);
             $pdf->Ln(2);
-    
+
             $pdf->SetDrawColor(150, 153, 141);
             $pdf->Line(10, 41, 195, 41);
             $pdf->Ln(2);
             $y = $pdf->GetY();
-    
+
             // total largo pagina 210
             $pdf->SetX(10);
             $pdf->SetDrawColor(0, 0, 0);
@@ -198,7 +264,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 145, $y);
             $pdf->MultiCell(45, 10, 'Firma:', 1, 'L');
             $y = $pdf->GetY();
-    
+
             $pdf->SetX(10);
             $pdf->MultiCell(90, 10, 'Lider que manifesto:', 1, 'L');
             $pdf->SetXY($lmargin + 95, $y);
@@ -206,12 +272,12 @@ class ShippingService
             $pdf->SetXY($lmargin + 145, $y);
             $pdf->MultiCell(45, 10, 'Apoyo:', 1, 'L');
             $y = $pdf->GetY();
-    
+
             // $pdf->SetDrawColor(150,153,141);
             // $pdf->Line(10,$y+2, 195,$y+2);
             $pdf->Ln(4);
             $y = $pdf->GetY();
-    
+
             $pdf->SetX(10);
             $pdf->SetDrawColor(69, 69, 69);
             $pdf->MultiCell(47, 10, 'ENTREGAS:', 1, 'L');
@@ -222,7 +288,7 @@ class ShippingService
             $pdf->SetXY($lmargin + 145, $y);
             $pdf->MultiCell(45, 10, 'H. RETORNO:', 1, 'L');
             $y = $pdf->GetY();
-    
+
             $pdf->SetX(10);
             $pdf->MultiCell(90, 10, 'Lider que descargo:', 1, 'L');
             $pdf->SetXY($lmargin + 95, $y);
@@ -230,12 +296,12 @@ class ShippingService
             $pdf->SetXY($lmargin + 145, $y);
             $pdf->MultiCell(45, 10, 'Fotos (SI/NO):', 1, 'L');
             $y = $pdf->GetY();
-    
+
             $pdf->SetDrawColor(150, 153, 141);
             $pdf->Line(10, $y + 2, 195, $y + 2);
             $pdf->Ln(4);
             $y = $pdf->GetY();
-    
+
             $pdf->SetDrawColor(69, 69, 69);
             $pdf->MultiCell(8, 6, 'Nro', 1, 'L');
             $pdf->SetXY($lmargin + 8, $y);
@@ -249,16 +315,15 @@ class ShippingService
             $pdf->SetXY($lmargin + 189, $y);
             $pdf->MultiCell(10, 6, 'Bults', 1, 'L');
             $y = $pdf->GetY();
-    
+
             $pdf->SetFont('Times', '', 10);
-    
+
             $filas = 1;
             $pagina = 1;
             foreach ($data as $key => $value) {
 
 
-                if( in_array($filas, [35,36,37]) && $pagina === 1 )
-                {
+                if (in_array($filas, [35, 36, 37]) && $pagina === 1) {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
@@ -266,7 +331,7 @@ class ShippingService
                     $pagina += 1;
                 }
 
-                if ( in_array($filas, [53,54,55]) && $pagina > 1 ) {
+                if (in_array($filas, [53, 54, 55]) && $pagina > 1) {
                     $pdf->AddPage();
                     $pdf->Ln(4);
                     $y = $pdf->GetY();
@@ -280,9 +345,9 @@ class ShippingService
                 $distrito_row = ceil($width_dis / (35 - $cellMargin));
                 $direccion_row = ceil($width_dir / (82 - $cellMargin));
                 $rows = max($distrito_row, $direccion_row);
-        
+
                 $pdf->SetDrawColor(69, 69, 69);
-                $pdf->MultiCell(8, 5 * $rows, $key+1, 1, 'C');
+                $pdf->MultiCell(8, 5 * $rows, $key + 1, 1, 'C');
                 $pdf->SetXY($lmargin + 8, $y);
                 $pdf->MultiCell(38, 5 * $rows, $value->client_barcode, 1, 'L');
                 $pdf->SetXY($lmargin + 46, $y);
@@ -304,7 +369,7 @@ class ShippingService
             $pdf->Line(10, $y + 2, 195, $y + 2);
             $pdf->Ln(4);
             $y = $pdf->GetY();
-    
+
             // $pdf->SetDrawColor(69, 69, 69);
             // $pdf->MultiCell(198, 6, utf8_decode('Transportista:'), 1, 'L');
             // $y = $pdf->GetY();
@@ -312,21 +377,21 @@ class ShippingService
             // $y = $pdf->GetY();
             // $pdf->MultiCell(198, 6, utf8_decode('DNI:'), 1, 'L');
             // $y = $pdf->GetY();
-    
+
             // $pdf->SetDrawColor(150, 153, 141);
             // $pdf->Line(10, $y + 2, 195, $y + 2);
             // $pdf->Ln(4);
             // $y = $pdf->GetY();
-    
+
             // $pdf->SetDrawColor(69, 69, 69);
             // $pdf->MultiCell(120, 40, utf8_decode(''), 1, 'L');
             // $pdf->SetXY($lmargin + 120, $y);
             // $pdf->MultiCell(78, 40, '', 1, 'L');
             // $y = $pdf->GetY();
-    
+
             // $pdf->Text(22, $y - 10, '____________________________________________________________');
             // $pdf->Text(55, $y - 5, 'FIRMA');
-    
+
             // $pdf->Text(153, $y - 5, 'HUELLA DACTILAR');
 
             $disk = Storage::disk('hoja_ruta');
@@ -338,7 +403,6 @@ class ShippingService
             $res['file_name'] = $fileName;
 
             return $res;
-
         } catch (\Exception $e) {
             dd($e->getMessage());
         }
