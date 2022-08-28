@@ -51,7 +51,18 @@
                 <td style="width: 120px;">{{$fecha_asignacion}}</td>
                 <td style="width: 10px;"></td>
                 <td style="width: 110px; text-align: left">Nro de celular: </td>
-                <td style="width: 200px;">________________________</td>
+                <td style="width: 110px;">________________________</td>
+                <td rowspan=4>
+                    @php
+                        $generator = new Picqer\Barcode\BarcodeGeneratorPNG();
+                        echo 
+                            '<img
+                                style="padding-left: 10px;width: 180px;"
+                                src="data:image/png;base64,' . base64_encode($generator->getBarcode(str_pad($rows[0]->id_shipping_order, 7, '0', STR_PAD_LEFT), $generator::TYPE_CODE_128, 2, 70)) . '"
+                            />';
+                    @endphp
+                    
+                </td>
             </tr>
             <tr>
                 <td style="text-align: left">Conductor: </td>
