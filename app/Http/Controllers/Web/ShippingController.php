@@ -23,7 +23,7 @@ class ShippingController extends Controller
 
     public function print_hoja_ruta(Request $request)
     {
-        return $this->shippingServi->print_hoja_ruta_reworked($request);
+        return $this->shippingServi->print_hoja_ruta($request);
     }
     
     public function grabarImagen(grabarImagen $request)
