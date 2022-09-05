@@ -31,10 +31,11 @@ class MainService
     {
         try {
             $request_data = $request->all();
-            $check_ubigeo = $this->repo->checkUbigeo($request_data['sellerUbigeo']);
+            $seller_ubigeo = $this->repo->checkUbigeo($request_data['sellerUbigeo']);
+            $client_ubigeo = $this->repo->checkUbigeo($request_data['clientUbigeo']);
             $selectedSla = $request_data['selectedSla'];
 
-            $is_province = (!in_array($check_ubigeo->department, ['LIMA','CALLAO']));
+            $is_province = !(in_array($seller_ubigeo->department, ['LIMA','CALLAO']) && in_array($client_ubigeo->department, ['LIMA','CALLAO']));
             if ($is_province) {
                 $organizacion = (strtolower($selectedSla) === strtolower('Logistica inversa')) ? 122 : 65;
             } else {
@@ -746,11 +747,20 @@ class MainService
         return $res;
     }
 
-    public function inretailRecoleccion()
+    public function inretailRecoleccion($params)
     {
         $res['success'] = false;
         try {
-            
+            $integration_data = $this->repo->getInretailDataToCollect($params['organization']);
+            if (!count($integration_data)) {
+                $res['success'] = true;
+                return $res;
+            }
+
+            $type = $integration_data[0]->service_type;
+            $id = $this->repo->inretailCollectMassiveLoadInsert($integration_data, $type, $params['organization']);
+
+            Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'type' => $type, 'organization' => $params['organization']]);
             $res['success'] = true;
         } catch (CustomException $e) {
             Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getData()[0]]);
