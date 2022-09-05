@@ -31,11 +31,16 @@ class MainService
     {
         try {
             $request_data = $request->all();
-            if (strtolower($request_data['selectedSla']) === strtolower('Envío express')) {
-                $organizacion = 58;
+            $check_ubigeo = $this->repo->checkUbigeo($request_data['sellerUbigeo']);
+            $selectedSla = $request_data['selectedSla'];
+
+            $is_province = (!in_array($check_ubigeo->department, ['LIMA','CALLAO']));
+            if ($is_province) {
+                $organizacion = (strtolower($selectedSla) === strtolower('Logistica inversa')) ? 122 : 65;
             } else {
-                $organizacion = 53;
+                $organizacion = (strtolower($selectedSla) === strtolower('Logistica inversa')) ? 100 : 53;
             }
+
             $user = (object) [
                 'id_integration_user' => 1,
                 'id_corporation' => 15,
@@ -43,50 +48,9 @@ class MainService
                 'integration_user' => 'inretail'
             ];
 
-            // $request_data['selectedSla'] = "Envío a domicilio";
             $insertar = $this->repo->insertData($request_data, $user);
-            // if (strtolower($request_data['selectedSla']) === strtolower('Delivery Express')) {
-            //     $integration_data = $this->repo->getIntegrationDataExpress();
-            //     $id = $this->repo->insertMassiveLoad($integration_data);
-            //     Log::info('Integracion carga - Carga masiva generada, delivery express', ['id_carga' => $id]);
-            // }
-            // if (env('INRETAIL.FAKE')) {
-            //     $response = json_decode('{
-            //         "Account": "1",
-            //         "OrderNumber": "12234-1",
-            //         "SellerName": "QAYARIX",
-            //         "GuideNumber": "WX334434",
-            //         "TrackingUrl": "urlseguimiento.com/web/WX334434"
-            //        }');
-            // } else {
-            //     $req_body = [
-            //         "Account"=> $request_data['marketplaceId'],
-            //         "GuideNumber"=> $insertar,
-            //         "OrderNumber"=> $request_data['orderNumber'],
-            //         "SellerName"=> $request_data['sellerCorporateName'],
-            //         "TrackingUrl"=> ""
-            //     ];
-
-            //     $cliente = new Client(['base_uri' => env('INRETAIL.URL')]);
-
-            //     $req = $cliente->request('POST', 'guide/create', [
-            //         "headers" => [
-            //             'client_id' => env('INRETAIL_API_CLIENT_ID'),
-            //         ],
-            //         "json" => $req_body
-            //     ]);
-
-            //     $response = json_decode($req->getBody()->getContents());
-            // }
 
             Log::info('Integracion carga exito', ['id_carga' => $insertar, 'req' => $request->all()]);
-        // } catch (\GuzzleHttp\Exception\RequestException $e) {
-        //     Log::error('Integracion carga error', ['exception' => $e->getResponse()->getBody(true), 'req_body' => $req_body, 'req' => $request->all()]);
-        //     return response()->json([
-        //         'codigo' => '3000',
-        //         "tipoError" => "Connection Error API",
-        //         'mensaje'=> "Error en el proceso",
-        //     ]);
         } catch (Exception $e) {
             Log::error('Integracion carga error', ['exception' => $e->getMessage(), 'req' => $request->all()]);
             return response()->json([
@@ -758,6 +722,44 @@ class MainService
             $res['mensaje'] = $e->getMessage();
         } catch (Exception $e) {
             Log::warning('Integracion procesar Restaurar distribucion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function inretailDistribucion()
+    {
+        $res['success'] = false;
+        try {
+
+            $res['success'] = true;
+        } catch (CustomException $e) {
+            Log::warning('Integracion Inretail Distribucion error', ['exception' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('Integracion Inretail Distribucion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::error('Integracion Inretail Distribucion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function inretailRecoleccion()
+    {
+        $res['success'] = false;
+        try {
+            
+            $res['success'] = true;
+        } catch (CustomException $e) {
+            Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::error('Integracion Inretail Recoleccion error', ['exception' => $e->getMessage()]);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;
