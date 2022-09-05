@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Integration\IntegrationController;
+use App\Models\Repositories\Integration\MainRepository;
+use App\Models\Services\Integration\MainService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -18,30 +21,13 @@ use Location\Distance\Vincenty;
 |
 */
 
-Route::post('test', function(){
-    // $getTypes = DB::table('integration_data as id')
-    //     ->select('id.type')
-    //     ->distinct()
-    //     ->where('id.status', 'PENDIENTE')
-    //     ->get();
-    $getTypes = DB::table('guide as gd')
-        ->select('gd.delivery_type as type')
-        ->distinct()
-        ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
-        ->where('gd.type','RECOLECCION')
-        ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
-        ->where('gd.proc_integracion',1)
-        ->whereIn('idd.delivery_department',['LIMA','CALLAO'])
-        ->get();
-    dd($getTypes);
-    foreach ($getTypes as $key => $type) {
-        var_dump($type->type);
-        echo '</br>';
-    }
-    dd($getTypes);
-    // $cuadro_resumen = DB::select("CALL SP_REP_EFICIENCIA_V2_PT1(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
-    // $cuadro_detalle = DB::select("CALL SP_REP_EFICIENCIA_V2_PT2(?,?,?,?,?,'RECOLECCION')",[1, 30, '2021-07-01', '2021-07-03', 'rpjas']);
-    // dd($cuadro_detalle);
+Route::post('test', function() {
+    $params['type'] = 'Default InRetail';
+    $params['organization'] = 122;
+
+    $db = new \App\Models\Services\Integration\MainService(new \App\Models\Repositories\Integration\MainRepository());
+    $res = $db->inretailRecoleccion($params);
+    dd($res);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -157,11 +143,16 @@ Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => '
         Route::get('consultar/cargo/{seg_code}', 'IntegrationController@exportar_cargo');
     });
 
+    // Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {
+    //     Route::post('procesar', 'IntegrationController@index');
+    //     // TODO: crear comando para procesar a recoleccion
+    //     Route::post('test', 'IntegrationController@procesar');
+    //     // TODO: crear comando para procesar a distribucion
+    //     Route::post('test_dist', 'IntegrationController@procesar_distribucion');
+    // });
+
     Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {
-        Route::post('procesar', 'IntegrationController@index');
-        // TODO: crear comando para procesar a recoleccion
-        Route::post('test', 'IntegrationController@procesar');
-        // TODO: crear comando para procesar a distribucion
-        Route::post('test_dist', 'IntegrationController@procesar_distribucion');
+        Route::post('procesar', [IntegrationController::class, 'index']);
     });
+
 });
