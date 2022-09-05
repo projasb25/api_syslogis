@@ -49,6 +49,11 @@ class MainRepository
         return $query;
     }
 
+    public function checkUbigeo($sellerUbigeo)
+    {
+        return DB::table('ubigeo')->where('ubigeo', $sellerUbigeo)->first();
+    }
+
     public function getIntegrationData()
     {
         $query = DB::table('integration_data as id')
