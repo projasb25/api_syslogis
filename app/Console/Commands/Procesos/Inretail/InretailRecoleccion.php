@@ -59,7 +59,7 @@ class InretailRecoleccion extends Command
                     $params['type'] = 'Logistica Inversa Provincia';
                     $params['organization'] = 122;
                     break;
-                case 3: # Default InRetail
+                case 4: # Default InRetail
                     $params['type'] = 'Default InRetail';
                     $params['organization'] = 53;
                     break;

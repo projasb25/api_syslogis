@@ -404,6 +404,11 @@ class IntegracionService
                         'skuCode' => $detalle[0],
                         'quantity' => (int) $detalle[1]
                     ]);
+
+                    if ($guide->id_organization === 54) {
+                        $items[$key]['entityCode'] = $guide->alt_code2; 
+                    }
+
                     if ($guide->status === 'NO ENTREGADO') {
                         $items[$key]['reason'] = explode(",", $guide->motive)[0];
                     }
