@@ -15,7 +15,7 @@ class InretailDistribucion extends Command
      *
      * @var string
      */
-    protected $signature = 'inretail:ditribucion {type : Tipo de servicio}';
+    protected $signature = 'inretail:distribucion {type : Tipo de servicio}';
 
     /**
      * The console command description.
