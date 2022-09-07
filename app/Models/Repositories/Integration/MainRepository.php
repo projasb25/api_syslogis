@@ -814,7 +814,7 @@ class MainRepository
                     'created_by' => 'InRetail '.$type,
                     'seller_name' => $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
-                    'delivery_type' => $type,
+                    'delivery_type' => $value->service_type,
                     'sku_vol_weight' => $value->sku_vol_weight
                 ]);
 
@@ -901,7 +901,7 @@ class MainRepository
                     'created_by' => 'InRetail '.$type,
                     'seller_name' => $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
-                    'delivery_type' => $type,
+                    'delivery_type' => $value->delivery_type,
                     'sku_vol_weight' => $value->sku_vol_weight
                 ]);
 
