@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Console\Commands\Procesos\Integracion;
+namespace App\Console\Commands\Inretail;
 
 use App\Models\Services\Integration\MainService;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class InretailDistribucion extends Command
+class InretailRecoleccion extends Command
 {
     protected $mainService;
     /**
@@ -15,7 +15,7 @@ class InretailDistribucion extends Command
      *
      * @var string
      */
-    protected $signature = 'inretail:ditribucion {type : Tipo de servicio}';
+    protected $signature = 'inretail:recoleccion {type : Tipo de servicio}';
 
     /**
      * The console command description.
@@ -69,7 +69,7 @@ class InretailDistribucion extends Command
             $this->line("=============================================");
             $this->line('');
 
-            $integracion = $this->mainService->inretailDistribucion($params);
+            $integracion = $this->mainService->inretailRecoleccion($params);
             if (!$integracion['success']) {
                 throw new Exception($integracion['mensaje'], 500);
             }
