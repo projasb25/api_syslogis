@@ -898,7 +898,7 @@ class MainRepository
                     'sku_weight' =>  $value->sku_weight,
                     'sku_pieces' =>  $value->sku_pieces,
                     'status' => 'PENDIENTE',
-                    'created_by' => 'InRetail '.$type,
+                    'created_by' => $type,
                     'seller_name' => $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
                     'delivery_type' => $value->delivery_type,
