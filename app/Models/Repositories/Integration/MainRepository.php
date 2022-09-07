@@ -102,7 +102,7 @@ class MainRepository
             ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
             ->where('gd.proc_integracion',1)
             ->where('gd.id_organization', $orgid)
-        ->get();
+            ->get();
     }
 
     public function InRetail_getDistinctTypes()
@@ -845,7 +845,7 @@ class MainRepository
             foreach ($data as $key => &$value) {
                 $client_info = (object) [];
 
-                if ($organization == 122 || $organization = 100) { # Logistica inversa
+                if ($organization == 122 || $organization == 100) { # Logistica inversa
                     $client_info->client_dni = $value->collect_client_dni;
                     $client_info->client_name = $value->collect_client_name;
                     $client_info->client_phone1 = $value->collect_client_phone1;
