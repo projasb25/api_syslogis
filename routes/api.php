@@ -23,7 +23,7 @@ use Location\Distance\Vincenty;
 
 Route::post('test', function() {
     $params['type'] = 'Default InRetail';
-    $params['organization'] = 122;
+    $params['organization'] = 65;
 
     $db = new \App\Models\Services\Integration\MainService(new \App\Models\Repositories\Integration\MainRepository());
     $res = $db->inretailRecoleccion($params);

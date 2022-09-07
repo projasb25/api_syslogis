@@ -777,7 +777,7 @@ class MainRepository
                     $client_info->client_phone1 = $value->collect_client_phone1;
                     $client_info->client_phone2 = $value->collect_client_phone2;
                     $client_info->client_phone3 = $value->collect_client_phone3;
-                    $client_info->client_email = $value->collect_contact_email;
+                    $client_info->client_email = $value->collect_client_email;
                     $client_info->client_address = $value->collect_address;
                     $client_info->client_address_reference = $value->collect_address_reference;
                     $client_info->ubigeo = $value->collect_ubigeo;
@@ -851,7 +851,7 @@ class MainRepository
                     $client_info->client_phone1 = $value->collect_client_phone1;
                     $client_info->client_phone2 = $value->collect_client_phone2;
                     $client_info->client_phone3 = $value->collect_client_phone3;
-                    $client_info->client_email = $value->collect_contact_email;
+                    $client_info->client_email = $value->collect_client_email;
                     $client_info->client_address = $value->collect_address;
                     $client_info->client_address_reference = $value->collect_address_reference;
                     $client_info->ubigeo = $value->collect_ubigeo;

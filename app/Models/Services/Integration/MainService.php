@@ -772,13 +772,13 @@ class MainService
             Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'type' => $type, 'organization' => $params['organization']]);
             $res['success'] = true;
         } catch (CustomException $e) {
-            Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getData()[0]]);
+            Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getData()[0], 'params' => $params]);
             $res['mensaje'] = $e->getData()[0];
         } catch (QueryException $e) {
-            Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getMessage()]);
+            Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getMessage(), 'params' => $params]);
             $res['mensaje'] = $e->getMessage();
         } catch (Exception $e) {
-            Log::error('Integracion Inretail Recoleccion error', ['exception' => $e->getMessage()]);
+            Log::error('Integracion Inretail Recoleccion error', ['exception' => $e->getMessage(), 'params' => $params]);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;
