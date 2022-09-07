@@ -60,7 +60,7 @@ class InretailDistribucion extends Command
                     $params['organization'] = 122;
                     break;
                 case 4: # Default InRetail
-                    $params['type'] = 'Default InRetail';
+                    $params['type'] = 'InRetail';
                     $params['organization'] = 53;
                     break;
             }

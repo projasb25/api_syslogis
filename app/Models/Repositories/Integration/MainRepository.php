@@ -835,7 +835,7 @@ class MainRepository
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
-                'created_by' => 'InRetail '.$type,
+                'created_by' => $type,
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
                 'type' => 'DISTRIBUCION',
@@ -906,7 +906,7 @@ class MainRepository
                 ]);
                 DB::table('guide')->where('id_guide',$value->id_guide)->update(['proc_integracion'=>2]);
             }
-            
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();

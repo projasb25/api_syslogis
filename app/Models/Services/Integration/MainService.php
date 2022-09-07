@@ -738,7 +738,7 @@ class MainService
                 return $res;
             }
 
-            $type = $integration_data[0]->delivery_type;
+            $type = $params['type'];
             $id = $this->repo->inretailDeliveryMassiveLoadInsert($integration_data, $type, $params['organization']);
 
             Log::info('InRetail Distribucion Crear Carga exito', ['id_carga' => $id, 'type' => $type, 'organization' => $params['organization']]);
