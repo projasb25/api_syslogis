@@ -74,7 +74,7 @@ class InretailRecoleccion extends Command
                 throw new Exception($integracion['mensaje'], 500);
             }
 
-            $this->info('IN RETAIL PROCESADO CON EXITO - RECOLECCION');
+            $this->info('IN RETAIL PROCESADO CON EXITO - RECOLECCION ID '. $integracion['id']);
             $this->info('');
 
         } catch (Exception $exc) {

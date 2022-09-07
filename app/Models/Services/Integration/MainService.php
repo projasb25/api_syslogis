@@ -771,6 +771,7 @@ class MainService
 
             Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'type' => $type, 'organization' => $params['organization']]);
             $res['success'] = true;
+            $res['id'] = $id;
         } catch (CustomException $e) {
             Log::warning('Integracion Inretail Recoleccion error', ['exception' => $e->getData()[0], 'params' => $params]);
             $res['mensaje'] = $e->getData()[0];
