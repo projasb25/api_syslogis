@@ -758,7 +758,7 @@ class MainRepository
             foreach ($data as $key => &$value) {
                 $client_info = (object) [];
 
-                if ($organization == 122 || $organization = 100) { # Logistica inversa
+                if ($organization == 122 || $organization == 100) { # Logistica inversa
                     $client_info->client_dni = $value->delivery_client_dni;
                     $client_info->client_name = $value->delivery_client_name;
                     $client_info->client_phone1 = $value->delivery_client_phone1;
