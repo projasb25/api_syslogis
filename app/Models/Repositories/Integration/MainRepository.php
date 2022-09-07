@@ -904,9 +904,9 @@ class MainRepository
                     'delivery_type' => $value->delivery_type,
                     'sku_vol_weight' => $value->sku_vol_weight
                 ]);
-
-                DB::table('integration_data')->where('id_integration_data',$value->id_integration_data)->update(['status'=>'PROCESADO']);
+                DB::table('guide')->where('id_guide',$value->id_guide)->update(['proc_integracion'=>2]);
             }
+            
             DB::commit();
         } catch (\Exception $e) {
             DB::rollback();
