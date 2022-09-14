@@ -828,6 +828,10 @@ class MainService
                     return $item->service_type == $service;
                 })->all();
 
+                if (!count($filter_data)) {
+                    continue;
+                }
+
                 $id = $this->repo->inretailCollectMassiveLoadInsert($filter_data, $service, $params['organization'], $params['name']);
                 Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'service' => $service, 'organization' => $params['organization']]);
             }
@@ -887,6 +891,10 @@ class MainService
                 $filter_data = $data->filter(function($item) use ($service) {
                     return $item->delivery_type == $service;
                 })->all();
+
+                if (!count($filter_data)) {
+                    continue;
+                }
                 
                 $id = $this->repo->inretailDeliveryMassiveLoadInsert($filter_data, $service, $params['organization'], $params['name']);
                 Log::info('[NEW] InRetail Distribucion Crear Carga exito', ['id_carga' => $id, 'service' => $service, 'organization' => $params['organization']]);
