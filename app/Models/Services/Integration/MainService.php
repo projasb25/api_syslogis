@@ -832,7 +832,8 @@ class MainService
                     continue;
                 }
 
-                $id = $this->repo->inretailCollectMassiveLoadInsert($filter_data, $service, $params['organization'], $params['name']);
+                $name = ($params['organization'] == 53 || $params['organization'] == 65) ? $params['name'] . ' ' .$service : $params['name'];
+                $id = $this->repo->inretailCollectMassiveLoadInsert($filter_data, $service, $params['organization'], $name);
                 Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'service' => $service, 'organization' => $params['organization']]);
             }
             $res['success'] = true;
@@ -895,8 +896,9 @@ class MainService
                 if (!count($filter_data)) {
                     continue;
                 }
-                
-                $id = $this->repo->inretailDeliveryMassiveLoadInsert($filter_data, $service, $params['organization'], $params['name']);
+
+                $name = ($params['organization'] == 53 || $params['organization'] == 65) ? $params['name'] . ' ' .$service : $params['name'];
+                $id = $this->repo->inretailDeliveryMassiveLoadInsert($filter_data, $service, $params['organization'], $name);
                 Log::info('[NEW] InRetail Distribucion Crear Carga exito', ['id_carga' => $id, 'service' => $service, 'organization' => $params['organization']]);
             }
             $res['success'] = true;
