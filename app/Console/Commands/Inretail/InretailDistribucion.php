@@ -49,32 +49,40 @@ class InretailDistribucion extends Command
             switch ($type) {
                 case 1: # Provincia
                     $params['type'] = 'Provincia';
+                    $params['service'] = ['Envío a domicilio', 'Retiro en tienda'];
                     $params['organization'] = 65;
+                    $params['name'] = 'InRetail Provincia';
                     break;
                 case 2: # Logistica Inversa
                     $params['type'] = 'Logistica Inversa';
+                    $params['service'] = ['Logistica inversa'];
                     $params['organization'] = 100;
+                    $params['name'] = 'InRetail Logistica Inversa';
                     break;
                 case 3: # Logistica Inversa Provincia
                     $params['type'] = 'Logistica Inversa Provincia';
+                    $params['service'] = ['Logistica inversa'];
                     $params['organization'] = 122;
+                    $params['name'] = 'InRetail Logistica Inversa Provincia';
                     break;
                 case 4: # Default InRetail
-                    $params['type'] = 'InRetail';
+                    $params['type'] = 'InRetail Lima';
+                    $params['service'] = ['Envío a domicilio', 'Retiro en tienda'];
                     $params['organization'] = 53;
+                    $params['name'] = 'InRetail Lima';
                     break;
             }
 
-            $this->line("PROCESAR CARGA INTEGRACION INRETAIL - RECOLECCION");
+            $this->line("PROCESAR CARGA INTEGRACION INRETAIL - DISTRIBUCION");
             $this->line("=============================================");
             $this->line('');
 
-            $integracion = $this->mainService->inretailDistribucion($params);
+            $integracion = $this->mainService->newInretailDistribucion($params);
             if (!$integracion['success']) {
                 throw new Exception($integracion['mensaje'], 500);
             }
 
-            $this->info('IN RETAIL PROCESADO CON EXITO - RECOLECCION');
+            $this->info('IN RETAIL PROCESADO CON EXITO - DISTRIBUCION');
             $this->info('');
 
         } catch (Exception $exc) {

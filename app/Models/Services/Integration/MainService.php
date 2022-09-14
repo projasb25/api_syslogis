@@ -784,4 +784,124 @@ class MainService
         }
         return $res;
     }
+
+    public function newInretailRecoleccion($params)
+    {
+        $res['success'] = false;
+        try {
+            $query = $this->repo->newGetInRetailCollect($params['organization']);
+
+            switch ($params['organization']) {
+                case 65: # Provincia
+                    $query->whereNotIn('idd.collect_department', ['LIMA', 'CALLAO']);
+                    $query->whereNotIn('idd.collect_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('id.type' , $params['service']);
+                    break;
+                case 122: # Logistica Inversa Provincia
+                    $query->whereNotIn('idd.delivery_department', ['LIMA', 'CALLAO']);
+                    $query->whereNotIn('idd.delivery_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('id.type' , $params['service']);
+                    break;
+                case 100: # Logistica Inversa
+                    $query->whereIn('idd.delivery_department', ['LIMA', 'CALLAO']);
+                    $query->whereIn('idd.delivery_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('id.type' , $params['service']);
+                    break;
+                case 53: # Normal
+                    $query->whereIn('idd.collect_department', ['LIMA', 'CALLAO']);
+                    $query->whereIn('idd.collect_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('id.type' , $params['service']);
+                    break;
+                default:
+                    break;
+            }
+            
+            $data = $query->get();
+            if (!count($data)) {
+                Log::info('InRetail Recoleccion no hay data que procesar');
+                $res['success'] = true;
+                return $res;
+            }
+
+            foreach ($params['service'] as $key => $service) {
+                $filter_data = $data->filter(function($item) use ($service) {
+                    return $item->service_type == $service;
+                })->all();
+
+                $id = $this->repo->inretailCollectMassiveLoadInsert($filter_data, $service, $params['organization'], $params['name']);
+                Log::info('InRetail Recoleccion Crear Carga exito', ['id_carga' => $id, 'service' => $service, 'organization' => $params['organization']]);
+            }
+            $res['success'] = true;
+        } catch (CustomException $e) {
+            Log::warning('[NEW] Integracion Inretail Recoleccion error', ['exception' => $e->getData()[0], 'params' => $params]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('[NEW] Integracion Inretail Recoleccion error', ['exception' => $e->getMessage(), 'params' => $params]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::error('[NEW] Integracion Inretail Recoleccion error', ['exception' => $e->getMessage(), 'params' => $params]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function newInretailDistribucion($params)
+    {
+        $res['success'] = false;
+        try {
+            $query = $this->repo->newGetInRetailDeliver($params['organization']);
+
+            switch ($params['organization']) {
+                case 65: # Provincia
+                    $query->whereNotIn('idd.delivery_department', ['LIMA', 'CALLAO']);
+                    $query->whereNotIn('idd.delivery_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('gd.delivery_type' , $params['service']);
+                    break;
+                case 122: # Logistica Inversa Provincia
+                    $query->whereNotIn('idd.collect_department', ['LIMA', 'CALLAO']);
+                    $query->whereNotIn('idd.collect_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('gd.delivery_type' , $params['service']);
+                    break;
+                case 100: # Logistica Inversa
+                    $query->whereIn('idd.collect_department', ['LIMA', 'CALLAO']);
+                    $query->whereIn('idd.collect_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('gd.delivery_type' , $params['service']);
+                    break;
+                case 53: # Normal
+                    $query->whereIn('idd.delivery_department', ['LIMA', 'CALLAO']);
+                    $query->whereIn('idd.delivery_province', ['LIMA', 'CALLAO']);
+                    $query->whereIn('gd.delivery_type' , $params['service']);
+                    break;
+                default:
+                    break;
+            }
+
+            $data = $query->get();
+            if (!count($data)) {
+                Log::info('[NEW] InRetail Distribucion no hay data que procesar');
+                $res['success'] = true;
+                return $res;
+            }
+
+            foreach ($params['service'] as $key => $service) {
+                $filter_data = $data->filter(function($item) use ($service) {
+                    return $item->delivery_type == $service;
+                })->all();
+                
+                $id = $this->repo->inretailDeliveryMassiveLoadInsert($filter_data, $service, $params['organization'], $params['name']);
+                Log::info('[NEW] InRetail Distribucion Crear Carga exito', ['id_carga' => $id, 'service' => $service, 'organization' => $params['organization']]);
+            }
+            $res['success'] = true;
+        } catch (CustomException $e) {
+            Log::warning('[NEW] Integracion Inretail Distribucion error', ['exception' => $e->getData()[0], 'params' => $params]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('[NEW] Integracion Inretail Distribucion error', ['exception' => $e->getMessage(), 'params' => $params]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::error('[NEW] Integracion Inretail Distribucion error', ['exception' => $e->getMessage(), 'params' => $params]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
 }

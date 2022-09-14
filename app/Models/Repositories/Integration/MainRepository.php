@@ -741,16 +741,16 @@ class MainRepository
         return $query;
     }
 
-    public function inretailCollectMassiveLoadInsert($data, $type, $organization)
+    public function inretailCollectMassiveLoadInsert($data, $service, $organization, $name)
     {
         DB::beginTransaction();
         try {
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
-                'created_by' => 'InRetail '.$type,
+                'created_by' => $name,
                 'id_corporation' => $data[0]->id_corporation,
-                'id_organization' => $data[0]->id_organization,
+                'id_organization' => $organization,
                 'type' => 'RECOLECCION',
                 'proc_integracion' => 1
             ]);
@@ -811,10 +811,10 @@ class MainRepository
                     'sku_weight' =>  $value->sku_weight,
                     'sku_pieces' =>  $value->sku_pieces,
                     'status' => 'PENDIENTE',
-                    'created_by' => 'InRetail '.$type,
+                    'created_by' => $name,
                     'seller_name' => $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
-                    'delivery_type' => $value->service_type,
+                    'delivery_type' => $service,
                     'sku_vol_weight' => $value->sku_vol_weight
                 ]);
 
@@ -828,16 +828,16 @@ class MainRepository
         return $id;
     }
 
-    public function inretailDeliveryMassiveLoadInsert($data, $type, $organization)
+    public function inretailDeliveryMassiveLoadInsert($data, $service, $organization, $name)
     {
         DB::beginTransaction();
         try {
             $id = DB::table('massive_load')->insertGetId([
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
-                'created_by' => $type,
+                'created_by' => $name,
                 'id_corporation' => $data[0]->id_corporation,
-                'id_organization' => $data[0]->id_organization,
+                'id_organization' => $organization,
                 'type' => 'DISTRIBUCION',
                 'proc_integracion' => 1
             ]);
@@ -898,10 +898,10 @@ class MainRepository
                     'sku_weight' =>  $value->sku_weight,
                     'sku_pieces' =>  $value->sku_pieces,
                     'status' => 'PENDIENTE',
-                    'created_by' => $type,
+                    'created_by' => $name,
                     'seller_name' => $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
-                    'delivery_type' => $value->delivery_type,
+                    'delivery_type' => $service,
                     'sku_vol_weight' => $value->sku_vol_weight
                 ]);
                 DB::table('guide')->where('id_guide',$value->id_guide)->update(['proc_integracion'=>2]);
@@ -913,5 +913,26 @@ class MainRepository
             throw $e;
         }
         return $id;
+    }
+
+    public function newGetInRetailCollect($orgid)
+    {
+        return DB::table('integration_data as id')
+            ->select(
+                'id.id_integration_data', 'id.id_integration_user', 'id.id_corporation', 'id.id_organization',
+                'id.number_records', 'id.status', 'id.type as service_type', 'id.reportado', 'id.id_subsidiary',
+                'idd.*'
+            )
+            ->join('integration_data_detail as idd','idd.id_integration_data','=','id.id_integration_data')
+            ->where('id.status', 'PENDIENTE');
+    }
+
+    public function newGetInRetailDeliver($orgid)
+    {
+        return DB::table('guide as gd')
+            ->join('integration_data_detail as idd','idd.guide_number','=','gd.guide_number')
+            ->where('gd.type','RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.proc_integracion',1);
     }
 }
