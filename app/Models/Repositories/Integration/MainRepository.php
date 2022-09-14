@@ -749,7 +749,7 @@ class MainRepository
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
                 'created_by' => $name,
-                'id_corporation' => $data[0]->id_corporation,
+                'id_corporation' => 15,
                 'id_organization' => $organization,
                 'type' => 'RECOLECCION',
                 'proc_integracion' => 1
@@ -836,7 +836,7 @@ class MainRepository
                 'number_records' => count($data),
                 'status' => 'PENDIENTE',
                 'created_by' => $name,
-                'id_corporation' => $data[0]->id_corporation,
+                'id_corporation' => 15,
                 'id_organization' => $organization,
                 'type' => 'DISTRIBUCION',
                 'proc_integracion' => 1
