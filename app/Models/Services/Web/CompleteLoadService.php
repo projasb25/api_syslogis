@@ -59,6 +59,41 @@ class CompleteLoadService
         return Res::success($res);
     }
 
+    public function process_load($request)
+    {
+        $res = [];
+        try {
+            $user = auth()->user();
+            $req = $request->all();
+            $data['username'] = $user->username;
+            $data['id_complete_load'] = $req['id_complete_load'];
+
+            $load = $this->repo->getCompleteLoad($data['id_complete_load']);
+            if (!$load) {
+                throw new CustomException(['Registro no encontrado.', 2121], 404);
+            }
+            if ($load->status !== "PENDIENTE") {
+                throw new CustomException(['La carga masiva ya fue procesada.', 2120], 400);
+            }
+
+            $data = $this->repo->selDataCargaPorId($data['id_complete_load']);
+            $id = $this->repo->insertCompleteCollectLoad($data);
+
+            $res =[ 'id_massive_load' => $id ];
+            Log::info('[RECOLECCION] Procesar carga completa exitoso', ['carga_id' => $id]);
+        } catch (CustomException $e) {
+            Log::warning('[RECOLECCION] Procesar carga completa error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('[RECOLECCION] Procesar carga completa error', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::error('[RECOLECCION] Procesar carga completa error', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success($res);
+    }
+
     public function procesarRecoleccion()
     {
         $res['success'] = false;

@@ -112,6 +112,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 
     Route::group(['middleware' => ['api'], 'prefix' => 'complete'], function() {
         Route::post('load', [CompleteLoadController::class, 'load']);
+        Route::post('load/process', [CompleteLoadController::class, 'process']);
     });
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'shipping'], function() {

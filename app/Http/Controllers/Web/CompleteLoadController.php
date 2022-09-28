@@ -21,4 +21,9 @@ class CompleteLoadController extends Controller
     {
         $this->mainService->load($request);
     }
+
+    public function process(Request $request)
+    {
+        $this->mainService->process_load($request);
+    }
 }

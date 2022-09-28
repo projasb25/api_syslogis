@@ -13,6 +13,13 @@ use App\Helpers\ArrayHelper;
 
 class CompleteLoadRepository
 {
+    public function getCompleteLoad($id)
+    {
+        return DB::table('complete_load')
+            ->where('id_complete_load', $id)
+            ->first();
+    }
+
     public function selCargasRecoleccion()
     {
         return DB::table('complete_load as cl')
@@ -30,6 +37,17 @@ class CompleteLoadRepository
             ->join('complete_load_detail as cld', 'cld.id_complete_load', 'cl.id_complete_load')
             ->where('cl.collect_process', 0)
             ->where('cl.id_organization', $orgid)
+            ->get();
+    }
+
+    public function selDataCargaPorId($id)
+    {
+        return DB::table('complete_load as cl')
+            ->select('cl.*', 'cld.*', 'org.description as org_name')
+            ->join('organization as org', 'org.id_organization', 'cl.id_organization')
+            ->join('complete_load_detail as cld', 'cld.id_complete_load', 'cl.id_complete_load')
+            ->where('cl.collect_process', 0)
+            ->where('cl.id_complete_load', $id)
             ->get();
     }
 
