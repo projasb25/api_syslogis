@@ -245,6 +245,10 @@ class FunctionModel
             "query" => 'CALL SP_FINALIZAR_RUTA(:id_shipping_order)',
             "params" => ['id_shipping_order']
         ],
+        "SP_SEL_COMPLETE_LOADS" => [
+            "query" => 'CALL SP_SEL_COMPLETE_LOADS(:username, :type)',
+            "params" => ['username', 'type']
+        ],
 
         /**
          * Funciones para Paginacion
