@@ -19,11 +19,11 @@ class CompleteLoadController extends Controller
 
     public function load(Request $request)
     {
-        $this->mainService->load($request);
+        return $this->mainService->load($request);
     }
 
     public function process(Request $request)
     {
-        $this->mainService->process_load($request);
+        return $this->mainService->process_load($request);
     }
 }
