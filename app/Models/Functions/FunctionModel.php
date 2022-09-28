@@ -249,6 +249,10 @@ class FunctionModel
             "query" => 'CALL SP_SEL_COMPLETE_LOADS(:username, :type)',
             "params" => ['username', 'type']
         ],
+        "SP_SEL_COMPLETE_LOADS_DETAILS" => [
+            "query" => 'SELECT * FROM complete_load_detail WHERE id_complete_load = :id_complete_load;',
+            "params" => ['id_complete_load']
+        ],
 
         /**
          * Funciones para Paginacion
