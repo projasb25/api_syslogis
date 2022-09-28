@@ -63,7 +63,7 @@ class ShippingService
                 $constraint->aspectRatio();
             })->save($destination_path . '/' . $nombre_imagen);
 
-            $ruta = url('storage/imagenes4/' . $guide[0]->id_guide . '/' . $nombre_imagen);
+            $ruta = url('storage/imagenes2/' . $guide[0]->id_guide . '/' . $nombre_imagen);
             foreach ($guide as $key => $gd) {
                 $this->repo->insertarImagen($gd->id_guide, $gd->id_shipping_order, $ruta, $request->get('descripcion'), $request->get('tipo_imagen'));
             }
