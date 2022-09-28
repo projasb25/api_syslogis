@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Integration\IntegrationController;
+use App\Http\Controllers\Web\CompleteLoadController;
 use App\Models\Repositories\Integration\MainRepository;
 use App\Models\Services\Integration\MainService;
 use Illuminate\Http\Request;
@@ -22,35 +23,8 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(Request $request) {
-    switch ($request->get('option')) {
-        case 1: # Provincia
-            $params['type'] = 'Provincia';
-            $params['service'] = ['Envío a domicilio', 'Retiro en tienda'];
-            $params['organization'] = 65;
-            $params['name'] = 'InRetail Provincia';
-            break;
-        case 2: # Logistica Inversa
-            $params['type'] = 'Logistica Inversa';
-            $params['service'] = ['Logistica inversa'];
-            $params['organization'] = 100;
-            $params['name'] = 'InRetail Logistica Inversa';
-            break;
-        case 3: # Logistica Inversa Provincia
-            $params['type'] = 'Logistica Inversa Provincia';
-            $params['service'] = ['Logistica inversa'];
-            $params['organization'] = 122;
-            $params['name'] = 'InRetail Logistica Inversa Provincia';
-            break;
-        case 4: # Default InRetail
-            $params['type'] = 'InRetail Lima';
-            $params['service'] = ['Envío a domicilio', 'Retiro en tienda'];
-            $params['organization'] = 53;
-            $params['name'] = 'InRetail Lima';
-            break;
-    }
-
-    $db = new \App\Models\Services\Integration\MainService(new \App\Models\Repositories\Integration\MainRepository());
-    $res = $db->newInretailDistribucion($params);
+    $db = new App\Models\Services\Web\CompleteLoadService(new \App\Models\Repositories\Web\CompleteLoadRepository());
+    $res = $db->procesarRecoleccion();
     dd($res);
 });
 
@@ -134,6 +108,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
         Route::post('process', 'CollectController@process');
         // Route::post('print/cargo', 'MassiveLoadController@print_cargo');
         // Route::post('print/marathon', 'MassiveLoadController@print_marathon');
+    });
+
+    Route::group(['middleware' => ['api'], 'prefix' => 'complete'], function() {
+        Route::post('load', [CompleteLoadController::class, 'load']);
     });
 
     Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'shipping'], function() {

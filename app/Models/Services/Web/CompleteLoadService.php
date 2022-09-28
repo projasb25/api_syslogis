@@ -1,0 +1,92 @@
+<?php
+
+namespace App\Models\Services\Web;
+
+use Exception;
+// use Log;
+
+use App\Exceptions\CustomException;
+use App\Helpers\ArrayHelper;
+use App\Helpers\ResponseHelper as Res;
+use App\Models\Repositories\Web\CompleteLoadRepository;
+use Carbon\Carbon;
+use Illuminate\Database\QueryException;
+use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
+class CompleteLoadService
+{
+    protected $repo;
+    public function __construct(CompleteLoadRepository $repository)
+    {
+        $this->repo = $repository;
+    }
+
+    public function load($request)
+    {
+        $res = [];
+        try {
+            $user = auth()->user();
+            $req = $request->all();
+            $data['count'] = count($req['data']);
+            $data['username'] = $user->username;
+            $data['data'] = $req['data'];
+            $data['id_corporation'] = $req['id_corporation'];
+            $data['id_organization'] = $req['id_organization'];
+            $data['date_loaded'] = $req['date_loaded'];
+            $data['id_load_template'] =  $req['id_load_template'];
+
+            $id = $this->repo->insertCompleteLoad($data);
+
+            $res =[
+                'id_massive_load' => $id
+            ];
+
+        } catch (CustomException $e) {
+            Log::warning('[NEW] Complete massive load error', ['expcetion' => $e->getData()[0], 'request' => $req]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('[NEW] Complete massive load error', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::error('[NEW] Complete massive load error', ['expcetion' => $e->getMessage(), 'request' => $req]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return Res::success($res);
+    }
+
+    public function procesarRecoleccion()
+    {
+        $res['success'] = false;
+        try {
+            $cargas_organizacion = $this->repo->selCargasRecoleccion();
+            if (!count($cargas_organizacion)) {
+                Log::info('[RECOLECCION] Procesar carga masiva completa: nada que reportar');
+                $res['success'] = true;
+                return $res;
+            }
+
+            foreach ($cargas_organizacion as $key => $organizacion) {
+                $cargas_data = $this->repo->selDataCargaRecoleccion($organizacion->id_organization);
+                $carga_id = $this->repo->insertCompleteCollectLoad($cargas_data);
+                Log::info('[RECOLECCION] Procesar carga completa exitoso', ['carga_id' => $carga_id]);
+            }
+
+            $res['success'] = true; 
+        } catch (CustomException $e) {
+            Log::warning('[RECOLECCION] Procesar carga masiva completa error', ['expcetion' => $e->getData()[0]]);
+            return Res::error($e->getData(), $e->getCode());
+        } catch (QueryException $e) {
+            Log::warning('[RECOLECCION] Procesar carga masiva completa error', ['expcetion' => $e->getMessage()]);
+            return Res::error(['Unxpected DB error', 3000], 400);
+        } catch (Exception $e) {
+            Log::error('[RECOLECCION] Procesar carga masiva completa error', ['expcetion' => $e->getMessage()]);
+            return Res::error(['Unxpected error', 3000], 400);
+        }
+        return $res;
+    }
+}

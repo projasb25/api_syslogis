@@ -320,6 +320,9 @@ class CollectRepository
                     DB::table('sku_product')->where('id_sku_product', $id_sku)->update(['sku_code' => $v_sku_code]);
                 }
 
+                // Actualizar el id de la guia en la carga masiva
+                DB::table('massive_load_details')->where('id_load_detail', $value->id_load_detail)->update(['guideid' => $id_guide]);
+
                 $total_weight += $value->sku_weight;
                 $total_pieces += $value->sku_pieces;
                 $prev_val = $current_val;
