@@ -35,7 +35,7 @@ class CompleteLoadRepository
 
     public function insertCompleteLoad($data)
     {
-        DB::transaction();
+        DB::beginTransaction();
         try {
             $id = DB::table('complete_load')->insertGetId([
                 'number_records' => $data['count'],
