@@ -23,8 +23,13 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function(Request $request) {
-    $db = new App\Models\Services\Web\CompleteLoadService(new \App\Models\Repositories\Web\CompleteLoadRepository());
-    $res = $db->procesarRecoleccion();
+    $params['type'] = 'Provincia';
+    $params['service'] = ['Envío a domicilio', 'Retiro en tienda'];
+    $params['organization'] = 65;
+    $params['name'] = 'InRetail Provincia';
+
+    $db = new \App\Models\Services\Integration\MainService(new \App\Models\Repositories\Integration\MainRepository());
+    $res = $db->newInretailDistribucion($params);
     dd($res);
 });
 

@@ -858,23 +858,23 @@ class MainService
 
             switch ($params['organization']) {
                 case 65: # Provincia
-                    $query->whereNotIn('idd.delivery_department', ['LIMA', 'CALLAO']);
-                    $query->whereNotIn('idd.delivery_province', ['LIMA', 'CALLAO']);
+                    $query->join('ubigeo as u', 'u.ubigeo', 'idd.delivery_ubigeo');
+                    $query->where('u.ambito', '<>', 'LIMA');
                     $query->whereIn('gd.delivery_type' , $params['service']);
                     break;
                 case 122: # Logistica Inversa Provincia
-                    $query->whereNotIn('idd.collect_department', ['LIMA', 'CALLAO']);
-                    $query->whereNotIn('idd.collect_province', ['LIMA', 'CALLAO']);
+                    $query->join('ubigeo as u', 'u.ubigeo', 'idd.collect_ubigeo');
+                    $query->where('u.ambito', '<>', 'LIMA');
                     $query->whereIn('gd.delivery_type' , $params['service']);
                     break;
                 case 100: # Logistica Inversa
-                    $query->whereIn('idd.collect_department', ['LIMA', 'CALLAO']);
-                    $query->whereIn('idd.collect_province', ['LIMA', 'CALLAO']);
+                    $query->join('ubigeo as u', 'u.ubigeo', 'idd.collect_ubigeo');
+                    $query->where('u.ambito', '=', 'LIMA');
                     $query->whereIn('gd.delivery_type' , $params['service']);
                     break;
                 case 53: # Normal
-                    $query->whereIn('idd.delivery_department', ['LIMA', 'CALLAO']);
-                    $query->whereIn('idd.delivery_province', ['LIMA', 'CALLAO']);
+                    $query->join('ubigeo as u', 'u.ubigeo', 'idd.delivery_ubigeo');
+                    $query->where('u.ambito', '=', 'LIMA');
                     $query->whereIn('gd.delivery_type' , $params['service']);
                     break;
                 default:
