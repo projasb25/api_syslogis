@@ -201,7 +201,7 @@ class CompleteLoadRepository
                     'id_complete_load_detail' => $value->id_complete_load_detail
                 ]);
 
-                DB::table('complete_load')->where('id_complete_load',$value->id_complete_load)->update(['collect_process'=> 1, 'status' => 'PROCESADO']);
+                DB::table('complete_load')->where('id_complete_load',$value->id_complete_load)->update(['collect_process'=> 1, 'status' => 'PROCESADO', 'collect_massive_load_id' => $id]);
             }
             DB::commit();
         } catch (\Exception $e) {
