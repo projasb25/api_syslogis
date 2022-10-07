@@ -540,7 +540,7 @@ class IntegracionService
                                 'codigoRastreo' => $guide->seg_code,
                                 'estado' => $estado,
                                 'coordenadas' => $coordenadas,
-                                'fechaHora' => Carbon::parse($guide->date_loaded)->format('d/m/Y H:i:s'),
+                                'fechaHora' => Carbon::parse($guide->fecha_estado)->format('d/m/Y H:i:s'),
                                 'evidencias' => $evidences,
                                 'conductor' => $guide->driver_name,
                                 'placa' => $guide->plate_number,
