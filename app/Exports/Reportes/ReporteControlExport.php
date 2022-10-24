@@ -30,7 +30,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ESTADO DE DESCARGA', 'OBSERVACIONES',
             'FECHA VISITA1', 'RESULTADO 1', 'FECHA VISITA2', 'RESULTADO 2', 'FECHA VISITA3', 'RESULTADO 3',
             'CANTIDAD VISITAS', 'NRO IMAGENES', 'TIPO SERVICIO', 'COD ALT1', 'SKU DESCRIPCION', 'SKU PESO', 'SKU PESO VOL',
-            'NOVEDADES'
+            'NOVEDADES', 'VAR_1'
         ];
     }
     /**
@@ -84,6 +84,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             $collection->peso,
             $collection->sku_vol_weight,
             $collection->novedades,
+            $collection->var_1,
         ];
     }
 }
