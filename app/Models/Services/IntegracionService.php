@@ -206,10 +206,10 @@ class IntegracionService
                             break;
                     }
                 }
-                // if ($guide->status === 'CURSO') {
-                //     $guide->status = 'EN RUTA';
-                //     $guide->SubEstado = '';
-                // }
+
+                if ($guide->status === 'CURSO' && $guide->type === 'RECOLECCION') {
+                    $guide->estado = 'EN RUTA RECOLECCION';
+                }
 
                 $req_body = [
                     "Account" => $guide->alt_code1,
@@ -595,6 +595,18 @@ class IntegracionService
             Log::info('Proceso de integracion con Tailoy exitoso', ['nro_registros' => count($guides)]);
         } catch (Exception $e) {
             Log::error('Integracion Tailoy', ['cliente' => 'Tailoy', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function falabella()
+    {
+        $res['success'] = false;
+        try {
+            $res['success'] = true;
+        } catch (Exception $e) {
+            Log::error('Integracion Falabella', ['cliente' => 'Falabella', 'exception' => $e->getMessage()]);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;
