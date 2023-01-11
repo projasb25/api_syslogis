@@ -28,7 +28,7 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             'FECHA PEDIDO', 'HORA PEDIDO', 'FECHA ENVIO', 'NOMBRE CONDUCTOR', 'TIPO VEHICULO', 'NRO PLACA', 'PROVEEDOR',
             'ULTIMO ESTADO', 'NOMBRE CLIENTE', 'TELEFONO 1', 'TELEFONO 2', 'DIRECCION', 'DEPARTAMENTO', 'DISTRITO',
             'PROVINCIA', 'TIPO ZONA', 'FECHA ASIGNADO', 'ULTFECHA ESTADO', 'ESTADO DE DESCARGA', 'OBSERVACIONES',
-            'FECHA VISITA1', 'RESULTADO 1', 'FECHA VISITA2', 'RESULTADO 2', 'FECHA VISITA3', 'RESULTADO 3',
+            'FECHA VISITA1', 'RESULTADO 1', 'SUB ESTADO 1', 'FECHA VISITA2', 'RESULTADO 2', 'SUB ESTADO 2', 'FECHA VISITA3', 'RESULTADO 3', 'SUB ESTADO 3',
             'CANTIDAD VISITAS', 'NRO IMAGENES', 'TIPO SERVICIO', 'COD ALT1', 'SKU DESCRIPCION', 'SKU PESO', 'SKU PESO VOL',
             'NOVEDADES', 'VAR_1'
         ];
@@ -72,10 +72,13 @@ class ReporteControlExport implements FromCollection, WithMapping, WithHeadings
             $collection->observaciones,
             $collection->fecha_visita1,
             $collection->resultado_1,
+            $collection->motivo_1,
             $collection->fecha_visita2,
             $collection->resultado_2,
+            $collection->motivo_2,
             $collection->fecha_visita3,
             $collection->resultado_3,
+            $collection->motivo_3,
             $collection->cantidad_visitas,
             $collection->nro_imagenes,
             $collection->delivery_type,
