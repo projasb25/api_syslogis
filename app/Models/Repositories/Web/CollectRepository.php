@@ -275,6 +275,7 @@ class CollectRepository
                         'date_loaded' => $value->date_loaded,
                         'integracion' => $data['integracion'],
                         'id_subsidiary' => $value->id_subsidiary,
+                        'collect_date_range' =>  $value->collect_date_range,
                     ]);
 
                     if ($value->status === 'PROCESADO') {
