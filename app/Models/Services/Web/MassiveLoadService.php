@@ -250,7 +250,7 @@ class MassiveLoadService
 
         $file_exists = (Storage::disk('cargo')->exists($massive_load->ruta_doc_cargo));
         if (!$massive_load->ruta_doc_cargo || !$file_exists) {
-            if ($massive_load->id_corporation === 4) {
+            if ($massive_load->id_corporation === 4 && !in_array($massive_load->id_organization, [142,141,140]) ) {
                 $data = $this->repo->get_datos_ruta_cargo_oechsle($massive_load->id_massive_load);
                 $motivos = $this->repo->get_motivos();
                 $doc = $this->generar_doc_cargo_tipo2($data, $motivos);
