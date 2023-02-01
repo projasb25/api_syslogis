@@ -143,6 +143,7 @@ class CompleteLoadRepository
                     'delivery_client_email' => $value['delivery_client_email'] ?? null,
                     'client_date' => $value['client_date'] ?? null,
                     'client_date2' => $value['client_date2'] ?? null,
+                    'collect_time_range' => $value['collect_time_range'] ?? null,
                 ]);
             }
             DB::commit();
@@ -198,7 +199,8 @@ class CompleteLoadRepository
                     'created_by' => 'command',
                     'seller_name' => $value->seller_name,
                     'date_loaded' => date('Y-m-d H:i:s'),
-                    'id_complete_load_detail' => $value->id_complete_load_detail
+                    'id_complete_load_detail' => $value->id_complete_load_detail,
+                    'collect_time_range' => $value->collect_time_range,
                 ]);
 
                 DB::table('complete_load')->where('id_complete_load',$value->id_complete_load)->update(['collect_process'=> 1, 'status' => 'PROCESADO', 'collect_massive_load_id' => $id]);
