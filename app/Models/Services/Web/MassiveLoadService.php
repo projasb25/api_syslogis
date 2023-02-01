@@ -347,6 +347,11 @@ class MassiveLoadService
                         $pdf->Cell(51,6,'COD.: '.$guide->alt_code1,0,1,'L');
                         $pdf->SetX($box_x+6);
                         $pdf->MultiCell(85,6,'TIP. ENVIO: '. $guide->delivery_type,0,'J');
+                    } elseif (in_array($guide->id_organization, [142,141,140])) {
+                        $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
+                        $pdf->SetX($box_x+6);
+                        $pdf->Cell(42,6,'COD1: '.$guide->alt_code1,0,0,'L');
+                        $pdf->Cell(43,6,'COD2: '.$guide->alt_code2,0,1,'L');
                     } else {
                         $pdf->Cell(85,6,'CIUDAD: LIMA'.$guide->alt_code1,0,1,'L');
                     }
@@ -429,7 +434,8 @@ class MassiveLoadService
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'HORARIO REC.: ' .utf8_decode(strtolower($guide->collect_time_range)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($guide->client_date)),0,'J');
+                        $fecha_recojo = (in_array($guide->id_organization, [142,141,140])) ? $guide->collect_date_range : $guide->client_date;
+                        $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($fecha_recojo)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);

@@ -387,7 +387,7 @@ class MassiveLoadRepository
         $query = DB::select("select
             gd.id_organization, gd.date_loaded, gd.delivery_type,
             gd.guide_number, gd.client_barcode, gd.client_name, gd.client_phone1, gd.client_email, gd.client_dni, gd.type, gd.alt_code1,
-            gd.collect_time_range, gd.contact_name, gd.client_date, gd.amount, gd.payment_method,
+            gd.alt_code2, gd.collect_time_range, gd.collect_date_range, gd.contact_name, gd.client_date, gd.amount, gd.payment_method,
             org.name, org.address as org_address, adr.district, adr.province, adr.address, adr.address_refernce, adr.department,
             GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created,
             gd.total_pieces, gd.total_weight
@@ -406,6 +406,7 @@ class MassiveLoadRepository
             gd.client_phone1,
             gd.client_email,
             gd.alt_code1,
+            gd.alt_code2,
             gd.total_pieces,
             gd.total_weight,
             org.name,
