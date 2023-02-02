@@ -390,7 +390,7 @@ class MassiveLoadRepository
             gd.alt_code2, gd.collect_time_range, gd.collect_date_range, gd.contact_name, gd.client_date, gd.amount, gd.payment_method,
             org.name, org.address as org_address, adr.district, adr.province, adr.address, adr.address_refernce, adr.department,
             GROUP_CONCAT(gd.seg_code, '-',sku.sku_description) as contenido, ml.date_updated as date_created,
-            GROUP_CONAT(sku.sku_code,'-', sku.sku_description) as contenido2
+            GROUP_CONAT(sku.sku_code,'-', sku.sku_description) as contenido2,
             gd.total_pieces, gd.total_weight
         from
             guide gd
