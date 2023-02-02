@@ -473,7 +473,9 @@ class MassiveLoadService
                     $pdf->SetFont('Times', '', 9);
                     $pdf->SetXY($box_x + 93 + 6, $box_y + $tamano+3);
 
-                    $contenidoArray = explode(",", $guide->contenido);
+                    $fecha_recojo = (in_array($guide->id_organization, [142,141,140])) ? $guide->collect_date_range : $guide->client_date;
+
+                    $contenidoArray = (in_array($guide->id_organization, [142,141,140])) ? explode(",", $guide->contenido2) : explode(",", $guide->contenido);
                     foreach ($contenidoArray as $key => $product) {
                         $pdf->MultiCell(101,3,utf8_decode(ucwords(strtolower($product))),0,'L');
                         $pdf->SetX($box_x + 93 + 6);
