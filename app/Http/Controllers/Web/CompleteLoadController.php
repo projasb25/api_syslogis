@@ -26,4 +26,9 @@ class CompleteLoadController extends Controller
     {
         return $this->mainService->process_load($request);
     }
+
+    public function process_distribution(Request $request)
+    {
+        return $this->mainService->process_distribution();
+    }
 }

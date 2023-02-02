@@ -124,4 +124,37 @@ class CompleteLoadService
         }
         return $res;
     }
+
+    public function process_distribution()
+    {
+        $res['success'] = false;
+        try {
+            $cargas_organizacion = $this->repo->selRecolectadoOrganizacion();
+            error_log(json_encode($cargas_organizacion));
+            if (!count($cargas_organizacion)) {
+                Log::info('[DISTRIBUCION] Procesar carga masiva completa: nada que reportar');
+                $res['success'] = true;
+                return $res;
+            }
+
+            foreach ($cargas_organizacion as $key => $organizacion) {
+                $cargas_data = $this->repo->selDataCargaDistribucion($organizacion->id_organization);
+                $carga_id = $this->repo->insertarCargaDistribucion($cargas_data);
+                Log::info('[DISTRIBUCION] Procesar carga completa exitoso', ['carga_id' => $carga_id]);
+            }
+            die();
+
+            $res['success'] = true; 
+        } catch (CustomException $e) {
+            Log::warning('[DISTRIBUCION] Procesar carga masiva completa error', ['expcetion' => $e->getData()[0]]);
+            $res['mensaje'] = $e->getData()[0];
+        } catch (QueryException $e) {
+            Log::warning('[DISTRIBUCION] Procesar carga masiva completa error', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        } catch (Exception $e) {
+            Log::error('[DISTRIBUCION] Procesar carga masiva completa error', ['expcetion' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
 }

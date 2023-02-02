@@ -29,6 +29,45 @@ class CompleteLoadRepository
             ->get();
     }
 
+    public function selRecolectadoOrganizacion()
+    {
+        return DB::table('guide as gd')
+            ->select('gd.id_organization')
+            ->distinct()
+            ->join('massive_load as ml', function($join)
+            {
+                $join->on('ml.id_massive_load', '=', 'gd.id_massive_load');
+                $join->where('ml.complete_load', 1);
+            })
+            ->where('gd.type', 'RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.processed_distribution', 0)
+            ->get();
+    }
+
+    public function selDataCargaDistribucion($orgid)
+    {
+        return DB::table('guide as gd')
+            ->select('cld.*', 'org.description as org_name', 'gd.id_corporation', 'gd.id_organization', 'gd.id_guide')
+            ->join('massive_load as ml', function($join)
+            {
+                $join->on('ml.id_massive_load', '=', 'gd.id_massive_load');
+                $join->on('ml.complete_load', DB::raw(1));
+            })
+            ->join('massive_load_details as mld', function($join)
+            {
+                $join->on(DB::raw("concat(mld.guide_number,mld.seg_code)"), DB::raw("concat(gd.guide_number, gd.seg_code)"));
+                $join->on('mld.id_massive_load', 'gd.id_massive_load');
+            })
+            ->join('complete_load_detail as cld', 'cld.id_complete_load_detail', 'mld.id_complete_load_detail')
+            ->join('organization as org', 'org.id_organization', 'gd.id_organization')
+            ->where('gd.type', 'RECOLECCION')
+            ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
+            ->where('gd.processed_distribution', 0)
+            ->where('gd.id_organization', $orgid)
+            ->get();
+    }
+
     public function selDataCargaRecoleccion($orgid)
     {
         return DB::table('complete_load as cl')
@@ -166,7 +205,7 @@ class CompleteLoadRepository
                 'id_corporation' => $data[0]->id_corporation,
                 'id_organization' => $data[0]->id_organization,
                 'type' => 'RECOLECCION',
-                'complete_load' => 1
+                'complete_load' => 1,
             ]);
 
             foreach ($data as $key => &$value) {
@@ -206,6 +245,66 @@ class CompleteLoadRepository
                 ]);
 
                 DB::table('complete_load')->where('id_complete_load',$value->id_complete_load)->update(['collect_process'=> 1, 'status' => 'PROCESADO', 'collect_massive_load_id' => $id]);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
+        }
+        return $id;
+    }
+
+    public function insertarCargaDistribucion($data)
+    {
+        DB::beginTransaction();
+        try {
+            $id = DB::table('massive_load')->insertGetId([
+                'number_records' => count($data),
+                'status' => 'PENDIENTE',
+                'created_by' => $data[0]->org_name,
+                'id_corporation' => $data[0]->id_corporation,
+                'id_organization' => $data[0]->id_organization,
+                'type' => 'DISTRIBUCION',
+                'complete_load' => 1,
+            ]);
+
+            foreach ($data as $key => &$value) {
+                DB::table('massive_load_details')->insert([
+                    'id_massive_load' => $id,
+                    'seg_code' => $value->seg_code,
+                    'guide_number' => $value->guide_number,
+                    'client_barcode' => $value->client_barcode,
+                    'alt_code1' => $value->alt_code1,
+                    'alt_code2' => $value->alt_code2,
+                    'client_date' => $value->client_date,
+                    'client_date2' => $value->client_date2,
+                    'client_dni' => $value->delivery_client_dni,
+                    'client_name' => $value->delivery_client_name,
+                    'client_phone1' => $value->delivery_client_phone1,
+                    'client_phone2' => $value->delivery_client_phone2,
+                    'client_phone3' => $value->delivery_client_phone3,
+                    'client_email' => $value->delivery_client_email,
+                    'client_address' => $value->delivery_address,
+                    'client_address_reference' => $value->delivery_address_reference,
+                    'ubigeo' => $value->delivery_ubigeo,
+                    'department' => $value->delivery_department,
+                    'district' => $value->delivery_district,
+                    'province' => $value->delivery_province,
+                    'sku_code' => $value->sku_code,
+                    'sku_description' => $value->sku_description,
+                    'sku_weight' =>  $value->sku_weight,
+                    'sku_pieces' =>  $value->sku_pieces,
+                    'sku_vol_weight' => $value->sku_vol_weight,
+                    'status' => 'PENDIENTE',
+                    'created_by' => 'command',
+                    'seller_name' => $value->seller_name,
+                    'date_loaded' => date('Y-m-d H:i:s'),
+                    'id_complete_load_detail' => $value->id_complete_load_detail,
+                    'collect_time_range' => $value->collect_time_range,
+                    'collect_date_range' => $value->collect_date_range,
+                ]);
+
+                DB::table('guide')->where('id_guide', $value->id_guide)->update(['processed_distribution' => 1]);
             }
             DB::commit();
         } catch (\Exception $e) {
