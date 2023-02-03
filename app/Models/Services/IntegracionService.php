@@ -400,7 +400,7 @@ class IntegracionService
                 foreach ($productos as $key => $producto) {
                     $detalle = explode("/", $producto);
                     array_push($items, [
-                        'dispatchNumber' => $guide->seg_code,
+                        'dispatchNumber' => $guide->alt_code1,
                         'skuCode' => explode('-', $detalle[0])[0],
                         'quantity' => (int) $detalle[1]
                     ]);
