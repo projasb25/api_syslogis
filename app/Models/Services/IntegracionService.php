@@ -401,7 +401,7 @@ class IntegracionService
                     $detalle = explode("/", $producto);
                     array_push($items, [
                         'dispatchNumber' => $guide->alt_code1,
-                        'skuCode' => $detalle[0],
+                        'skuCode' => explode('-', $detalle[0])[0],
                         'quantity' => (int) $detalle[1]
                     ]);
 
@@ -417,7 +417,8 @@ class IntegracionService
                 $req_body = [
                     "companyCode" => "OE",
                     "deliveryMode" => $delivery_mode,
-                    "stateDate" => explode(",", $guide->stateDate)[0],
+                    // "stateDate" => explode(",", $guide->stateDate)[0],
+                    "stateDate" => date("Y-m-d"),
                     "userName" => 'QAYARIX_APP',
                     "items" => $items
                 ];
