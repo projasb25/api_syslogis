@@ -418,7 +418,7 @@ class IntegracionService
                     "companyCode" => "OE",
                     "deliveryMode" => $delivery_mode,
                     // "stateDate" => explode(",", $guide->stateDate)[0],
-                    "stateDate" => date("Y-m-d"),
+                    "stateDate" => date("Y-m-d H:i:s"),
                     "userName" => 'QAYARIX_APP',
                     "items" => $items
                 ];
