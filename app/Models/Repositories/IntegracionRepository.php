@@ -180,7 +180,7 @@ class IntegracionRepository
                     'result' => $result,
                     'id_guide' => $id_guia,
                     'nro_despacho' => $altcode,
-                    'response' => json_encode($response),
+                    'response' => $response,
                     'request' => json_encode($request),
                     'status' => $status,
                     'type' => $type
