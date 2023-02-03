@@ -400,7 +400,7 @@ class IntegracionService
                 foreach ($productos as $key => $producto) {
                     $detalle = explode("/", $producto);
                     array_push($items, [
-                        'dispatchNumber' => $guide->alt_code1,
+                        'dispatchNumber' => $guide->seg_code,
                         'skuCode' => explode('-', $detalle[0])[0],
                         'quantity' => (int) $detalle[1]
                     ]);
@@ -463,7 +463,7 @@ class IntegracionService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = $e->getResponse()->getBody()->getContents();
                         Log::error('Reportar estado a Oechsle, ', ['exception' => $response, 'req' => $req_body]);
-                        $this->repository->LogInsertOechsle_inter('ERROR', $req_body, $response, $guias, $guide->alt_code1, $guide->status, $type);
+                        $this->repository->LogInsertOechsle_inter('ERROR', $req_body, stripslashes($response), $guias, $guide->alt_code1, $guide->status, $type);
                         $this->repository->updateReportadoOeschle($guias, 2);
                         continue;
                     }
