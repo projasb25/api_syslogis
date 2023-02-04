@@ -473,7 +473,7 @@ class IntegracionService
                 } else {
                     $response = $guias;
                 }
-                $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, $response, $guias, $guide->alt_code1, $guide->status, $type);
+                $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, json_encode($response), $guias, $guide->alt_code1, $guide->status, $type);
 
                 Log::info('registro ',['req_body' => $req_body]);
             }
