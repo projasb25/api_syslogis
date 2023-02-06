@@ -426,6 +426,7 @@ class MassiveLoadService
                     }
                     // $pdf->SetX($box_x + 92 + 7);
                     // $pdf->MultiCell(101,5,'DIST.: ' . $distrito,0,'J');
+                    $reference = ($guide->address_refernce) ? $guide->address_refernce : $guide->client_address_reference;
                     if ($guide->type === 'RECOLECCION') {
                         $pdf->SetX($box_x + 92 + 7);
                         $pdf->MultiCell(101,5,'TLF.: ' . $guide->client_phone1,0,'J');
@@ -437,8 +438,7 @@ class MassiveLoadService
                         $fecha_recojo = (in_array($guide->id_organization, [142,141,140])) ? $guide->collect_date_range : $guide->client_date;
                         $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($fecha_recojo)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
-                        $reference = ($guide->address_refernce) ? $guide->address_refernce : $guide->client_address_reference;
-                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->reference)),0,'J');
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($reference)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                     } else {
                         $pdf->SetX($box_x + 92 + 7);
@@ -454,7 +454,7 @@ class MassiveLoadService
                             $pdf->Cell(41,5,'MONTO: '.$guide->amount,0,1,'L');
                         }
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($reference)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                     }
                     $pdf->SetFont('Times', 'B', 10);
