@@ -243,6 +243,7 @@ class CompleteLoadRepository
                     'id_complete_load_detail' => $value->id_complete_load_detail,
                     'collect_time_range' => $value->collect_time_range,
                     'collect_date_range' => $value->collect_date_range,
+                    'contact_name' => $value->collect_contact_name,
                 ]);
 
                 DB::table('complete_load')->where('id_complete_load',$value->id_complete_load)->update(['collect_process'=> 1, 'status' => 'PROCESADO', 'collect_massive_load_id' => $id]);
@@ -303,6 +304,7 @@ class CompleteLoadRepository
                     'id_complete_load_detail' => $value->id_complete_load_detail,
                     'collect_time_range' => $value->collect_time_range,
                     'collect_date_range' => $value->collect_date_range,
+                    'contact_name' => $value->delivery_contact_name,
                 ]);
 
                 DB::table('guide')->where('id_guide', $value->id_guide)->update(['processed_distribution' => 1]);

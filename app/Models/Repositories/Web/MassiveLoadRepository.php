@@ -292,7 +292,10 @@ class MassiveLoadRepository
                         'date_loaded' => $value->date_loaded,
                         'client_info' => $value->client_info,
                         'id_subsidiary' => $value->id_subsidiary,
+                        'client_address_reference' => $value->client_address_reference
                     ]);
+
+                    DB::table('massive_load_details')->where('id_load_detail', $value->id_load_detail)->update(['id_guide' => $id_guide]);
 
                     if ($value->status === 'PROCESADO') {
                         DB::table('guide_tracking')->insert([

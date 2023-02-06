@@ -276,8 +276,11 @@ class CollectRepository
                         'integracion' => $data['integracion'],
                         'id_subsidiary' => $value->id_subsidiary,
                         'collect_date_range' =>  $value->collect_date_range,
+                        'client_address_reference' => $value->client_address_reference
                     ]);
 
+                    DB::table('massive_load_details')->where('id_load_detail', $value->id_load_detail)->update(['id_guide' => $id_guide]);
+                    
                     if ($value->status === 'PROCESADO') {
                         DB::table('guide_tracking')->insert([
                             ['id_guide' => $id_guide, 'status' => 'PROCESADO', 'motive' => 'Registro Automático.', 'type' => 'RECOLECCION', 'date_created' => $value->date_loaded],
