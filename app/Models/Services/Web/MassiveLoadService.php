@@ -437,7 +437,8 @@ class MassiveLoadService
                         $fecha_recojo = (in_array($guide->id_organization, [142,141,140])) ? $guide->collect_date_range : $guide->client_date;
                         $pdf->MultiCell(101,5,'FECHA REC.: ' .utf8_decode(strtolower($fecha_recojo)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
-                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->address_refernce)),0,'J');
+                        $reference = ($guide->address_refernce) ? $guide->address_refernce : $guide->client_address_reference;
+                        $pdf->MultiCell(101,5,'REF: ' .utf8_decode(strtolower($guide->reference)),0,'J');
                         $pdf->SetX($box_x + 92 + 7);
                     } else {
                         $pdf->SetX($box_x + 92 + 7);
