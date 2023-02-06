@@ -65,6 +65,7 @@ class CompleteLoadRepository
             ->whereIn('gd.status', ['RECOLECCION COMPLETA', 'RECOLECCION PARCIAL'])
             ->where('gd.processed_distribution', 0)
             ->where('gd.id_organization', $orgid)
+            ->orderBy('cld.id_complete_load_detail', 'desc')
             ->get();
     }
 
