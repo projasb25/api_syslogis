@@ -391,7 +391,7 @@ class IntegracionService
             }
 
             foreach ($guides as $key => $guide) {
-                $delivery_mode = ($guide->id_organization === 141) ? 'STORE_WITHDRAWAL' : 'HOME_DELIVERY';
+                $delivery_mode = (in_array($guide->id_organization, [54,141])) ? 'STORE_WITHDRAWAL' : 'HOME_DELIVERY';
                 $g = '';
                 $items = [];
                 $g .= $guide->ids_guias . ',';
@@ -405,7 +405,7 @@ class IntegracionService
                         'quantity' => (int) $detalle[1]
                     ]);
 
-                    if ($guide->id_organization === 141) {
+                    if (in_array($guide->id_organization, [54,141])) {
                         $items[$key]['entityCode'] = $guide->alt_code2; 
                     }
 
@@ -430,7 +430,7 @@ class IntegracionService
                         $type = 'ORDER_NOT_DELIVERED';
                         break;
                     case 'ENTREGADO':
-                        $type = ($guide->id_organization === 141) ? 'ORDER_RECEIVED' : 'ORDER_DELIVERED';
+                        $type = (in_array($guide->id_organization, [54,141])) ? 'ORDER_RECEIVED' : 'ORDER_DELIVERED';
                         break;
                     default:
                         $type = 'ORDER_IN_TRIP_DISPATCHED';
