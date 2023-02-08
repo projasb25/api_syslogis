@@ -464,7 +464,7 @@ class IntegracionService
                     } catch (\GuzzleHttp\Exception\RequestException $e) {
                         $response = $e->getResponse()->getBody()->getContents();
                         Log::error('Reportar estado a Oechsle, ', ['exception' => $response, 'req' => $req_body]);
-                        $this->repository->LogInsertOechsle_inter('ERROR', $req_body, stripslashes($response), $guias, $guide->alt_code1, $guide->status, $type);
+                        $this->repository->LogInsertOechsle_inter('ERROR', $req_body, stripslashes($response), $guias, $codigo, $guide->status, $type);
                         $this->repository->updateReportadoOeschle($guias, 2);
                         continue;
                     }
@@ -474,7 +474,7 @@ class IntegracionService
                 } else {
                     $response = $guias;
                 }
-                $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, json_encode($response), $guias, $guide->alt_code1, $guide->status, $type);
+                $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, json_encode($response), $guias, $codigo, $guide->status, $type);
 
                 Log::info('registro ',['req_body' => $req_body]);
             }
