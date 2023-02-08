@@ -397,10 +397,11 @@ class IntegracionService
                 $g .= $guide->ids_guias . ',';
                 Log::info('guias ',['ids_guias' => $guide->ids_guias, 'g' => $g]);
                 $productos = explode("|", $guide->contenido);
+                $codigo = (strpos($guide->alt_code1, '-')) ? $guide->alt_code1 : $guide->seg_code;
                 foreach ($productos as $key => $producto) {
                     $detalle = explode("/", $producto);
                     array_push($items, [
-                        'dispatchNumber' => $guide->alt_code1,
+                        'dispatchNumber' => $codigo,
                         'skuCode' => explode('-', $detalle[0])[0],
                         'quantity' => (int) $detalle[1]
                     ]);
