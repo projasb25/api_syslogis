@@ -76,7 +76,7 @@ class BillLoadRepository
                     'quarantine' => $value['quarantine'] ?? 0,
                     'scrap' => $value['scrap'] ?? 0,
                     'demo' => $value['demo'] ?? 0,
-                    'batch' => $value['batch'] ?? 0,
+                    'batch' => $value['product_lots'] ?? null,
                     'document_type' => $value['document_type'] ?? 0,
                     'document_number' => $value['document_number'] ?? 0,
                     'entry_date' => $value['entry_date'] ?? 0,
