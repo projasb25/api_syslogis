@@ -26,11 +26,31 @@ use Location\Distance\Vincenty;
 
 Route::post('test', function (Request $request) {
     $token = 'DwbrztEXJ7GdHVhcNRgVajAWyH2dw2PrsFfRatJQxXatOYlW/oM/jyi+OVTPCV+qiNjVHKqpYYqMhg3dj0LkpRtHOaUqsdQqf6Fl3yLwMZDFoIeQ7n0y8r+FkzhJ3drV+7OK30VOBVPv7esI7uxmFwoYQu8AozFcjKKx3JaDGpLsYUMT2OlvnGNwgOO9Dwo+dP5NSBD2Nc9Wd58jeBI3LA==';
-    // dd('prueba');
     $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL");
-    // $res = $client->__soapCall("ObtenerExpedicionPorReferencia", array(['GUID' => $token, 'Referencia' => 'RP20230208214439']));
-    $res = $cliente->__soapCall('ObtenerExpedicionPorReferencia', array(['GUID' => $token, 'Referencia' => 'RP20230208214439']));
+
+    $params = [
+        'GUID' => $token,
+        'DepartamentoClienteInicial' => 'DepartamentoClienteInicial',
+        'DepartamentoClienteFinal' => 'DepartamentoClienteFinal',
+        'ReferenciaEntregaInicial' => 'ReferenciaEntregaInicial',
+        'ReferenciaEntregaFinal' => 'ReferenciaEntregaFinal',
+        'FechaInicial' => 'FechaInicial',
+        'fechafinal' => 'fechafinal',
+        'IncluirAnexas' => 'IncluirAnexas',
+        'Pendientes' => 'Pendientes',
+    ];
+
+    $res = $client->__soapCall('ObtenerExpedicionPorReferencia', array(['GUID' => $token, 'Referencia' => '0082713127']));
+    // $res = $client->__soapCall('ObtenerEstructuraXML', array(['NombreMetodo' => 'DescargarImagenes']));
+    // $res = $client->__soapCall('DescargarImagenes', array(['Valor' => $params]));
+
     $xml = simplexml_load_string($res->ObtenerExpedicionPorReferenciaResult);
+    // $xml = simplexml_load_string($res->ObtenerEstructuraXMLResult);
+
+    // $xml = simplexml_load_string($res);
+
+    // $json = json_encode($xml);
+    // $array = json_decode($json,TRUE);
     dd($xml);
 });
 

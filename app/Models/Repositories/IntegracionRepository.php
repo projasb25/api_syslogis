@@ -33,6 +33,23 @@ class IntegracionRepository
         $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_ALLSTATUS(?)", [$corpId]);
         return $query;
     }
+
+    public function getGuidesTukuy()
+    {
+        $query = DB::select("CALL SP_SEL_GUIDES_TUKUY_INTEGRATION()");
+        return $query;
+    }
+
+    public function updateGuidesTukuy($id_guide, $id_shipping_order, $id_shipping_order_detail, $status, $motive)
+    {
+        $query = DB::select("CALL SP_UPDATE_GUIDES_TUKUY_INTEGRATION(?,?,?,?,?)",[$id_guide, $id_shipping_order, $id_shipping_order_detail, $status, $motive]);
+        return $query;
+    }
+
+    public function reportarErrorIntegracionTukuy($id_guide)
+    {
+        DB::table('guide')->where('id_guide', $id_guide)->update(['processed_distribution' => 9]);
+    }
     
     public function LogInsert($cud, $id_guide, $estado, $subestado, $result, $request, $response)
     {

@@ -17,6 +17,7 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use SoapClient;
 
 class IntegracionService
 {
@@ -157,7 +158,7 @@ class IntegracionService
             $guides = $this->repository->getGuidesInRetail();
             Log::info('Proceso de integracion con inRetail', ['nro_registros' => count($guides)]);
             foreach ($guides as $key => $guide) {
-                if ($guide->status === 'CURSO' && $guide->type === 'RECOLECCION' && $guide->delivery_type === 'Logistica inversa') { 
+                if ($guide->status === 'CURSO' && $guide->type === 'RECOLECCION' && $guide->delivery_type === 'Logistica inversa') {
                     $this->repository->updateReportado($guide->id_guide, 1);
                     continue; // Jumps to next iteration
                 }
@@ -171,7 +172,7 @@ class IntegracionService
                 }
 
                 switch ($guide->status) {
-                    case 'PENDIENTE': 
+                    case 'PENDIENTE':
                         $guide->estado = 'EMITIDO';
                         break;
                     case 'CURSO':
@@ -187,7 +188,7 @@ class IntegracionService
 
                 if ($guide->delivery_type === 'Logistica inversa') {
                     switch ($guide->status) {
-                        case 'RECOLECCION COMPLETA': 
+                        case 'RECOLECCION COMPLETA':
                             $guide->estado = 'RECOLECTADO CLIENTE';
                             break;
                         case 'NO RECOLECTADO':
@@ -280,10 +281,12 @@ class IntegracionService
                 $res['success'] = true;
                 return $res;
             }
-            
+
             if (!env('COOLBOX.FAKE')) {
                 $accessToken = $this->prepare_access_token();
-            } else { $accessToken = 'token prueba'; }
+            } else {
+                $accessToken = 'token prueba';
+            }
 
             foreach ($guides as $key => $guide) {
                 $evidences = [];
@@ -343,7 +346,7 @@ class IntegracionService
                         continue;
                     }
                     $response = json_decode($req->getBody()->getContents());
-                    if(!$response->actualizado){
+                    if (!$response->actualizado) {
                         $this->repository->logInsertCoolbox($guide->seg_code, $guide->guide_number, $guide->id_guide, $guide->status, $guide->motive, 'ERROR', $req_body, $response);
                         $this->repository->updateReportado($guide->id_guide, 2);
                         continue;
@@ -391,11 +394,11 @@ class IntegracionService
             }
 
             foreach ($guides as $key => $guide) {
-                $delivery_mode = (in_array($guide->id_organization, [54,141])) ? 'STORE_WITHDRAWAL' : 'HOME_DELIVERY';
+                $delivery_mode = (in_array($guide->id_organization, [54, 141])) ? 'STORE_WITHDRAWAL' : 'HOME_DELIVERY';
                 $g = '';
                 $items = [];
                 $g .= $guide->ids_guias . ',';
-                Log::info('guias ',['ids_guias' => $guide->ids_guias, 'g' => $g]);
+                Log::info('guias ', ['ids_guias' => $guide->ids_guias, 'g' => $g]);
                 $productos = explode("|", $guide->contenido);
                 $codigo = (strpos($guide->alt_code1, '-')) ? $guide->alt_code1 : $guide->seg_code;
                 foreach ($productos as $key => $producto) {
@@ -406,8 +409,8 @@ class IntegracionService
                         'quantity' => (int) $detalle[1]
                     ]);
 
-                    if (in_array($guide->id_organization, [54,141])) {
-                        $items[$key]['entityCode'] = $guide->alt_code2; 
+                    if (in_array($guide->id_organization, [54, 141])) {
+                        $items[$key]['entityCode'] = $guide->alt_code2;
                     }
 
                     if ($guide->status === 'NO ENTREGADO') {
@@ -463,13 +466,13 @@ class IntegracionService
                         $type = 'ORDER_NOT_DELIVERED';
                         break;
                     case 'ENTREGADO':
-                        $type = (in_array($guide->id_organization, [54,141])) ? 'ORDER_RECEIVED' : 'ORDER_DELIVERED';
+                        $type = (in_array($guide->id_organization, [54, 141])) ? 'ORDER_RECEIVED' : 'ORDER_DELIVERED';
                         break;
                     default:
                         $type = 'ORDER_IN_TRIP_DISPATCHED';
                         break;
                 }
-                
+
                 $headers = [
                     "Content-Type" => "application/json",
                     'client_id' => env('OESCHLE_INTEGRACION_API_KEY_INTER'),
@@ -478,7 +481,7 @@ class IntegracionService
                 ];
 
                 Log::info('header', ['header' => $headers]);
-                
+
                 // $type = ($guide->status === 'NO ENTREGADO') ? 'ORDER_NOT_DELIVERED' : 'ORDER_IN_TRIP_DISPATCHED';
                 if (env('OESCHLE_INTEGRACION_API_SEND')) {
                     $cliente = new Client(['base_uri' => env('OESCHLE_INTEGRACION_API_URL_INTER')]);
@@ -508,7 +511,7 @@ class IntegracionService
                 }
                 $this->repository->LogInsertOechsle_inter('SUCCESS', $req_body, json_encode($response), $guias, $codigo, $guide->status, $type);
 
-                Log::info('registro ',['req_body' => $req_body]);
+                Log::info('registro ', ['req_body' => $req_body]);
             }
             $res['success'] = true;
             Log::info('Proceso de integracion con Oechsle exitoso', ['nro_registros' => count($guides)]);
@@ -546,25 +549,25 @@ class IntegracionService
                 $motive_code = null;
                 switch ($guide->status) {
                     case 'PENDIENTE':
-                        $estados_tailoy = [1,2];
+                        $estados_tailoy = [1, 2];
                         break;
                     case 'CURSO':
                         $estados_tailoy = [3];
                         break;
                     case 'ENTREGADO':
-                        $estados_tailoy = [5,6,7];
+                        $estados_tailoy = [5, 6, 7];
                         $coordenadas['lat'] = $guide->latitude;
                         $coordenadas['lng'] = $guide->longitude;
                         break;
                     case 'NO ENTREGADO':
-                        $estados_tailoy = [5,10];
+                        $estados_tailoy = [5, 10];
                         $motive_code = ($guide->motive === 'Consignaron Datos Incorrectos') ? 514 : (($guide->motive === 'Documentacion Incorrecta') ? 8 : 2);
                         break;
                     default:
-                        $estados_tailoy = [1,2];
+                        $estados_tailoy = [1, 2];
                         break;
                 }
-                
+
                 foreach ($estados_tailoy as $key => $estado) {
                     $req_body = [
                         'recurso' => 'TAREA',
@@ -584,7 +587,7 @@ class IntegracionService
                             ]
                         ]
                     ];
-                    
+
                     if (env('TAILOY.FAKE')) {
                         $body = json_decode('{
                             "mensaje": "No se pudo realizar la actualización de los estados de las tareas solicitadas",
@@ -602,7 +605,7 @@ class IntegracionService
                         try {
                             $cliente = new Client(['base_uri' => env('TAILOY.URL')]);
                             $request = $cliente->post('integracion/couriers', [
-                                "headers" => [ 'X-AUTH-TOKEN' => env('TAILOY.TOKEN')],
+                                "headers" => ['X-AUTH-TOKEN' => env('TAILOY.TOKEN')],
                                 "json" => $req_body
                             ]);
                             $body = json_decode($request->getBody());
@@ -641,6 +644,39 @@ class IntegracionService
             $res['success'] = true;
         } catch (Exception $e) {
             Log::error('Integracion Falabella', ['cliente' => 'Falabella', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function integracionTukuy()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuidesTukuy();
+            foreach ($guides as $key => $value) {
+                $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL");
+                $response = $client->__soapCall('ObtenerExpedicionPorReferencia', array(['GUID' => env('TUKUY.APIKEY'), 'Referencia' => $value->guide_number]));
+                $xml = simplexml_load_string($response->ObtenerExpedicionPorReferenciaResult);
+                $data = json_decode(json_encode($xml), TRUE);
+
+                if (!count($data)) {
+                    Log::error('Integracion Tukuy: guia no encontrada', ['cliente' => 'Tucuy', 'guide_number' => $value->guide_number]);
+                    $this->repository->reportarErrorIntegracionTukuy($value->id_guide);
+                    continue;
+                }
+
+                $estado = strtoupper($data['EXPEDICION']['ESTADO']);
+                if (in_array($estado, ['ENTREGADO', 'INCIDENCIA'])) {
+                    $motivo = ($estado === 'ENTREGADO') ? 'Entrega Exitosa' : 'No Entregado Tukuy';
+                    // Falta descargar imagenes
+                    $this->repository->updateGuidesTukuy($value->id_guide, $value->id_shipping_order, $value->id_shipping_order_detail, $estado, $motivo);
+                }
+            }
+
+            $res['success'] = true;
+        } catch (Exception $e) {
+            Log::error('Integracion Tukuy', ['cliente' => 'Tucuy', 'exception' => $e->getMessage()]);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;
