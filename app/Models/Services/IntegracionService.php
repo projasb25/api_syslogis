@@ -411,7 +411,39 @@ class IntegracionService
                     }
 
                     if ($guide->status === 'NO ENTREGADO') {
-                        $items[$key]['reason'] = explode(",", $guide->motive)[0];
+                        $motivo = '';
+                        switch (strtoupper(explode(",", $guide->motive)[0])) {
+                            case 'CAMBIO FECHA DE DESPACHO':
+                                $motivo = 'Reprogramación';
+                                break;
+                            case 'RECHAZADO':
+                            case 'ANULA COMPRA':
+                                $motivo = 'Cliente no desea';
+                                break;
+                            case 'FUERA DE HORA':
+                                $motivo = 'Fuera de Hora';
+                                break;
+                            case 'DIRECCION DEFICIENTE':
+                                $motivo = 'Dirección Errada';
+                                break;
+                            case 'FRAUDE':
+                                $motivo = 'Compra Fraude';
+                                break;
+                            case 'SINIESTRO':
+                                $motivo = 'Siniestro';
+                                break;
+                            case 'ZONA RESTRINGIDA Y/O SIN REFERENCIA':
+                                $motivo = 'Zona rígida';
+                                break;
+                            case 'ACCESO DIFICIL Y/O INACCESIBLE':
+                                $motivo = 'Falta de acceso';
+                                break;
+                            default:
+                                $motivo = 'Cliente ausente';
+                                break;
+                        }
+
+                        $items[$key]['reason'] = $motivo;
                     }
                 }
 
