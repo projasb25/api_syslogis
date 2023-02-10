@@ -24,19 +24,14 @@ use Location\Distance\Vincenty;
 |
 */
 
-Route::post('test', function(Request $request) {
-    // $params['type'] = 'Provincia';
-    // $params['service'] = ['Envío a domicilio', 'Retiro en tienda'];
-    // $params['organization'] = 65;
-    // $params['name'] = 'InRetail Provincia';
-
-    // $db = new \App\Models\Services\Integration\MainService(new \App\Models\Repositories\Integration\MainRepository());
-    // $res = $db->newInretailDistribucion($params);
-
-    $params['id_complete_load'] = 5;
-    $service = new CompleteLoadService(new CompleteLoadRepository());
-    $res = $service->procesarDistribucion($params);
-    dd($res);
+Route::post('test', function (Request $request) {
+    $token = 'DwbrztEXJ7GdHVhcNRgVajAWyH2dw2PrsFfRatJQxXatOYlW/oM/jyi+OVTPCV+qiNjVHKqpYYqMhg3dj0LkpRtHOaUqsdQqf6Fl3yLwMZDFoIeQ7n0y8r+FkzhJ3drV+7OK30VOBVPv7esI7uxmFwoYQu8AozFcjKKx3JaDGpLsYUMT2OlvnGNwgOO9Dwo+dP5NSBD2Nc9Wd58jeBI3LA==';
+    // dd('prueba');
+    $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL");
+    // $res = $client->__soapCall("ObtenerExpedicionPorReferencia", array(['GUID' => $token, 'Referencia' => 'RP20230208214439']));
+    $res = $cliente->__soapCall('ObtenerExpedicionPorReferencia', array(['GUID' => $token, 'Referencia' => 'RP20230208214439']));
+    $xml = simplexml_load_string($res->ObtenerExpedicionPorReferenciaResult);
+    dd($xml);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -55,16 +50,16 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function ($router) {
 //     Route::post('/actualizarEstado', 'ConductorController@actualizarEstado');
 // });
 
-Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'conductor'], function () {
+Route::group(['middleware' => ['assign.guard:drivers', 'jwt.auth'], 'prefix' => 'conductor'], function () {
     Route::get('/ofertas', 'DriverController@listarOfertas');
     Route::post('/actualizarEstado', 'DriverController@actualizarEstado');
 });
 
-Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'novedad'], function () {
+Route::group(['middleware' => ['assign.guard:drivers', 'jwt.auth'], 'prefix' => 'novedad'], function () {
     Route::post('/insertar', 'ShippingController@novedad_insertar');
 });
 
-Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'envio'], function () {
+Route::group(['middleware' => ['assign.guard:drivers', 'jwt.auth'], 'prefix' => 'envio'], function () {
     Route::get('/aceptar/{idofertaenvio}', 'ShippingController@aceptar');
     Route::get('/rechazar/{idofertaenvio}', 'ShippingController@rechazar');
     Route::get('/rutas/{idofertaenvio}', 'ShippingController@listarRutas');
@@ -73,7 +68,7 @@ Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => '
     // Route::get('/coordenadas/{idofertaenvio}', 'EnviosController@coordenadas')->where('idofertaenvio', '[0-9]+');
 });
 
-Route::group(['middleware' => ['assign.guard:drivers','jwt.auth'], 'prefix' => 'pedido'], function () {
+Route::group(['middleware' => ['assign.guard:drivers', 'jwt.auth'], 'prefix' => 'pedido'], function () {
     Route::get('/motivos', 'ShippingController@getMotivosDist');
     Route::get('/motivos/{tipo}', 'ShippingController@getMotivos');
     Route::post('/imagen', 'ShippingController@grabarImagen');
@@ -95,41 +90,41 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 
     Route::get('guide/status/{id_guide}', 'PublicoController@guide_status');
 
-    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'main'], function() {
+    Route::group(['middleware' => ['assign.guard:users', 'jwt.auth'], 'prefix' => 'main'], function () {
         Route::post('', 'MainController@index');
         Route::post('/simpleTransaction', 'MainController@simpleTransaction');
         Route::post('paginated', 'MainController@paginated');
     });
 
-    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'massive_load'], function() {
+    Route::group(['middleware' => ['assign.guard:users', 'jwt.auth'], 'prefix' => 'massive_load'], function () {
         Route::post('', 'MassiveLoadController@index');
         Route::post('process', 'MassiveLoadController@process');
         Route::post('print/cargo', 'MassiveLoadController@print_cargo');
         Route::get('print/cargo/{id_guide}', 'MassiveLoadController@print_cargo_guide');
         Route::post('print/marathon', 'MassiveLoadController@print_marathon');
-        Route::post('unitaria' , 'MassiveLoadController@unitaria');
+        Route::post('unitaria', 'MassiveLoadController@unitaria');
     });
 
-    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'collect'], function() {
+    Route::group(['middleware' => ['assign.guard:users', 'jwt.auth'], 'prefix' => 'collect'], function () {
         Route::post('load', 'CollectController@load');
         Route::post('process', 'CollectController@process');
         // Route::post('print/cargo', 'MassiveLoadController@print_cargo');
         // Route::post('print/marathon', 'MassiveLoadController@print_marathon');
     });
 
-    Route::group(['middleware' => ['api'], 'prefix' => 'complete'], function() {
+    Route::group(['middleware' => ['api'], 'prefix' => 'complete'], function () {
         Route::post('load', [CompleteLoadController::class, 'load']);
         Route::post('load/process', [CompleteLoadController::class, 'process']);
         Route::post('load/process_distribution', [CompleteLoadController::class, 'process_distribution']);
     });
 
-    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'shipping'], function() {
+    Route::group(['middleware' => ['assign.guard:users', 'jwt.auth'], 'prefix' => 'shipping'], function () {
         Route::post('print/hoja_ruta', 'ShippingController@print_hoja_ruta');
         Route::post('/imagen', 'ShippingController@grabarImagen');
         // Route::post('process', 'ShippingController@process');
     });
 
-    Route::group(['middleware' => ['assign.guard:users','jwt.auth'], 'prefix' => 'reportes'], function() {
+    Route::group(['middleware' => ['assign.guard:users', 'jwt.auth'], 'prefix' => 'reportes'], function () {
         Route::post('control', 'ReporteController@reporte_control');
         Route::post('torre_control', 'ReporteController@reporte_torre_control');
         Route::post('control_sku', 'ReporteController@reporte_control_sku');
@@ -148,14 +143,13 @@ Route::group(['middleware' => 'api', 'prefix' => 'web', 'namespace' => 'Web'], f
 Route::group(['middleware' => 'api', 'prefix' => 'integracion', 'namespace' => 'Integration'], function ($router) {
     Route::post('login', 'IntegrationAuthController@login');
 
-    Route::group(['middleware' => ['assign.guard:integration_users','jwt.auth']], function(){
+    Route::group(['middleware' => ['assign.guard:integration_users', 'jwt.auth']], function () {
         Route::post('registrar', 'IntegrationController@registrar');
         Route::get('consultar/{seg_code}', 'IntegrationController@consultar');
         Route::get('consultar/cargo/{seg_code}', 'IntegrationController@exportar_cargo');
     });
 
-    Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function() {
+    Route::group(['middleware' => ['api'], 'prefix' => 'carga'], function () {
         Route::post('procesar', [IntegrationController::class, 'index']);
     });
-
 });
