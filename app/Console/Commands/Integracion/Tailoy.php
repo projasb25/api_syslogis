@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands\Integracion;
 
-use App\Models\Services\IntegracionService;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
+use App\Models\Services\IntegracionService;
 
-class TaiLoy extends Command
+class Tailoy extends Command
 {
     protected $integracionServi;
     /**

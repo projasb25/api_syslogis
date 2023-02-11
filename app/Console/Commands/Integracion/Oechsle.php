@@ -2,10 +2,9 @@
 
 namespace App\Console\Commands\Integracion;
 
-use App\Models\Services\IntegracionService;
 use Exception;
 use Illuminate\Console\Command;
-
+use App\Models\Services\IntegracionService;
 class Oechsle extends Command
 {
     protected $integracionServi;
