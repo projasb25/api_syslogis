@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\ArrayHelper;
 use App\Http\Controllers\Integration\IntegrationController;
 use App\Http\Controllers\Web\CompleteLoadController;
 use App\Models\Repositories\Integration\MainRepository;
@@ -26,28 +27,170 @@ use Location\Distance\Vincenty;
 
 Route::post('test', function (Request $request) {
     $token = 'DwbrztEXJ7GdHVhcNRgVajAWyH2dw2PrsFfRatJQxXatOYlW/oM/jyi+OVTPCV+qiNjVHKqpYYqMhg3dj0LkpRtHOaUqsdQqf6Fl3yLwMZDFoIeQ7n0y8r+FkzhJ3drV+7OK30VOBVPv7esI7uxmFwoYQu8AozFcjKKx3JaDGpLsYUMT2OlvnGNwgOO9Dwo+dP5NSBD2Nc9Wd58jeBI3LA==';
-    $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL");
+    $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL", ['trace' => true]);
 
-    $params = [
+    $xmlr = new SimpleXMLElement("<RAIZ></RAIZ>");
+    $xmlr->addChild('GUID', $token);
+    $xmlr->addChild('DepartamentoClienteInicial', '');
+    $xmlr->addChild('DepartamentoClienteFinal', '');
+    $xmlr->addChild('ReferenciaEntregaInicial', '0082713127');
+    $xmlr->addChild('ReferenciaEntregaFinal', '0082713127');
+    $xmlr->addChild('FechaInicial', date('Y-m-d'));
+    $xmlr->addChild('fechafinal', date('Y-m-d'));
+    $xmlr->addChild('IncluirAnexas', 'true');
+    $xmlr->addChild('Pendientes', 'false');
+
+    $params = new stdClass();
+    $params->xml = $xmlr->asXML();
+    $string2 = "<![CDATA[$params->xml]]>";
+
+    $param = array(
+        new SoapVar($token, XSD_STRING, null, null, 'GUID'),
+        new SoapVar('0082713127', XSD_STRING, null, null, 'Referencia'),
+    );
+
+    $data = array(
+        // new SoapVar(array(
+        new SoapVar($token, XSD_STRING, null, null, 'ns1:GUID'),
+        new SoapVar('0082713127', XSD_STRING, null, null, 'ns1:Referencia'),
+        // ), SOAP_ENC_OBJECT, null, null, 'ns1:DatosConsulta')
+    );
+
+    $data2 = array(
+        new SoapVar(array(
+            new SoapVar($string2, 147),
+        ), SOAP_ENC_OBJECT, null, null, 'ns1:Valor')
+    );
+
+    $out = new SoapVar($data2, SOAP_ENC_OBJECT, null, null, null, 'http://www.direcline.com/');
+    // dd();
+
+    $res = $client->DescargarImagenes($out);
+    // $res = $client->__soapCall('ObtenerExpedicionPorReferencia', [$param2]);
+    // dd($client->__getLastRequest());
+    dd($res);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    $params = array(
         'GUID' => $token,
-        'DepartamentoClienteInicial' => 'DepartamentoClienteInicial',
-        'DepartamentoClienteFinal' => 'DepartamentoClienteFinal',
-        'ReferenciaEntregaInicial' => 'ReferenciaEntregaInicial',
-        'ReferenciaEntregaFinal' => 'ReferenciaEntregaFinal',
-        'FechaInicial' => 'FechaInicial',
-        'fechafinal' => 'fechafinal',
-        'IncluirAnexas' => 'IncluirAnexas',
-        'Pendientes' => 'Pendientes',
-    ];
+        'DepartamentoClienteInicial' => '',
+        'DepartamentoClienteFinal' => '',
+        'ReferenciaEntregaInicial' => '0082713127',
+        'ReferenciaEntregaFinal' => '0082713127',
+        'FechaInicial' => date('Y-m-d'),
+        'fechafinal' => date('Y-m-d'),
+        'IncluirAnexas' => 'true',
+        'Pendientes' => 'false',
 
-    $res = $client->__soapCall('ObtenerExpedicionPorReferencia', array(['GUID' => $token, 'Referencia' => '0082713127']));
+    );
+
+
+
+
+    $xmlr = new SimpleXMLElement("<RAIZ></RAIZ>");
+    $xmlr->addChild('GUID', $token);
+    $xmlr->addChild('DepartamentoClienteInicial', '');
+    $xmlr->addChild('DepartamentoClienteFinal', '');
+    $xmlr->addChild('ReferenciaEntregaInicial', '0082713127');
+    $xmlr->addChild('ReferenciaEntregaFinal', '0082713127');
+    $xmlr->addChild('FechaInicial', date('Y-m-d'));
+    $xmlr->addChild('fechafinal', date('Y-m-d'));
+    $xmlr->addChild('IncluirAnexas', 'true');
+    $xmlr->addChild('Pendientes', 'false');
+
+    $params = new stdClass();
+    $params->xml = $xmlr->asXML();
+
+    $string = '<![CDATA[<?xml version="1.0" encoding="iso-8859-1"?><RAIZ><GUID>DwbrztEXJ7GdHVhcNRgVajAWyH2dw2PrsFfRatJQxXatOYlW/oM/jyi+OVTPCV+qiNjVHKqpYYqMhg3dj0LkpRtHOaUqsdQqf6Fl3yLwMZDFoIeQ7n0y8r+FkzhJ3drV+7OK30VOBVPv7esI7uxmFwoYQu8AozFcjKKx3JaDGpLsYUMT2OlvnGNwgOO9Dwo+dP5NSBD2Nc9Wd58jeBI3LA==</GUID>
+    <DepartamentoClienteInicial></DepartamentoClienteInicial>
+    <DepartamentoClienteFinal></DepartamentoClienteFinal>
+    <ReferenciaEntregaInicial>00110140950001</ReferenciaEntregaInicial>
+    <ReferenciaEntregaFinal>00110140950001</ReferenciaEntregaFinal>
+    <FechaInicial>2023-01-01</FechaInicial>
+    <fechafinal>2023-02-20</fechafinal>
+    <IncluirAnexas>true</IncluirAnexas>
+    <Pendientes>false</Pendientes>
+    </RAIZ>]]>';
+    $string2 = "<![CDATA[$params->xml]]>";
+
+    $parm = array(
+        new SoapVar(
+            array(
+                new SoapVar($string, 147)
+            ),
+            SOAP_ENC_OBJECT,
+            null,
+            null,
+            'Valor'
+        )
+        // array(
+        // new SoapVar('123', XSD_STRING, null, null, 'customerNo' ),
+        // new SoapVar('THIS', XSD_STRING, null, null, 'selection' ),
+        // new SoapVar('THAaaaT', XSD_STRING, null, null, 'selection' )
+    );
+    // $parm[] = new SoapVar('123', XSD_STRING, null, null, 'customerNo' );
+    // $parm[] = new SoapVar('THIS', XSD_STRING, null, null, 'selection' );
+    // $parm[] = new SoapVar('THAT', XSD_STRING, null, null, 'selection' );
+
+    $pa = array(new SoapVar($string, 147, NULL, NULL, 'Valor'));
+
+    // dd($pa);
+    // $res = $client->__soapCall('ObtenerExpedicionPorReferencia', array(['GUID' => $token, 'Referencia' => '0082713127']));
+
+    $resp = $client->DescargarImagenes(new SoapVar($parm, SOAP_ENC_OBJECT));
+    // dd($resp);
+    dd($client->__getLastRequest());
+
+
+    $soapvar = new SoapVar($string2, 147);
+    $params = array("Valor" => $soapvar);
+    // dd($params);
+
+    $res = $client->__soapCall('DescargarImagenes', array(['Valor' => $params]));
+    // dd($result);
+    // $xml = simplexml_load_string($result);
+
+
+
+
+
+
+
+
+    // creating object of SimpleXMLElement
+    $xml_data = new SimpleXMLElement('<?xml version="1.0" encoding="iso-8859-1"?><RAIZ></RAIZ>');
+
+    // function call to convert array to xml
+    ArrayHelper::array_to_xml($params, $xml_data);
+
+    $test = $xml_data->asXML();
+    $string = "<![CDATA[$test]]>";
+    // dd($string);
+    // dd($string);
+    // dd($xml_data->asXML());
+    // dd(simplexml_load_string($xml_data->data));
+
+    // $res = $client->__soapCall('ObtenerExpedicionPorReferencia', array(['GUID' => $token, 'Referencia' => '0082713127']));
     // $res = $client->__soapCall('ObtenerEstructuraXML', array(['NombreMetodo' => 'DescargarImagenes']));
-    // $res = $client->__soapCall('DescargarImagenes', array(['Valor' => $params]));
+    $res = $client->__soapCall('DescargarImagenes', array(['Valor' => $string]));
 
-    $xml = simplexml_load_string($res->ObtenerExpedicionPorReferenciaResult);
+    // $xml = simplexml_load_string($res->ObtenerExpedicionPorReferenciaResult);
     // $xml = simplexml_load_string($res->ObtenerEstructuraXMLResult);
 
-    // $xml = simplexml_load_string($res);
+    $xml = simplexml_load_string($res->DescargarImagenesResult);
+    dd($client->__getLastRequest());
 
     // $json = json_encode($xml);
     // $array = json_decode($json,TRUE);
