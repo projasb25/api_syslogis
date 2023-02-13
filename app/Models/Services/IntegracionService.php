@@ -668,6 +668,7 @@ class IntegracionService
 
                 $estado = strtoupper($data['EXPEDICION']['ESTADO']);
                 if (in_array($estado, ['ENTREGADO', 'INCIDENCIA'])) {
+                    $estado = ($estado === 'INCIDENCIA') ? 'NO ENTREGADO' : 'ENTREGADO';
                     $motivo = ($estado === 'ENTREGADO') ? 'Entrega Exitosa' : 'No Entregado Tukuy';
                     // Falta descargar imagenes
                     $this->repository->updateGuidesTukuy($value->id_guide, $value->id_shipping_order, $value->id_shipping_order_detail, $estado, $motivo);
