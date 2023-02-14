@@ -17,7 +17,11 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+use SimpleXMLElement;
 use SoapClient;
+use SoapVar;
+use stdClass;
 
 class IntegracionService
 {
@@ -668,6 +672,9 @@ class IntegracionService
 
                 $estado = strtoupper($data['EXPEDICION']['ESTADO']);
                 if (in_array($estado, ['ENTREGADO', 'INCIDENCIA'])) {
+                    $this->obtenerImagenesTukuy($value->guide_number, $value->id_guide, $value->id_shipping_order);
+
+                    // Homologacion de estados
                     $estado = ($estado === 'INCIDENCIA') ? 'NO ENTREGADO' : 'ENTREGADO';
                     $motivo = ($estado === 'ENTREGADO') ? 'Entrega Exitosa' : 'No Entregado Tukuy';
                     // Falta descargar imagenes
@@ -678,6 +685,77 @@ class IntegracionService
             $res['success'] = true;
         } catch (Exception $e) {
             Log::error('Integracion Tukuy', ['cliente' => 'Tucuy', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
+
+    public function obtenerImagenesTukuy($guide_number, $id_guide, $id_shipping_order)
+    {
+        $res['success'] = false;
+        try {
+            $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL", ['trace' => true]);
+
+            $xmlr = new SimpleXMLElement("<RAIZ></RAIZ>");
+            $xmlr->addChild('GUID', env('TUKUY.APIKEY'));
+            $xmlr->addChild('DepartamentoClienteInicial', 'QYX');
+            $xmlr->addChild('DepartamentoClienteFinal', 'QYX');
+            $xmlr->addChild('ReferenciaEntregaInicial', $guide_number);
+            $xmlr->addChild('ReferenciaEntregaFinal', $guide_number);
+            $xmlr->addChild('FechaInicial', date('Y-m-d', (strtotime('-4 day', strtotime(date('Y-m-d'))))));
+            $xmlr->addChild('fechafinal',  date('Y-m-d'));
+            $xmlr->addChild('IncluirAnexas', 'true');
+            $xmlr->addChild('Pendientes', 'false');
+
+            $param = array(
+                new SoapVar(array(
+                    new SoapVar("<![CDATA[" . $xmlr->asXML() . "]]>", 147),
+                ), SOAP_ENC_OBJECT, null, null, 'ns1:Valor')
+            );
+
+            $res = $client->DescargarImagenes(new SoapVar($param, SOAP_ENC_OBJECT, null, null, null, 'http://www.direcline.com/'));
+
+            $xml = simplexml_load_string($res->DescargarImagenesResult);
+            $data = json_decode(json_encode($xml), TRUE);
+
+            if (!isset($data['IMAGEN']) && !count($data['IMAGEN'])) {
+                throw new CustomException(['No se encontraron imagenes para descargar', 2000], 401);
+            }
+
+            $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix() . $id_guide;
+            # Check if folder exists before create one
+            if (!file_exists($destination_path)) {
+                File::makeDirectory($destination_path, $mode = 0777, true, true);
+                File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
+            }
+            
+            foreach ($data['IMAGEN'] as $key => $item) {
+                $image = base64_decode($item['BASE64']);
+                $nombre_imagen = $id_guide . '_' . time() . '.jpg';
+                $thumbnail = Image::make($image);
+
+                # Guardamos el thumnail primero
+                $thumbnail->resize(250, 250, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination_path . '/thumbnail/' . $nombre_imagen);
+    
+                # Redimesionamos la imagen a 720x720
+                $resize = Image::make($image);
+                $resize->resize(720, 720, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destination_path . '/' . $nombre_imagen);
+
+                $ruta = url('storage/imagenes2/' . $id_guide . '/' . $nombre_imagen);
+                $this->repository->insertarImagen($id_guide, $id_shipping_order, $ruta, 'IMAGEN TUKUY', 'IMAGEN_PD');
+            }
+
+            Log::info('Grabar imagen tukuy exitoso', ['id_guide' => $id_guide, 'id_shipping_order' => $id_shipping_order, 'conteo' => count($data['IMAGEN'])]);
+        } catch (CustomException $e) {
+            Log::warning('Descargar Imagenes Tukuy', ['expcetion' => $e->getData()[0], 'guide_number' => $guide_number]);
+            $res['mensaje'] =  $e->getData()[0];
+            $res['success'] = false;
+        } catch (Exception $e) {
+            Log::error('Descargar Imagenes Tukuy', ['guide_number' => $guide_number, 'exception' => $e->getMessage()]);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;

@@ -40,6 +40,11 @@ class IntegracionRepository
         return $query;
     }
 
+    public function insertarImagen($id, $id_shipping, $url, $desc, $type)
+    {
+        DB::table('guide_images')->insert(['id_guide' => $id, 'id_shipping_order' => $id_shipping ,'url' => $url, 'description' => $desc, 'type' => $type]);
+    }
+
     public function updateGuidesTukuy($id_guide, $id_shipping_order, $id_shipping_order_detail, $status, $motive)
     {
         $query = DB::select("CALL SP_UPDATE_GUIDES_TUKUY_INTEGRATION(?,?,?,?,?)",[$id_guide, $id_shipping_order, $id_shipping_order_detail, $status, $motive]);

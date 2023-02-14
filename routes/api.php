@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Location\Coordinate;
 use Location\Distance\Vincenty;
 
@@ -26,23 +28,23 @@ use Location\Distance\Vincenty;
 */
 
 Route::post('test', function (Request $request) {
-    $token = 'DwbrztEXJ7GdHVhcNRgVajAWyH2dw2PrsFfRatJQxXatOYlW/oM/jyi+OVTPCV+qiNjVHKqpYYqMhg3dj0LkpRtHOaUqsdQqf6Fl3yLwMZDFoIeQ7n0y8r+FkzhJ3drV+7OK30VOBVPv7esI7uxmFwoYQu8AozFcjKKx3JaDGpLsYUMT2OlvnGNwgOO9Dwo+dP5NSBD2Nc9Wd58jeBI3LA==';
+    $token = 'k3SIBJ4IMdKpw5EBPSseB9ziOXUESkTfpbH20uUusiYJcl70sks19J5aPoicwvNSiD4EsD+tyodMlMe+iGNWZdmdj2bvvVgNKvxPmvGBHupqccqapUtqFYHM+fw8hQ0egvwWyIRmUPnydA3Yrbkaz71xnrbpXLR3iTaU9SQDwlQ6GM7/s64kCzJ5C6L7xs6zdP5NSBD2Nc9Wd58jeBI3LA==';
     $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL", ['trace' => true]);
 
     $xmlr = new SimpleXMLElement("<RAIZ></RAIZ>");
     $xmlr->addChild('GUID', $token);
-    $xmlr->addChild('DepartamentoClienteInicial', '');
-    $xmlr->addChild('DepartamentoClienteFinal', '');
-    $xmlr->addChild('ReferenciaEntregaInicial', '0082713127');
-    $xmlr->addChild('ReferenciaEntregaFinal', '0082713127');
-    $xmlr->addChild('FechaInicial', date('Y-m-d'));
-    $xmlr->addChild('fechafinal', date('Y-m-d'));
+    $xmlr->addChild('DepartamentoClienteInicial', 'QYX');
+    $xmlr->addChild('DepartamentoClienteFinal', 'QYX');
+    $xmlr->addChild('ReferenciaEntregaInicial', 'RP20230204212705');
+    $xmlr->addChild('ReferenciaEntregaFinal', 'RP20230204212705');
+    $xmlr->addChild('FechaInicial', '2023-02-01');
+    $xmlr->addChild('fechafinal', '2023-02-13');
     $xmlr->addChild('IncluirAnexas', 'true');
     $xmlr->addChild('Pendientes', 'false');
 
     $params = new stdClass();
     $params->xml = $xmlr->asXML();
-    $string2 = "<![CDATA[$params->xml]]>";
+    $string2 = "<![CDATA[" . $xmlr->asXML() . "]]>";
 
     $param = array(
         new SoapVar($token, XSD_STRING, null, null, 'GUID'),
@@ -68,7 +70,28 @@ Route::post('test', function (Request $request) {
     $res = $client->DescargarImagenes($out);
     // $res = $client->__soapCall('ObtenerExpedicionPorReferencia', [$param2]);
     // dd($client->__getLastRequest());
-    dd($res);
+
+    $xml = simplexml_load_string($res->DescargarImagenesResult);
+    $data = json_decode(json_encode($xml), TRUE);
+
+    if (!isset($data['IMAGEN']) && !count($data['IMAGEN'])){
+        dd('si hay imagenes');
+    }
+    dd(isset($data['IMAGENS']));
+    
+    $destination_path = Storage::disk('imagenes')->getAdapter()->getPathPrefix();
+
+    $image = base64_decode($data['IMAGEN'][1]['BASE64']);
+    $resize = Image::make($image);
+
+    $resize->resize(720, 720, function ($constraint) {
+        $constraint->aspectRatio();
+    })->save($destination_path . '/' . 'test.png');
+    
+    // Storage::disk('public')->put('test.jpg', $image);
+    
+
+    dd($data['IMAGEN'][0]['BASE64']);
 
 
 
