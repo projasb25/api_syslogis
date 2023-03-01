@@ -339,7 +339,7 @@ class MainService
                     try {
                         $req = $cliente->request('POST', 'guide/create', [
                             "headers" => [
-                                'client_id' => env('INRETAIL_API_CLIENT_ID'),
+                                'apikey' => env('INRETAIL_API_CLIENT_ID'),
                             ],
                             "json" => $req_body
                         ]);

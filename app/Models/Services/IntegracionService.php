@@ -247,7 +247,7 @@ class IntegracionService
                     try {
                         $req = $cliente->request('POST', 'guide/state', [
                             "headers" => [
-                                'client_id' => env('INRETAIL_API_CLIENT_ID'),
+                                'apikey' => env('INRETAIL_API_CLIENT_ID'),
                             ],
                             "json" => $req_body
                         ]);
