@@ -684,7 +684,7 @@ class IntegracionService
 
             $res['success'] = true;
         } catch (Exception $e) {
-            Log::error('Integracion Tukuy', ['cliente' => 'Tucuy', 'exception' => $e->getMessage()]);
+            Log::error('Integracion Tukuy', ['cliente' => 'Tucuy', 'exception' => $e->getMessage(), 'data' => isset($data) ? $data : '']);
             $res['mensaje'] = $e->getMessage();
         }
         return $res;
