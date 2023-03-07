@@ -22,6 +22,7 @@ use SimpleXMLElement;
 use SoapClient;
 use SoapVar;
 use stdClass;
+use Intervention\Image\Facades\Image;
 
 class IntegracionService
 {
