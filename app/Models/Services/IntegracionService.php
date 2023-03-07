@@ -678,12 +678,15 @@ class IntegracionService
                     // Homologacion de estados
                     $estado = ($estado === 'INCIDENCIA') ? 'NO ENTREGADO' : 'ENTREGADO';
                     $motivo = ($estado === 'ENTREGADO') ? 'Entrega Exitosa' : 'No Entregado Tukuy';
-                    // Falta descargar imagenes
+
                     $this->repository->updateGuidesTukuy($value->id_guide, $value->id_shipping_order, $value->id_shipping_order_detail, $estado, $motivo);
+
+                    Log::info('Integracion Tukuy, guias actualizada', ['data' =>  ['id_guide' => $value->id_guide, 'id_shipping_order' => $value->id_shipping_order, 'id_shipping_order_detail' => $value->id_shipping_order_detail, 'estado' => $estado, 'motivo' => $motivo]]);
                 }
             }
 
             $res['success'] = true;
+            Log::info('Integracion Tukuy con exito');
         } catch (Exception $e) {
             Log::error('Integracion Tukuy', ['cliente' => 'Tucuy', 'exception' => $e->getMessage(), 'data' => isset($data) ? $data : '']);
             $res['mensaje'] = $e->getMessage();
@@ -729,7 +732,7 @@ class IntegracionService
                 File::makeDirectory($destination_path, $mode = 0777, true, true);
                 File::makeDirectory($destination_path . '/thumbnail', $mode = 0777, true, true);
             }
-            
+
             foreach ($data['IMAGEN'] as $key => $item) {
                 $image = base64_decode($item['BASE64']);
                 $nombre_imagen = $id_guide . '_' . time() . '.jpg';
@@ -739,7 +742,7 @@ class IntegracionService
                 $thumbnail->resize(250, 250, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($destination_path . '/thumbnail/' . $nombre_imagen);
-    
+
                 # Redimesionamos la imagen a 720x720
                 $resize = Image::make($image);
                 $resize->resize(720, 720, function ($constraint) {
