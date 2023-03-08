@@ -697,7 +697,7 @@ class IntegracionService
 
     public function obtenerImagenesTukuy($guide_number, $id_guide, $id_shipping_order)
     {
-        $res['success'] = false;
+        $response['success'] = false;
         $data= '';
         try {
             $client = new SoapClient("http://70.35.202.222/wsnexus/ControladorWSCliente.asmx?WSDL", ['trace' => true]);
@@ -758,12 +758,12 @@ class IntegracionService
             Log::info('Grabar imagen tukuy exitoso', ['id_guide' => $id_guide, 'id_shipping_order' => $id_shipping_order, 'conteo' => count($data['IMAGEN'])]);
         } catch (CustomException $e) {
             Log::warning('Descargar Imagenes Tukuy', ['expcetion' => $e->getData()[0], 'guide_number' => $guide_number]);
-            $res['mensaje'] =  $e->getData()[0];
-            $res['success'] = false;
+            $response['mensaje'] =  $e->getData()[0];
+            $response['success'] = false;
         } catch (Exception $e) {
             Log::error('Descargar Imagenes Tukuy', ['guide_number' => $guide_number, 'exception' => $e->getMessage(), 'data' => $data]);
-            $res['mensaje'] = $e->getMessage();
+            $response['mensaje'] = $e->getMessage();
         }
-        return $res;
+        return $response;
     }
 }
