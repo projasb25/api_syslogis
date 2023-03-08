@@ -23,6 +23,7 @@ use SoapClient;
 use SoapVar;
 use stdClass;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\File;
 
 class IntegracionService
 {
