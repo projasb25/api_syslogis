@@ -81,6 +81,8 @@ class CollectService
             if ($propiedad && $propiedad->value === '1') {
                 $this->obtenerCoordenadas($adresses, $data['id_massive_load']);
             }
+
+            Log::info('Collect load procesar success', ['username' => $data['username'], 'request' => $req]);
         } catch (CustomException $e) {
             Log::warning('Collect load procesar error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());

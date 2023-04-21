@@ -135,6 +135,7 @@ class MassiveLoadService
                 $this->obtenerCoordenadas($adresses, $data['id_massive_load'], $load->id_subsidiary);
             }
 
+            Log::info('Massive Load Service procesar success', ['username' => $data['username'], 'request' => $req]);
         } catch (CustomException $e) {
             Log::warning('Massive Load Service procesar error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
