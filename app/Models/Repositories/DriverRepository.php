@@ -14,6 +14,7 @@ class DriverRepository
             ->select("id_shipping_order","id_driver","number_guides as paradas","descrption","status","type","date_created")
             ->where('id_driver', $id_driver)
             ->whereNotIn('status', ['FINALIZADO', 'RECHAZADO', 'ELIMINADO'])
+            ->orderBy('so.id_shipping_order', 'desc')
             ->get();
     }
 
