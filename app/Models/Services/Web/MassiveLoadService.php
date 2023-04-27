@@ -116,6 +116,7 @@ class MassiveLoadService
             $data['username'] = $user->username;
             $data['data'] = $req['data'];
             $data['id_massive_load'] = $req['id_massive_load'];
+            Log::info('Massive Load Service procesar comenzar', ['username' => $data['username'], 'request' => $req]);
 
             $load = $this->repo->get($data['id_massive_load']);
             if (!$load) {
@@ -135,7 +136,7 @@ class MassiveLoadService
                 $this->obtenerCoordenadas($adresses, $data['id_massive_load'], $load->id_subsidiary);
             }
 
-            Log::info('Massive Load Service procesar success', ['username' => $data['username'], 'request' => $req]);
+            Log::info('Massive Load Service procesar terminar', ['username' => $data['username'], 'request' => $req]);
         } catch (CustomException $e) {
             Log::warning('Massive Load Service procesar error', ['expcetion' => $e->getData()[0], 'request' => $req]);
             return Res::error($e->getData(), $e->getCode());
