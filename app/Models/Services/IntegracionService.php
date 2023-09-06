@@ -766,4 +766,96 @@ class IntegracionService
         }
         return $response;
     }
+
+    public function integracionRipleyRecoleccion()
+    {
+        $res['success'] = false;
+        try {
+            $guides = $this->repository->getGuidesRecoleccion();
+            Log::info('Proceso de integracion con ripley', ['nro_registros' => count($guides)]);
+            foreach ($guides as $key => $guide) {
+                $motivo = '';
+
+                if ($guide->Estado === 'RECOLECCION COMPLETA') {
+                    $motivo = 'PROVEEDOR ENTREGA PEDIDO AL OPERADOR';
+                }
+
+                if ($guide->Estado === 'CURSO') {
+                    $guide->Estado = 'En Transito';
+                    // $motivo = 'En Ruta hacia el Cliente';
+                    $motivo = 'En Transito';
+                }
+
+                if ($guide->Estado === 'NO RECOLECTADO') {
+                    switch (strtoupper($guide->SubEstado)) {
+                        case 'NO TIENE LISTO EL PRODUCTO':
+                            $motivo = 'NO TIENE LISTO EL PRODUCTO';
+                            break;
+                        case 'ANULA COMPRA':
+                            $motivo = 'PEDIDO ANULADO';
+                            break;
+                        case 'LOCAL CERRADO':
+                            $motivo = 'LOCAL CERRADO';
+                            break;
+                        case 'FUERA DE HORA':
+                            $motivo = 'FUERA DE HORARIO';
+                            break;
+                        case 'PRODUCTO NO DISPONIBLE PARA RETIRO':
+                            $motivo = 'SIN STOCK';
+                            break;
+                        default:
+                            $motivo = 'PEDIDO ANULADO';
+                            break;
+                    }
+                }
+
+                $req_body = [
+                    "CUD" => $guide->CUD,
+                    "Estado" => ucwords(strtolower($guide->Estado)),
+                    "SubEstado" => utf8_decode(utf8_decode($motivo)),
+                    "Placa" => $guide->Placa,
+                    "Courier" => $guide->Courier,
+                    "Fecha" => $guide->Fecha,
+                    "NombreReceptor" => $guide->NombreReceptor,
+                    "IDReceptor" => $guide->IDReceptor,
+                    "TrackNumber" => $guide->TrackNumber,
+                    "URL" => env('WEB_APP_URL') . 'guidestatus/' . $guide->id_guide
+                ];
+
+                $cliente = new Client(['base_uri' => env('RIPLEY_INTEGRACION_API_URL')]);
+
+                try {
+                    $req = $cliente->request('POST', 'sendStateCourierOnline', [
+                        "headers" => [
+                            'x-api-key' => env('RIPLEY_INTEGRACION_API_KEY'),
+                        ],
+                        "json" => $req_body
+                    ]);
+                } catch (\GuzzleHttp\Exception\RequestException $e) {
+                    $response = (array) json_decode($e->getResponse()->getBody()->getContents());
+                    Log::error('Reportar estado a ripley, ', ['req' => $req_body, 'exception' => $response]);
+                    $buscar = strpos(strtoupper($response['message']), strtoupper("Already exists a record with CUD:'" . $guide->CUD . "', Estado:'" . $guide->Estado . "' and SubEstado:'" . utf8_decode(utf8_decode($guide->SubEstado)) . "'"));
+                    if ($buscar === false) {
+                        $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'ERROR', $req_body, $response);
+                        $this->repository->updateReportado($guide->id_guide, 2);
+                    } else {
+                        $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);
+                        $this->repository->updateReportado($guide->id_guide, 1);
+                    }
+                    continue;
+                }
+
+                $response = json_decode($req->getBody()->getContents());
+                $this->repository->LogInsert($guide->CUD, $guide->id_guide, $guide->Estado, $guide->SubEstado, 'SUCCESS', $req_body, $response);
+                $this->repository->updateReportado($guide->id_guide, 1);
+            }
+
+            $res['success'] = true;
+            Log::info('Proceso de integracion con ripley exitoso', ['nro_registros' => count($guides)]);
+        } catch (Exception $e) {
+            Log::error('Integracion ripley', ['cliente' => 'Ripley', 'exception' => $e->getMessage()]);
+            $res['mensaje'] = $e->getMessage();
+        }
+        return $res;
+    }
 }

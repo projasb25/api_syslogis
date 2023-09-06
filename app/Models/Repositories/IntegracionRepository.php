@@ -28,6 +28,12 @@ class IntegracionRepository
         // );
     }
 
+    public function getGuidesRecoleccion()
+    {
+        $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_COLLECTS()");
+        return $query;
+    }
+
     public function getGuidesAllStatus($corpId)
     {
         $query = DB::select("CALL SP_SEL_INTEGRATION_GUIDES_ALLSTATUS(?)", [$corpId]);
