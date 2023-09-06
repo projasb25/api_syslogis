@@ -777,6 +777,7 @@ class IntegracionService
                 $motivo = '';
 
                 if ($guide->Estado === 'RECOLECCION COMPLETA') {
+                    $guide->Estado = 'En Transito';
                     $motivo = 'PROVEEDOR ENTREGA PEDIDO AL OPERADOR';
                 }
 
